@@ -1,0 +1,877 @@
+/* =====================================================================
+   ملاذ | Maladh — تنسيقات واجهات المستفيد (Dashboard & Beneficiary Portal)
+   متوافقة تمامًا مع هوية ملاذ البصرية وشريط التنقل العلوي الموحد
+   ===================================================================== */
+
+/* ---------- تخطيط الصفحة العامة للمستفيد (نافبار علوي بدون سايدبار) ---------- */
+.dash-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--bg);
+  position: relative;
+}
+
+/* المنطقة الرئيسية (Main Content Area) */
+.dash-main {
+  flex: 1;
+  width: 100%;
+  margin-inline-start: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-soft);
+  padding-top: 5.5rem; /* مسافة كافية أسفل النافبار العلوي الثابت */
+}
+
+/* محتوى المشاهد (Views Container) */
+.dash-content {
+  flex: 1;
+  padding: 1.5rem 1rem 3rem;
+  max-width: 1400px;
+  width: 100%;
+  margin-inline: auto;
+}
+
+@media (min-width: 640px) {
+  .dash-content {
+    padding: 2rem 1.5rem 3.5rem;
+  }
+}
+
+.dash-view {
+  display: none;
+  animation: fadeIn .25s ease-out;
+}
+
+.dash-view.is-active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* بطاقات لوحة التحكم */
+.dash-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 8px 24px rgba(15, 39, 67, .04);
+  position: relative;
+  transition: border-color .2s, box-shadow .2s, transform .2s;
+}
+
+.dash-card:hover {
+  border-color: var(--line-soft);
+  box-shadow: 0 12px 32px rgba(15, 39, 67, .07);
+}
+
+/* بطاقة الترحيب الكبرى */
+.welcome-banner {
+  background: radial-gradient(800px 300px at 100% 0%, rgba(109, 231, 247, .25), transparent 70%),
+              linear-gradient(135deg, #0F2743 0%, #15457a 55%, #1965B3 100%);
+  color: #fff;
+  border-radius: 1.75rem;
+  padding: 2.25rem 2rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 18px 45px rgba(15, 39, 67, .2);
+  border: 1px solid rgba(109, 231, 247, .25);
+  margin-bottom: 2rem;
+}
+
+.welcome-banner .welcome-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .35rem .85rem;
+  border-radius: 9999px;
+  background: rgba(109, 231, 247, .18);
+  color: var(--aqua);
+  font-size: .85rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.welcome-banner h2 {
+  font-size: clamp(1.6rem, 3vw, 2.3rem);
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.welcome-banner p {
+  color: rgba(240, 246, 252, .88);
+  font-size: 1.05rem;
+  margin-top: .65rem;
+  max-width: 680px;
+  line-height: 1.8;
+}
+
+/* مقياس المزاج اليومي */
+.mood-tracker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .75rem;
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, .15);
+}
+
+.mood-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  padding: .45rem .85rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, .12);
+  color: #fff;
+  font-size: .9rem;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, .2);
+  transition: background .2s, transform .15s;
+}
+
+.mood-btn:hover, .mood-btn.is-active {
+  background: #fff;
+  color: var(--navy);
+  transform: translateY(-2px);
+}
+
+/* بطاقات الوصول السريع (محتوى في المنتصف، أيقونة بدون خلفية، بوردر مدمج بلوني الشعار، ظل احترافي) */
+.quick-action-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem 1.25rem;
+  border-radius: 1.5rem;
+  background: linear-gradient(var(--surface), var(--surface)) padding-box,
+              linear-gradient(135deg, #1965B3 0%, #41BCE6 50%, #6DE7F7 100%) border-box;
+  border: 2px solid transparent;
+  text-decoration: none;
+  color: var(--ink);
+  transition: all .35s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 14px 34px -6px rgba(25, 101, 179, .14), 0 4px 14px -2px rgba(109, 231, 247, .12);
+}
+
+.quick-action-card:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 22px 48px -8px rgba(25, 101, 179, .26), 0 8px 24px -2px rgba(109, 231, 247, .24);
+}
+
+.quick-icon-wrap {
+  width: auto !important;
+  height: auto !important;
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  margin-bottom: 1rem;
+  display: grid;
+  place-items: center;
+  transition: transform .3s ease;
+}
+
+.quick-icon-wrap .icon {
+  width: 44px;
+  height: 44px;
+  stroke-width: 1.9;
+}
+
+.quick-action-card:hover .quick-icon-wrap {
+  transform: scale(1.18);
+}
+
+.quick-action-card h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: .45rem;
+}
+
+.quick-action-card p {
+  font-size: .88rem;
+  color: var(--ink-body);
+  line-height: 1.65;
+  max-width: 250px;
+}
+
+/* هيرو سكشن رسالة اليوم الملهمة (أنيق، حيوي، مفعم بالتفاؤل، وتقليب تلقائي كل 5 ثوانٍ) */
+.hero-quote-section {
+  position: relative;
+  border-radius: 2rem;
+  padding: 2.5rem 2rem;
+  margin-bottom: 2.25rem;
+  overflow: hidden;
+  color: #fff;
+  background: radial-gradient(900px 420px at 85% 15%, rgba(109, 231, 247, .28), transparent 70%),
+              radial-gradient(700px 350px at 15% 95%, rgba(65, 188, 230, .22), transparent 65%),
+              linear-gradient(135deg, #091E36 0%, #0F2743 45%, #1965B3 100%);
+  border: 1.5px solid rgba(109, 231, 247, .32);
+  box-shadow: 0 24px 60px rgba(15, 39, 67, .24);
+}
+
+.hero-quote-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, .14);
+  padding-bottom: 1.25rem;
+}
+
+.hero-welcome-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .4rem .95rem;
+  border-radius: 9999px;
+  background: rgba(109, 231, 247, .18);
+  color: var(--aqua);
+  font-size: .88rem;
+  font-weight: 700;
+  border: 1px solid rgba(109, 231, 247, .25);
+  box-shadow: 0 4px 15px rgba(109, 231, 247, .15);
+}
+
+.hero-timer-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: .8rem;
+  color: rgba(240, 246, 252, .8);
+  background: rgba(255, 255, 255, .1);
+  padding: .35rem .75rem;
+  border-radius: 9999px;
+}
+
+.hero-timer-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: var(--aqua);
+  animation: pulseGlow 1.8s infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 10px var(--aqua); }
+  50% { opacity: .4; transform: scale(.85); box-shadow: none; }
+}
+
+.hero-quote-body {
+  position: relative;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero-quote-text {
+  font-size: clamp(1.3rem, 2.8vw, 2rem);
+  font-weight: 800;
+  line-height: 1.5;
+  color: #fff;
+  transition: opacity .4s ease, transform .4s ease;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, .2);
+}
+
+.hero-quote-text.is-changing {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+.hero-quote-footer {
+  margin-top: 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.hero-quote-author {
+  font-size: .95rem;
+  color: var(--aqua);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.hero-quote-controls {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.hero-ctrl-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, .14);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, .25);
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.hero-ctrl-btn:hover {
+  background: #fff;
+  color: var(--navy);
+  transform: scale(1.08);
+}
+
+/* شريط التقدم الزمني للرسائل (5 ثوانٍ) */
+.hero-progress-track {
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, .15);
+  border-radius: 9999px;
+  margin-top: 1.75rem;
+  overflow: hidden;
+}
+
+.hero-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--sky), var(--aqua));
+  border-radius: 9999px;
+  transition: width 5s linear;
+}
+
+/* قسم مقياس المشاعر (كيف تشعر اليوم؟) قبل الفوتر مباشرة */
+.mood-section-card {
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: 2rem;
+  padding: 2.25rem 2rem;
+  margin-top: 2.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 16px 40px rgba(15, 39, 67, .06);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.mood-section-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  inset-inline: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #1965B3, #41BCE6, #6DE7F7);
+}
+
+.mood-options-grid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: .85rem;
+  margin-top: 1.5rem;
+}
+
+.mood-chip-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .75rem 1.35rem;
+  border-radius: 9999px;
+  background: var(--bg-soft);
+  color: var(--ink);
+  font-size: .95rem;
+  font-weight: 700;
+  border: 1.5px solid var(--line);
+  cursor: pointer;
+  transition: all .25s ease;
+  box-shadow: 0 4px 12px rgba(15, 39, 67, .03);
+}
+
+.mood-chip-btn:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  background: var(--surface);
+}
+
+.mood-chip-btn.is-active {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--primary) 100%);
+  color: #fff;
+  border-color: var(--primary);
+  box-shadow: 0 8px 20px rgba(25, 101, 179, .25);
+  transform: translateY(-2px);
+}
+
+.mood-feedback-box {
+  margin-top: 1.5rem;
+  padding: 1rem 1.5rem;
+  border-radius: 1.25rem;
+  background: linear-gradient(90deg, rgba(65, 188, 230, .09), rgba(109, 231, 247, .12));
+  border: 1px solid var(--line-soft);
+  display: inline-flex;
+  align-items: center;
+  gap: .75rem;
+  font-size: .92rem;
+  font-weight: 600;
+  color: var(--ink);
+  max-width: 680px;
+}
+
+/* بطاقات الإحصائيات (Stat Cards) */
+.stat-card {
+  padding: 1.25rem 1.5rem;
+  border-radius: 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.stat-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 1rem;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.stat-val {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.stat-lbl {
+  font-size: .88rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* اقتباس اليوم التحفيزي */
+.quote-card {
+  background: linear-gradient(135deg, rgba(65, 188, 230, .1) 0%, rgba(109, 231, 247, .15) 100%);
+  border: 1px solid var(--line-soft);
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  position: relative;
+}
+
+.quote-card blockquote {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.8;
+  color: var(--ink);
+  margin-bottom: .85rem;
+}
+
+/* خريطة محطات رحلة التعافي (Milestone Roadmap) */
+.milestones-track {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  position: relative;
+  padding-inline-start: 2rem;
+}
+
+.milestones-track::before {
+  content: "";
+  position: absolute;
+  top: .5rem;
+  bottom: .5rem;
+  inset-inline-start: .75rem;
+  width: 3px;
+  background: var(--line);
+  border-radius: 9999px;
+}
+
+.milestone-item {
+  position: relative;
+  padding: 1rem 1.25rem;
+  border-radius: 1.25rem;
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  transition: all .2s;
+}
+
+.milestone-item::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: -1.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  background: var(--surface);
+  border: 3px solid var(--muted);
+  z-index: 2;
+}
+
+.milestone-item.is-completed {
+  border-color: rgba(65, 188, 230, .4);
+  background: var(--surface);
+}
+
+.milestone-item.is-completed::before {
+  background: var(--primary);
+  border-color: var(--aqua);
+}
+
+.milestone-item.is-current {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(25, 101, 179, .15);
+  background: var(--surface);
+}
+
+.milestone-item.is-current::before {
+  background: var(--aqua);
+  border-color: var(--navy);
+  box-shadow: 0 0 0 4px rgba(109, 231, 247, .4);
+}
+
+/* حاسبة الادخار (Savings Calculator) */
+.calculator-box {
+  background: linear-gradient(135deg, rgba(25, 101, 179, .05) 0%, rgba(109, 231, 247, .1) 100%);
+  border: 1.5px solid var(--line-soft);
+  border-radius: 1.75rem;
+  padding: 2rem;
+}
+
+.calc-result-badge {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--primary) 100%);
+  color: #fff;
+  padding: 1.75rem;
+  border-radius: 1.5rem;
+  text-align: center;
+  box-shadow: 0 12px 30px rgba(15, 39, 67, .2);
+  border: 1px solid rgba(109, 231, 247, .3);
+}
+
+.calc-number {
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-weight: 800;
+  color: var(--aqua);
+  line-height: 1.2;
+}
+
+/* بطاقات الأخصائيين وحجز الاستشارات */
+.specialist-portal-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  transition: all .25s;
+}
+
+.specialist-portal-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  box-shadow: var(--shadow);
+}
+
+.spec-header-flex {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+}
+
+.spec-avatar-portal {
+  width: 72px;
+  height: 72px;
+  border-radius: 1.25rem;
+  object-fit: cover;
+  border: 2px solid var(--outline);
+  flex-shrink: 0;
+}
+
+/* بطاقات المواعيد */
+.appt-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  transition: all .2s;
+}
+
+.appt-card:hover {
+  border-color: var(--line-soft);
+  box-shadow: var(--shadow);
+}
+
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .35rem .75rem;
+  border-radius: 9999px;
+  font-size: .82rem;
+  font-weight: 700;
+}
+
+.status-chip.is-confirmed {
+  background: rgba(34, 197, 94, .12);
+  color: #16a34a;
+}
+
+.status-chip.is-pending {
+  background: rgba(234, 179, 8, .12);
+  color: #ca8a04;
+}
+
+.status-chip.is-completed {
+  background: rgba(25, 101, 179, .12);
+  color: var(--primary);
+}
+
+.status-chip.is-cancelled {
+  background: rgba(117, 162, 185, .15);
+  color: var(--muted);
+}
+
+/* واجهة الدعم الخاص والمحادثة السرية */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 220px);
+  min-height: 540px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 1.75rem;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.chat-header {
+  padding: 1rem 1.5rem;
+  background: var(--bg-soft);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.chat-security-bar {
+  background: linear-gradient(90deg, rgba(65, 188, 230, .12), rgba(109, 231, 247, .12));
+  padding: .5rem 1.25rem;
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+html[data-theme="dark"] .chat-security-bar {
+  color: var(--aqua);
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  background: var(--bg);
+}
+
+.chat-bubble {
+  max-width: min(85%, 520px);
+  padding: 1rem 1.25rem;
+  border-radius: 1.5rem;
+  font-size: .95rem;
+  line-height: 1.7;
+  position: relative;
+}
+
+.chat-bubble.is-received {
+  align-self: flex-start;
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-start-start-radius: .35rem;
+  box-shadow: 0 4px 14px rgba(15, 39, 67, .04);
+}
+
+.chat-bubble.is-sent {
+  align-self: flex-end;
+  background: linear-gradient(135deg, var(--navy) 0%, var(--primary) 100%);
+  color: #fff;
+  border-start-end-radius: .35rem;
+  box-shadow: 0 6px 18px rgba(25, 101, 179, .2);
+}
+
+.chat-time {
+  font-size: .75rem;
+  margin-top: .4rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: .3rem;
+  opacity: .75;
+}
+
+.chat-footer {
+  padding: 1rem 1.25rem;
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+}
+
+.chat-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  background: var(--bg-soft);
+  border: 1.5px solid var(--line);
+  border-radius: 9999px;
+  padding: .35rem .65rem;
+  transition: border-color .2s;
+}
+
+.chat-input-wrap:focus-within {
+  border-color: var(--accent);
+}
+
+.chat-input {
+  flex: 1;
+  background: transparent;
+  border: 0;
+  padding: .5rem .5rem;
+  font: inherit;
+  color: var(--ink);
+  outline: none;
+}
+
+/* بطاقة الإشعارات المنبثقة بالجافاسكربت */
+.notif-card {
+  width: min(94vw, 380px);
+  max-height: 490px;
+  display: flex;
+  flex-direction: column;
+}
+
+.notif-mini-item {
+  display: flex;
+  align-items: flex-start;
+  gap: .75rem;
+  padding: .75rem .85rem;
+  border-radius: 1rem;
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  font-size: .84rem;
+  transition: all .2s;
+  position: relative;
+}
+
+.notif-mini-item.is-unread {
+  background: rgba(65, 188, 230, .09);
+  border-color: rgba(65, 188, 230, .35);
+}
+
+.notif-mini-item .notif-unread-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: var(--primary);
+  flex-shrink: 0;
+  margin-top: .45rem;
+}
+
+.notif-mini-item:hover {
+  border-color: var(--line-soft);
+  transform: translateX(-2px);
+}
+
+html[dir="ltr"] .notif-mini-item:hover {
+  transform: translateX(2px);
+}
+
+/* الحالات الفارغة (Empty State) */
+.empty-dash-state {
+  text-align: center;
+  padding: 3.5rem 1.5rem;
+  background: var(--surface);
+  border: 1.5px dashed var(--line);
+  border-radius: 1.75rem;
+  color: var(--muted);
+}
+
+.empty-dash-icon {
+  width: 64px;
+  height: 64px;
+  margin-inline: auto;
+  margin-bottom: 1rem;
+  color: var(--calm);
+  opacity: .7;
+}
+
+/* النوافذ المنبثقة (Modals) في لوحة المستفيد */
+.dash-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  background: rgba(8, 26, 47, .65);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.dash-modal.is-open {
+  display: flex;
+  animation: fadeIn .2s ease-out;
+}
+
+.dash-modal-box {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 1.75rem;
+  width: min(94vw, 560px);
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 2rem;
+  position: relative;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .3);
+  color: var(--ink);
+}
+
+.dash-modal-lg {
+  width: min(94vw, 760px);
+}
+
+@media (max-width: 639px) {
+  .welcome-banner {
+    padding: 1.5rem 1.25rem;
+    border-radius: 1.25rem;
+  }
+  .dash-card {
+    padding: 1.25rem;
+    border-radius: 1.25rem;
+  }
+}
