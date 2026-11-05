@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#DCE9FC"/>
+      <stop offset="100%" stop-color="#C2DCFD"/>
+    </linearGradient>
+    <linearGradient id="skinGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE8DB"/>
+      <stop offset="100%" stop-color="#F5D0BA"/>
+    </linearGradient>
+    <linearGradient id="hijabGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E4E8C"/>
+      <stop offset="100%" stop-color="#143B6B"/>
+    </linearGradient>
+  </defs>
+  <!-- Background Circle -->
+  <circle cx="60" cy="60" r="58" fill="url(#bgGrad)" stroke="#E2E8F0" stroke-width="2"/>
+  
+  <!-- Hijab / Hair background -->
+  <path d="M60 22 C42 22 34 36 34 56 C34 78 40 98 42 108 C46 112 74 112 78 108 C80 98 86 78 86 56 C86 36 78 22 60 22 Z" fill="url(#hijabGrad)"/>
+  
+  <!-- Face Oval -->
+  <path d="M60 36 C48 36 44 48 44 62 C44 76 50 88 60 88 C70 88 76 76 76 62 C76 48 72 36 60 36 Z" fill="url(#skinGrad)"/>
+  
+  <!-- Forehead Hijab curve -->
+  <path d="M44 54 C50 44 70 44 76 54 C74 42 68 36 60 36 C52 36 46 42 44 54 Z" fill="url(#hijabGrad)"/>
+  
+  <!-- Eyes -->
+  <ellipse cx="53" cy="62" rx="2.5" ry="3" fill="#183B63"/>
+  <ellipse cx="67" cy="62" rx="2.5" ry="3" fill="#183B63"/>
+  
+  <!-- Gentle Smile -->
+  <path d="M56 74 Q60 78 64 74" fill="none" stroke="#A8583B" stroke-width="2" stroke-linecap="round"/>
+  
+  <!-- Cheeks -->
+  <circle cx="50" cy="68" r="3" fill="#F8A593" opacity="0.45"/>
+  <circle cx="70" cy="68" r="3" fill="#F8A593" opacity="0.45"/>
+  
+  <!-- Shoulders / Clothes -->
+  <path d="M30 118 C30 98 46 92 60 92 C74 92 90 98 90 118 Z" fill="url(#hijabGrad)"/>
+</svg>
+

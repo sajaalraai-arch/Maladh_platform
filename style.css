@@ -1,0 +1,1269 @@
+/* =====================================================================
+   منصة ملاذ | Maladh — واجهة الدعم الخاص والمحادثات السرية
+   Private Support Interface Stylesheet
+   CSS3 نقي 100% بدون أي أطر عمل خارجية
+   ===================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap');
+
+/* ---------- المتغيرات اللونية والتصميمية ---------- */
+:root {
+  --primary-dark: #17477F;
+  --primary-light: #DCE9FC;
+  --primary-hover: #123866;
+  --bg-page: #F4F7FD;
+  --card-bg: #FFFFFF;
+  --text-main: #183B63;
+  --text-sub: #71849E;
+  --text-muted: #8E9EBA;
+  --online-green: #10B981;
+  --border-color: #E6EEF8;
+  --border-light: #F0F4FA;
+  --bubble-user: #DCE9FC;
+  --bubble-other: #FFFFFF;
+  --check-blue: #17477F;
+  
+  --radius-xl: 24px;
+  --radius-lg: 18px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 2px 8px rgba(23, 71, 127, 0.04);
+  --shadow-md: 0 4px 20px rgba(23, 71, 127, 0.06);
+  --shadow-lg: 0 10px 30px rgba(23, 71, 127, 0.10);
+  --shadow-dropdown: 0 12px 35px rgba(23, 71, 127, 0.12);
+
+  --font-family: 'Cairo', 'Tajawal', system-ui, -apple-system, sans-serif;
+  --transition: all 0.22s ease-in-out;
+}
+
+/* ---------- إعادة الضبط والقواعد الأساسية ---------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  direction: rtl;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ---------- شريط التنقل العلوي (Navbar) ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(255, 255, 255, 0.95);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 2px 12px rgba(23, 71, 127, 0.03);
+}
+
+.header-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.brand-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  text-decoration: none;
+}
+
+.brand-logo {
+  height: 42px;
+  width: auto;
+  object-fit: contain;
+}
+
+.brand-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+  letter-spacing: -0.5px;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  list-style: none;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.15rem;
+  border-radius: var(--radius-full);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-sub);
+  transition: var(--transition);
+}
+
+.nav-link:hover {
+  color: var(--primary-dark);
+  background: var(--bg-page);
+}
+
+.nav-link.is-active {
+  color: var(--primary-dark);
+  background: var(--primary-light);
+  font-weight: 700;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+}
+
+.icon-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-page);
+  color: var(--text-sub);
+  position: relative;
+  transition: var(--transition);
+  border: 1px solid var(--border-color);
+}
+
+.icon-btn:hover {
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  border-color: var(--primary-light);
+}
+
+.icon-btn .badge-dot {
+  position: absolute;
+  top: 8px;
+  inset-inline-end: 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: #EF4444;
+  border: 2px solid #FFFFFF;
+}
+
+/* زر المستخدم وقائمته المنسدلة */
+.user-profile-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.35rem 0.85rem 0.35rem 0.5rem;
+  background: var(--bg-page);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-full);
+  transition: var(--transition);
+}
+
+.user-profile-btn:hover,
+.user-profile-btn.is-active {
+  background: #FFFFFF;
+  border-color: var(--primary-dark);
+  box-shadow: var(--shadow-sm);
+}
+
+.user-avatar-img {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  background: var(--primary-light);
+}
+
+.user-name-text {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.chevron-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--text-sub);
+  transition: transform 0.2s ease;
+}
+
+.user-profile-btn.is-active .chevron-icon {
+  transform: rotate(180deg);
+}
+
+/* القائمة المنسدلة للمستخدمة */
+.user-dropdown {
+  position: absolute;
+  top: calc(100% + 12px);
+  inset-inline-end: 0;
+  width: 240px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-dropdown);
+  padding: 0.65rem;
+  display: none;
+  flex-direction: column;
+  gap: 0.25rem;
+  z-index: 100;
+  animation: dropdownIn 0.2s ease-out;
+}
+
+.user-dropdown.is-open {
+  display: flex;
+}
+
+@keyframes dropdownIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dropdown-user-header {
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 0.35rem;
+}
+
+.dropdown-user-header p.name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-main);
+}
+
+.dropdown-user-header p.role {
+  font-size: 0.8rem;
+  color: var(--text-sub);
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-main);
+  transition: var(--transition);
+  text-decoration: none;
+}
+
+.dropdown-item:hover {
+  background: var(--bg-page);
+  color: var(--primary-dark);
+}
+
+.dropdown-item.is-danger {
+  color: #DC2626;
+}
+
+.dropdown-item.is-danger:hover {
+  background: #FEE2E2;
+}
+
+/* زر القائمة للهاتف */
+.mobile-menu-btn {
+  display: none;
+}
+
+/* ---------- المحتوى الرئيسي وتخطيط الصفحة ---------- */
+.main-wrapper {
+  flex: 1;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* شريط المسار وعنوان الواجهة */
+.page-header-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.breadcrumb-trail {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-sub);
+  font-weight: 500;
+}
+
+.breadcrumb-trail a {
+  color: var(--text-sub);
+  transition: color 0.15s;
+}
+
+.breadcrumb-trail a:hover {
+  color: var(--primary-dark);
+}
+
+.breadcrumb-separator {
+  color: var(--text-muted);
+}
+
+.breadcrumb-current {
+  color: var(--primary-dark);
+  font-weight: 700;
+}
+
+.page-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.3px;
+}
+
+.page-subtitle {
+  font-size: 0.92rem;
+  color: var(--text-sub);
+  margin-top: 0.15rem;
+}
+
+/* ---------- القسم الرئيسي للمحادثات (Grid Container) ---------- */
+.support-main-grid {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 1.5rem;
+  height: calc(100vh - 200px);
+  min-height: 640px;
+}
+
+/* =====================================================================
+   القسم الأول: قائمة المحادثات (الجهة اليمنى)
+   ===================================================================== */
+.conversations-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+}
+
+.conversations-header {
+  padding: 1.4rem 1.5rem 1.1rem;
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.conversations-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.conversations-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.conversations-count-badge {
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  font-size: 0.78rem;
+  font-weight: 800;
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--radius-full);
+}
+
+/* حقل البحث السريع */
+.conv-search-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.conv-search-input {
+  width: 100%;
+  height: 42px;
+  background: var(--bg-page);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-full);
+  padding: 0 2.5rem 0 1rem;
+  font-size: 0.88rem;
+  color: var(--text-main);
+  outline: none;
+  transition: var(--transition);
+}
+
+.conv-search-input:focus {
+  background: #FFFFFF;
+  border-color: var(--primary-dark);
+  box-shadow: 0 0 0 3px rgba(23, 71, 127, 0.08);
+}
+
+.conv-search-icon {
+  position: absolute;
+  top: 50%;
+  inset-inline-start: 1rem;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+/* قائمة المحادثات (Scrollable) */
+.conversations-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* بطاقة المحادثة الفردية */
+.conversation-item {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.95rem 1rem;
+  border-radius: var(--radius-lg);
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  text-align: start;
+  width: 100%;
+}
+
+.conversation-item:hover {
+  background: var(--bg-page);
+  border-color: var(--border-light);
+}
+
+/* تمييز المحادثة النشطة (خلفية زرقاء فاتحة كما في الصورة المرجعية) */
+.conversation-item.is-active {
+  background: var(--primary-light);
+  border-color: rgba(23, 71, 127, 0.15);
+  box-shadow: var(--shadow-sm);
+}
+
+.conv-avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+}
+
+.conv-avatar-img {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  border: 1.5px solid var(--border-color);
+  background: #FFFFFF;
+}
+
+/* أيقونة سماعة الدعم الفني للمحادثة الثالثة */
+.conv-avatar-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  background: var(--primary-dark);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(23, 71, 127, 0.2);
+}
+
+.conv-avatar-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.online-dot-badge {
+  position: absolute;
+  bottom: 1px;
+  inset-inline-end: 1px;
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-full);
+  background: var(--online-green);
+  border: 2px solid #FFFFFF;
+}
+
+.conv-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.conv-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.2rem;
+}
+
+.conv-name {
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.conv-time {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-sub);
+  white-space: nowrap;
+}
+
+.conv-bottom-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.conv-role {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-sub);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* شارة زرقاء صغيرة تحتوي على عدد الرسائل غير المقروءة */
+.conv-unread-badge {
+  background: var(--primary-dark);
+  color: #FFFFFF;
+  font-size: 0.75rem;
+  font-weight: 800;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 0.4rem;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.conv-unread-badge[hidden] {
+  display: none !important;
+}
+
+/* =====================================================================
+   القسم الثاني: نافذة المحادثة (الجهة اليسرى)
+   ===================================================================== */
+.chat-window-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+  position: relative;
+}
+
+/* رأس المحادثة الحالي */
+.chat-window-header {
+  padding: 1.1rem 1.6rem;
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: #FFFFFF;
+  z-index: 10;
+}
+
+.chat-partner-info {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.mobile-back-btn {
+  display: none;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background: var(--bg-page);
+  color: var(--text-main);
+  align-items: center;
+  justify-content: center;
+  margin-inline-end: 0.25rem;
+}
+
+.chat-header-avatar-wrap {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+}
+
+.chat-header-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  border: 1.5px solid var(--border-color);
+  background: var(--bg-page);
+}
+
+.chat-header-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-header-name {
+  font-size: 1.08rem;
+  font-weight: 800;
+  color: var(--text-main);
+  line-height: 1.25;
+}
+
+.chat-header-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.15rem;
+}
+
+.chat-header-role {
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: var(--text-sub);
+}
+
+.online-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--online-green);
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--online-green);
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+}
+
+/* زر وقائمة الخيارات الثلاثية */
+.chat-actions-wrap {
+  position: relative;
+}
+
+.options-menu-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-sub);
+  transition: var(--transition);
+}
+
+.options-menu-btn:hover {
+  background: var(--bg-page);
+  color: var(--primary-dark);
+}
+
+.options-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  inset-inline-end: 0;
+  width: 210px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-dropdown);
+  padding: 0.5rem;
+  display: none;
+  flex-direction: column;
+  gap: 0.2rem;
+  z-index: 100;
+  animation: dropdownIn 0.2s ease-out;
+}
+
+.options-dropdown.is-open {
+  display: flex;
+}
+
+/* =====================================================================
+   سادساً: تصميم الرسائل داخل المحادثة
+   ===================================================================== */
+.chat-messages-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  background: #FCFDFF;
+}
+
+/* فاصل التاريخ الزمني */
+.chat-date-separator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.5rem 0 1rem;
+}
+
+.chat-date-separator span {
+  background: var(--bg-page);
+  border: 1px solid var(--border-color);
+  color: var(--text-sub);
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.3rem 0.95rem;
+  border-radius: var(--radius-full);
+}
+
+/* مجموعة الرسالة الفردية (الصف الحاوي) */
+.message-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.75rem;
+  max-width: 82%;
+  animation: messageFadeIn 0.25s ease-out;
+}
+
+@keyframes messageFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.message-avatar-wrap {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  margin-bottom: 2px;
+}
+
+.message-avatar-img {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  border: 1px solid var(--border-color);
+}
+
+/* --- 1. رسالة المستفيدة (الجهة اليمنى) --- */
+.message-row.is-user {
+  align-self: flex-start; /* في RTL جهة اليمين */
+  flex-direction: row;
+}
+
+.message-row.is-user .message-bubble {
+  background-color: var(--bubble-user);
+  color: var(--text-main);
+  border-radius: var(--radius-lg);
+  border-bottom-right-radius: 4px;
+  border: 1px solid rgba(23, 71, 127, 0.12);
+  box-shadow: 0 2px 10px rgba(23, 71, 127, 0.04);
+}
+
+/* --- 2. رد الأخصائية النفسية (الجهة اليسرى) --- */
+.message-row.is-specialist {
+  align-self: flex-end; /* في RTL جهة اليسار */
+  flex-direction: row-reverse;
+}
+
+.message-row.is-specialist .message-bubble {
+  background-color: var(--bubble-other);
+  color: var(--text-main);
+  border-radius: var(--radius-lg);
+  border-bottom-left-radius: 4px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+}
+
+/* محتوى الفقاعة */
+.message-bubble {
+  padding: 0.95rem 1.25rem;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  word-break: break-word;
+}
+
+.message-text {
+  white-space: pre-line;
+}
+
+.message-meta {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  color: var(--text-sub);
+  margin-top: 0.15rem;
+}
+
+/* علامتا صح باللون الأزرق للدلالة على حالة الرسالة */
+.check-marks {
+  display: inline-flex;
+  align-items: center;
+  color: var(--check-blue);
+}
+
+.check-marks svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* مؤشر الكتابة (Typing Indicator) */
+.typing-indicator-row {
+  display: none;
+  align-self: flex-end;
+  flex-direction: row-reverse;
+  align-items: flex-end;
+  gap: 0.75rem;
+  margin-top: -0.25rem;
+}
+
+.typing-indicator-row.is-active {
+  display: flex;
+}
+
+.typing-bubble {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  padding: 0.75rem 1.1rem;
+  border-radius: var(--radius-lg);
+  border-bottom-left-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.typing-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: var(--radius-full);
+  background: var(--primary-dark);
+  opacity: 0.4;
+  animation: typingBounce 1.4s infinite ease-in-out;
+}
+
+.typing-dot:nth-child(1) { animation-delay: 0s; }
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typingBounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.3; }
+  30% { transform: translateY(-4px); opacity: 1; }
+}
+
+/* =====================================================================
+   سابعاً: إشعار الخصوصية والأمان
+   ===================================================================== */
+.privacy-notice-wrapper {
+  padding: 0.4rem 1.5rem;
+  display: flex;
+  justify-content: center;
+  background: transparent;
+}
+
+.privacy-notice-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 1.35rem;
+  background-color: var(--primary-light);
+  border: 1px solid rgba(23, 71, 127, 0.16);
+  border-radius: var(--radius-full);
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  box-shadow: 0 2px 8px rgba(23, 71, 127, 0.05);
+}
+
+.privacy-lock-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--primary-dark);
+}
+
+/* =====================================================================
+   ثامناً: منطقة كتابة وإرسال الرسائل
+   ===================================================================== */
+.chat-footer-wrapper {
+  padding: 1.1rem 1.6rem 1.25rem;
+  border-top: 1px solid var(--border-light);
+  background: #FFFFFF;
+  position: relative;
+}
+
+.chat-input-form {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.chat-tools-group {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.chat-tool-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-sub);
+  background: var(--bg-page);
+  border: 1px solid var(--border-color);
+  transition: var(--transition);
+}
+
+.chat-tool-btn:hover {
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  border-color: var(--primary-light);
+  transform: translateY(-1px);
+}
+
+.chat-tool-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* حقل الكتابة الطويل والمستدير */
+.chat-input-container {
+  flex: 1;
+  position: relative;
+}
+
+.chat-text-input {
+  width: 100%;
+  height: 48px;
+  background: var(--bg-page);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-full);
+  padding: 0 1.25rem;
+  font-size: 0.95rem;
+  color: var(--text-main);
+  outline: none;
+  transition: var(--transition);
+}
+
+.chat-text-input:focus {
+  background: #FFFFFF;
+  border-color: var(--primary-dark);
+  box-shadow: 0 0 0 3px rgba(23, 71, 127, 0.08);
+}
+
+.chat-text-input::placeholder {
+  color: var(--text-muted);
+}
+
+/* زر الإرسال باللون الأزرق الداكن وطائرة ورقية بالداخل */
+.chat-send-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  background-color: var(--primary-dark);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: var(--transition);
+  box-shadow: 0 4px 14px rgba(23, 71, 127, 0.25);
+}
+
+.chat-send-btn:hover {
+  background-color: var(--primary-hover);
+  transform: scale(1.05);
+  box-shadow: 0 6px 18px rgba(23, 71, 127, 0.35);
+}
+
+.chat-send-btn:active {
+  transform: scale(0.96);
+}
+
+.chat-send-btn svg {
+  width: 20px;
+  height: 20px;
+  transform: rotate(180deg); /* للتوجيه الدقيق مع RTL */
+}
+
+/* لوحة الرموز التعبيرية (Emoji Picker Popover) */
+.emoji-popover {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  inset-inline-start: 1.6rem;
+  background: #FFFFFF;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-dropdown);
+  padding: 0.85rem;
+  display: none;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 290px;
+  z-index: 100;
+  animation: dropdownIn 0.2s ease-out;
+}
+
+.emoji-popover.is-open {
+  display: flex;
+}
+
+.emoji-popover-header {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-sub);
+  border-bottom: 1px solid var(--border-light);
+  padding-bottom: 0.4rem;
+}
+
+.emoji-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.4rem;
+}
+
+.emoji-btn {
+  font-size: 1.35rem;
+  padding: 0.35rem;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+}
+
+.emoji-btn:hover {
+  background: var(--bg-page);
+  transform: scale(1.2);
+}
+
+/* شريحة معاينة الملف المرفق قبل الإرسال */
+.attached-file-pill {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.85rem;
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  width: fit-content;
+}
+
+.attached-file-pill.is-active {
+  display: inline-flex;
+}
+
+.attached-file-remove {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-dark);
+}
+
+/* عنصر التنبيه السريع (Toast) */
+.toast-msg {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(30px);
+  background: var(--primary-dark);
+  color: #FFFFFF;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-full);
+  font-size: 0.92rem;
+  font-weight: 700;
+  box-shadow: 0 8px 24px rgba(23, 71, 127, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.25s ease-out;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.toast-msg.is-show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* =====================================================================
+   الحادي عشر: التجاوب مع أحجام الشاشات (Responsive Design)
+   ===================================================================== */
+@media (max-width: 1024px) {
+  .support-main-grid {
+    grid-template-columns: 310px 1fr;
+    gap: 1rem;
+  }
+  
+  .message-row {
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-container {
+    padding: 0.65rem 1rem;
+  }
+
+  .nav-menu {
+    display: none; /* إخفاء الروابط الرئيسية لشاشات الهواتف ودمجها بالقائمة */
+  }
+
+  .main-wrapper {
+    padding: 1rem;
+    gap: 0.85rem;
+  }
+
+  .support-main-grid {
+    grid-template-columns: 1fr;
+    height: calc(100vh - 165px);
+    position: relative;
+  }
+
+  /* على الهواتف: إظهار إما قائمة المحادثات أو نافذة الدردشة بسلاسة */
+  .conversations-card {
+    display: flex;
+  }
+
+  .chat-window-card {
+    display: none;
+  }
+
+  /* عند تفعيل وضع عرض الدردشة في الهاتف */
+  body.mobile-view-chat .conversations-card {
+    display: none;
+  }
+
+  body.mobile-view-chat .chat-window-card {
+    display: flex;
+  }
+
+  .mobile-back-btn {
+    display: flex;
+  }
+
+  .message-row {
+    max-width: 94%;
+  }
+
+  .chat-messages-container {
+    padding: 1rem;
+  }
+
+  .chat-footer-wrapper {
+    padding: 0.85rem 1rem;
+  }
+
+  .chat-text-input {
+    height: 44px;
+    padding: 0 1rem;
+  }
+
+  .chat-send-btn {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media (max-width: 480px) {
+  .user-name-text {
+    display: none; /* إبقاء صورة المستخدم فقط لتوفير المساحة */
+  }
+
+  .page-title {
+    font-size: 1.35rem;
+  }
+
+  .privacy-notice-bar {
+    font-size: 0.76rem;
+    padding: 0.45rem 1rem;
+  }
+}
+
