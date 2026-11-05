@@ -475,98 +475,466 @@
   margin-bottom: .85rem;
 }
 
-/* خريطة محطات رحلة التعافي (Milestone Roadmap) */
-.milestones-track {
+/* =====================================================================
+   واجهة رحلة التعافي المطورة (New Recovery Journey Experience)
+   ===================================================================== */
+
+/* 1. بطاقة مستوى التقدم وتاريخ بداية التعافي (بطاقة أفقية كبيرة) */
+.recovery-hero-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 1.75rem;
+  padding: 1.75rem 2rem;
+  box-shadow: 0 4px 20px rgba(15, 39, 67, 0.03);
+  transition: all 0.25s ease;
+}
+
+.recovery-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr 1fr;
+  gap: 1.75rem;
+  align-items: center;
+}
+
+.recovery-hero-col {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-  position: relative;
-  padding-inline-start: 2rem;
+  justify-content: center;
 }
 
-.milestones-track::before {
-  content: "";
-  position: absolute;
-  top: .5rem;
-  bottom: .5rem;
-  inset-inline-start: .75rem;
-  width: 3px;
-  background: var(--line);
+.recovery-hero-col:not(:last-child) {
+  border-inline-end: 1px solid var(--line);
+  padding-inline-end: 1.75rem;
+}
+
+.recovery-icon-circle {
+  width: 46px;
+  height: 46px;
   border-radius: 9999px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
 }
 
-.milestone-item {
-  position: relative;
-  padding: 1rem 1.25rem;
-  border-radius: 1.25rem;
+.recovery-hero-lbl {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 0.15rem;
+}
+
+.recovery-hero-val {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1.25;
+}
+
+.recovery-progress-track {
+  width: 100%;
+  height: 11px;
   background: var(--bg-soft);
+  border-radius: 9999px;
+  overflow: hidden;
+  margin: 0.6rem 0;
+  border: 1px solid var(--line-soft);
+}
+
+.recovery-progress-bar {
+  height: 100%;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #1965B3, #41BCE6);
+  transition: width 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 2. بطاقات الإحصائيات والإنجازات الثلاثة (في صف واحد على الكمبيوتر) */
+.recovery-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.recovery-stat-card {
+  background: var(--surface);
   border: 1px solid var(--line);
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 16px rgba(15, 39, 67, 0.03);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 240px;
+}
+
+/* شارات الإنجازات الستة */
+.achievements-badges-row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.4rem;
+  margin-top: 1rem;
+}
+
+.achievement-badge-pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem 0.2rem;
+  border-radius: 0.85rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.achievement-badge-pill:hover {
+  transform: translateY(-2px);
+  background: var(--bg-soft);
+}
+
+.badge-icon-box {
+  width: 38px;
+  height: 38px;
+  border-radius: 9999px;
+  display: grid;
+  place-items: center;
+  transition: all 0.2s ease;
+}
+
+.achievement-badge-pill.is-unlocked .badge-icon-box {
+  background: linear-gradient(135deg, #FDE68A 0%, #F59E0B 100%);
+  color: #78350F;
+  box-shadow: 0 3px 10px rgba(245, 158, 11, 0.3);
+  border: 1.5px solid #F59E0B;
+}
+
+.achievement-badge-pill.is-locked .badge-icon-box {
+  background: var(--bg-soft);
+  color: var(--muted);
+  border: 1.5px dashed var(--line);
+  opacity: 0.65;
+}
+
+.badge-pill-lbl {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.1;
+  text-align: center;
+}
+
+/* دائرة التقدم الكبيرة */
+.circular-progress-box {
+  position: relative;
+  width: 130px;
+  height: 130px;
+  margin: 0.5rem auto;
+}
+
+.circular-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.circular-bg {
+  fill: none;
+  stroke: var(--bg-soft);
+  stroke-width: 9;
+}
+
+.circular-fill {
+  fill: none;
+  stroke: #1965B3;
+  stroke-width: 9;
+  stroke-linecap: round;
+  stroke-dasharray: 314.16;
+  stroke-dashoffset: 94.25;
+  transition: stroke-dashoffset 0.8s ease;
+}
+
+.circular-inner-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.circular-percent-val {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--primary);
+  line-height: 1;
+}
+
+.circular-days-val {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-top: 3px;
+}
+
+/* فقاعة الرسالة التحفيزية اليومية */
+.recovery-quote-bubble {
+  background: linear-gradient(135deg, rgba(220, 233, 252, 0.5) 0%, rgba(240, 246, 252, 0.8) 100%);
+  border: 1px solid rgba(25, 101, 179, 0.15);
+  border-radius: 1.25rem;
+  padding: 1.15rem 1.25rem;
+  margin: 0.75rem 0;
+  min-height: 85px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  transition: all .2s;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(25, 101, 179, 0.04);
 }
 
-.milestone-item::before {
-  content: "";
-  position: absolute;
-  inset-inline-start: -1.75rem;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 18px;
-  height: 18px;
-  border-radius: 9999px;
+html[data-theme="dark"] .recovery-quote-bubble {
+  background: rgba(25, 101, 179, 0.15);
+  border-color: rgba(109, 231, 247, 0.2);
+}
+
+/* 3. بطاقتا حاسبة الادخار ومراحل الرحلة في الأسفل (بجانب بعضهما) */
+.recovery-bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.recovery-bottom-card {
   background: var(--surface);
-  border: 3px solid var(--muted);
+  border: 1px solid var(--line);
+  border-radius: 1.5rem;
+  padding: 1.75rem;
+  box-shadow: 0 4px 16px rgba(15, 39, 67, 0.03);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 300px;
+}
+
+.savings-highlight-box {
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: 1.25rem;
+  padding: 1.25rem;
+  margin: 0.5rem 0 1rem;
+}
+
+.savings-huge-number {
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 0.25rem 0;
+}
+
+/* الخط الزمني الأفقي لمراحل التعافي */
+.timeline-horizontal-wrapper {
+  position: relative;
+  margin: 1.75rem 0 1.25rem;
+  padding: 0.5rem 0;
+}
+
+.milestones-track-line {
+  position: absolute;
+  top: 23px;
+  inset-inline-start: 12%;
+  inset-inline-end: 12%;
+  height: 3px;
+  background: var(--line);
+  z-index: 1;
+}
+
+.milestones-horizontal-track {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  position: relative;
   z-index: 2;
 }
 
-.milestone-item.is-completed {
-  border-color: rgba(65, 188, 230, .4);
-  background: var(--surface);
-}
-
-.milestone-item.is-completed::before {
-  background: var(--primary);
-  border-color: var(--aqua);
-}
-
-.milestone-item.is-current {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(25, 101, 179, .15);
-  background: var(--surface);
-}
-
-.milestone-item.is-current::before {
-  background: var(--aqua);
-  border-color: var(--navy);
-  box-shadow: 0 0 0 4px rgba(109, 231, 247, .4);
-}
-
-/* حاسبة الادخار (Savings Calculator) */
-.calculator-box {
-  background: linear-gradient(135deg, rgba(25, 101, 179, .05) 0%, rgba(109, 231, 247, .1) 100%);
-  border: 1.5px solid var(--line-soft);
-  border-radius: 1.75rem;
-  padding: 2rem;
-}
-
-.calc-result-badge {
-  background: linear-gradient(135deg, var(--navy) 0%, var(--primary) 100%);
-  color: #fff;
-  padding: 1.75rem;
-  border-radius: 1.5rem;
+.milestone-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-  box-shadow: 0 12px 30px rgba(15, 39, 67, .2);
-  border: 1px solid rgba(109, 231, 247, .3);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  padding: 0 0.25rem;
 }
 
-.calc-number {
-  font-size: clamp(2.2rem, 4vw, 3.4rem);
+.milestone-node:hover {
+  transform: translateY(-3px);
+}
+
+.milestone-node-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 9999px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 0.5rem;
+  background: var(--surface);
+  border: 2.5px solid;
+  transition: all 0.25s ease;
+}
+
+.milestone-node.is-completed .milestone-node-circle {
+  border-color: #10B981;
+  background: #ECFDF5;
+  color: #059669;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
+}
+
+.milestone-node.is-next .milestone-node-circle {
+  border-color: #3B82F6;
+  background: #EFF6FF;
+  color: #2563EB;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+}
+
+.milestone-node.is-future .milestone-node-circle {
+  border-color: var(--line);
+  background: var(--bg-soft);
+  color: var(--muted);
+  opacity: 0.75;
+}
+
+.milestone-node-name {
+  font-size: 0.82rem;
   font-weight: 800;
-  color: var(--aqua);
-  line-height: 1.2;
+  color: var(--ink);
+  line-height: 1.25;
+}
+
+.milestone-node-date {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.milestone-node-status {
+  font-size: 0.68rem;
+  font-weight: 700;
+  margin-top: 3px;
+  padding: 0.15rem 0.5rem;
+  border-radius: 9999px;
+  display: inline-block;
+}
+
+.milestone-node.is-completed .milestone-node-status {
+  background: rgba(16, 185, 129, 0.12);
+  color: #059669;
+}
+
+.milestone-node.is-next .milestone-node-status {
+  background: rgba(59, 130, 246, 0.12);
+  color: #2563EB;
+}
+
+.milestone-node.is-future .milestone-node-status {
+  background: var(--bg-soft);
+  color: var(--muted);
+}
+
+/* 4. الرسم البياني لنمو المدخرات بمرور الوقت */
+.savings-chart-box {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.5rem;
+  height: 165px;
+  padding: 1.5rem 1rem 0.65rem;
+  background: var(--bg-soft);
+  border-radius: 1.25rem;
+  border: 1px solid var(--line);
+  overflow-x: auto;
+}
+
+.savings-bar-col {
+  flex: 1;
+  min-width: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  gap: 0.4rem;
+}
+
+.savings-bar-pill {
+  width: 100%;
+  max-width: 36px;
+  border-radius: 0.6rem 0.6rem 0 0;
+  background: linear-gradient(180deg, #41BCE6, #1965B3);
+  transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 6px;
+}
+
+.savings-bar-pill.is-current {
+  background: linear-gradient(180deg, #34D399, #059669);
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.45);
+}
+
+.savings-bar-val {
+  font-size: 0.66rem;
+  font-weight: 800;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.savings-bar-lbl {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+/* التجاوب والتكيف مع الشاشات (Responsive Design) */
+@media (max-width: 1024px) {
+  .recovery-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .recovery-hero-col:not(:last-child) {
+    border-inline-end: 0;
+    border-bottom: 1px solid var(--line);
+    padding-inline-end: 0;
+    padding-bottom: 1.25rem;
+  }
+  .recovery-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .recovery-bottom-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .recovery-stats-grid {
+    grid-template-columns: 1fr;
+  }
+  .timeline-horizontal-wrapper {
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+  }
+  .milestones-track-line {
+    display: none;
+  }
+  .milestones-horizontal-track {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  .achievements-badges-row {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+  }
 }
 
 /* بطاقات الأخصائيين وحجز الاستشارات */

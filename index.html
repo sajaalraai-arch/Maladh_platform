@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" data-theme="light">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -15,7 +16,7 @@
         if (p.lang === 'en') { d.lang = 'en'; d.dir = 'ltr'; }
         if (p.font) d.dataset.font = p.font;
         if (p.reduce) d.classList.add('reduce-motion');
-      } catch (e) {}
+      } catch (e) { }
     })();
   </script>
 
@@ -32,511 +33,798 @@
 
 <body class="font-cairo antialiased">
 
-<!-- ===== مكتبة الأيقونات (Lucide) — تُستدعى بـ <use href="#i-name"> ===== -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
-  <symbol id="i-settings" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></symbol>
-  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
-  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
-  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
-  <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
-  <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
-  <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
-  <symbol id="i-brain" viewBox="0 0 24 24"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/><path d="M17.599 6.5a3 3 0 0 0 .399-1.375"/><path d="M6.003 5.125A3 3 0 0 0 6.401 6.5"/><path d="M3.477 10.896a4 4 0 0 1 .585-.396"/><path d="M19.938 10.5a4 4 0 0 1 .585.396"/><path d="M6 18a4 4 0 0 1-1.967-.516"/><path d="M19.967 17.484A4 4 0 0 1 18 18"/></symbol>
-  <symbol id="i-sprout" viewBox="0 0 24 24"><path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/></symbol>
-  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></symbol>
-  <symbol id="i-hand-heart" viewBox="0 0 24 24"><path d="M11 14h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 16"/><path d="m7 20 1.6 1.4c.3.4.8.6 1.4.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9"/><path d="m2 15 6 6"/><path d="M19.5 8.5c.7-.7 1.5-1.6 1.5-2.7A2.73 2.73 0 0 0 16 4a2.78 2.78 0 0 0-5 1.8c0 1.2.8 2 1.5 2.8L16 12Z"/></symbol>
-  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
-  <symbol id="i-cap" viewBox="0 0 24 24"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></symbol>
-  <symbol id="i-brief" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></symbol>
-  <symbol id="i-video" viewBox="0 0 24 24"><path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"/><rect x="2" y="6" width="14" height="12" rx="2"/></symbol>
-  <symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
-  <symbol id="i-user-plus" viewBox="0 0 24 24"><path d="M2 21a8 8 0 0 1 13.292-6"/><circle cx="10" cy="8" r="5"/><path d="M19 16v6"/><path d="M22 19h-6"/></symbol>
-  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
-  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
-  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></symbol>
-  <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/></symbol>
-  <symbol id="i-languages" viewBox="0 0 24 24"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></symbol>
-  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></symbol>
-  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
-  <symbol id="i-type" viewBox="0 0 24 24"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></symbol>
-  <symbol id="i-activity" viewBox="0 0 24 24"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></symbol>
-  <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></symbol>
-  <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></symbol>
-  <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></symbol>
-  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
-</svg>
+  <!-- ===== مكتبة الأيقونات (Lucide) — تُستدعى بـ <use href="#i-name"> ===== -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="i-search" viewBox="0 0 24 24">
+      <circle cx="11" cy="11" r="8" />
+      <path d="m21 21-4.3-4.3" />
+    </symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24">
+      <path
+        d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+      <circle cx="12" cy="12" r="3" />
+    </symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24">
+      <path d="M4 6h16M4 12h16M4 18h16" />
+    </symbol>
+    <symbol id="i-x" viewBox="0 0 24 24">
+      <path d="M18 6 6 18M6 6l12 12" />
+    </symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24">
+      <rect x="3" y="4" width="18" height="18" rx="2" />
+      <path d="M16 2v4M8 2v4M3 10h18" />
+    </symbol>
+    <symbol id="i-chevron-down" viewBox="0 0 24 24">
+      <path d="m6 9 6 6 6-6" />
+    </symbol>
+    <symbol id="i-chevron-left" viewBox="0 0 24 24">
+      <path d="m15 18-6-6 6-6" />
+    </symbol>
+    <symbol id="i-chevron-right" viewBox="0 0 24 24">
+      <path d="m9 18 6-6-6-6" />
+    </symbol>
+    <symbol id="i-brain" viewBox="0 0 24 24">
+      <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z" />
+      <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z" />
+      <path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4" />
+      <path d="M17.599 6.5a3 3 0 0 0 .399-1.375" />
+      <path d="M6.003 5.125A3 3 0 0 0 6.401 6.5" />
+      <path d="M3.477 10.896a4 4 0 0 1 .585-.396" />
+      <path d="M19.938 10.5a4 4 0 0 1 .585.396" />
+      <path d="M6 18a4 4 0 0 1-1.967-.516" />
+      <path d="M19.967 17.484A4 4 0 0 1 18 18" />
+    </symbol>
+    <symbol id="i-sprout" viewBox="0 0 24 24">
+      <path d="M7 20h10" />
+      <path d="M10 20c5.5-2.5.8-6.4 3-10" />
+      <path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z" />
+      <path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z" />
+    </symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24">
+      <path
+        d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+    </symbol>
+    <symbol id="i-hand-heart" viewBox="0 0 24 24">
+      <path d="M11 14h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 16" />
+      <path d="m7 20 1.6 1.4c.3.4.8.6 1.4.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9" />
+      <path d="m2 15 6 6" />
+      <path d="M19.5 8.5c.7-.7 1.5-1.6 1.5-2.7A2.73 2.73 0 0 0 16 4a2.78 2.78 0 0 0-5 1.8c0 1.2.8 2 1.5 2.8L16 12Z" />
+    </symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24">
+      <path
+        d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+      <path d="m9 12 2 2 4-4" />
+    </symbol>
+    <symbol id="i-cap" viewBox="0 0 24 24">
+      <path
+        d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" />
+      <path d="M22 10v6" />
+      <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" />
+    </symbol>
+    <symbol id="i-brief" viewBox="0 0 24 24">
+      <rect x="2" y="7" width="20" height="14" rx="2" />
+      <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+    </symbol>
+    <symbol id="i-video" viewBox="0 0 24 24">
+      <path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5" />
+      <rect x="2" y="6" width="14" height="12" rx="2" />
+    </symbol>
+    <symbol id="i-user" viewBox="0 0 24 24">
+      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+      <circle cx="12" cy="7" r="4" />
+    </symbol>
+    <symbol id="i-user-plus" viewBox="0 0 24 24">
+      <path d="M2 21a8 8 0 0 1 13.292-6" />
+      <circle cx="10" cy="8" r="5" />
+      <path d="M19 16v6" />
+      <path d="M22 19h-6" />
+    </symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24">
+      <rect x="2" y="4" width="20" height="16" rx="2" />
+      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+    </symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24">
+      <rect x="3" y="11" width="18" height="11" rx="2" />
+      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+    </symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24">
+      <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+      <circle cx="12" cy="12" r="3" />
+    </symbol>
+    <symbol id="i-eye-off" viewBox="0 0 24 24">
+      <path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49" />
+      <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242" />
+      <path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143" />
+      <path d="m2 2 20 20" />
+    </symbol>
+    <symbol id="i-languages" viewBox="0 0 24 24">
+      <path d="m5 8 6 6" />
+      <path d="m4 14 6-6 2-3" />
+      <path d="M2 5h12" />
+      <path d="M7 2h1" />
+      <path d="m22 22-5-10-5 10" />
+      <path d="M14 18h6" />
+    </symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="4" />
+      <path
+        d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+    </symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24">
+      <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+    </symbol>
+    <symbol id="i-type" viewBox="0 0 24 24">
+      <path d="M4 7V4h16v3" />
+      <path d="M9 20h6" />
+      <path d="M12 4v16" />
+    </symbol>
+    <symbol id="i-activity" viewBox="0 0 24 24">
+      <path
+        d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" />
+    </symbol>
+    <symbol id="i-logout" viewBox="0 0 24 24">
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+      <path d="m16 17 5-5-5-5" />
+      <path d="M21 12H9" />
+    </symbol>
+    <symbol id="i-arrow-up" viewBox="0 0 24 24">
+      <path d="m5 12 7-7 7 7" />
+      <path d="M12 19V5" />
+    </symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10" />
+      <path d="M12 8v4M12 16h.01" />
+    </symbol>
+    <symbol id="i-check" viewBox="0 0 24 24">
+      <path d="M20 6 9 17l-5-5" />
+    </symbol>
+  </svg>
 
-<!-- ===================== شريط التنقل ===================== -->
-<header class="site-header" id="siteHeader">
-  <nav class="navbar mx-auto flex max-w-[1400px] items-center justify-between gap-3 rounded-full px-4 py-2.5 sm:px-8" data-i18n-aria="n.aria" aria-label="التنقل الرئيسي">
+  <!-- ===================== شريط التنقل ===================== -->
+  <header class="site-header" id="siteHeader">
+    <nav class="navbar mx-auto flex max-w-[1400px] items-center justify-between gap-3 rounded-full px-4 py-2.5 sm:px-8"
+      data-i18n-aria="n.aria" aria-label="التنقل الرئيسي">
 
-    <a href="#home" class="flex items-center gap-3" data-i18n-aria="n.home.aria" aria-label="ملاذ - الصفحة الرئيسية">
-      <img src="assets/logo.png" alt="" class="logo h-10 w-auto sm:h-12" />
-      <span class="brand-sep hidden sm:block"></span>
-      <span class="brand-name hidden sm:block" data-i18n="brand">ملاذ</span>
+      <a href="#home" class="flex items-center gap-3" data-i18n-aria="n.home.aria" aria-label="ملاذ - الصفحة الرئيسية">
+        <img src="assets/logo.png" alt="" class="logo h-10 w-auto sm:h-12" />
+        <span class="brand-sep hidden sm:block"></span>
+        <span class="brand-name hidden sm:block" data-i18n="brand">ملاذ</span>
+      </a>
+
+      <ul class="hidden items-center gap-9 text-[17px] font-medium md:flex">
+        <li><a href="#home" class="nav-link is-active" data-spy="home" data-i18n="n.home">الرئيسية</a></li>
+        <li><a href="#services" class="nav-link" data-spy="services" data-i18n="n.services">خدماتنا</a></li>
+        <li><a href="#specialists" class="nav-link" data-spy="specialists" data-i18n="n.specialists">المختصون</a></li>
+        <li><a href="#about" class="nav-link" data-spy="about" data-i18n="n.about">عن ملاذ</a></li>
+      </ul>
+
+      <div class="flex items-center gap-1.5 sm:gap-3">
+        <button id="searchBtn" class="icon-btn" data-panel-btn="search" aria-expanded="false"
+          aria-controls="searchPanel" data-i18n-aria="n.search" aria-label="بحث">
+          <svg class="icon">
+            <use href="#i-search" />
+          </svg>
+        </button>
+        <button id="settingsBtn" class="icon-btn" data-panel-btn="settings" aria-expanded="false"
+          aria-controls="settingsCard" data-i18n-aria="n.settings" aria-label="الإعدادات">
+          <svg class="icon">
+            <use href="#i-settings" />
+          </svg>
+        </button>
+        <span class="brand-sep hidden sm:block"></span>
+        <button id="loginBtn" class="btn btn-solid btn-sm" type="button" data-panel-btn="user">
+          <svg class="icon ic-18 hidden" id="loginIcon">
+            <use href="#i-user" />
+          </svg>
+          <span id="loginLabel" data-i18n="n.login">تسجيل الدخول</span>
+        </button>
+        <button id="menuBtn" class="icon-btn md:hidden" data-panel-btn="menu" aria-expanded="false"
+          aria-controls="mobileMenu" data-i18n-aria="n.menu" aria-label="القائمة">
+          <svg class="icon" id="menuIcon">
+            <use href="#i-menu" />
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <div id="searchPanel" class="drop panel mx-auto mt-3 max-w-[1400px] rounded-2xl p-3" role="search">
+      <form id="searchForm" class="flex items-center gap-3">
+        <svg class="icon ic-20 t-muted">
+          <use href="#i-search" />
+        </svg>
+        <input id="searchInput" type="search" class="search-input" placeholder="ابحث عن مختص..."
+          data-i18n-ph="sp.search" autocomplete="off" />
+        <button type="submit" class="btn btn-solid btn-sm" data-i18n="s.btn">بحث</button>
+      </form>
+    </div>
+
+    <div id="mobileMenu" class="drop panel mx-auto mt-3 max-w-[1400px] rounded-2xl p-3 md:hidden">
+      <ul class="flex flex-col text-base font-medium">
+        <li><a href="#home" class="mobile-link" data-spy="home" data-i18n="n.home">الرئيسية</a></li>
+        <li><a href="#services" class="mobile-link" data-spy="services" data-i18n="n.services">خدماتنا</a></li>
+        <li><a href="#specialists" class="mobile-link" data-spy="specialists" data-i18n="n.specialists">المختصون</a>
+        </li>
+        <li><a href="#about" class="mobile-link" data-spy="about" data-i18n="n.about">عن ملاذ</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- ===== بطاقة الإعدادات (تظهر بالجافاسكربت) ===== -->
+  <div id="settingsCard" class="pop settings-card" role="dialog" aria-labelledby="stTitle">
+    <div class="mb-4 flex items-center justify-between">
+      <h2 id="stTitle" class="text-lg font-bold" data-i18n="st.title">الإعدادات</h2>
+      <button class="icon-btn icon-btn-sm" data-close-panel data-i18n-aria="st.close" aria-label="إغلاق"><svg
+          class="icon ic-20">
+          <use href="#i-x" />
+        </svg></button>
+    </div>
+
+    <div class="set-row">
+      <p class="set-label"><svg class="icon ic-20">
+          <use href="#i-languages" />
+        </svg><span data-i18n="st.lang">اللغة</span></p>
+      <div class="seg" role="group">
+        <button class="seg-btn" data-set-lang="ar" aria-pressed="true">العربية</button>
+        <button class="seg-btn" data-set-lang="en" aria-pressed="false">English</button>
+      </div>
+    </div>
+
+    <div class="set-row">
+      <p class="set-label"><svg class="icon ic-20" id="themeLabelIcon">
+          <use href="#i-sun" />
+        </svg><span data-i18n="st.theme">المظهر</span></p>
+      <div class="seg" role="group">
+        <button class="seg-btn" data-set-theme="light" aria-pressed="true"><svg class="icon ic-18">
+            <use href="#i-sun" />
+          </svg><span data-i18n="st.light">فاتح</span></button>
+        <button class="seg-btn" data-set-theme="dark" aria-pressed="false"><svg class="icon ic-18">
+            <use href="#i-moon" />
+          </svg><span data-i18n="st.dark">داكن</span></button>
+      </div>
+    </div>
+
+    <div class="set-row">
+      <p class="set-label"><svg class="icon ic-20">
+          <use href="#i-type" />
+        </svg><span data-i18n="st.font">حجم الخط</span></p>
+      <div class="seg" role="group">
+        <button class="seg-btn" data-set-font="small" aria-pressed="false" style="font-size:.8rem"
+          data-i18n="st.small">صغير</button>
+        <button class="seg-btn" data-set-font="normal" aria-pressed="true" data-i18n="st.normal">عادي</button>
+        <button class="seg-btn" data-set-font="large" aria-pressed="false" style="font-size:1.1rem"
+          data-i18n="st.large">كبير</button>
+      </div>
+    </div>
+
+    <div class="set-row flex items-center justify-between">
+      <p class="set-label !mb-0"><svg class="icon ic-20">
+          <use href="#i-activity" />
+        </svg><span data-i18n="st.motion">تقليل الحركة</span></p>
+      <button id="motionSwitch" class="switch" role="switch" aria-checked="false" data-i18n-aria="st.motion"
+        aria-label="تقليل الحركة"><span class="knob"></span></button>
+    </div>
+
+    <p class="mt-4 text-xs t-muted" data-i18n="st.note">تُحفظ تفضيلاتك تلقائيًا على هذا الجهاز.</p>
+  </div>
+
+  <!-- ===== قائمة المستخدم (بعد تسجيل الدخول) ===== -->
+  <div id="userMenu" class="pop settings-card user-card" role="dialog">
+    <p class="font-bold" id="umName"></p>
+    <p class="mb-3 text-sm t-muted" id="umEmail"></p>
+    <a href="dashboard.html" class="btn btn-solid btn-sm w-full mb-2 flex items-center justify-center gap-2">
+      <svg class="icon ic-18">
+        <use href="#i-activity" />
+      </svg>
+      <span>لوحة تحكم المستفيد</span>
     </a>
-
-    <ul class="hidden items-center gap-9 text-[17px] font-medium md:flex">
-      <li><a href="#home" class="nav-link is-active" data-spy="home" data-i18n="n.home">الرئيسية</a></li>
-      <li><a href="#services" class="nav-link" data-spy="services" data-i18n="n.services">خدماتنا</a></li>
-      <li><a href="#specialists" class="nav-link" data-spy="specialists" data-i18n="n.specialists">المختصون</a></li>
-      <li><a href="#about" class="nav-link" data-spy="about" data-i18n="n.about">عن ملاذ</a></li>
-    </ul>
-
-    <div class="flex items-center gap-1.5 sm:gap-3">
-      <button id="searchBtn" class="icon-btn" data-panel-btn="search" aria-expanded="false" aria-controls="searchPanel" data-i18n-aria="n.search" aria-label="بحث">
-        <svg class="icon"><use href="#i-search"/></svg>
-      </button>
-      <button id="settingsBtn" class="icon-btn" data-panel-btn="settings" aria-expanded="false" aria-controls="settingsCard" data-i18n-aria="n.settings" aria-label="الإعدادات">
-        <svg class="icon"><use href="#i-settings"/></svg>
-      </button>
-      <span class="brand-sep hidden sm:block"></span>
-      <button id="loginBtn" class="btn btn-solid btn-sm" type="button" data-panel-btn="user">
-        <svg class="icon ic-18 hidden" id="loginIcon"><use href="#i-user"/></svg>
-        <span id="loginLabel" data-i18n="n.login">تسجيل الدخول</span>
-      </button>
-      <button id="menuBtn" class="icon-btn md:hidden" data-panel-btn="menu" aria-expanded="false" aria-controls="mobileMenu" data-i18n-aria="n.menu" aria-label="القائمة">
-        <svg class="icon" id="menuIcon"><use href="#i-menu"/></svg>
-      </button>
-    </div>
-  </nav>
-
-  <div id="searchPanel" class="drop panel mx-auto mt-3 max-w-[1400px] rounded-2xl p-3" role="search">
-    <form id="searchForm" class="flex items-center gap-3">
-      <svg class="icon ic-20 t-muted"><use href="#i-search"/></svg>
-      <input id="searchInput" type="search" class="search-input" placeholder="ابحث عن مختص..." data-i18n-ph="sp.search" autocomplete="off" />
-      <button type="submit" class="btn btn-solid btn-sm" data-i18n="s.btn">بحث</button>
-    </form>
+    <button id="logoutBtn" class="btn btn-outline btn-sm w-full"><svg class="icon ic-18">
+        <use href="#i-logout" />
+      </svg><span data-i18n="a.logout">تسجيل الخروج</span></button>
   </div>
 
-  <div id="mobileMenu" class="drop panel mx-auto mt-3 max-w-[1400px] rounded-2xl p-3 md:hidden">
-    <ul class="flex flex-col text-base font-medium">
-      <li><a href="#home" class="mobile-link" data-spy="home" data-i18n="n.home">الرئيسية</a></li>
-      <li><a href="#services" class="mobile-link" data-spy="services" data-i18n="n.services">خدماتنا</a></li>
-      <li><a href="#specialists" class="mobile-link" data-spy="specialists" data-i18n="n.specialists">المختصون</a></li>
-      <li><a href="#about" class="mobile-link" data-spy="about" data-i18n="n.about">عن ملاذ</a></li>
-    </ul>
-  </div>
-</header>
+  <main id="main">
 
-<!-- ===== بطاقة الإعدادات (تظهر بالجافاسكربت) ===== -->
-<div id="settingsCard" class="pop settings-card" role="dialog" aria-labelledby="stTitle">
-  <div class="mb-4 flex items-center justify-between">
-    <h2 id="stTitle" class="text-lg font-bold" data-i18n="st.title">الإعدادات</h2>
-    <button class="icon-btn icon-btn-sm" data-close-panel data-i18n-aria="st.close" aria-label="إغلاق"><svg class="icon ic-20"><use href="#i-x"/></svg></button>
-  </div>
+    <!-- ===================== القسم الرئيسي ===================== -->
+    <section id="home" class="hero relative overflow-hidden">
+      <svg class="hero-wave pointer-events-none absolute bottom-0 left-0 w-full" viewBox="0 0 1440 260"
+        preserveAspectRatio="none" aria-hidden="true">
+        <path class="w1" d="M0 150 C 200 80, 380 220, 640 190 S 1060 90, 1440 170 L1440 260 L0 260 Z" />
+        <path class="w2" d="M0 200 C 260 130, 520 250, 800 215 S 1220 150, 1440 205 L1440 260 L0 260 Z" />
+      </svg>
 
-  <div class="set-row">
-    <p class="set-label"><svg class="icon ic-20"><use href="#i-languages"/></svg><span data-i18n="st.lang">اللغة</span></p>
-    <div class="seg" role="group">
-      <button class="seg-btn" data-set-lang="ar" aria-pressed="true">العربية</button>
-      <button class="seg-btn" data-set-lang="en" aria-pressed="false">English</button>
-    </div>
-  </div>
-
-  <div class="set-row">
-    <p class="set-label"><svg class="icon ic-20" id="themeLabelIcon"><use href="#i-sun"/></svg><span data-i18n="st.theme">المظهر</span></p>
-    <div class="seg" role="group">
-      <button class="seg-btn" data-set-theme="light" aria-pressed="true"><svg class="icon ic-18"><use href="#i-sun"/></svg><span data-i18n="st.light">فاتح</span></button>
-      <button class="seg-btn" data-set-theme="dark" aria-pressed="false"><svg class="icon ic-18"><use href="#i-moon"/></svg><span data-i18n="st.dark">داكن</span></button>
-    </div>
-  </div>
-
-  <div class="set-row">
-    <p class="set-label"><svg class="icon ic-20"><use href="#i-type"/></svg><span data-i18n="st.font">حجم الخط</span></p>
-    <div class="seg" role="group">
-      <button class="seg-btn" data-set-font="small" aria-pressed="false" style="font-size:.8rem" data-i18n="st.small">صغير</button>
-      <button class="seg-btn" data-set-font="normal" aria-pressed="true" data-i18n="st.normal">عادي</button>
-      <button class="seg-btn" data-set-font="large" aria-pressed="false" style="font-size:1.1rem" data-i18n="st.large">كبير</button>
-    </div>
-  </div>
-
-  <div class="set-row flex items-center justify-between">
-    <p class="set-label !mb-0"><svg class="icon ic-20"><use href="#i-activity"/></svg><span data-i18n="st.motion">تقليل الحركة</span></p>
-    <button id="motionSwitch" class="switch" role="switch" aria-checked="false" data-i18n-aria="st.motion" aria-label="تقليل الحركة"><span class="knob"></span></button>
-  </div>
-
-  <p class="mt-4 text-xs t-muted" data-i18n="st.note">تُحفظ تفضيلاتك تلقائيًا على هذا الجهاز.</p>
-</div>
-
-<!-- ===== قائمة المستخدم (بعد تسجيل الدخول) ===== -->
-<div id="userMenu" class="pop settings-card user-card" role="dialog">
-  <p class="font-bold" id="umName"></p>
-  <p class="mb-3 text-sm t-muted" id="umEmail"></p>
-  <a href="dashboard.html" class="btn btn-solid btn-sm w-full mb-2 flex items-center justify-center gap-2">
-    <svg class="icon ic-18"><use href="#i-activity"/></svg>
-    <span>لوحة تحكم المستفيد</span>
-  </a>
-  <button id="logoutBtn" class="btn btn-outline btn-sm w-full"><svg class="icon ic-18"><use href="#i-logout"/></svg><span data-i18n="a.logout">تسجيل الخروج</span></button>
-</div>
-
-<main id="main">
-
-  <!-- ===================== القسم الرئيسي ===================== -->
-  <section id="home" class="hero relative overflow-hidden">
-    <svg class="hero-wave pointer-events-none absolute bottom-0 left-0 w-full" viewBox="0 0 1440 260" preserveAspectRatio="none" aria-hidden="true">
-      <path class="w1" d="M0 150 C 200 80, 380 220, 640 190 S 1060 90, 1440 170 L1440 260 L0 260 Z"/>
-      <path class="w2" d="M0 200 C 260 130, 520 250, 800 215 S 1220 150, 1440 205 L1440 260 L0 260 Z"/>
-    </svg>
-
-    <div class="relative mx-auto grid max-w-[1400px] items-center gap-6 px-5 pb-40 pt-32 sm:px-8 lg:grid-cols-2 lg:pb-48 lg:pt-28">
-      <div class="hero-image order-1 lg:order-none">
-        <img src="assets/hero.jpg" data-i18n-alt="h.alt" alt="مختصة نفسية تجري جلسة استشارة هادئة مع شابة في غرفة استشارات مريحة" class="mx-auto w-full max-w-[760px]" />
-      </div>
-
-      <div class="order-2 text-center lg:order-none lg:pe-6 lg:text-start">
-        <div class="mb-5 flex items-center justify-center gap-4 lg:justify-start">
-          <span class="eyebrow-line hidden lg:block"></span>
-          <p class="eyebrow" data-i18n="h.eyebrow">مساحتك الآمنة تبدأ هنا</p>
-          <span class="eyebrow-line hidden lg:block"></span>
+      <div
+        class="relative mx-auto grid max-w-[1400px] items-center gap-6 px-5 pb-40 pt-32 sm:px-8 lg:grid-cols-2 lg:pb-48 lg:pt-28">
+        <div class="hero-image order-1 lg:order-none">
+          <img src="assets/hero.jpg" data-i18n-alt="h.alt"
+            alt="مختصة نفسية تجري جلسة استشارة هادئة مع شابة في غرفة استشارات مريحة"
+            class="mx-auto w-full max-w-[760px]" />
         </div>
-        <h1 class="hero-title" data-i18n="h.title">لأنك تستحق أن تكون بخير</h1>
-        <p class="lead mx-auto mt-6 max-w-lg lg:mx-0" data-i18n="h.desc">في ملاذ، نساندك في رحلتك نحو السلام النفسي وندعمك في التعافي من الإدمان.</p>
-        <div class="mt-9 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
-          <a href="#" data-book="counseling" class="btn btn-solid btn-lg">
-            <svg class="icon"><use href="#i-calendar"/></svg><span data-i18n="h.book">احجز استشارتك</span>
-          </a>
-          <a href="#services" class="btn btn-outline btn-lg">
-            <span data-i18n="h.services">خدماتنا</span><svg class="icon ic-20 flip-rtl btn-arrow"><use href="#i-chevron-left"/></svg>
-          </a>
+
+        <div class="order-2 text-center lg:order-none lg:pe-6 lg:text-start">
+          <div class="mb-5 flex items-center justify-center gap-4 lg:justify-start">
+            <span class="eyebrow-line hidden lg:block"></span>
+            <p class="eyebrow" data-i18n="h.eyebrow">مساحتك الآمنة تبدأ هنا</p>
+            <span class="eyebrow-line hidden lg:block"></span>
+          </div>
+          <h1 class="hero-title" data-i18n="h.title">لأنك تستحق أن تكون بخير</h1>
+          <p class="lead mx-auto mt-6 max-w-lg lg:mx-0" data-i18n="h.desc">في ملاذ، نساندك في رحلتك نحو السلام النفسي
+            وندعمك في التعافي من الإدمان.</p>
+          <div class="mt-9 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
+            <a href="#" data-book="counseling" class="btn btn-solid btn-lg">
+              <svg class="icon">
+                <use href="#i-calendar" />
+              </svg><span data-i18n="h.book">احجز استشارتك</span>
+            </a>
+            <a href="#services" class="btn btn-outline btn-lg">
+              <span data-i18n="h.services">خدماتنا</span><svg class="icon ic-20 flip-rtl btn-arrow">
+                <use href="#i-chevron-left" />
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ===================== شريط المزايا ===================== -->
-  <section class="relative z-10 mx-auto -mt-28 max-w-[1400px] px-4 sm:px-8 lg:-mt-32" data-i18n-aria="f.aria" aria-label="مزايا ملاذ">
-    <ul class="features grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-      <li class="feature"><svg class="icon ic-48"><use href="#i-brain"/></svg><p data-i18n-html="f.1">استشارات نفسية موثوقة<br />عن بُعد</p></li>
-      <li class="feature"><svg class="icon ic-48"><use href="#i-sprout"/></svg><p data-i18n-html="f.2">برامج دعم التعافي<br />والعودة لحياة أفضل</p></li>
-      <li class="feature"><svg class="icon ic-48"><use href="#i-heart"/></svg><p data-i18n-html="f.3">دعم مهني متخصص<br />بمعايير عالية</p></li>
-      <li class="feature"><svg class="icon ic-48"><use href="#i-shield"/></svg><p data-i18n-html="f.4">خصوصية وأمان<br />في جميع خدماتنا</p></li>
-    </ul>
-  </section>
+    <!-- ===================== شريط المزايا ===================== -->
+    <section class="relative z-10 mx-auto -mt-28 max-w-[1400px] px-4 sm:px-8 lg:-mt-32" data-i18n-aria="f.aria"
+      aria-label="مزايا ملاذ">
+      <ul class="features grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+        <li class="feature"><svg class="icon ic-48">
+            <use href="#i-brain" />
+          </svg>
+          <p data-i18n-html="f.1">استشارات نفسية موثوقة<br />عن بُعد</p>
+        </li>
+        <li class="feature"><svg class="icon ic-48">
+            <use href="#i-sprout" />
+          </svg>
+          <p data-i18n-html="f.2">برامج دعم التعافي<br />والعودة لحياة أفضل</p>
+        </li>
+        <li class="feature"><svg class="icon ic-48">
+            <use href="#i-heart" />
+          </svg>
+          <p data-i18n-html="f.3">دعم مهني متخصص<br />بمعايير عالية</p>
+        </li>
+        <li class="feature"><svg class="icon ic-48">
+            <use href="#i-shield" />
+          </svg>
+          <p data-i18n-html="f.4">خصوصية وأمان<br />في جميع خدماتنا</p>
+        </li>
+      </ul>
+    </section>
 
-  <!-- ===================== خدماتنا ===================== -->
-  <section id="services" class="section section-soft relative overflow-hidden">
-    <svg class="deco deco-leaf hidden lg:block" viewBox="0 0 200 280" aria-hidden="true">
-      <g fill="currentColor"><path d="M70 20c40 10 55 50 30 90-40-10-55-50-30-90z"/><path d="M110 120c35-5 65 20 60 60-40 5-65-20-60-60z"/><path d="M40 140c30 0 50 25 40 60-35-5-50-30-40-60z"/></g>
-    </svg>
-    <div class="relative mx-auto max-w-[1280px] px-5 sm:px-8">
-      <header class="section-head">
-        <div class="eyebrow-row"><span class="eyebrow-line"></span><p class="eyebrow" data-i18n="sv.eyebrow">خطوتك الأولى تبدأ من هنا</p><span class="eyebrow-line"></span></div>
-        <h2 class="section-title" data-i18n="sv.title">اختر الدعم الذي يناسب رحلتك</h2>
-        <p class="lead" data-i18n="sv.desc">سواء كنت تبحث عن راحة نفسية أو تسعى إلى التعافي، فإن ملاذ هنا ليمنحك مساحة آمنة تبدأ منها رحلتك نحو حياة أفضل.</p>
-      </header>
-
-      <div class="mt-12 grid gap-6 md:grid-cols-2 lg:gap-9">
-
-        <article class="service-card" data-card>
-          <img src="assets/service-counseling.jpg" alt="" class="service-photo" />
-          <div class="service-body">
-            <span class="service-icon" aria-hidden="true"><svg class="icon"><use href="#i-brain"/></svg></span>
-            <h3 class="service-title" data-i18n="sv.c1.t">استشارات نفسية</h3>
-            <p class="service-desc" data-i18n="sv.c1.d">تحدث مع مختص نفسي مؤهل، وابدأ رحلتك نحو فهم مشاعرك وتحسين صحتك النفسية في مساحة آمنة تحترم خصوصيتك.</p>
+    <!-- ===================== خدماتنا ===================== -->
+    <section id="services" class="section section-soft relative overflow-hidden">
+      <svg class="deco deco-leaf hidden lg:block" viewBox="0 0 200 280" aria-hidden="true">
+        <g fill="currentColor">
+          <path d="M70 20c40 10 55 50 30 90-40-10-55-50-30-90z" />
+          <path d="M110 120c35-5 65 20 60 60-40 5-65-20-60-60z" />
+          <path d="M40 140c30 0 50 25 40 60-35-5-50-30-40-60z" />
+        </g>
+      </svg>
+      <div class="relative mx-auto max-w-[1280px] px-5 sm:px-8">
+        <header class="section-head">
+          <div class="eyebrow-row"><span class="eyebrow-line"></span>
+            <p class="eyebrow" data-i18n="sv.eyebrow">خطوتك الأولى تبدأ من هنا</p><span class="eyebrow-line"></span>
           </div>
-          <button type="button" class="card-toggle" aria-expanded="false" data-i18n-aria="sv.c1.aria" aria-label="عرض خيار الحجز: استشارات نفسية"></button>
-          <div class="card-overlay">
-            <button type="button" class="overlay-close" data-i18n-aria="st.close" aria-label="إغلاق"><svg class="icon ic-20"><use href="#i-x"/></svg></button>
-            <a href="#" data-book="counseling" class="overlay-cta"><svg class="icon"><use href="#i-calendar"/></svg><span data-i18n="sv.book">احجز استشارتك</span></a>
-          </div>
-        </article>
+          <h2 class="section-title" data-i18n="sv.title">اختر الدعم الذي يناسب رحلتك</h2>
+          <p class="lead" data-i18n="sv.desc">سواء كنت تبحث عن راحة نفسية أو تسعى إلى التعافي، فإن ملاذ هنا ليمنحك مساحة
+            آمنة تبدأ منها رحلتك نحو حياة أفضل.</p>
+        </header>
 
-        <article class="service-card" data-card>
-          <img src="assets/service-recovery.jpg" alt="" class="service-photo" />
-          <div class="service-body">
-            <span class="service-icon" aria-hidden="true"><svg class="icon"><use href="#i-hand-heart"/></svg></span>
-            <h3 class="service-title" data-i18n="sv.c2.t">دعم التعافي من الإدمان</h3>
-            <p class="service-desc" data-i18n="sv.c2.d">ابدأ خطوة جديدة نحو التعافي، واستفد من الدعم والتوجيه المناسبين لبناء عادات صحية والتقدم نحو حياة أفضل.</p>
+        <div class="mt-12 grid gap-6 md:grid-cols-2 lg:gap-9">
+
+          <article class="service-card" data-card>
+            <img src="assets/service-counseling.jpg" alt="" class="service-photo" />
+            <div class="service-body">
+              <span class="service-icon" aria-hidden="true"><svg class="icon">
+                  <use href="#i-brain" />
+                </svg></span>
+              <h3 class="service-title" data-i18n="sv.c1.t">استشارات نفسية</h3>
+              <p class="service-desc" data-i18n="sv.c1.d">تحدث مع مختص نفسي مؤهل، وابدأ رحلتك نحو فهم مشاعرك وتحسين صحتك
+                النفسية في مساحة آمنة تحترم خصوصيتك.</p>
+            </div>
+            <button type="button" class="card-toggle" aria-expanded="false" data-i18n-aria="sv.c1.aria"
+              aria-label="عرض خيار الحجز: استشارات نفسية"></button>
+            <div class="card-overlay">
+              <button type="button" class="overlay-close" data-i18n-aria="st.close" aria-label="إغلاق"><svg
+                  class="icon ic-20">
+                  <use href="#i-x" />
+                </svg></button>
+              <a href="#" data-book="counseling" class="overlay-cta"><svg class="icon">
+                  <use href="#i-calendar" />
+                </svg><span data-i18n="sv.book">احجز استشارتك</span></a>
+            </div>
+          </article>
+
+          <article class="service-card" data-card>
+            <img src="assets/service-recovery.jpg" alt="" class="service-photo" />
+            <div class="service-body">
+              <span class="service-icon" aria-hidden="true"><svg class="icon">
+                  <use href="#i-hand-heart" />
+                </svg></span>
+              <h3 class="service-title" data-i18n="sv.c2.t">دعم التعافي من الإدمان</h3>
+              <p class="service-desc" data-i18n="sv.c2.d">ابدأ خطوة جديدة نحو التعافي، واستفد من الدعم والتوجيه
+                المناسبين لبناء عادات صحية والتقدم نحو حياة أفضل.</p>
+            </div>
+            <button type="button" class="card-toggle" aria-expanded="false" data-i18n-aria="sv.c2.aria"
+              aria-label="عرض خيار الحجز: دعم التعافي من الإدمان"></button>
+            <div class="card-overlay">
+              <button type="button" class="overlay-close" data-i18n-aria="st.close" aria-label="إغلاق"><svg
+                  class="icon ic-20">
+                  <use href="#i-x" />
+                </svg></button>
+              <a href="#" data-book="recovery" class="overlay-cta"><svg class="icon">
+                  <use href="#i-calendar" />
+                </svg><span data-i18n="sv.book">احجز استشارتك</span></a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== كيف تبدأ ===================== -->
+    <section id="how" class="section">
+      <div class="mx-auto max-w-[1180px] px-5 sm:px-8">
+        <header class="section-head text-center mb-12">
+          <div class="eyebrow-row justify-center inline-flex items-center gap-2 mb-2"><span class="eyebrow-line"></span>
+            <p class="eyebrow" data-i18n="hw.eyebrow">كيف تبدأ؟</p><span class="eyebrow-line"></span>
           </div>
-          <button type="button" class="card-toggle" aria-expanded="false" data-i18n-aria="sv.c2.aria" aria-label="عرض خيار الحجز: دعم التعافي من الإدمان"></button>
-          <div class="card-overlay">
-            <button type="button" class="overlay-close" data-i18n-aria="st.close" aria-label="إغلاق"><svg class="icon ic-20"><use href="#i-x"/></svg></button>
-            <a href="#" data-book="recovery" class="overlay-cta"><svg class="icon"><use href="#i-calendar"/></svg><span data-i18n="sv.book">احجز استشارتك</span></a>
+          <h2 class="section-title text-3xl font-bold" data-i18n="hw.title">ثلاث خطوات بسيطة نحو راحتك</h2>
+        </header>
+        <ol class="steps mt-12 grid gap-6 md:grid-cols-3">
+          <li class="step">
+            <span class="step-num">1</span>
+            <span class="step-icon"><svg class="icon w-8 h-8">
+                <use href="#i-user-plus" />
+              </svg></span>
+            <h3 data-i18n="hw.1.t">أنشئ حسابك</h3>
+            <p data-i18n="hw.1.d">سجّل بياناتك الأساسية في دقائق وبسرية تامة.</p>
+          </li>
+          <li class="step">
+            <span class="step-num">2</span>
+            <span class="step-icon"><svg class="icon w-8 h-8">
+                <use href="#i-search" />
+              </svg></span>
+            <h3 data-i18n="hw.2.t">اختر مختصك</h3>
+            <p data-i18n="hw.2.d">تصفّح المختصين الموثقين واختر من يناسب احتياجاتك.</p>
+          </li>
+          <li class="step">
+            <span class="step-num">3</span>
+            <span class="step-icon"><svg class="icon w-8 h-8">
+                <use href="#i-sprout" />
+              </svg></span>
+            <h3 data-i18n="hw.3.t">ابدأ رحلتك</h3>
+            <p data-i18n="hw.3.d">احجز جلستك عن بُعد وابدأ خطوتك الأولى نحو التعافي.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ===================== المختصون ===================== -->
+    <section id="specialists" class="section section-soft relative overflow-hidden">
+
+      <div class="relative mx-auto max-w-[1280px] px-5 sm:px-8">
+        <header class="section-head">
+          <div class="eyebrow-row"><span class="eyebrow-line"></span>
+            <p class="eyebrow" data-i18n="sp.eyebrow">تعرَّف على المختصين الذين يساندونك</p><span
+              class="eyebrow-line"></span>
           </div>
-        </article>
+          <h2 class="section-title" data-i18n="sp.title">مختصون مؤهلون لدعمك في رحلتك</h2>
+          <p class="lead" data-i18n="sp.desc">اكتشف مختصين مؤهلين في الصحة النفسية ودعم التعافي، واختر من يناسب
+            احتياجاتك:</p>
+        </header>
+
+        <form id="filters" class="filters mt-9" role="search" onsubmit="return false">
+          <label class="filter filter-search">
+            <span class="sr-only" data-i18n="sp.search.l">ابحث عن مختص</span>
+            <input id="searchSpec" type="search" placeholder="ابحث عن مختص..." data-i18n-ph="sp.search"
+              autocomplete="off" />
+            <svg class="icon ic-22">
+              <use href="#i-search" />
+            </svg>
+          </label>
+          <label class="filter filter-select">
+            <span class="sr-only" data-i18n="sp.specialty">التخصص</span>
+            <select id="specialty">
+              <option value="" data-i18n="sp.specialty">التخصص</option>
+              <option value="therapy" data-i18n="sp.opt.therapy">علم النفس العلاجي</option>
+              <option value="recovery" data-i18n="sp.opt.recovery">دعم التعافي من الإدمان</option>
+            </select>
+            <svg class="icon ic-20 chev">
+              <use href="#i-chevron-down" />
+            </svg>
+          </label>
+          <label class="filter filter-select">
+            <span class="sr-only" data-i18n="sp.service">نوع الخدمة</span>
+            <select id="serviceType">
+              <option value="" data-i18n="sp.service">نوع الخدمة</option>
+              <option value="counseling" data-i18n="sv.c1.t">استشارات نفسية</option>
+              <option value="recovery" data-i18n="sv.c2.t">دعم التعافي من الإدمان</option>
+            </select>
+            <svg class="icon ic-20 chev">
+              <use href="#i-chevron-down" />
+            </svg>
+          </label>
+          <div class="filter filter-toggle">
+            <svg class="icon ic-22">
+              <use href="#i-video" />
+            </svg>
+            <span id="remoteLabel" data-i18n="sp.remote">الاستشارات عن بُعد</span>
+            <button id="remoteSwitch" type="button" role="switch" aria-checked="true" aria-labelledby="remoteLabel"
+              class="switch is-on"><span class="knob"></span></button>
+          </div>
+        </form>
+
+        <p id="resultsInfo" class="sr-only" role="status" aria-live="polite"></p>
+        <section id="specialistsGrid" class="specialists-grid mt-8"></section>
+        <nav id="pagination" class="pagination mt-9" dir="ltr"></nav>
+      </div>
+    </section>
+
+    <!-- ===================== عن ملاذ ===================== -->
+    <section id="about" class="section py-16">
+      <div class="mx-auto max-w-[1180px] px-5 sm:px-8 flex flex-col items-center text-center">
+
+        <div class="max-w-3xl flex flex-col items-center">
+          <!-- Eyebrow -->
+          <div class="eyebrow-row justify-center mb-3">
+            <span class="eyebrow-line"></span>
+            <p class="eyebrow" data-i18n="ab.eyebrow">عن ملاذ</p>
+            <span class="eyebrow-line"></span>
+          </div>
+
+          <!-- Title & Description -->
+          <h2 class="section-title text-center" data-i18n="ab.title">مساحة آمنة تبدأ منها رحلتك</h2>
+          <p class="lead mx-auto text-center mt-4" data-i18n="ab.text">
+            ملاذ منصة متخصصة في الاستشارات النفسية ودعم التعافي من الإدمان، نجمع فيها مختصين موثقين وبرامج دعم تساعدك
+            على استعادة توازنك بخصوصية وأمان.
+          </p>
+
+          <!-- Features (Horizontal Layout) -->
+          <ul class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-8 w-full text-center">
+            <!-- Feature 1 -->
+            <li class="value-item flex flex-col items-center">
+              <div class="step-icon mb-3">
+                <svg class="icon">
+                  <use href="#i-shield" />
+                </svg>
+              </div>
+              <h3 data-i18n="ab.v1.t" class="font-bold text-lg mb-1">خصوصية وسرية تامة</h3>
+              <p data-i18n="ab.v1.d" class="text-sm text-gray-600">بياناتك وجلساتك محمية بمعايير أمان عالية.</p>
+            </li>
+
+            <!-- Feature 2 -->
+            <li class="value-item flex flex-col items-center">
+              <div class="step-icon mb-3">
+                <svg class="icon">
+                  <use href="#i-cap" />
+                </svg>
+              </div>
+              <h3 data-i18n="ab.v2.t" class="font-bold text-lg mb-1">مختصون موثقون</h3>
+              <p data-i18n="ab.v2.d" class="text-sm text-gray-600">نخبة من المؤهلين أصحاب الخبرة في الصحة النفسية
+                والتعافي.</p>
+            </li>
+
+            <!-- Feature 3 -->
+            <li class="value-item flex flex-col items-center">
+              <div class="step-icon mb-3">
+                <svg class="icon">
+                  <use href="#i-heart" />
+                </svg>
+              </div>
+              <h3 data-i18n="ab.v3.t" class="font-bold text-lg mb-1">دعم يرافقك دائمًا</h3>
+              <p data-i18n="ab.v3.d" class="text-sm text-gray-600">نساندك في كل خطوة، بتعاطف وبدون أحكام.</p>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===================== دعوة للإجراء (تتداخل مع الفوتر) ===================== -->
+    <section class="cta-wrap relative z-10 px-5 sm:px-8">
+      <div class="cta-card mx-auto max-w-[1100px]">
+        <h2 data-i18n="ct.title">ابدأ رحلتك نحو الأفضل اليوم</h2>
+        <p data-i18n="ct.desc">خطوة واحدة تفصلك عن مساحة آمنة تساندك وتصغي إليك.</p>
+        <div class="mt-7 flex flex-wrap justify-center gap-4">
+          <button type="button" class="btn btn-aqua btn-lg" data-open-auth="register"><svg class="icon">
+              <use href="#i-user-plus" />
+            </svg><span data-i18n="ct.signup">إنشاء حساب</span></button>
+          <a href="#specialists" class="btn btn-ghost btn-lg"><span data-i18n="ct.browse">تصفّح المختصين</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== الفوتر ===================== -->
+  <footer class="site-footer">
+    <div
+      class="mx-auto grid max-w-[1280px] gap-10 px-5 pb-10 pt-44 sm:px-8 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
+      <div>
+        <a href="#home" class="mb-4 flex items-center gap-3">
+          <img src="assets/logo-white.png" alt="ملاذ" class="logo footer-logo h-12 w-auto" />
+          <span class="text-3xl font-bold" style="color:var(--aqua)" data-i18n="brand">ملاذ</span>
+        </a>
+        <p class="footer-text max-w-xs" data-i18n="ft.tagline">مساحتك الآمنة نحو السلام النفسي والتعافي.</p>
+      </div>
+      <div>
+        <h3 class="footer-h" data-i18n="ft.links">روابط سريعة</h3>
+        <ul class="footer-list">
+          <li><a href="#home" data-i18n="n.home">الرئيسية</a></li>
+          <li><a href="#services" data-i18n="n.services">خدماتنا</a></li>
+          <li><a href="#specialists" data-i18n="n.specialists">المختصون</a></li>
+          <li><a href="#about" data-i18n="n.about">عن ملاذ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="footer-h" data-i18n="ft.services">خدماتنا</h3>
+        <ul class="footer-list">
+          <li><a href="#services" data-i18n="sv.c1.t">استشارات نفسية</a></li>
+          <li><a href="#services" data-i18n="sv.c2.t">دعم التعافي من الإدمان</a></li>
+          <li><a href="#" data-open-auth="register" data-i18n="ct.signup">إنشاء حساب</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="footer-h" data-i18n="ft.contact">تواصل معنا</h3>
+        <ul class="footer-list">
+          <li><a href="mailto:info@maladh.example" class="inline-flex items-center gap-2"><svg class="icon ic-20">
+                <use href="#i-mail" />
+              </svg><span dir="ltr">info@maladh.example</span></a></li>
+        </ul>
+        <p class="footer-note mt-4" data-i18n="ft.emergency">ملاذ ليست خدمة طوارئ. في الحالات الطارئة تواصل مع أقرب جهة
+          طوارئ في بلدك.</p>
       </div>
     </div>
-  </section>
+    <div class="footer-bottom">
+      <div class="mx-auto flex max-w-[1280px] flex-wrap items-center justify-between gap-3 px-5 py-5 sm:px-8">
+        <p data-i18n="ft.rights">© 2026 ملاذ. جميع الحقوق محفوظة.</p>
+        <p class="flex items-center gap-2"><svg class="icon ic-18">
+            <use href="#i-shield" />
+          </svg><span data-i18n="ft.privacy">خصوصيتك وأمانك أولويتنا</span></p>
+      </div>
+    </div>
+  </footer>
 
-  <!-- ===================== كيف تبدأ ===================== -->
-  <section id="how" class="section">
-  <div class="mx-auto max-w-[1180px] px-5 sm:px-8">
-    <header class="section-head text-center mb-12">
-      <div class="eyebrow-row justify-center inline-flex items-center gap-2 mb-2"><span class="eyebrow-line"></span><p class="eyebrow" data-i18n="hw.eyebrow">كيف تبدأ؟</p><span class="eyebrow-line"></span></div>
-      <h2 class="section-title text-3xl font-bold" data-i18n="hw.title">ثلاث خطوات بسيطة نحو راحتك</h2>
-    </header>
-    <ol class="steps mt-12 grid gap-6 md:grid-cols-3">
-      <li class="step">
-        <span class="step-num">1</span>
-        <span class="step-icon"><svg class="icon w-8 h-8"><use href="#i-user-plus"/></svg></span>
-        <h3 data-i18n="hw.1.t">أنشئ حسابك</h3>
-        <p data-i18n="hw.1.d">سجّل بياناتك الأساسية في دقائق وبسرية تامة.</p>
-      </li>
-      <li class="step">
-        <span class="step-num">2</span>
-        <span class="step-icon"><svg class="icon w-8 h-8"><use href="#i-search"/></svg></span>
-        <h3 data-i18n="hw.2.t">اختر مختصك</h3>
-        <p data-i18n="hw.2.d">تصفّح المختصين الموثقين واختر من يناسب احتياجاتك.</p>
-      </li>
-      <li class="step">
-        <span class="step-num">3</span>
-        <span class="step-icon"><svg class="icon w-8 h-8"><use href="#i-sprout"/></svg></span>
-        <h3 data-i18n="hw.3.t">ابدأ رحلتك</h3>
-        <p data-i18n="hw.3.d">احجز جلستك عن بُعد وابدأ خطوتك الأولى نحو التعافي.</p>
-      </li>
-    </ol>
-  </div>
-</section>
+  <button id="toTop" class="to-top" data-i18n-aria="ft.top" aria-label="العودة للأعلى"><svg class="icon">
+      <use href="#i-arrow-up" />
+    </svg></button>
 
-  <!-- ===================== المختصون ===================== -->
-  <section id="specialists" class="section section-soft relative overflow-hidden">
-  
-    <div class="relative mx-auto max-w-[1280px] px-5 sm:px-8">
-      <header class="section-head">
-        <div class="eyebrow-row"><span class="eyebrow-line"></span><p class="eyebrow" data-i18n="sp.eyebrow">تعرَّف على المختصين الذين يساندونك</p><span class="eyebrow-line"></span></div>
-        <h2 class="section-title" data-i18n="sp.title">مختصون مؤهلون لدعمك في رحلتك</h2>
-        <p class="lead" data-i18n="sp.desc">اكتشف مختصين مؤهلين في الصحة النفسية ودعم التعافي، واختر من يناسب احتياجاتك:</p>
-      </header>
+  <!-- ===================== نافذة تسجيل الدخول / إنشاء حساب ===================== -->
+  <dialog id="authDialog" class="auth-dialog" aria-labelledby="authTitle">
+    <div class="auth-card">
+      <button type="button" class="icon-btn icon-btn-sm auth-close" id="authClose" data-i18n-aria="st.close"
+        aria-label="إغلاق"><svg class="icon ic-20">
+          <use href="#i-x" />
+        </svg></button>
 
-      <form id="filters" class="filters mt-9" role="search" onsubmit="return false">
-        <label class="filter filter-search">
-          <span class="sr-only" data-i18n="sp.search.l">ابحث عن مختص</span>
-          <input id="searchSpec" type="search" placeholder="ابحث عن مختص..." data-i18n-ph="sp.search" autocomplete="off" />
-          <svg class="icon ic-22"><use href="#i-search"/></svg>
-        </label>
-        <label class="filter filter-select">
-          <span class="sr-only" data-i18n="sp.specialty">التخصص</span>
-          <select id="specialty">
-            <option value="" data-i18n="sp.specialty">التخصص</option>
-            <option value="therapy" data-i18n="sp.opt.therapy">علم النفس العلاجي</option>
-            <option value="recovery" data-i18n="sp.opt.recovery">دعم التعافي من الإدمان</option>
-          </select>
-          <svg class="icon ic-20 chev"><use href="#i-chevron-down"/></svg>
-        </label>
-        <label class="filter filter-select">
-          <span class="sr-only" data-i18n="sp.service" >نوع الخدمة</span>
-          <select id="serviceType">
-            <option value="" data-i18n="sp.service">نوع الخدمة</option>
-            <option value="counseling" data-i18n="sv.c1.t">استشارات نفسية</option>
-            <option value="recovery" data-i18n="sv.c2.t">دعم التعافي من الإدمان</option>
-          </select>
-          <svg class="icon ic-20 chev"><use href="#i-chevron-down"/></svg>
-        </label>
-        <div class="filter filter-toggle">
-          <svg class="icon ic-22"><use href="#i-video"/></svg>
-          <span id="remoteLabel" data-i18n="sp.remote">الاستشارات عن بُعد</span>
-          <button id="remoteSwitch" type="button" role="switch" aria-checked="true" aria-labelledby="remoteLabel" class="switch is-on"><span class="knob"></span></button>
+      <div class="mb-5 text-center">
+        <img src="assets/logo.png" alt="" class="logo mx-auto mb-3 h-12 w-auto" />
+        <h2 id="authTitle" class="text-2xl font-extrabold"></h2>
+        <p id="authSub" class="mt-1 text-sm t-body"></p>
+      </div>
+
+      <p id="authNotice" class="auth-notice" hidden data-i18n="a.notice">سجّل الدخول أو أنشئ حسابًا لحجز استشارتك.</p>
+
+      <div class="seg seg-full mb-6" role="tablist">
+        <button type="button" class="seg-btn" role="tab" data-auth-tab="login" data-i18n="a.login">تسجيل الدخول</button>
+        <button type="button" class="seg-btn" role="tab" data-auth-tab="register" data-i18n="a.register">إنشاء
+          حساب</button>
+      </div>
+
+      <!-- تسجيل الدخول -->
+      <form id="loginForm" novalidate data-form="login">
+        <div class="field">
+          <label for="l-id" data-i18n="a.identifier">اسم المستخدم أو البريد الإلكتروني</label>
+          <div class="input-wrap"><svg class="icon ic-20">
+              <use href="#i-user" />
+            </svg>
+            <input id="l-id" name="identifier" data-rule="identifier" autocomplete="username"
+              aria-describedby="l-id-err" />
+          </div>
+          <p class="field-error" id="l-id-err" role="alert"></p>
         </div>
+        <div class="field">
+          <label for="l-pass" data-i18n="a.password">كلمة المرور</label>
+          <div class="input-wrap"><svg class="icon ic-20">
+              <use href="#i-lock" />
+            </svg>
+            <input id="l-pass" name="password" type="password" data-rule="required" autocomplete="current-password"
+              aria-describedby="l-pass-err" />
+            <button type="button" class="eye" data-eye data-i18n-aria="a.show" aria-label="إظهار كلمة المرور"><svg
+                class="icon ic-20">
+                <use href="#i-eye" />
+              </svg></button>
+          </div>
+          <p class="field-error" id="l-pass-err" role="alert"></p>
+        </div>
+        <div class="mb-5 text-end"><a href="#" id="forgotLink" class="link text-sm" data-i18n="a.forgot">نسيت كلمة
+            المرور؟</a></div>
+        <button type="submit" class="btn btn-solid btn-lg w-full" data-i18n="a.submit.login">تسجيل الدخول</button>
+        <p class="mt-5 text-center text-sm t-body"><span data-i18n="a.noacc">ليس لديك حساب؟</span> <button type="button"
+            class="link font-semibold" data-auth-tab="register" data-i18n="a.register">إنشاء حساب</button></p>
       </form>
 
-      <p id="resultsInfo" class="sr-only" role="status" aria-live="polite"></p>
-      <section id="specialistsGrid" class="specialists-grid mt-8"></section>
-      <nav id="pagination" class="pagination mt-9" dir="ltr"></nav>
-    </div>
-  </section>
-
-  <!-- ===================== عن ملاذ ===================== -->
-  <section id="about" class="section py-16">
-  <div class="mx-auto max-w-[1180px] px-5 sm:px-8 flex flex-col items-center text-center">
-    
-    <div class="max-w-3xl flex flex-col items-center">
-      <!-- Eyebrow -->
-      <div class="eyebrow-row justify-center mb-3">
-        <span class="eyebrow-line"></span>
-        <p class="eyebrow" data-i18n="ab.eyebrow">عن ملاذ</p>
-        <span class="eyebrow-line"></span>
-      </div>
-
-      <!-- Title & Description -->
-      <h2 class="section-title text-center" data-i18n="ab.title">مساحة آمنة تبدأ منها رحلتك</h2>
-      <p class="lead mx-auto text-center mt-4" data-i18n="ab.text">
-        ملاذ منصة متخصصة في الاستشارات النفسية ودعم التعافي من الإدمان، نجمع فيها مختصين موثقين وبرامج دعم تساعدك على استعادة توازنك بخصوصية وأمان.
-      </p>
-
-      <!-- Features (Horizontal Layout) -->
-      <ul class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-8 w-full text-center">
-        <!-- Feature 1 -->
-        <li class="value-item flex flex-col items-center">
-          <div class="step-icon mb-3">
-            <svg class="icon"><use href="#i-shield"/></svg>
+      <!-- إنشاء حساب: اسم المستخدم، البريد، العمر، كلمة المرور، تأكيد كلمة المرور -->
+      <form id="registerForm" novalidate data-form="register" hidden>
+        <div class="field">
+          <label for="r-username" data-i18n="a.username">اسم المستخدم</label>
+          <div class="input-wrap"><svg class="icon ic-20">
+              <use href="#i-user" />
+            </svg>
+            <input id="r-username" name="username" data-rule="username" autocomplete="username"
+              aria-describedby="r-username-err" />
           </div>
-          <h3 data-i18n="ab.v1.t" class="font-bold text-lg mb-1">خصوصية وسرية تامة</h3>
-          <p data-i18n="ab.v1.d" class="text-sm text-gray-600">بياناتك وجلساتك محمية بمعايير أمان عالية.</p>
-        </li>
-
-        <!-- Feature 2 -->
-        <li class="value-item flex flex-col items-center">
-          <div class="step-icon mb-3">
-            <svg class="icon"><use href="#i-cap"/></svg>
+          <p class="field-error" id="r-username-err" role="alert"></p>
+        </div>
+        <div class="field">
+          <label for="r-email" data-i18n="a.email">البريد الإلكتروني</label>
+          <div class="input-wrap"><svg class="icon ic-20">
+              <use href="#i-mail" />
+            </svg>
+            <input id="r-email" name="email" type="email" dir="ltr" data-rule="email" autocomplete="email"
+              placeholder="name@example.com" aria-describedby="r-email-err" />
           </div>
-          <h3 data-i18n="ab.v2.t" class="font-bold text-lg mb-1">مختصون موثقون</h3>
-          <p data-i18n="ab.v2.d" class="text-sm text-gray-600">نخبة من المؤهلين أصحاب الخبرة في الصحة النفسية والتعافي.</p>
-        </li>
-
-        <!-- Feature 3 -->
-        <li class="value-item flex flex-col items-center">
-          <div class="step-icon mb-3">
-            <svg class="icon"><use href="#i-heart"/></svg>
+          <p class="field-error" id="r-email-err" role="alert"></p>
+        </div>
+        <div class="field">
+          <label for="r-age" data-i18n="a.age">العمر</label>
+          <div class="input-wrap"><svg class="icon ic-20">
+              <use href="#i-calendar" />
+            </svg>
+            <input id="r-age" name="age" type="number" inputmode="numeric" min="16" max="100" data-rule="age"
+              aria-describedby="r-age-err" />
           </div>
-          <h3 data-i18n="ab.v3.t" class="font-bold text-lg mb-1">دعم يرافقك دائمًا</h3>
-          <p data-i18n="ab.v3.d" class="text-sm text-gray-600">نساندك في كل خطوة، بتعاطف وبدون أحكام.</p>
-        </li>
-      </ul>
+          <p class="field-error" id="r-age-err" role="alert"></p>
+        </div>
+        <div class="field">
+          <label for="r-pass" data-i18n="a.password">كلمة المرور</label>
+          <div class="input-wrap"><svg class="icon ic-20">
+              <use href="#i-lock" />
+            </svg>
+            <input id="r-pass" name="password" type="password" data-rule="password" autocomplete="new-password"
+              aria-describedby="r-pass-err r-strength" />
+            <button type="button" class="eye" data-eye data-i18n-aria="a.show" aria-label="إظهار كلمة المرور"><svg
+                class="icon ic-20">
+                <use href="#i-eye" />
+              </svg></button>
+          </div>
+          <div class="strength" id="strength" data-score="0" aria-hidden="true"><i></i><i></i><i></i></div>
+          <p class="field-hint" id="r-strength"></p>
+          <p class="field-error" id="r-pass-err" role="alert"></p>
+        </div>
+        <div class="field">
+          <label for="r-confirm" data-i18n="a.confirm">تأكيد كلمة المرور</label>
+          <div class="input-wrap"><svg class="icon ic-20">
+              <use href="#i-lock" />
+            </svg>
+            <input id="r-confirm" name="confirm" type="password" data-rule="confirm" autocomplete="new-password"
+              aria-describedby="r-confirm-err" />
+            <button type="button" class="eye" data-eye data-i18n-aria="a.show" aria-label="إظهار كلمة المرور"><svg
+                class="icon ic-20">
+                <use href="#i-eye" />
+              </svg></button>
+          </div>
+          <p class="field-error" id="r-confirm-err" role="alert"></p>
+        </div>
+        <div class="field">
+          <label class="check"><input type="checkbox" name="terms" data-rule="terms" /><span data-i18n="a.terms">أوافق
+              على الشروط وسياسة الخصوصية</span></label>
+          <p class="field-error" id="r-terms-err" role="alert"></p>
+        </div>
+        <button type="submit" class="btn btn-solid btn-lg w-full" data-i18n="a.submit.register">إنشاء الحساب</button>
+        <p class="mt-5 text-center text-sm t-body"><span data-i18n="a.haveacc">لديك حساب بالفعل؟</span> <button
+            type="button" class="link font-semibold" data-auth-tab="login" data-i18n="a.login">تسجيل الدخول</button></p>
+      </form>
     </div>
+  </dialog>
 
-  </div>
-</section>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-  <!-- ===================== دعوة للإجراء (تتداخل مع الفوتر) ===================== -->
-  <section class="cta-wrap relative z-10 px-5 sm:px-8">
-    <div class="cta-card mx-auto max-w-[1100px]">
-      <h2 data-i18n="ct.title">ابدأ رحلتك نحو الأفضل اليوم</h2>
-      <p data-i18n="ct.desc">خطوة واحدة تفصلك عن مساحة آمنة تساندك وتصغي إليك.</p>
-      <div class="mt-7 flex flex-wrap justify-center gap-4">
-        <button type="button" class="btn btn-aqua btn-lg" data-open-auth="register"><svg class="icon"><use href="#i-user-plus"/></svg><span data-i18n="ct.signup">إنشاء حساب</span></button>
-        <a href="#specialists" class="btn btn-ghost btn-lg"><span data-i18n="ct.browse">تصفّح المختصين</span></a>
-      </div>
-    </div>
-  </section>
-</main>
-
-<!-- ===================== الفوتر ===================== -->
-<footer class="site-footer">
-  <div class="mx-auto grid max-w-[1280px] gap-10 px-5 pb-10 pt-44 sm:px-8 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
-    <div>
-      <a href="#home" class="mb-4 flex items-center gap-3">
-        <img src="assets/logo-white.png" alt="ملاذ" class="logo footer-logo h-12 w-auto" />
-        <span class="text-3xl font-bold" style="color:var(--aqua)" data-i18n="brand">ملاذ</span>
-      </a>
-      <p class="footer-text max-w-xs" data-i18n="ft.tagline">مساحتك الآمنة نحو السلام النفسي والتعافي.</p>
-    </div>
-    <div>
-      <h3 class="footer-h" data-i18n="ft.links">روابط سريعة</h3>
-      <ul class="footer-list">
-        <li><a href="#home" data-i18n="n.home">الرئيسية</a></li>
-        <li><a href="#services" data-i18n="n.services">خدماتنا</a></li>
-        <li><a href="#specialists" data-i18n="n.specialists">المختصون</a></li>
-        <li><a href="#about" data-i18n="n.about">عن ملاذ</a></li>
-      </ul>
-    </div>
-    <div>
-      <h3 class="footer-h" data-i18n="ft.services">خدماتنا</h3>
-      <ul class="footer-list">
-        <li><a href="#services" data-i18n="sv.c1.t">استشارات نفسية</a></li>
-        <li><a href="#services" data-i18n="sv.c2.t">دعم التعافي من الإدمان</a></li>
-        <li><a href="#" data-open-auth="register" data-i18n="ct.signup">إنشاء حساب</a></li>
-      </ul>
-    </div>
-    <div>
-      <h3 class="footer-h" data-i18n="ft.contact">تواصل معنا</h3>
-      <ul class="footer-list">
-        <li><a href="mailto:info@maladh.example" class="inline-flex items-center gap-2"><svg class="icon ic-20"><use href="#i-mail"/></svg><span dir="ltr">info@maladh.example</span></a></li>
-      </ul>
-      <p class="footer-note mt-4" data-i18n="ft.emergency">ملاذ ليست خدمة طوارئ. في الحالات الطارئة تواصل مع أقرب جهة طوارئ في بلدك.</p>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <div class="mx-auto flex max-w-[1280px] flex-wrap items-center justify-between gap-3 px-5 py-5 sm:px-8">
-      <p data-i18n="ft.rights">© 2026 ملاذ. جميع الحقوق محفوظة.</p>
-      <p class="flex items-center gap-2"><svg class="icon ic-18"><use href="#i-shield"/></svg><span data-i18n="ft.privacy">خصوصيتك وأمانك أولويتنا</span></p>
-    </div>
-  </div>
-</footer>
-
-<button id="toTop" class="to-top" data-i18n-aria="ft.top" aria-label="العودة للأعلى"><svg class="icon"><use href="#i-arrow-up"/></svg></button>
-
-<!-- ===================== نافذة تسجيل الدخول / إنشاء حساب ===================== -->
-<dialog id="authDialog" class="auth-dialog" aria-labelledby="authTitle">
-  <div class="auth-card">
-    <button type="button" class="icon-btn icon-btn-sm auth-close" id="authClose" data-i18n-aria="st.close" aria-label="إغلاق"><svg class="icon ic-20"><use href="#i-x"/></svg></button>
-
-    <div class="mb-5 text-center">
-      <img src="assets/logo.png" alt="" class="logo mx-auto mb-3 h-12 w-auto" />
-      <h2 id="authTitle" class="text-2xl font-extrabold"></h2>
-      <p id="authSub" class="mt-1 text-sm t-body"></p>
-    </div>
-
-    <p id="authNotice" class="auth-notice" hidden data-i18n="a.notice">سجّل الدخول أو أنشئ حسابًا لحجز استشارتك.</p>
-
-    <div class="seg seg-full mb-6" role="tablist">
-      <button type="button" class="seg-btn" role="tab" data-auth-tab="login" data-i18n="a.login">تسجيل الدخول</button>
-      <button type="button" class="seg-btn" role="tab" data-auth-tab="register" data-i18n="a.register">إنشاء حساب</button>
-    </div>
-
-    <!-- تسجيل الدخول -->
-    <form id="loginForm" novalidate data-form="login">
-      <div class="field">
-        <label for="l-id" data-i18n="a.identifier">اسم المستخدم أو البريد الإلكتروني</label>
-        <div class="input-wrap"><svg class="icon ic-20"><use href="#i-user"/></svg>
-          <input id="l-id" name="identifier" data-rule="identifier" autocomplete="username" aria-describedby="l-id-err" /></div>
-        <p class="field-error" id="l-id-err" role="alert"></p>
-      </div>
-      <div class="field">
-        <label for="l-pass" data-i18n="a.password">كلمة المرور</label>
-        <div class="input-wrap"><svg class="icon ic-20"><use href="#i-lock"/></svg>
-          <input id="l-pass" name="password" type="password" data-rule="required" autocomplete="current-password" aria-describedby="l-pass-err" />
-          <button type="button" class="eye" data-eye data-i18n-aria="a.show" aria-label="إظهار كلمة المرور"><svg class="icon ic-20"><use href="#i-eye"/></svg></button></div>
-        <p class="field-error" id="l-pass-err" role="alert"></p>
-      </div>
-      <div class="mb-5 text-end"><a href="#" id="forgotLink" class="link text-sm" data-i18n="a.forgot">نسيت كلمة المرور؟</a></div>
-      <button type="submit" class="btn btn-solid btn-lg w-full" data-i18n="a.submit.login">تسجيل الدخول</button>
-      <p class="mt-5 text-center text-sm t-body"><span data-i18n="a.noacc">ليس لديك حساب؟</span> <button type="button" class="link font-semibold" data-auth-tab="register" data-i18n="a.register">إنشاء حساب</button></p>
-    </form>
-
-    <!-- إنشاء حساب: اسم المستخدم، البريد، العمر، كلمة المرور، تأكيد كلمة المرور -->
-    <form id="registerForm" novalidate data-form="register" hidden>
-      <div class="field">
-        <label for="r-username" data-i18n="a.username">اسم المستخدم</label>
-        <div class="input-wrap"><svg class="icon ic-20"><use href="#i-user"/></svg>
-          <input id="r-username" name="username" data-rule="username" autocomplete="username" aria-describedby="r-username-err" /></div>
-        <p class="field-error" id="r-username-err" role="alert"></p>
-      </div>
-      <div class="field">
-        <label for="r-email" data-i18n="a.email">البريد الإلكتروني</label>
-        <div class="input-wrap"><svg class="icon ic-20"><use href="#i-mail"/></svg>
-          <input id="r-email" name="email" type="email" dir="ltr" data-rule="email" autocomplete="email" placeholder="name@example.com" aria-describedby="r-email-err" /></div>
-        <p class="field-error" id="r-email-err" role="alert"></p>
-      </div>
-      <div class="field">
-        <label for="r-age" data-i18n="a.age">العمر</label>
-        <div class="input-wrap"><svg class="icon ic-20"><use href="#i-calendar"/></svg>
-          <input id="r-age" name="age" type="number" inputmode="numeric" min="16" max="100" data-rule="age" aria-describedby="r-age-err" /></div>
-        <p class="field-error" id="r-age-err" role="alert"></p>
-      </div>
-      <div class="field">
-        <label for="r-pass" data-i18n="a.password">كلمة المرور</label>
-        <div class="input-wrap"><svg class="icon ic-20"><use href="#i-lock"/></svg>
-          <input id="r-pass" name="password" type="password" data-rule="password" autocomplete="new-password" aria-describedby="r-pass-err r-strength" />
-          <button type="button" class="eye" data-eye data-i18n-aria="a.show" aria-label="إظهار كلمة المرور"><svg class="icon ic-20"><use href="#i-eye"/></svg></button></div>
-        <div class="strength" id="strength" data-score="0" aria-hidden="true"><i></i><i></i><i></i></div>
-        <p class="field-hint" id="r-strength"></p>
-        <p class="field-error" id="r-pass-err" role="alert"></p>
-      </div>
-      <div class="field">
-        <label for="r-confirm" data-i18n="a.confirm">تأكيد كلمة المرور</label>
-        <div class="input-wrap"><svg class="icon ic-20"><use href="#i-lock"/></svg>
-          <input id="r-confirm" name="confirm" type="password" data-rule="confirm" autocomplete="new-password" aria-describedby="r-confirm-err" />
-          <button type="button" class="eye" data-eye data-i18n-aria="a.show" aria-label="إظهار كلمة المرور"><svg class="icon ic-20"><use href="#i-eye"/></svg></button></div>
-        <p class="field-error" id="r-confirm-err" role="alert"></p>
-      </div>
-      <div class="field">
-        <label class="check"><input type="checkbox" name="terms" data-rule="terms" /><span data-i18n="a.terms">أوافق على الشروط وسياسة الخصوصية</span></label>
-        <p class="field-error" id="r-terms-err" role="alert"></p>
-      </div>
-      <button type="submit" class="btn btn-solid btn-lg w-full" data-i18n="a.submit.register">إنشاء الحساب</button>
-      <p class="mt-5 text-center text-sm t-body"><span data-i18n="a.haveacc">لديك حساب بالفعل؟</span> <button type="button" class="link font-semibold" data-auth-tab="login" data-i18n="a.login">تسجيل الدخول</button></p>
-    </form>
-  </div>
-</dialog>
-
-<div id="toast" class="toast" role="status" aria-live="polite"></div>
-
-<script src="js/i18n.js"></script>
-<script src="js/ui.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/services.js"></script>
-<script src="js/specialists.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/services.js"></script>
+  <script src="js/specialists.js"></script>
 </body>
+
 </html>

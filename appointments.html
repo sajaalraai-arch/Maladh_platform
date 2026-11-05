@@ -1,14 +1,523 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="refresh" content="0; url=dashboard.html#appointments" />
-  <title>ملاذ | مواعيدي</title>
-  <script>window.location.replace('dashboard.html#appointments');</script>
-</head>
-<body style="font-family:Cairo,sans-serif;text-align:center;padding:50px;background:#F0F6FC;color:#0F2743;">
-  <p>جارِ توجيهك إلى صفحة مواعيدي في منصة ملاذ...</p>
-  <p><a href="dashboard.html#appointments" style="color:#1965B3;font-weight:bold;">اضغط هنا للانتقال مباشرة</a></p>
-</body>
-</html>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ملاذ | مواعيدي واستشاراتي</title>
 
+  <!-- تطبيق التفضيلات المحفوظة قبل الرسم لتجنب الوميض -->
+  <script>
+    (function () {
+      try {
+        var p = JSON.parse(localStorage.getItem('maladh:prefs') || '{}'), d = document.documentElement;
+        d.dataset.theme = p.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        if (p.font) d.dataset.font = p.font;
+        if (p.reduce) d.classList.add('reduce-motion');
+      } catch (e) { }
+    })();
+  </script>
+
+  <!-- الخط العربي الرسمي: Cairo -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS للخصائص المساعدة -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { cairo: ['Cairo', 'Tajawal', 'sans-serif'] },
+          colors: {
+            navy: '#0F2743',
+            primary: '#1965B3',
+            aqua: '#6DE7F7',
+            sky: '#41BCE6',
+            calm: '#75A2B9',
+            mist: '#F0F6FC'
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- التنسيقات الأساسية لمنصة ملاذ -->
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- تنسيقات لوحة المستفيد -->
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+
+<body class="font-cairo antialiased">
+
+  <!-- ===================== مكتبة الأيقونات الموحدة (SVG Sprites) ===================== -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="i-home" viewBox="0 0 24 24">
+      <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+      <polyline points="9 22 9 12 15 12 15 22" />
+    </symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24">
+      <rect x="3" y="4" width="18" height="18" rx="2" />
+      <path d="M16 2v4M8 2v4M3 10h18" />
+    </symbol>
+    <symbol id="i-sprout" viewBox="0 0 24 24">
+      <path d="M7 20h10" />
+      <path d="M10 20c5.5-2.5.8-6.4 3-10" />
+      <path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z" />
+      <path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z" />
+    </symbol>
+    <symbol id="i-message-square" viewBox="0 0 24 24">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+    </symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24">
+      <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+      <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+    </symbol>
+    <symbol id="i-user" viewBox="0 0 24 24">
+      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+      <circle cx="12" cy="7" r="4" />
+    </symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24">
+      <path
+        d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+      <circle cx="12" cy="12" r="3" />
+    </symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24">
+      <path
+        d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+      <path d="m9 12 2 2 4-4" />
+    </symbol>
+    <symbol id="i-video" viewBox="0 0 24 24">
+      <path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5" />
+      <rect x="2" y="6" width="14" height="12" rx="2" />
+    </symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24">
+      <path
+        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+    </symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10" />
+      <polyline points="12 6 12 12 16 14" />
+    </symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="4" />
+      <path
+        d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+    </symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24">
+      <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+    </symbol>
+    <symbol id="i-logout" viewBox="0 0 24 24">
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+      <path d="m16 17 5-5-5-5" />
+      <path d="M21 12H9" />
+    </symbol>
+    <symbol id="i-x" viewBox="0 0 24 24">
+      <path d="M18 6 6 18M6 6l12 12" />
+    </symbol>
+    <symbol id="i-check" viewBox="0 0 24 24">
+      <path d="M20 6 9 17l-5-5" />
+    </symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24">
+      <path d="M4 6h16M4 12h16M4 18h16" />
+    </symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24">
+      <polyline points="3 6 5 6 21 6" />
+      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+    </symbol>
+    <symbol id="i-languages" viewBox="0 0 24 24">
+      <path d="m5 8 6 6" />
+      <path d="m4 14 6-6 2-3" />
+      <path d="M2 5h12" />
+      <path d="M7 2h1" />
+      <path d="m22 22-5-10-5 10" />
+      <path d="M14 18h6" />
+    </symbol>
+    <symbol id="i-type" viewBox="0 0 24 24">
+      <path d="M4 7V4h16v3" />
+      <path d="M9 20h6" />
+      <path d="M12 4v16" />
+    </symbol>
+  </svg>
+
+  <div class="dash-layout">
+
+    <!-- ===================== النافبار العلوي الموحد ===================== -->
+    <header class="site-header" id="siteHeader">
+      <nav
+        class="navbar mx-auto flex max-w-[1400px] items-center justify-between gap-3 rounded-full px-4 py-2.5 sm:px-8"
+        aria-label="التنقل الرئيسي">
+
+        <!-- الشعار الرئيسي لمنصة ملاذ -->
+        <a href="dashboard.html" class="flex items-center gap-2" data-nav="home">
+          <img src="assets/logo.png" alt="شعار ملاذ" class="logo h-9 w-auto" />
+          <span class="text-2xl font-bold" style="color:var(--primary)">ملاذ</span>
+        </a>
+
+        <!-- عناوين التنقل الرئيسية للمستفيد -->
+        <ul class="hidden items-center gap-6 lg:gap-8 text-[15px] lg:text-[16px] font-medium lg:flex">
+          <li><a href="dashboard.html" class="nav-link" data-nav="home">الرئيسية</a></li>
+          <li><a href="dashboard.html#consultations" class="nav-link" data-nav="consultations">الاستشارات النفسية</a></li>
+          <li><a href="dashboard.html#recovery" class="nav-link" data-nav="recovery">رحلة التعافي</a></li>
+          <li><a href="appointments.html" class="nav-link is-active" data-nav="appointments">مواعيدي</a></li>
+          <li><a href="support.html" class="nav-link" data-nav="support">الدعم الخاص</a></li>
+        </ul>
+
+        <!-- أيقونات التحكم وزر المستخدم -->
+        <div class="flex items-center gap-1.5 sm:gap-2.5">
+
+          <!-- زر الإشعارات -->
+          <button id="notifBtn" class="icon-btn relative" data-panel-btn="notif" aria-expanded="false"
+            aria-controls="notifCard" aria-label="الإشعارات" title="الإشعارات">
+            <svg class="icon">
+              <use href="#i-bell" />
+            </svg>
+            <span id="headerNotifBadge"
+              class="absolute top-1.5 inset-inline-end-1.5 w-4 h-4 rounded-full bg-rose-500 text-white text-[10px] font-bold grid place-items-center">2</span>
+          </button>
+
+          <!-- زر الإعدادات -->
+          <button id="settingsBtn" class="icon-btn" data-panel-btn="settings" aria-expanded="false"
+            aria-controls="settingsCard" aria-label="الإعدادات" title="الإعدادات">
+            <svg class="icon">
+              <use href="#i-settings" />
+            </svg>
+          </button>
+
+          <span class="brand-sep hidden sm:block"></span>
+
+          <!-- زر أيقونة المستخدم -->
+          <button id="userProfileBtn" class="btn btn-solid btn-sm" data-nav="profile" aria-label="الملف الشخصي"
+            title="الانتقال إلى الملف الشخصي">
+            <svg class="icon ic-18">
+              <use href="#i-user" />
+            </svg>
+            <span id="dashUserBadge">عبد الرحمن</span>
+          </button>
+
+          <!-- زر القائمة للأجهزة الصغيرة والمتوسطة -->
+          <button id="menuBtn" class="icon-btn lg:hidden" data-panel-btn="menu" aria-expanded="false"
+            aria-controls="mobileMenu" aria-label="القائمة">
+            <svg class="icon" id="menuIcon">
+              <use href="#i-menu" />
+            </svg>
+          </button>
+        </div>
+      </nav>
+
+      <!-- القائمة المنسدلة للشاشات الصغيرة والمتوسطة (Mobile Menu) -->
+      <div id="mobileMenu" class="drop panel mx-auto mt-3 max-w-[1400px] rounded-2xl p-3 lg:hidden">
+        <ul class="flex flex-col text-base font-medium">
+          <li><a href="dashboard.html" class="mobile-link" data-nav="home">الرئيسية</a></li>
+          <li><a href="dashboard.html#consultations" class="mobile-link" data-nav="consultations">الاستشارات النفسية</a></li>
+          <li><a href="dashboard.html#recovery" class="mobile-link" data-nav="recovery">رحلة التعافي</a></li>
+          <li><a href="appointments.html" class="mobile-link is-active" data-nav="appointments">مواعيدي</a></li>
+          <li><a href="support.html" class="mobile-link" data-nav="support">الدعم الخاص</a></li>
+          <li><a href="dashboard.html#profile" class="mobile-link" data-nav="profile">الملف الشخصي</a></li>
+          <li class="pt-2 mt-2 border-t border-line">
+            <button class="mobile-link w-full text-start text-rose-500 font-bold flex items-center gap-2"
+              data-dash-logout>
+              <svg class="icon ic-18">
+                <use href="#i-logout" />
+              </svg>
+              <span>تسجيل الخروج</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </header>
+
+    <!-- ===== بطاقة الإعدادات ===== -->
+    <div id="settingsCard" class="pop settings-card" role="dialog" aria-labelledby="stTitle">
+      <div class="mb-4 flex items-center justify-between">
+        <h2 id="stTitle" class="text-lg font-bold">الإعدادات</h2>
+        <button class="icon-btn icon-btn-sm" data-close-panel aria-label="إغلاق"><svg class="icon ic-20">
+            <use href="#i-x" />
+          </svg></button>
+      </div>
+
+      <div class="set-row">
+        <p class="set-label"><svg class="icon ic-20">
+            <use href="#i-languages" />
+          </svg><span>اللغة</span></p>
+        <div class="seg" role="group">
+          <button class="seg-btn" data-set-lang="ar" aria-pressed="true">العربية</button>
+          <button class="seg-btn" data-set-lang="en" aria-pressed="false">English</button>
+        </div>
+      </div>
+
+      <!-- خاصية الوضع الداكن / الفاتح -->
+      <div class="set-row">
+        <p class="set-label"><svg class="icon ic-20" id="themeLabelIcon">
+            <use href="#i-sun" />
+          </svg><span>المظهر</span></p>
+        <div class="seg" role="group">
+          <button class="seg-btn" data-set-theme="light" aria-pressed="true"><svg class="icon ic-18">
+              <use href="#i-sun" />
+            </svg><span>فاتح</span></button>
+          <button class="seg-btn" data-set-theme="dark" aria-pressed="false"><svg class="icon ic-18">
+              <use href="#i-moon" />
+            </svg><span>داكن</span></button>
+        </div>
+      </div>
+
+      <div class="set-row">
+        <p class="set-label"><svg class="icon ic-20">
+            <use href="#i-type" />
+          </svg><span>حجم الخط</span></p>
+        <div class="seg" role="group">
+          <button class="seg-btn" data-set-font="small" aria-pressed="false">صغير</button>
+          <button class="seg-btn" data-set-font="normal" aria-pressed="true">عادي</button>
+          <button class="seg-btn" data-set-font="large" aria-pressed="false">كبير</button>
+        </div>
+      </div>
+
+      <!-- خاصية تسجيل الخروج -->
+      <div class="set-row pt-3">
+        <button id="logoutBtn"
+          class="btn btn-outline btn-sm w-full text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/40 border-rose-200 dark:border-rose-900 flex items-center justify-center gap-2 font-bold"
+          data-dash-logout>
+          <svg class="icon ic-18 text-rose-500">
+            <use href="#i-logout" />
+          </svg>
+          <span>تسجيل الخروج</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ===== بطاقة الإشعارات المنبثقة بالجافاسكربت ===== -->
+    <div id="notifCard" class="pop notif-card" role="dialog" aria-labelledby="notifTitle">
+      <div class="mb-3 flex items-center justify-between pb-2 border-b border-line">
+        <div class="flex items-center gap-2">
+          <h2 id="notifTitle" class="text-base font-bold">الإشعارات</h2>
+          <span id="popNotifCount" class="badge"
+            style="background:var(--chip-bg);color:var(--chip-fg);font-size:.75rem">2 جديدة</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="markAllNotifsReadBtn" class="text-xs text-primary font-bold hover:underline"
+            title="تحديد الكل كمقروء">
+            تحديد كمقروء
+          </button>
+          <button class="icon-btn icon-btn-sm" data-close-panel aria-label="إغلاق"><svg class="icon ic-18">
+              <use href="#i-x" />
+            </svg></button>
+        </div>
+      </div>
+
+      <div id="notifCardList" class="space-y-2.5 max-h-[360px] overflow-y-auto pr-1">
+        <!-- يتم حقن الإشعارات بالجافاسكربت -->
+      </div>
+    </div>
+
+    <!-- ===================== المنطقة الرئيسية للمحتوى ===================== -->
+    <div class="dash-main">
+
+      <main class="dash-content">
+
+        <!-- ================= مواعيدي واستشاراتي ================= -->
+        <section id="view-appointments" class="dash-view is-active">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+            <div>
+              <h2 class="text-2xl font-extrabold text-ink">مواعيدي واستشاراتي</h2>
+              <p class="text-sm t-body mt-1">إدارة استشاراتك القادمة والسابقة، ورابط الدخول إلى الجلسة، وخيارات إعادة الجدولة.</p>
+            </div>
+            <a href="dashboard.html#consultations" class="btn btn-solid btn-sm" data-nav="consultations">
+              <svg class="icon ic-18">
+                <use href="#i-calendar" />
+              </svg>
+              <span>حجز استشارة جديدة</span>
+            </a>
+          </div>
+
+          <!-- تبويبات المواعيد (القادمة vs السابقة) -->
+          <div class="flex gap-2 mb-6" role="tablist">
+            <button class="btn btn-solid btn-sm" data-appt-tab="upcoming" aria-pressed="true">
+              الاستشارات القادمة
+            </button>
+            <button class="btn btn-outline btn-sm" data-appt-tab="past" aria-pressed="false">
+              المواعيد السابقة والمكتملة
+            </button>
+          </div>
+
+          <!-- قائمة المواعيد الديناميكية -->
+          <div id="appointmentsList" class="space-y-4">
+            <!-- يتم حقنها بالجافاسكربت بواسطة renderAppointments() -->
+          </div>
+        </section>
+
+      </main>
+
+      <!-- ===================== الفوتر المعتمد (مع الشعار الأبيض من المجلد) ===================== -->
+      <footer class="site-footer mt-auto">
+        <div
+          class="mx-auto grid max-w-[1280px] gap-8 px-5 py-12 sm:px-8 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
+          <div>
+            <a href="dashboard.html" class="mb-4 flex items-center gap-3" data-nav="home">
+              <img src="assets/logo-white.png" alt="ملاذ" class="logo footer-logo h-12 w-auto" />
+              <span class="text-3xl font-bold" style="color:var(--aqua)">ملاذ</span>
+            </a>
+            <p class="footer-text max-w-xs">
+              مساحتك الآمنة نحو السلام النفسي والتعافي المستدام. نحن بجانبك في كل خطوة.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="footer-h">واجهات المستفيد</h3>
+            <ul class="footer-list text-sm">
+              <li><a href="dashboard.html" data-nav="home">الرئيسية</a></li>
+              <li><a href="dashboard.html#consultations" data-nav="consultations">الاستشارات النفسية</a></li>
+              <li><a href="dashboard.html#recovery" data-nav="recovery">رحلة التعافي</a></li>
+              <li><a href="appointments.html" data-nav="appointments">مواعيدي</a></li>
+              <li><a href="support.html" data-nav="support">الدعم الخاص</a></li>
+              <li><a href="dashboard.html#profile" data-nav="profile">الملف الشخصي</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="footer-h">مصادر الدعم</h3>
+            <ul class="footer-list text-sm">
+              <li><a href="dashboard.html#recovery" data-nav="recovery">حاسبة الادخار المالي</a></li>
+              <li><a href="support.html" data-nav="support">المحادثة السرية المشفرة</a></li>
+              <li><a href="dashboard.html#consultations" data-nav="consultations">نخبة الأخصائيين النفسيين</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="footer-h">السرية والأمان</h3>
+            <p class="footer-note">
+              منصة ملاذ تطبق أقصى معايير حماية البيانات الطبية المشفرة. خصوصيتك وكرامتك هما أولويتنا المطلقة دائماً.
+            </p>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <div class="mx-auto flex max-w-[1280px] flex-wrap items-center justify-between gap-3 px-5 py-4 sm:px-8">
+            <p>© 2026 ملاذ (Maladh). جميع الحقوق محفوظة للمستفيدين.</p>
+            <p class="flex items-center gap-2">
+              <svg class="icon ic-18">
+                <use href="#i-shield" />
+              </svg>
+              <span>خصوصيتك وأمانك في صدارة أولوياتنا</span>
+            </p>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+  </div>
+
+  <!-- ===================== النوافذ المنبثقة التفاعلية للمواعيد ===================== -->
+
+  <!-- 1. نافذة حجز / إعادة جدولة الاستشارة -->
+  <div id="bookingModal" class="dash-modal" role="dialog" aria-modal="true" aria-labelledby="bookingModalTitle">
+    <div class="dash-modal-box">
+      <div class="flex items-center justify-between mb-4 pb-3 border-b border-line">
+        <h3 id="bookingModalTitle" class="text-lg font-bold text-ink">حجز استشارة نفسية جديدة</h3>
+        <button id="closeBookingModalBtn" class="icon-btn icon-btn-sm" aria-label="إغلاق">
+          <svg class="icon ic-20">
+            <use href="#i-x" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- معلومات الأخصائي المختار -->
+      <div class="flex items-center gap-3 p-3 rounded-2xl bg-bg-soft border border-line mb-4">
+        <img id="bookingSpecPhoto" src="assets/specialist-sara.jpg" alt="" class="w-12 h-12 rounded-xl object-cover" />
+        <div>
+          <h4 id="bookingSpecName" class="font-bold text-ink">د. سارة العتيبي</h4>
+          <p id="bookingSpecTitle" class="text-xs text-primary font-semibold">أخصائية في علم النفس العلاجي</p>
+        </div>
+      </div>
+
+      <form id="confirmBookingForm" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold mb-1.5">نوع الجلسة</label>
+          <div class="grid grid-cols-2 gap-2">
+            <label class="cursor-pointer">
+              <input type="radio" name="sessionType" value="جلسة فيديو مرئية مشفرة" class="sr-only peer" checked />
+              <div
+                class="p-3 text-center rounded-xl border border-line text-xs font-bold peer-checked:border-primary peer-checked:bg-blue-50 dark:peer-checked:bg-slate-800 peer-checked:text-primary">
+                جلسة فيديو مرئية
+              </div>
+            </label>
+            <label class="cursor-pointer">
+              <input type="radio" name="sessionType" value="استشارة صوتية خاصة" class="sr-only peer" />
+              <div
+                class="p-3 text-center rounded-xl border border-line text-xs font-bold peer-checked:border-primary peer-checked:bg-blue-50 dark:peer-checked:bg-slate-800 peer-checked:text-primary">
+                مكالمة صوتية خاصة
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <label for="bookingDatePicker" class="block text-xs font-bold mb-1.5">اختر التاريخ</label>
+          <input id="bookingDatePicker" type="date"
+            class="w-full h-11 px-4 rounded-xl border border-line bg-bg-soft text-sm text-ink outline-none" required />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold mb-1.5">اختر الوقت المناسب</label>
+          <div id="bookingSlotsContainer" class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <!-- أوقات المواعيد يتم توليدها بالجافاسكربت -->
+          </div>
+        </div>
+
+        <div>
+          <label for="bookingNotes" class="block text-xs font-bold mb-1.5">ملاحظات للأخصائي (اختياري وسري)</label>
+          <textarea id="bookingNotes" rows="2"
+            class="w-full p-3 rounded-xl border border-line bg-bg-soft text-sm text-ink outline-none resize-none"
+            placeholder="أي موضوع تود التركيز عليه خلال الجلسة..."></textarea>
+        </div>
+
+        <div class="pt-3 border-t border-line flex items-center justify-end gap-3">
+          <button type="button" id="cancelBookingBtn" class="btn btn-outline btn-sm">إلغاء</button>
+          <button type="submit" class="btn btn-solid btn-sm">تأكيد الحجز فوراً</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. نافذة غرفة الجلسة الافتراضية -->
+  <div id="sessionRoomModal" class="dash-modal" role="dialog" aria-modal="true">
+    <div class="dash-modal-box text-center">
+      <div class="w-16 h-16 rounded-full bg-blue-50 text-primary mx-auto mb-4 grid place-items-center">
+        <svg class="icon ic-32">
+          <use href="#i-video" />
+        </svg>
+      </div>
+      <h3 class="text-xl font-bold mb-2">غرفة الجلسة الافتراضية المشفرة</h3>
+      <p class="text-sm t-body mb-6">
+        أنت على وشك الانضمام إلى جلستك الخاصة مع الأخصائي. جميع الاتصالات محمية بأعلى معايير التشفير الطبي.
+      </p>
+      <div class="p-4 rounded-xl bg-bg-soft border border-line mb-6 text-xs text-start space-y-2">
+        <div class="flex items-center gap-2 text-emerald-600 font-bold">
+          <svg class="icon ic-18">
+            <use href="#i-check" />
+          </svg>
+          <span>الكاميرا والمايكروفون جاهزان</span>
+        </div>
+        <div class="flex items-center gap-2 text-primary font-bold">
+          <svg class="icon ic-18">
+            <use href="#i-shield" />
+          </svg>
+          <span>جلسة مشفرة بدون تسجيل أو حفظ</span>
+        </div>
+      </div>
+      <div class="flex justify-center gap-3">
+        <button id="closeSessionRoomBtn" class="btn btn-outline btn-sm">العودة إلى مواعيدي</button>
+        <button class="btn btn-solid btn-sm" onclick="showToast('جارِ الاتصال الآمن مع الأخصائي...')">دخول الغرفة
+          الآن</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- حاوية إشعارات التوست -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- السكربت الموحد لتشغيل المنصة -->
+  <script src="js/dashboard.js"></script>
+</body>
+
+</html>

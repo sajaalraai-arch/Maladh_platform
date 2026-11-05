@@ -85,6 +85,17 @@
     return `${hours}:${minutes} ${period}`;
   }
 
+  function formatArabicDate(dateStr) {
+    if (!dateStr) return '1 أكتوبر 2025';
+    const months = [
+      'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
+      'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'
+    ];
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return dateStr;
+    return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+  }
+
   // ---------- البيانات الأولية للمستفيد (Mock Data) ----------
   const initialUser = getStorage(KEYS.USER, {
     username: 'عبد الرحمن الشمري',
@@ -309,15 +320,25 @@
     { quote: '«كل نفس عميق تأخذه بوعي يمنحك فرصة جديدة لصناعة التوازن، أنت أقوى مما تظن وأقرب مما تتخيل.»', author: 'د. نورة القحطاني - استشارية الدعم النفسي' }
   ];
 
+  // البيانات الأولية لرحلة التعافي (42 يوماً من أصل 60 يوماً = 70% وتوفير 4,800 ريال)
+  const INITIAL_RECOVERY = {
+    startDate: '2025-10-01',
+    targetDays: 60,
+    dailySpending: 114.2857,
+    manualDays: 42
+  };
+
   // ---------- الحالة العامة للوحة التحكم ----------
   let state = {
     user: initialUser,
+    recovery: getStorage(KEYS.RECOVERY, INITIAL_RECOVERY),
     appointments: getStorage(KEYS.APPOINTMENTS, INITIAL_APPOINTMENTS),
     multiChats: getStorage(KEYS.MULTI_CHATS, INITIAL_MULTI_CHATS),
     notifications: getStorage(KEYS.NOTIFS, INITIAL_NOTIFICATIONS),
     currentView: 'home',
     bookingSpecialist: null,
     quoteIdx: 0,
+    recoveryQuoteIdx: 0,
     activeChatId: 'sara',
     selectedFile: null
   };
@@ -384,15 +405,48 @@
   });
 
   // ---------- إدارة التنقل وعرض المشاهد (Router) ----------
+  function getCurrentPageName() {
+    const p = window.location.pathname.toLowerCase();
+    if (p.endsWith('support.html')) return 'support';
+    if (p.endsWith('appointments.html')) return 'appointments';
+    if (p.endsWith('recovery.html')) return 'recovery';
+    if (p.endsWith('consultations.html')) return 'consultations';
+    if (p.endsWith('profile.html')) return 'profile';
+    return 'dashboard';
+  }
+
   function switchView(viewName) {
-    if (!viewName) viewName = 'home';
+    const currentPage = getCurrentPageName();
+    if (!viewName) {
+      viewName = (currentPage !== 'dashboard') ? currentPage : 'home';
+    }
+
     const target = $(`#view-${viewName}`);
     if (!target) {
+      // المشهد غير موجود في الصفحة الحالية: نوجه المتصفح للصفحة المستقلة
+      if (viewName === 'support' && currentPage !== 'support') {
+        window.location.href = 'support.html';
+        return;
+      }
+      if (viewName === 'appointments' && currentPage !== 'appointments') {
+        window.location.href = 'appointments.html';
+        return;
+      }
+      if (viewName === 'home' && currentPage !== 'dashboard') {
+        window.location.href = 'dashboard.html';
+        return;
+      }
+      if (currentPage !== 'dashboard') {
+        window.location.href = `dashboard.html#${viewName}`;
+        return;
+      }
       viewName = 'home';
     }
 
     state.currentView = viewName;
-    window.location.hash = viewName;
+    if (currentPage === 'dashboard') {
+      window.location.hash = viewName;
+    }
 
     // إخفاء كل المشاهد وإظهار المشهد المطلوب
     $$('.dash-view').forEach(v => v.classList.remove('is-active'));
@@ -454,8 +508,27 @@
   document.addEventListener('click', (e) => {
     const navBtn = e.target.closest('[data-nav]');
     if (navBtn) {
-      e.preventDefault();
-      switchView(navBtn.dataset.nav);
+      const targetNav = navBtn.dataset.nav;
+      const currentPage = getCurrentPageName();
+
+      if (targetNav === 'support' && currentPage !== 'support') {
+        window.location.href = 'support.html';
+        return;
+      }
+      if (targetNav === 'appointments' && currentPage !== 'appointments') {
+        window.location.href = 'appointments.html';
+        return;
+      }
+      if (targetNav === 'home' && currentPage !== 'dashboard') {
+        window.location.href = 'dashboard.html';
+        return;
+      }
+
+      const targetEl = $(`#view-${targetNav}`);
+      if (targetEl) {
+        e.preventDefault();
+        switchView(targetNav);
+      }
     }
   });
 
@@ -500,20 +573,177 @@
     showToast(msg);
   });
 
-  // ---------- إدارة رحلة التعافي وحاسبة الادخار ----------
+  // ---------- إدارة رحلة التعافي وحاسبة الادخار (Enhanced Recovery System) ----------
+  const ACHIEVEMENTS_DATA = [
+    { id: 'a1', days: 1, title: 'بداية الرحلة', desc: 'كسر حاجز الخوف والبدء الفعلي في مسار الحرية والتعافي.', icon: 'i-trophy' },
+    { id: 'a2', days: 7, title: 'أول أسبوع', desc: '7 أيام من الثبات والصفاء وتخطي التحدي الأول.', icon: 'i-star' },
+    { id: 'a3', days: 30, title: 'أول شهر', desc: 'شهر كامل من بناء العادات الإيجابية وإعادة برمجة الوعي.', icon: 'i-award' },
+    { id: 'a4', days: 60, title: '60 يوماً', desc: 'شهران من الاستقرار النفسي والتوازن والسكينة.', icon: 'i-trophy' },
+    { id: 'a5', days: 90, title: '90 يوماً', desc: 'ثلاثة أشهر من القوة واليقظة وترسيخ الوقاية من الانتكاسة.', icon: 'i-award' },
+    { id: 'a6', days: 180, title: '180 يوماً', desc: 'نصف عام من الحرية التامة والتمكين المستدام.', icon: 'i-star' }
+  ];
+
+  const RECOVERY_QUOTES = [
+    '«أنت أقوى من الإدمان.. ومستقبلك أجمل بدونها».',
+    '«كل يوم تقضيه في التعافي هو انتصار حقيقي لروحك وكرامتك وعائلتك».',
+    '«الشجاعة ليست غياب الصعاب، بل قرارك الواعي بأن تتجاوزها كل صباح».',
+    '«لقد بنيت جسوراً جديدة من النقاء، واليوم أنت تصنع حياة تستحق أن تعاش».',
+    '«تذكر أنك لست وحدك، كل خطوة تخطوها تصنع فرقاً حقيقياً في حاضرك ومستقبلك».',
+    '«السلام الداخلي يبدأ عندما تختار ذاتك وصحتك فوق كل رغبة عابرة».',
+    '«أعظم استثمار قمت به في حياتك هو استعادة صفاء ذهنك وعافية جسدك».'
+  ];
+
   function getRecoveryDays() {
-    const start = new Date(state.user.recoveryStart || '2024-09-15');
+    if (state.recovery.startDate === '2025-10-01' && state.recovery.manualDays !== undefined) {
+      return state.recovery.manualDays;
+    }
+    const start = new Date(state.recovery.startDate || '2025-10-01');
     const now = new Date();
     const diff = now - start;
     return Math.max(1, Math.floor(diff / (1000 * 60 * 60 * 24)));
   }
 
+  function getMilestonesList(days, target) {
+    return [
+      {
+        id: 'm1',
+        name: 'بداية الرحلة',
+        dateText: '1 أكتوبر',
+        status: 'completed',
+        statusText: 'مكتملة',
+        icon: 'i-check',
+        color: '#1965B3',
+        desc: 'الخطوة الأولى والشجاعة في اتخاذ قرار التعافي، كسر حلقة الإدمان وبدء بناء الذات.',
+        quote: '«بداية الألف ميل تبدأ بخطوة شجاعة؛ وأنت اتخذت أعظم خطوة في حياتك.»'
+      },
+      {
+        id: 'm2',
+        name: 'شهر من التعافي',
+        dateText: '1 نوفمبر',
+        status: days >= 30 ? 'completed' : (days >= 1 ? 'next' : 'future'),
+        statusText: days >= 30 ? 'مكتملة' : 'المرحلة القادمة',
+        icon: days >= 30 ? 'i-check' : 'i-sparkles',
+        color: '#10B981',
+        desc: '30 يوماً متتالية من النقاء وإعادة التوازن للخلايا العصبية والتخلص التام من السموم.',
+        quote: '«شهر كامل من النقاء يؤكد قدرتك على الانتصار وتجديد خلايا الأمل والحياة.»'
+      },
+      {
+        id: 'm3',
+        name: 'نصف الطريق',
+        dateText: '1 ديسمبر',
+        status: days >= Math.round(target / 2) ? (days >= target ? 'completed' : 'next') : 'future',
+        statusText: days >= target ? 'مكتملة' : (days >= Math.round(target / 2) ? 'المرحلة القادمة' : 'قيد التقدم'),
+        icon: 'i-star',
+        color: '#3B82F6',
+        desc: 'بلوغ منتصف المسار؛ مرحلة ترسيخ العادات المستقرة والوقاية المتقدمة من الانتكاسة.',
+        quote: '«أنت الآن في نقطة التحول الكبرى؛ ما مضى كان الأصعب، وما بقي هو الأجمل والأكثر ثباتاً.»'
+      },
+      {
+        id: 'm4',
+        name: 'الهدف القادم – حياة أفضل',
+        dateText: `${target} يوماً`,
+        status: days >= target ? 'completed' : 'future',
+        statusText: days >= target ? 'مكتملة بنجاح' : 'لم يتم الوصول إليها بعد',
+        icon: 'i-flag',
+        color: '#94A3B8',
+        desc: 'تحقيق الهدف المنشود والوصول إلى الاستقرار النفسي والاجتماعي الشامل والتمكين المستدام.',
+        quote: '«الحياة الأفضل ليست حلماً بعيداً، بل هي واقع تصنعه بيدك كل صباح بكل فخر وكرامة.»'
+      }
+    ];
+  }
+
   function updateRecoveryStats() {
     const days = getRecoveryDays();
-    const dailyCost = Number(state.user.dailySavings || 100);
-    const totalSaved = days * dailyCost;
+    const target = Number(state.recovery.targetDays) || 60;
+    const dailySpend = Number(state.recovery.dailySpending) || 114.2857;
+    const percent = Math.min(100, Math.round((days / target) * 100));
+    const totalSaved = Math.round(days * dailySpend);
 
-    // عناصر لوحة التحكم
+    // 1. بطاقة الهيرو الأفقية
+    const heroDate = $('#heroRecoveryDate');
+    if (heroDate) heroDate.textContent = formatArabicDate(state.recovery.startDate);
+
+    const heroPct = $('#heroProgressPercent');
+    if (heroPct) heroPct.textContent = `${percent}%`;
+
+    const heroBar = $('#recoveryHeroProgressBar');
+    if (heroBar) heroBar.style.width = `${percent}%`;
+
+    const heroSaved = $('#heroTotalSaved');
+    if (heroSaved) heroSaved.textContent = `${totalSaved.toLocaleString()} ريال`;
+
+    // 2. بطاقة إنجازاتك
+    const completedCount = ACHIEVEMENTS_DATA.filter(a => days >= a.days).length;
+    const achieveSummary = $('#achievementsCardSummary');
+    if (achieveSummary) achieveSummary.textContent = `لقد حققت ${completedCount} من 6 إنجازات`;
+
+    const badgesContainer = $('#achievementsBadgesPreview');
+    if (badgesContainer) {
+      badgesContainer.innerHTML = ACHIEVEMENTS_DATA.map(a => {
+        const isDone = days >= a.days;
+        return `
+          <button type="button" class="achievement-badge-pill ${isDone ? 'is-unlocked' : 'is-locked'}" data-open-achievements title="${a.title} (${isDone ? 'مكتمل' : 'متبقي ' + (a.days - days) + ' يوم'})">
+            <div class="badge-icon-box">
+              <svg class="icon ic-18"><use href="#${a.icon}"/></svg>
+            </div>
+            <span class="badge-pill-lbl">${a.title}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    // 3. بطاقة أيام التعافي (دائرة التقدم)
+    const circBadge = $('#circleTargetBadge');
+    if (circBadge) circBadge.textContent = `الهدف: ${target} يوم`;
+
+    const circPct = $('#circlePercentVal');
+    if (circPct) circPct.textContent = `${percent}%`;
+
+    const circDays = $('#circleDaysCount');
+    if (circDays) circDays.textContent = `${days} يوم`;
+
+    const circTargetText = $('#circleTargetDaysText');
+    if (circTargetText) circTargetText.textContent = `${target} يوم`;
+
+    const circFill = $('#circularProgressFill');
+    if (circFill) {
+      const circ = 314.16; // 2 * PI * 50
+      const offset = circ * (1 - Math.min(100, percent) / 100);
+      circFill.style.strokeDashoffset = String(offset);
+    }
+
+    // 4. بطاقة رسالتك اليوم
+    const quoteEl = $('#recoveryDailyQuoteText');
+    if (quoteEl) {
+      const qIdx = state.recoveryQuoteIdx !== undefined ? state.recoveryQuoteIdx : (new Date().getDate() % RECOVERY_QUOTES.length);
+      quoteEl.textContent = RECOVERY_QUOTES[qIdx % RECOVERY_QUOTES.length];
+    }
+
+    // 5. بطاقة حاسبة الادخار السفلية
+    const bottomSaved = $('#bottomCalcTotalSaved');
+    if (bottomSaved) bottomSaved.textContent = `${totalSaved.toLocaleString()} ريال`;
+
+    // 6. بطاقة مراحل رحلتك (الخط الزمني الأفقي)
+    const milestones = getMilestonesList(days, target);
+    const timelineEl = $('#milestonesHorizontalTrack');
+    if (timelineEl) {
+      timelineEl.innerHTML = milestones.map(m => `
+        <div class="milestone-node is-${m.status}" data-view-milestone="${m.id}" role="button" tabindex="0" title="اضغط لعرض تفاصيل ${m.name}">
+          <div class="milestone-node-circle">
+            <svg class="icon ic-20"><use href="#${m.icon}"/></svg>
+          </div>
+          <span class="milestone-node-name">${m.name}</span>
+          <span class="milestone-node-date">${m.dateText}</span>
+          <span class="milestone-node-status">${m.statusText}</span>
+        </div>
+      `).join('');
+    }
+
+    // 7. تحديث نوافذ المودال المرتبطة
+    updateAchievementsModal(days, completedCount);
+    updateSavingsModal(days, dailySpend, totalSaved, target);
+
+    // 8. تحديث العناصر المتواجدة في صفحة الرئيسية للاتساق التام
     const hClean = $('#homeCleanDays');
     if (hClean) hClean.textContent = days;
     const rClean = $('#recoveryCleanDays');
@@ -522,84 +752,250 @@
     if (hHours) hHours.textContent = (days * 24).toLocaleString();
     const briefSaved = $('#calcTotalSavedBrief');
     if (briefSaved) briefSaved.textContent = `${totalSaved.toLocaleString()} ر.س`;
-    
-    // نسبة الإنجاز نحو المحطة التالية (مثلاً 180 يوم)
-    const targetMilestone = 180;
-    const percent = Math.min(100, Math.round((days / targetMilestone) * 100));
-    const recPct = $('#recoveryProgressPercent');
-    if (recPct) recPct.textContent = `${percent}%`;
-    const pBar = $('#recoveryProgressBar');
-    if (pBar) pBar.style.width = `${percent}%`;
-
-    // حاسبة الادخار
-    const cDays = $('#calcDaysCount');
-    if (cDays) cDays.textContent = days;
-    const cTotal = $('#calcTotalSaved');
-    if (cTotal) cTotal.textContent = `${totalSaved.toLocaleString()} ر.س`;
-    const cInput = $('#calcDailyInput');
-    if (cInput) cInput.value = dailyCost;
-    const cSlider = $('#calcDailySlider');
-    if (cSlider) cSlider.value = dailyCost;
-
-    // تحديث المحطات
-    updateMilestonesList(days);
   }
 
-  function updateMilestonesList(days) {
-    const milestones = [
-      { id: 'm1', days: 1, title: '24 ساعة من الشجاعة الأولى', desc: 'الخطوة الأهم نحو التغيير وكسر الحلقة.' },
-      { id: 'm2', days: 7, title: 'أسبوع كامل من التوازن والصفاء', desc: 'تخلص الجسم من السموم وبداية صفاء الذهن.' },
-      { id: 'm3', days: 30, title: '30 يوماً من بناء العادات الإيجابية', desc: 'ترسيخ مسارات عصبية جديدة وأمل متجدد.' },
-      { id: 'm4', days: 90, title: '90 يوماً من الثبات والقوة', desc: 'استقرار هرموني ملحوظ ونمط حياة واثق.' },
-      { id: 'm5', days: 180, title: 'نصف عام من الحرية التامة', desc: 'المحطة القادمة نحو التعافي المستدام.' },
-      { id: 'm6', days: 365, title: 'سنة كاملة من النصر والنهضة', desc: 'ولادة جديدة واحتفال بالحياة الكريمة.' }
-    ];
+  function updateAchievementsModal(days, completedCount) {
+    const sumText = $('#achievementsModalSummaryText');
+    if (sumText) sumText.textContent = `لقد حققت ${completedCount} من 6 إنجازات`;
 
-    const listContainer = $('#milestonesList');
-    if (!listContainer) return;
+    const fullList = $('#achievementsFullList');
+    if (!fullList) return;
 
-    listContainer.innerHTML = milestones.map(m => {
-      const isDone = days >= m.days;
-      const isCurrent = !isDone && days >= (m.days === 180 ? 90 : 30);
-      let statusClass = isDone ? 'is-completed' : (isCurrent ? 'is-current' : '');
-      let badge = isDone 
-        ? `<span class="badge" style="background:rgba(34,197,94,.12);color:#16a34a">محققة ✓</span>`
-        : (isCurrent ? `<span class="badge" style="background:rgba(25,101,179,.12);color:var(--primary)">قيد التقدم ⏳</span>` : `<span class="badge text-muted">قادمة</span>`);
-
+    fullList.innerHTML = ACHIEVEMENTS_DATA.map(a => {
+      const isDone = days >= a.days;
       return `
-        <div class="milestone-item ${statusClass}">
-          <div>
-            <h4 class="font-bold text-base mb-1">${m.title}</h4>
-            <p class="text-sm t-body">${m.desc}</p>
+        <div class="p-4 rounded-2xl border ${isDone ? 'bg-amber-50/40 dark:bg-amber-950/20 border-amber-200 dark:border-amber-900/50' : 'bg-surface border-line opacity-75'} flex items-start gap-3">
+          <div class="w-12 h-12 rounded-2xl flex-shrink-0 grid place-items-center ${isDone ? 'bg-amber-100 text-amber-600 dark:bg-amber-900/40' : 'bg-bg-soft text-muted'}">
+            <svg class="icon ic-24"><use href="#${a.icon}"/></svg>
           </div>
-          <div class="text-end">
-            ${badge}
-            <div class="text-xs t-muted mt-1 font-semibold">${m.days} يوماً</div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between gap-1 mb-1">
+              <h4 class="font-bold text-sm text-ink">${a.title}</h4>
+              <span class="badge ${isDone ? 'badge-success' : 'badge-neutral'}" style="font-size:10px;">
+                ${isDone ? 'مكتمل بنجاح ✓' : `متبقٍ ${a.days - days} يوم`}
+              </span>
+            </div>
+            <p class="text-xs t-body leading-relaxed">${a.desc}</p>
+            <div class="text-[11px] t-muted mt-2 font-semibold">
+              ${isDone ? 'تم تحقيق هذا الوسام في سجل رحلتك 🌟' : `يتحقق تلقائياً عند إكمال ${a.days} يوماً`}
+            </div>
           </div>
         </div>
       `;
     }).join('');
   }
 
-  // التفاعل مع سلايدر ومدخلات حاسبة الادخار
-  function syncSavingsCalc(val) {
-    val = Math.max(10, Math.min(2000, Number(val) || 100));
-    state.user.dailySavings = val;
-    setStorage(KEYS.USER, state.user);
-    $('#calcDailyInput').value = val;
-    $('#calcDailySlider').value = val;
-    const days = getRecoveryDays();
-    const total = days * val;
-    $('#calcTotalSaved').textContent = `${total.toLocaleString()} ر.س`;
-    $('#calcMonthlySaved').textContent = `${(val * 30).toLocaleString()} ر.س`;
+  function updateSavingsModal(days, dailySpend, totalSaved, target) {
+    const daysVal = $('#savingsModalDaysVal');
+    if (daysVal) daysVal.textContent = `${days} يوماً`;
+
+    const totalVal = $('#savingsModalTotalVal');
+    if (totalVal) totalVal.textContent = `${totalSaved.toLocaleString()} ريال`;
+
+    const weekly = Math.round(dailySpend * 7);
+    const weeklyVal = $('#savingsModalWeeklyVal');
+    if (weeklyVal) weeklyVal.textContent = `${weekly.toLocaleString()} ريال / أسبوع`;
+
+    const monthly = Math.round(dailySpend * 30);
+    const monthlyVal = $('#savingsModalMonthlyVal');
+    if (monthlyVal) monthlyVal.textContent = `${monthly.toLocaleString()} ريال / شهر`;
+
+    const yearly = Math.round(dailySpend * 365);
+    const yearlyVal = $('#savingsModalYearlyVal');
+    if (yearlyVal) yearlyVal.textContent = `${yearly.toLocaleString()} ريال / سنة`;
+
+    const input = $('#savingsModalDailyInput');
+    if (input && document.activeElement !== input) input.value = Math.round(dailySpend);
+
+    const slider = $('#savingsModalDailySlider');
+    if (slider && document.activeElement !== slider) slider.value = Math.round(dailySpend);
+
+    // 6. رسم بياني يوضح نمو المدخرات بمرور الوقت
+    const chartBox = $('#savingsChartContainer');
+    if (chartBox) {
+      const chartPoints = [
+        { label: 'اليوم 1', d: 1 },
+        { label: 'أسبوع 1', d: 7 },
+        { label: 'شهر 1', d: 30 },
+        { label: 'الحالي', d: days, isCurrent: true },
+        { label: `الهدف (${target})`, d: target },
+        { label: '90 يوم', d: 90 },
+        { label: '180 يوم', d: 180 }
+      ];
+      // ترتيب النقاط بالترتيب التصاعدي
+      const uniquePoints = [];
+      const seenDays = new Set();
+      chartPoints.sort((a, b) => a.d - b.d).forEach(p => {
+        if (!seenDays.has(p.d)) {
+          seenDays.add(p.d);
+          uniquePoints.push(p);
+        }
+      });
+
+      const maxVal = Math.max(...uniquePoints.map(p => p.d * dailySpend));
+
+      chartBox.innerHTML = uniquePoints.map(p => {
+        const val = Math.round(p.d * dailySpend);
+        const heightPct = Math.max(12, Math.round((val / maxVal) * 100));
+        return `
+          <div class="savings-bar-col">
+            <span class="savings-bar-val">${val >= 1000 ? (val / 1000).toFixed(1) + 'k' : val}</span>
+            <div class="savings-bar-pill ${p.isCurrent ? 'is-current' : ''}" style="height: ${heightPct}%;"></div>
+            <span class="savings-bar-lbl ${p.isCurrent ? 'font-extrabold text-primary' : ''}">${p.label}</span>
+          </div>
+        `;
+      }).join('');
+    }
   }
 
-  $('#calcDailySlider')?.addEventListener('input', (e) => syncSavingsCalc(e.target.value));
-  $('#calcDailyInput')?.addEventListener('change', (e) => syncSavingsCalc(e.target.value));
+  // التفاعل مع سلايدر ومدخلات حاسبة الادخار في المودال
+  function handleSavingsChange(newDaily) {
+    const val = Math.max(5, Math.min(5000, Number(newDaily) || 100));
+    state.recovery.dailySpending = val;
+    state.user.dailySavings = val;
+    setStorage(KEYS.USER, state.user);
+    setStorage(KEYS.RECOVERY, state.recovery);
+    updateRecoveryStats();
+  }
 
-  // زر تسجيل إنجاز اليوم
-  $('#logTodaySuccessBtn')?.addEventListener('click', () => {
-    showToast('مبارك! تم توثيق إنجاز اليوم بنجاح في سجل رحلتك ');
+  $('#savingsModalDailyInput')?.addEventListener('input', (e) => handleSavingsChange(e.target.value));
+  $('#savingsModalDailySlider')?.addEventListener('input', (e) => handleSavingsChange(e.target.value));
+
+  // فتح نافذة جميع الإنجازات
+  $('#openAllAchievementsBtn')?.addEventListener('click', () => {
+    $('#achievementsModal')?.classList.add('is-open');
+  });
+
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('[data-open-achievements]')) {
+      $('#achievementsModal')?.classList.add('is-open');
+    }
+  });
+
+  // فتح نافذة تفاصيل حاسبة الادخار
+  $('#openSavingsDetailsBtn')?.addEventListener('click', () => {
+    $('#savingsModal')?.classList.add('is-open');
+  });
+
+  // فتح نافذة إعدادات رحلة التعافي
+  function openRecoverySettingsModal() {
+    const modal = $('#recoverySettingsModal');
+    if (!modal) return;
+    if ($('#settingsRecoveryStartDate')) $('#settingsRecoveryStartDate').value = state.recovery.startDate || '2025-10-01';
+    if ($('#settingsRecoveryTargetDays')) $('#settingsRecoveryTargetDays').value = state.recovery.targetDays || 60;
+    if ($('#settingsRecoveryDailySpend')) $('#settingsRecoveryDailySpend').value = Math.round(state.recovery.dailySpending || 114);
+    modal.classList.add('is-open');
+  }
+
+  $('#openRecoverySettingsBtn')?.addEventListener('click', openRecoverySettingsModal);
+  $('#quickEditDateBtn')?.addEventListener('click', openRecoverySettingsModal);
+
+  // أزرار تحديد الأهداف السريعة في نافذة الإعدادات
+  document.addEventListener('click', (e) => {
+    const targetBtn = e.target.closest('[data-set-target]');
+    if (targetBtn) {
+      const val = targetBtn.dataset.setTarget;
+      const input = $('#settingsRecoveryTargetDays');
+      if (input && val) {
+        input.value = val;
+        $$('[data-set-target]').forEach(b => {
+          b.classList.remove('btn-solid');
+          b.classList.add('btn-outline');
+        });
+        targetBtn.classList.add('btn-solid');
+        targetBtn.classList.remove('btn-outline');
+      }
+    }
+  });
+
+  // حفظ نموذج إعدادات رحلة التعافي مع التحقق من صحة المدخلات
+  $('#recoverySettingsForm')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const newDate = $('#settingsRecoveryStartDate')?.value;
+    const newTarget = Number($('#settingsRecoveryTargetDays')?.value) || 60;
+    const newSpend = Number($('#settingsRecoveryDailySpend')?.value) || 100;
+
+    if (!newDate) {
+      showToast('يرجى تحديد تاريخ بداية التعافي.');
+      return;
+    }
+    if (newTarget < 7) {
+      showToast('يجب ألا يقل الهدف عن 7 أيام.');
+      return;
+    }
+    if (newSpend <= 0) {
+      showToast('يرجى إدخال مبلغ إنفاق يومي صحيح.');
+      return;
+    }
+
+    state.recovery.startDate = newDate;
+    state.recovery.targetDays = Math.max(7, newTarget);
+    state.recovery.dailySpending = Math.max(1, newSpend);
+
+    // حساب الأيام الفعلي بناءً على التاريخ الجديد
+    const start = new Date(newDate);
+    const now = new Date();
+    const diffDays = Math.max(1, Math.floor((now - start) / (1000 * 60 * 60 * 24)));
+    state.recovery.manualDays = diffDays;
+
+    // مزامنة مع ملف المستخدم
+    state.user.recoveryStart = newDate;
+    state.user.dailySavings = state.recovery.dailySpending;
+    setStorage(KEYS.USER, state.user);
+    setStorage(KEYS.RECOVERY, state.recovery);
+
+    updateRecoveryStats();
+    $('#recoverySettingsModal')?.classList.remove('is-open');
+    showToast('تم حفظ وتحديث بيانات رحلة التعافي بنجاح ✓');
+  });
+
+  // عرض تفاصيل أي مرحلة عند النقر عليها في الخط الزمني
+  document.addEventListener('click', (e) => {
+    const node = e.target.closest('[data-view-milestone]');
+    if (node) {
+      const mId = node.dataset.viewMilestone;
+      const days = getRecoveryDays();
+      const target = state.recovery.targetDays || 60;
+      const milestones = getMilestonesList(days, target);
+      const m = milestones.find(x => x.id === mId);
+      if (m) {
+        if ($('#milestoneModalStageName')) $('#milestoneModalStageName').textContent = m.name;
+        if ($('#milestoneModalDesc')) $('#milestoneModalDesc').textContent = m.desc;
+        if ($('#milestoneModalDate')) $('#milestoneModalDate').textContent = m.dateText;
+        if ($('#milestoneModalStatusText')) $('#milestoneModalStatusText').textContent = m.statusText;
+        if ($('#milestoneModalStatusBadge')) {
+          const badge = $('#milestoneModalStatusBadge');
+          badge.textContent = m.statusText;
+          badge.className = 'badge mt-0.5 ' + (m.status === 'completed' ? 'badge-success' : (m.status === 'next' ? 'badge-primary' : 'badge-neutral'));
+        }
+        if ($('#milestoneModalQuote')) $('#milestoneModalQuote').textContent = m.quote;
+        $('#milestoneDetailModal')?.classList.add('is-open');
+      }
+    }
+  });
+
+  // تحديث وتدوير الرسالة التحفيزية
+  $('#refreshDailyQuoteBtn')?.addEventListener('click', () => {
+    state.recoveryQuoteIdx = ((state.recoveryQuoteIdx || 0) + 1) % RECOVERY_QUOTES.length;
+    const quoteEl = $('#recoveryDailyQuoteText');
+    if (quoteEl) {
+      quoteEl.textContent = RECOVERY_QUOTES[state.recoveryQuoteIdx];
+    }
+    showToast('تم تحديث الرسالة التحفيزية ✨');
+  });
+
+  // إدارة إغلاق جميع النوافذ المنبثقة بشكل عام
+  document.addEventListener('click', (e) => {
+    const closeBtn = e.target.closest('[data-close-modal]');
+    if (closeBtn) {
+      const modalId = closeBtn.dataset.closeModal;
+      const modal = document.getElementById(modalId);
+      if (modal) modal.classList.remove('is-open');
+      return;
+    }
+    if (e.target.classList.contains('dash-modal') && e.target.classList.contains('is-open')) {
+      e.target.classList.remove('is-open');
+    }
   });
 
   // ---------- تدوير رسالة اليوم الملهمة في الهيرو سكشن تلقائياً كل 5 ثوانٍ ----------
@@ -636,6 +1032,7 @@
 
   function startHeroQuoteTimer() {
     clearInterval(heroQuoteTimer);
+    if (!$('#heroQuoteText')) return;
     renderHeroQuote(state.quoteIdx);
     heroQuoteTimer = setInterval(() => {
       renderHeroQuote(state.quoteIdx + 1);
@@ -1617,9 +2014,11 @@
     syncSettingsUI();
     startHeroQuoteTimer();
 
-    // فحص العنوان الحالي
+    // فحص الصفحة والعنوان الحالي
+    const currentPage = getCurrentPageName();
     const initialHash = window.location.hash.replace('#', '');
-    switchView(initialHash || 'home');
+    const defaultView = (currentPage !== 'dashboard') ? currentPage : 'home';
+    switchView(initialHash || defaultView);
   }
 
   // تشغيل عند اكتمال تحميل DOM
