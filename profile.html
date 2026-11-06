@@ -3,14 +3,571 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="refresh" content="0; url=dashboard.html#profile" />
-  <title>ملاذ | الملف الشخصي</title>
-  <script>window.location.replace('dashboard.html#profile');</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ملاذ | الملف الشخصي للمستفيد</title>
+
+  <!-- تطبيق التفضيلات المحفوظة قبل الرسم لتجنب الوميض -->
+  <script>
+    (function () {
+      try {
+        var p = JSON.parse(localStorage.getItem('maladh:prefs') || '{}'), d = document.documentElement;
+        d.dataset.theme = p.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        if (p.font) d.dataset.font = p.font;
+        if (p.reduce) d.classList.add('reduce-motion');
+      } catch (e) { }
+    })();
+  </script>
+
+  <!-- الخط العربي الرسمي: Cairo -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS للخصائص المساعدة -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { cairo: ['Cairo', 'Tajawal', 'sans-serif'] },
+          colors: {
+            navy: '#0F2743',
+            primary: '#1965B3',
+            aqua: '#6DE7F7',
+            sky: '#41BCE6',
+            calm: '#75A2B9',
+            mist: '#F0F6FC'
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- التنسيقات الأساسية لمنصة ملاذ -->
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- تنسيقات لوحة المستفيد -->
+  <link rel="stylesheet" href="css/dashboard.css" />
 </head>
 
-<body style="font-family:Cairo,sans-serif;text-align:center;padding:50px;background:#F0F6FC;color:#0F2743;">
-  <p>جارِ توجيهك إلى الملف الشخصي في منصة ملاذ...</p>
-  <p><a href="dashboard.html#profile" style="color:#1965B3;font-weight:bold;">اضغط هنا للانتقال مباشرة</a></p>
+<body class="font-cairo antialiased">
+
+  <!-- ===================== مكتبة الأيقونات الموحدة (SVG Sprites) ===================== -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="i-home" viewBox="0 0 24 24">
+      <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+      <polyline points="9 22 9 12 15 12 15 22" />
+    </symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24">
+      <rect x="3" y="4" width="18" height="18" rx="2" />
+      <path d="M16 2v4M8 2v4M3 10h18" />
+    </symbol>
+    <symbol id="i-sprout" viewBox="0 0 24 24">
+      <path d="M7 20h10" />
+      <path d="M10 20c5.5-2.5.8-6.4 3-10" />
+      <path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z" />
+      <path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z" />
+    </symbol>
+    <symbol id="i-message-square" viewBox="0 0 24 24">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+    </symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24">
+      <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+      <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+    </symbol>
+    <symbol id="i-user" viewBox="0 0 24 24">
+      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+      <circle cx="12" cy="7" r="4" />
+    </symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24">
+      <path
+        d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+      <circle cx="12" cy="12" r="3" />
+    </symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24">
+      <path
+        d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+      <path d="m9 12 2 2 4-4" />
+    </symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24">
+      <rect x="3" y="11" width="18" height="11" rx="2" />
+      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+    </symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24">
+      <path
+        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+    </symbol>
+    <symbol id="i-camera" viewBox="0 0 24 24">
+      <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+      <circle cx="12" cy="13" r="4"/>
+    </symbol>
+    <symbol id="i-check" viewBox="0 0 24 24">
+      <path d="M20 6 9 17l-5-5" />
+    </symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="4" />
+      <path
+        d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+    </symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24">
+      <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+    </symbol>
+    <symbol id="i-languages" viewBox="0 0 24 24">
+      <path d="m5 8 6 6" />
+      <path d="m4 14 6-6 2-3" />
+      <path d="M2 5h12" />
+      <path d="M7 2h1" />
+      <path d="m22 22-5-10-5 10" />
+      <path d="M14 18h6" />
+    </symbol>
+    <symbol id="i-type" viewBox="0 0 24 24">
+      <path d="M4 7V4h16v3" />
+      <path d="M9 20h6" />
+      <path d="M12 4v16" />
+    </symbol>
+    <symbol id="i-logout" viewBox="0 0 24 24">
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+      <path d="m16 17 5-5-5-5" />
+      <path d="M21 12H9" />
+    </symbol>
+    <symbol id="i-x" viewBox="0 0 24 24">
+      <path d="M18 6 6 18M6 6l12 12" />
+    </symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24">
+      <path d="M4 6h16M4 12h16M4 18h16" />
+    </symbol>
+  </svg>
+
+  <div class="dash-layout">
+
+    <!-- ===================== النافبار العلوي الموحد ===================== -->
+    <header class="site-header" id="siteHeader">
+      <nav
+        class="navbar mx-auto flex max-w-[1400px] items-center justify-between gap-3 rounded-full px-4 py-2.5 sm:px-8"
+        aria-label="التنقل الرئيسي">
+
+        <!-- الشعار الرئيسي لمنصة ملاذ -->
+        <a href="dashboard.html" class="flex items-center gap-2" data-nav="home">
+          <img src="assets/logo.png" alt="شعار ملاذ" class="logo h-9 w-auto" />
+          <span class="text-2xl font-bold" style="color:var(--primary)">ملاذ</span>
+        </a>
+
+        <!-- عناوين التنقل الرئيسية للمستفيد -->
+        <ul class="hidden items-center gap-6 lg:gap-8 text-[15px] lg:text-[16px] font-medium lg:flex">
+          <li><a href="dashboard.html" class="nav-link" data-nav="home">الرئيسية</a></li>
+          <li><a href="dashboard.html#consultations" class="nav-link" data-nav="consultations">الاستشارات النفسية</a></li>
+          <li><a href="dashboard.html#recovery" class="nav-link" data-nav="recovery">رحلة التعافي</a></li>
+          <li><a href="appointments.html" class="nav-link" data-nav="appointments">مواعيدي</a></li>
+          <li><a href="support.html" class="nav-link" data-nav="support">الدعم الخاص</a></li>
+        </ul>
+
+        <!-- أيقونات التحكم وزر المستخدم -->
+        <div class="flex items-center gap-1.5 sm:gap-2.5">
+
+          <!-- زر الإشعارات -->
+          <button id="notifBtn" class="icon-btn relative" data-panel-btn="notif" aria-expanded="false"
+            aria-controls="notifCard" aria-label="الإشعارات" title="الإشعارات">
+            <svg class="icon">
+              <use href="#i-bell" />
+            </svg>
+            <span id="headerNotifBadge"
+              class="absolute top-1.5 inset-inline-end-1.5 w-4 h-4 rounded-full bg-rose-500 text-white text-[10px] font-bold grid place-items-center">2</span>
+          </button>
+
+          <!-- زر الإعدادات -->
+          <button id="settingsBtn" class="icon-btn" data-panel-btn="settings" aria-expanded="false"
+            aria-controls="settingsCard" aria-label="الإعدادات" title="الإعدادات">
+            <svg class="icon">
+              <use href="#i-settings" />
+            </svg>
+          </button>
+
+          <span class="brand-sep hidden sm:block"></span>
+
+          <!-- زر أيقونة المستخدم (مميّز كنشط) -->
+          <button id="userProfileBtn" class="btn btn-solid btn-sm ring-2 ring-sky-400" data-nav="profile" aria-label="الملف الشخصي"
+            title="الملف الشخصي">
+            <svg class="icon ic-18">
+              <use href="#i-user" />
+            </svg>
+            <span id="dashUserBadge">عبد الرحمن</span>
+          </button>
+
+          <!-- زر القائمة للأجهزة الصغيرة والمتوسطة -->
+          <button id="menuBtn" class="icon-btn lg:hidden" data-panel-btn="menu" aria-expanded="false"
+            aria-controls="mobileMenu" aria-label="القائمة">
+            <svg class="icon" id="menuIcon">
+              <use href="#i-menu" />
+            </svg>
+          </button>
+        </div>
+      </nav>
+
+      <!-- القائمة المنسدلة للشاشات الصغيرة والمتوسطة (Mobile Menu) -->
+      <div id="mobileMenu" class="drop panel mx-auto mt-3 max-w-[1400px] rounded-2xl p-3 lg:hidden">
+        <ul class="flex flex-col text-base font-medium">
+          <li><a href="dashboard.html" class="mobile-link" data-nav="home">الرئيسية</a></li>
+          <li><a href="dashboard.html#consultations" class="mobile-link" data-nav="consultations">الاستشارات النفسية</a></li>
+          <li><a href="dashboard.html#recovery" class="mobile-link" data-nav="recovery">رحلة التعافي</a></li>
+          <li><a href="appointments.html" class="mobile-link" data-nav="appointments">مواعيدي</a></li>
+          <li><a href="support.html" class="mobile-link" data-nav="support">الدعم الخاص</a></li>
+          <li><a href="profile.html" class="mobile-link is-active" data-nav="profile">الملف الشخصي</a></li>
+          <li class="pt-2 mt-2 border-t border-line">
+            <button class="mobile-link w-full text-start text-rose-500 font-bold flex items-center gap-2"
+              data-dash-logout>
+              <svg class="icon ic-18">
+                <use href="#i-logout" />
+              </svg>
+              <span>تسجيل الخروج</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </header>
+
+    <!-- ===== بطاقة الإعدادات ===== -->
+    <div id="settingsCard" class="pop settings-card" role="dialog" aria-labelledby="stTitle">
+      <div class="mb-4 flex items-center justify-between">
+        <h2 id="stTitle" class="text-lg font-bold">الإعدادات</h2>
+        <button class="icon-btn icon-btn-sm" data-close-panel aria-label="إغلاق"><svg class="icon ic-20">
+            <use href="#i-x" />
+          </svg></button>
+      </div>
+
+      <div class="set-row">
+        <p class="set-label"><svg class="icon ic-20">
+            <use href="#i-languages" />
+          </svg><span>اللغة</span></p>
+        <div class="seg" role="group">
+          <button class="seg-btn" data-set-lang="ar" aria-pressed="true">العربية</button>
+          <button class="seg-btn" data-set-lang="en" aria-pressed="false">English</button>
+        </div>
+      </div>
+
+      <!-- خاصية الوضع الداكن / الفاتح -->
+      <div class="set-row">
+        <p class="set-label"><svg class="icon ic-20" id="themeLabelIcon">
+            <use href="#i-sun" />
+          </svg><span>المظهر</span></p>
+        <div class="seg" role="group">
+          <button class="seg-btn" data-set-theme="light" aria-pressed="true"><svg class="icon ic-18">
+              <use href="#i-sun" />
+            </svg><span>فاتح</span></button>
+          <button class="seg-btn" data-set-theme="dark" aria-pressed="false"><svg class="icon ic-18">
+              <use href="#i-moon" />
+            </svg><span>داكن</span></button>
+        </div>
+      </div>
+
+      <div class="set-row">
+        <p class="set-label"><svg class="icon ic-20">
+            <use href="#i-type" />
+          </svg><span>حجم الخط</span></p>
+        <div class="seg" role="group">
+          <button class="seg-btn" data-set-font="small" aria-pressed="false">صغير</button>
+          <button class="seg-btn" data-set-font="normal" aria-pressed="true">عادي</button>
+          <button class="seg-btn" data-set-font="large" aria-pressed="false">كبير</button>
+        </div>
+      </div>
+
+      <!-- خاصية تسجيل الخروج -->
+      <div class="set-row pt-3">
+        <button id="logoutBtn"
+          class="btn btn-outline btn-sm w-full text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/40 border-rose-200 dark:border-rose-900 flex items-center justify-center gap-2 font-bold"
+          data-dash-logout>
+          <svg class="icon ic-18 text-rose-500">
+            <use href="#i-logout" />
+          </svg>
+          <span>تسجيل الخروج</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ===== بطاقة الإشعارات المنبثقة بالجافاسكربت ===== -->
+    <div id="notifCard" class="pop notif-card" role="dialog" aria-labelledby="notifTitle">
+      <div class="mb-3 flex items-center justify-between pb-2 border-b border-line">
+        <div class="flex items-center gap-2">
+          <h2 id="notifTitle" class="text-base font-bold">الإشعارات</h2>
+          <span id="popNotifCount" class="badge"
+            style="background:var(--chip-bg);color:var(--chip-fg);font-size:.75rem">2 جديدة</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="markAllNotifsReadBtn" class="text-xs text-primary font-bold hover:underline"
+            title="تحديد الكل كمقروء">
+            تحديد كمقروء
+          </button>
+          <button class="icon-btn icon-btn-sm" data-close-panel aria-label="إغلاق"><svg class="icon ic-18">
+              <use href="#i-x" />
+            </svg></button>
+        </div>
+      </div>
+
+      <div id="notifCardList" class="space-y-2.5 max-h-[360px] overflow-y-auto pr-1">
+        <!-- يتم حقن الإشعارات بالجافاسكربت -->
+      </div>
+    </div>
+
+    <!-- ===================== المنطقة الرئيسية للمحتوى ===================== -->
+    <div class="dash-main">
+
+      <main class="dash-content">
+
+        <!-- ================= الملف الشخصي ================= -->
+        <section id="view-profile" class="dash-view is-active">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+            <div>
+              <h2 class="text-2xl font-extrabold text-ink">الملف الشخصي للمستفيد</h2>
+              <p class="text-sm t-body mt-1">إدارة معلوماتك الشخصية، وصورتك، وتفضيلات الهوية والسرية التامة في منصة ملاذ.</p>
+            </div>
+            <div class="flex items-center gap-2">
+              
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <!-- العمود الأيمن: بطاقة الصورة الشخصية وهوية المستفيد -->
+            <div class="dash-card flex flex-col items-center text-center p-6">
+              <div class="relative mb-4 group">
+                <!-- حاوية الصورة الشخصية الدائرية -->
+                <div class="w-32 h-32 rounded-full border-4 border-white dark:border-slate-800 shadow-xl overflow-hidden bg-gradient-to-tr from-blue-100 to-sky-100 dark:from-slate-800 dark:to-slate-700 flex items-center justify-center relative">
+                  <img id="profileAvatarImg" src="" alt="الصورة الشخصية" class="w-full h-full object-cover hidden" />
+                  <div id="profileAvatarFallback" class="text-4xl font-extrabold text-primary select-none">
+                    ع
+                  </div>
+                </div>
+                <!-- زر رفع وتعديل الصورة العائم -->
+                <button type="button" id="changeAvatarBtn" class="absolute bottom-1 inset-inline-end-1 w-10 h-10 rounded-full bg-primary text-white shadow-lg hover:bg-sky-600 active:scale-95 transition-all grid place-items-center" title="إضافة أو تغيير الصورة الشخصية" aria-label="تغيير الصورة">
+                  <svg class="icon ic-18"><use href="#i-camera" /></svg>
+                </button>
+                <input type="file" id="profileAvatarInput" accept="image/png, image/jpeg, image/webp" hidden />
+              </div>
+
+              <!-- معلومات العرض -->
+              <h3 class="text-xl font-extrabold text-ink mb-1" id="profileDisplayName">عبد الرحمن الشمري</h3>
+              <p class="text-xs font-semibold text-primary mb-4" id="profileDisplayEmail">abdulrahman@example.com</p>
+
+              <!-- زر إضافة / تغيير الصورة الرسمي -->
+              <div class="w-full space-y-2 mb-6">
+                <button type="button" id="triggerAvatarUploadBtn" class="btn btn-outline btn-sm w-full flex items-center justify-center gap-2">
+                  <svg class="icon ic-18 text-primary"><use href="#i-camera" /></svg>
+                  <span>إضافة / تغيير الصورة الشخصية</span>
+                </button>
+                <button type="button" id="removeAvatarBtn" class="text-xs text-rose-500 font-bold hover:underline w-full text-center" style="display:none;">
+                  إزالة الصورة والعودة للحرف الرمزي
+                </button>
+              </div>
+
+              <div class="w-full pt-4 border-t border-line space-y-3 text-xs text-start">
+                <div class="flex items-center justify-between">
+                  <span class="t-muted">حالة الحساب:</span>
+                  <span class="inline-flex items-center gap-1.5 text-emerald-600 font-bold">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                    <span>مستفيد نشط ومحمي</span>
+                  </span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="t-muted">تاريخ الانضمام:</span>
+                  <span class="font-bold text-ink">1 أكتوبر 2025</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="t-muted">أيام التعافي المسجلة:</span>
+                  <span class="font-bold text-primary" id="profileRecoveryDaysDisplay">42 يوماً</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="t-muted">الجلسات المكتملة:</span>
+                  <span class="font-bold text-ink">3 استشارات</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- العمود الأيسر: نموذج تعديل المعلومات الكاملة وإعدادات الأمان -->
+            <div class="lg:col-span-2 space-y-6">
+
+              <!-- نموذج تعديل المعلومات الشخصية -->
+              <div class="dash-card">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 pb-3 border-b border-line">
+                  <div>
+                    <h3 class="font-bold text-lg text-ink flex items-center gap-2">
+                      <svg class="icon ic-20 text-primary"><use href="#i-user" /></svg>
+                      <span>المعلومات الشخصية والبيانات المسجلة</span>
+                    </h3>
+                    <p class="text-xs t-body mt-0.5">جميع معلوماتك التي أدخلتها عند التسجيل. يمكنك تعديل أي حقل ويتم حفظها تلقائياً.</p>
+                  </div>
+                </div>
+
+                <form id="profileForm" class="space-y-4">
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="field">
+                      <label for="profileUsername">الاسم أو الاسم المستعار</label>
+                      <div class="input-wrap">
+                        <svg class="icon ic-18"><use href="#i-user" /></svg>
+                        <input id="profileUsername" type="text" required placeholder="اسمك أو الاسم المفضل لك" />
+                      </div>
+                      <p class="text-xs t-muted mt-1">يظهر هذا الاسم في الجلسات ولأخصائيك النفسي.</p>
+                    </div>
+
+                    <div class="field">
+                      <label for="profileEmail">البريد الإلكتروني</label>
+                      <div class="input-wrap">
+                        <svg class="icon ic-18"><use href="#i-user" /></svg>
+                        <input id="profileEmail" type="email" dir="ltr" required placeholder="example@mail.com" />
+                      </div>
+                    </div>
+
+                   
+
+                    <div class="field">
+                      <label for="profileAge">العمر (بالسنوات)</label>
+                      <div class="input-wrap">
+                        <svg class="icon ic-18"><use href="#i-calendar" /></svg>
+                        <input id="profileAge" type="number" min="16" max="100" placeholder="29" />
+                      </div>
+                    </div>
+
+                    <div class="field">
+                      <label for="profileRecoveryDate">تاريخ بداية رحلة التعافي</label>
+                      <div class="input-wrap">
+                        <svg class="icon ic-18"><use href="#i-calendar" /></svg>
+                        <input id="profileRecoveryDate" type="date" />
+                      </div>
+                      <p class="text-xs t-muted mt-1">يُحتسب منه عدد أيام الالتزام التقديرية ونسبة التقدم.</p>
+                    </div>
+
+                    
+                  </div>
+
+                  
+
+                  <div class="pt-4 border-t border-line flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <div class="text-xs font-semibold text-emerald-600 flex items-center gap-1.5" id="profileSaveStatusHint">
+                      <svg class="icon ic-16"><use href="#i-check" /></svg>
+                      <span>التعديلات تُحفظ تلقائياً في حسابك</span>
+                    </div>
+
+                    <div class="flex items-center gap-2 w-full sm:w-auto">
+                      <button type="submit" id="saveProfileBtn" class="btn btn-solid btn-sm flex-1 sm:flex-initial flex items-center justify-center gap-2">
+                        <svg class="icon ic-18"><use href="#i-check" /></svg>
+                        <span>تعديل وحفظ المعلومات</span>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+              <!-- بطاقة تغيير كلمة المرور والأمان -->
+              <div class="dash-card">
+                <h3 class="font-bold text-lg mb-3 flex items-center gap-2">
+                  <svg class="icon ic-20 text-primary"><use href="#i-lock" /></svg>
+                  <span>تغيير كلمة المرور وأمان الحساب</span>
+                </h3>
+                <p class="text-xs t-body mb-4">احرص على استخدام كلمة مرور قوية تحتوي على أحرف وأرقام لحماية حسابك.</p>
+
+                <form id="passwordForm" class="space-y-4">
+                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="field">
+                      <label for="oldPass">كلمة المرور الحالية</label>
+                      <div class="input-wrap">
+                        <svg class="icon ic-18"><use href="#i-lock" /></svg>
+                        <input id="oldPass" type="password" required placeholder="••••••••" />
+                      </div>
+                    </div>
+
+                    <div class="field">
+                      <label for="newPass">كلمة المرور الجديدة</label>
+                      <div class="input-wrap">
+                        <svg class="icon ic-18"><use href="#i-lock" /></svg>
+                        <input id="newPass" type="password" required placeholder="8 خانات على الأقل" />
+                      </div>
+                    </div>
+
+                    <div class="field">
+                      <label for="confPass">تأكيد كلمة المرور الجديدة</label>
+                      <div class="input-wrap">
+                        <svg class="icon ic-18"><use href="#i-lock" /></svg>
+                        <input id="confPass" type="password" required placeholder="تأكيد الكلمة" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="flex justify-end pt-2">
+                    <button type="submit" class="btn btn-outline btn-sm">
+                      <span>تحديث كلمة المرور</span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+
+            </div>
+
+          </div>
+        </section>
+
+      </main>
+
+      <!-- ===================== الفوتر المعتمد (مع الشعار الأبيض من المجلد) ===================== -->
+      <footer class="site-footer mt-auto">
+        <div
+          class="mx-auto grid max-w-[1280px] gap-8 px-5 py-12 sm:px-8 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
+          <div>
+            <a href="dashboard.html" class="mb-4 flex items-center gap-3" data-nav="home">
+              <img src="assets/logo-white.png" alt="ملاذ" class="logo footer-logo h-12 w-auto" />
+              <span class="text-3xl font-bold" style="color:var(--aqua)">ملاذ</span>
+            </a>
+            <p class="footer-text max-w-xs">
+              مساحتك الآمنة نحو السلام النفسي والتعافي المستدام. نحن بجانبك في كل خطوة.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="footer-h">واجهات المستفيد</h3>
+            <ul class="footer-list text-sm">
+              <li><a href="dashboard.html" data-nav="home">الرئيسية</a></li>
+              <li><a href="dashboard.html#consultations" data-nav="consultations">الاستشارات النفسية</a></li>
+              <li><a href="dashboard.html#recovery" data-nav="recovery">رحلة التعافي</a></li>
+              <li><a href="appointments.html" data-nav="appointments">مواعيدي</a></li>
+              <li><a href="support.html" data-nav="support">الدعم الخاص</a></li>
+              <li><a href="profile.html" data-nav="profile">الملف الشخصي</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="footer-h">مصادر الدعم</h3>
+            <ul class="footer-list text-sm">
+              <li><a href="dashboard.html#recovery" data-nav="recovery">متابعة مسار التعافي</a></li>
+              <li><a href="support.html" data-nav="support">المحادثة السرية المشفرة</a></li>
+              <li><a href="dashboard.html#consultations" data-nav="consultations">نخبة الأخصائيين النفسيين</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="footer-h">السرية والأمان</h3>
+            <p class="footer-note">
+              منصة ملاذ تطبق أقصى معايير حماية البيانات الطبية المشفرة. خصوصيتك وكرامتك هما أولويتنا المطلقة دائماً.
+            </p>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <div class="mx-auto flex max-w-[1280px] flex-wrap items-center justify-between gap-3 px-5 py-4 sm:px-8">
+            <p>© 2026 ملاذ (Maladh). جميع الحقوق محفوظة للمستفيدين.</p>
+            <p class="flex items-center gap-2">
+              <svg class="icon ic-18">
+                <use href="#i-shield" />
+              </svg>
+              <span>خصوصيتك وأمانك في صدارة أولوياتنا</span>
+            </p>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+  </div>
+
+  <!-- حاوية إشعارات التوست -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- السكربت الموحد لتشغيل المنصة -->
+  <script src="js/dashboard.js"></script>
 </body>
 
 </html>

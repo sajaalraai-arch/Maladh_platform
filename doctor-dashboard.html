@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ملاذ | لوحة تحكم الأخصائي النفسي</title>
+
+  <!-- خط Cairo المعتمد لمنصة ملاذ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+
+  <!-- ستايل لوحة تحكم الأخصائي -->
+  <link rel="stylesheet" href="css/doctor-dashboard.css" />
+</head>
+
+<body>
+
+  <!-- ===================== رموز الأيقونات SVG المشتركة ===================== -->
+  <svg class="hidden" style="display:none;" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="i-home" viewBox="0 0 24 24">
+      <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+      <polyline points="9 22 9 12 15 12 15 22" />
+    </symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24">
+      <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+      <line x1="16" y1="2" x2="16" y2="6" />
+      <line x1="8" y1="2" x2="8" y2="6" />
+      <line x1="3" y1="10" x2="21" y2="10" />
+    </symbol>
+    <symbol id="i-users" viewBox="0 0 24 24">
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </symbol>
+    <symbol id="i-user" viewBox="0 0 24 24">
+      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+      <circle cx="12" cy="7" r="4" />
+    </symbol>
+    <symbol id="i-message-square" viewBox="0 0 24 24">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+    </symbol>
+    <symbol id="i-clipboard" viewBox="0 0 24 24">
+      <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+      <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
+    </symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10" />
+      <polyline points="12 6 12 12 16 14" />
+    </symbol>
+    <symbol id="i-search" viewBox="0 0 24 24">
+      <circle cx="11" cy="11" r="8" />
+      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+    </symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24">
+      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+      <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+    </symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="3" />
+      <path
+        d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+    </symbol>
+    <symbol id="i-video" viewBox="0 0 24 24">
+      <polygon points="23 7 16 12 23 17 23 7" />
+      <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+    </symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+      <circle cx="12" cy="12" r="3" />
+    </symbol>
+    <symbol id="i-check" viewBox="0 0 24 24">
+      <polyline points="20 6 9 17 4 12" />
+    </symbol>
+    <symbol id="i-check-circle" viewBox="0 0 24 24">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+      <polyline points="22 4 12 14.01 9 11.01" />
+    </symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24">
+      <path
+        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+    </symbol>
+    <symbol id="i-x" viewBox="0 0 24 24">
+      <line x1="18" y1="6" x2="6" y2="18" />
+      <line x1="6" y1="6" x2="18" y2="18" />
+    </symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+    </symbol>
+    <symbol id="i-mic" viewBox="0 0 24 24">
+      <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+      <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+      <line x1="12" y1="19" x2="12" y2="23" />
+      <line x1="8" y1="23" x2="16" y2="23" />
+    </symbol>
+    <symbol id="i-share" viewBox="0 0 24 24">
+      <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+      <polyline points="16 6 12 2 8 6" />
+      <line x1="12" y1="2" x2="12" y2="15" />
+    </symbol>
+    <symbol id="i-logout" viewBox="0 0 24 24">
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+      <polyline points="16 17 21 12 16 7" />
+      <line x1="21" y1="12" x2="9" y2="12" />
+    </symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24">
+      <line x1="3" y1="12" x2="21" y2="12" />
+      <line x1="3" y1="6" x2="21" y2="6" />
+      <line x1="3" y1="18" x2="21" y2="18" />
+    </symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24">
+      <polyline points="3 6 5 6 21 6" />
+      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+      <line x1="10" y1="11" x2="10" y2="17" />
+      <line x1="14" y1="11" x2="14" y2="17" />
+    </symbol>
+    <symbol id="i-bar-chart" viewBox="0 0 24 24">
+      <line x1="18" y1="20" x2="18" y2="10" />
+      <line x1="12" y1="20" x2="12" y2="4" />
+      <line x1="6" y1="20" x2="6" y2="14" />
+    </symbol>
+    <symbol id="i-chevron-right" viewBox="0 0 24 24">
+      <polyline points="9 18 15 12 9 6" />
+    </symbol>
+    <symbol id="i-chevron-left" viewBox="0 0 24 24">
+      <polyline points="15 18 9 12 15 6" />
+    </symbol>
+    <symbol id="i-calendar-clock" viewBox="0 0 24 24">
+      <path d="M21 7.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3.5" />
+      <line x1="16" y1="2" x2="16" y2="6" />
+      <line x1="8" y1="2" x2="8" y2="6" />
+      <line x1="3" y1="10" x2="21" y2="10" />
+      <circle cx="17.5" cy="17.5" r="4.5" />
+      <polyline points="17.5 15.5 17.5 17.5 19 18.5" />
+    </symbol>
+    <symbol id="i-x-circle" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10" />
+      <line x1="15" y1="9" x2="9" y2="15" />
+      <line x1="9" y1="9" x2="15" y2="15" />
+    </symbol>
+    <symbol id="i-filter" viewBox="0 0 24 24">
+      <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+    </symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24">
+      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+    </symbol>
+    <symbol id="i-file-text" viewBox="0 0 24 24">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+      <polyline points="14 2 14 8 20 8" />
+      <line x1="16" y1="13" x2="8" y2="13" />
+      <line x1="16" y1="17" x2="8" y2="17" />
+      <polyline points="10 9 9 9 8 9" />
+    </symbol>
+    <symbol id="i-printer" viewBox="0 0 24 24">
+      <polyline points="6 9 6 2 18 2 18 9" />
+      <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+      <rect x="6" y="14" width="12" height="8" />
+    </symbol>
+  </svg>
+
+  <div class="doc-layout">
+
+    <!-- ===================== 5. الشريط الجانبي الأيمن الثابت (Right Sidebar) ===================== -->
+    <aside id="docSidebar" class="doc-sidebar">
+
+      <!-- ترويسة الشريط: الشعار واسم MALADH -->
+      <div class="doc-sidebar-header">
+        <div class="flex items-center justify-between w-full md:justify-center">
+          <img src="assets/logo-white.png" alt="ملاذ" class="doc-sidebar-logo" />
+        </div>
+        <span class="doc-sidebar-brand-name">MALADH</span>
+      </div>
+
+      <!-- قائمة التنقل التالية بالترتيب الدقيق -->
+      <nav class="doc-nav-list" role="navigation" aria-label="القائمة الجانبية للأخصائي">
+        <!-- 1. الرئيسية – أيقونة Home -->
+        <li class="doc-nav-item">
+          <button type="button" class="doc-nav-link" data-doc-nav="home" role="tab" aria-selected="false">
+            <svg class="icon ic-20">
+              <use href="#i-home" />
+            </svg>
+            <span>الرئيسية</span>
+          </button>
+        </li>
+
+        <!-- 2. إدارة المواعيد – أيقونة Calendar (العنصر النشط افتراضياً بخلفية بيضاء وحواف دائرية على اليمين وحادة على اليسار) -->
+        <li class="doc-nav-item">
+          <button type="button" class="doc-nav-link is-active" data-doc-nav="appointments" role="tab"
+            aria-selected="true">
+            <svg class="icon ic-20">
+              <use href="#i-calendar" />
+            </svg>
+            <span>إدارة المواعيد</span>
+            <span class="doc-nav-badge" id="sidebarApptsBadge">8 مجدولة</span>
+          </button>
+        </li>
+
+        <!-- 3. المستفيدون – أيقونة Users -->
+        <li class="doc-nav-item">
+          <button type="button" class="doc-nav-link" data-doc-nav="beneficiaries" role="tab" aria-selected="false">
+            <svg class="icon ic-20">
+              <use href="#i-users" />
+            </svg>
+            <span>المستفيدون</span>
+          </button>
+        </li>
+
+        <!-- 4. الاستشارات والمحادثات – أيقونة Messages -->
+        <li class="doc-nav-item">
+          <button type="button" class="doc-nav-link" data-doc-nav="consultations" role="tab" aria-selected="false">
+            <svg class="icon ic-20">
+              <use href="#i-message-square" />
+            </svg>
+            <span>الاستشارات والمحادثات</span>
+            <span class="doc-nav-badge">3</span>
+          </button>
+        </li>
+
+        <!-- 5. الجلسات والتقارير – أيقونة Clipboard -->
+        <li class="doc-nav-item">
+          <button type="button" class="doc-nav-link" data-doc-nav="reports" role="tab" aria-selected="false">
+            <svg class="icon ic-20">
+              <use href="#i-clipboard" />
+            </svg>
+            <span>الجلسات والتقارير</span>
+          </button>
+        </li>
+
+        <!-- 6. جدول التوفر – أيقونة Clock -->
+        <li class="doc-nav-item">
+          <button type="button" class="doc-nav-link" data-doc-nav="schedule" role="tab" aria-selected="false">
+            <svg class="icon ic-20">
+              <use href="#i-clock" />
+            </svg>
+            <span>جدول التوفر</span>
+          </button>
+        </li>
+      </nav>
+
+      <!-- بطاقة الدعم الفني في أسفل الشريط الجانبي -->
+      <div class="doc-support-card">
+        <div class="doc-support-icon">
+          <svg class="icon ic-20">
+            <use href="#i-phone" />
+          </svg>
+        </div>
+        <div class="doc-support-info">
+          <span class="doc-support-title">دعم فني</span>
+          <a href="tel:772572361" class="doc-support-phone">772572361</a>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- ===================== مساحة المحتوى الرئيسية (Main Content Area) ===================== -->
+    <main class="doc-main-content">
+
+      <!-- ===================== 4. الشريط العلوي Top Navbar ===================== -->
+      <header class="doc-top-navbar" role="banner">
+
+        <!-- شعار منصة ملاذ على اليمين مع زر الموبايل -->
+        <div class="flex items-center gap-2">
+          <button type="button" id="docMobileToggleBtn" class="doc-icon-btn doc-mobile-toggle" aria-label="فتح القائمة">
+            <svg class="icon ic-20">
+              <use href="#i-menu" />
+            </svg>
+          </button>
+          <a href="#" class="doc-top-brand" data-doc-nav="home">
+            <img src="assets/logo.png" alt="ملاذ" class="doc-top-logo" />
+            <span class="doc-top-title">ملاذ</span>
+          </a>
+        </div>
+
+        <!-- حقل بحث أفقي في المنتصف -->
+        <div class="doc-search-bar">
+          <svg class="icon ic-18 doc-search-icon">
+            <use href="#i-search" />
+          </svg>
+          <input type="text" id="docGlobalSearch" class="doc-search-input" placeholder="ابحث هنا..."
+            aria-label="بحث في المواعيد والمستفيدين" />
+        </div>
+
+        <!-- أدوات الجهة اليسرى: صورة واسم الطبيب، الإشعارات، الإعدادات -->
+        <div class="doc-top-actions">
+
+          <!-- صورة واسم الأخصائية (د. حسب المدخل عند تسجيل الدخول، الضغط يفتح الملف الشخصي) -->
+          <button type="button" id="doctorProfileHeaderBtn" class="doc-profile-pill" title="فتح الملف الشخصي للأخصائي">
+            <img src="assets/specialist-sara.jpg" id="headerDoctorAvatar" alt="الأخصائية" class="doc-doctor-avatar" />
+            <span id="headerDoctorName" class="doc-doctor-name">د. سارة العتيبي</span>
+          </button>
+
+          <!-- أيقونة إشعارات واحدة فقط مع نقطة حمراء صغيرة -->
+          <div class="relative">
+            <button type="button" id="docNotifBtn" class="doc-icon-btn" aria-label="الإشعارات"
+              title="الإشعارات الأخيرة">
+              <svg class="icon ic-20">
+                <use href="#i-bell" />
+              </svg>
+              <span id="docNotifDot" class="doc-notif-dot"></span>
+            </button>
+
+            <!-- القائمة المنسدلة للإشعارات -->
+            <div id="docNotifMenu" class="doc-popover-menu" role="dialog" aria-label="الإشعارات الأخيرة">
+              <div class="flex items-center justify-between pb-2 border-b border-line">
+                <h4 class="font-bold text-sm text-ink">الإشعارات الأخيرة</h4>
+                <span class="text-[11px] text-primary font-bold">المختص</span>
+              </div>
+              <div id="docNotifList" class="space-y-2 max-h-[280px] overflow-y-auto">
+                <!-- يتم حقنها بالجافاسكربت -->
+              </div>
+            </div>
+          </div>
+
+          <!-- أيقونة الإعدادات -->
+          <button type="button" id="docSettingsBtn" class="doc-icon-btn" aria-label="الإعدادات" title="الإعدادات">
+            <svg class="icon ic-20">
+              <use href="#i-settings" />
+            </svg>
+          </button>
+
+        </div>
+      </header>
+
+      <!-- =====================================================================
+           المشهد الأول: الرئيسية (Home View)
+           ===================================================================== -->
+      <section id="view-home" class="doc-view">
+
+
+        <!-- 7. بطاقات الإحصائيات الرئيسية الأربع -->
+        <div class="doc-stats-grid">
+
+          <!-- البطاقة الأولى: مواعيد هذا الشهر -->
+          <div class="doc-stat-card">
+            <div class="doc-stat-top">
+              <div class="doc-stat-icon-circle">
+                <svg class="icon ic-22">
+                  <use href="#i-calendar" />
+                </svg>
+              </div>
+              <button type="button" class="doc-stat-detail-btn" data-stat-modal="monthAppts" title="عرض التفاصيل">
+                <span>التفاصيل</span>
+                <svg class="icon ic-14">
+                  <use href="#i-eye" />
+                </svg>
+              </button>
+            </div>
+            <div>
+              <div id="statMonthAppts" class="doc-stat-number">18</div>
+              <div class="doc-stat-title">مواعيد هذا الشهر</div>
+            </div>
+          </div>
+
+          <!-- البطاقة الثانية: معدل إكمال الجلسات -->
+          <div class="doc-stat-card">
+            <div class="doc-stat-top">
+              <div class="doc-stat-icon-circle" style="background:#ECFDF5; color:#10B981;">
+                <svg class="icon ic-22">
+                  <use href="#i-check" />
+                </svg>
+              </div>
+              <button type="button" class="doc-stat-detail-btn" data-stat-modal="completionRate" title="عرض التفاصيل">
+                <span>التفاصيل</span>
+                <svg class="icon ic-14">
+                  <use href="#i-eye" />
+                </svg>
+              </button>
+            </div>
+            <div>
+              <div id="statCompletionRate" class="doc-stat-number">92%</div>
+              <div class="doc-stat-title">معدل إكمال الجلسات..</div>
+            </div>
+          </div>
+
+          <!-- البطاقة الثالثة: إجمالي المستفيدين -->
+          <div class="doc-stat-card">
+            <div class="doc-stat-top">
+              <div class="doc-stat-icon-circle">
+                <svg class="icon ic-22">
+                  <use href="#i-users" />
+                </svg>
+              </div>
+              <button type="button" class="doc-stat-detail-btn" data-stat-modal="totalPatients" title="عرض التفاصيل">
+                <span>التفاصيل</span>
+                <svg class="icon ic-14">
+                  <use href="#i-eye" />
+                </svg>
+              </button>
+            </div>
+            <div>
+              <div id="statTotalPatients" class="doc-stat-number">32</div>
+              <div class="doc-stat-title">إجمالي المستفيدين</div>
+            </div>
+          </div>
+
+          <!-- البطاقة الرابعة: طلبات الحجز الجديدة -->
+          <div class="doc-stat-card">
+            <div class="doc-stat-top">
+              <div class="doc-stat-icon-circle" style="background:#FFFBEB; color:#F59E0B;">
+                <svg class="icon ic-22">
+                  <use href="#i-clipboard" />
+                </svg>
+              </div>
+              <button type="button" class="doc-stat-detail-btn" data-stat-modal="newRequests" title="عرض التفاصيل">
+                <span>التفاصيل</span>
+                <svg class="icon ic-14">
+                  <use href="#i-eye" />
+                </svg>
+              </button>
+            </div>
+            <div>
+              <div id="statNewRequests" class="doc-stat-number">5</div>
+              <div class="doc-stat-title">طلبات الحجز الجديدة</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 8. بطاقة مواعيد اليوم (بطاقة عريضة تأخذ معظم المساحة) -->
+        <div class="doc-today-card">
+
+          <div class="doc-today-header">
+            <div class="doc-today-title-wrap">
+              <div class="doc-today-icon">
+                <svg class="icon ic-22">
+                  <use href="#i-calendar" />
+                </svg>
+              </div>
+              <div>
+                <h2 class="doc-today-h">مواعيد اليوم</h2>
+              </div>
+            </div>
+          </div>
+
+          <!-- الجدول المنظم للأعمدة المحددة بالترتيب الدقيق -->
+          <div class="doc-table-wrap">
+            <table class="doc-table" aria-label="جدول مواعيد اليوم">
+              <thead>
+                <tr>
+                  <th scope="col">اسم المستفيد</th>
+                  <th scope="col">وقت الموعد</th>
+                  <th scope="col">نوع الاستشارة</th>
+                  <th scope="col">نوع الجلسة</th>
+                  <th scope="col">بدء الجلسة</th>
+                  <th scope="col">عرض التفاصيل</th>
+                </tr>
+              </thead>
+              <tbody id="todayApptsTableBody">
+                <!-- يتم حقن صفوف المواعيد ديناميكياً بواسطة JavaScript -->
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- =====================================================================
+           المشهد الثاني: إدارة المواعيد (Appointments Manager View)
+           ===================================================================== -->
+      <section id="view-appointments" class="doc-view is-active">
+
+        <!-- الترويسة العلوية لإدارة المواعيد -->
+        <div class="doc-view-title-row">
+          <div>
+            <h1 class="doc-page-heading">إدارة المواعيد والاستشارات</h1>
+          </div>
+          <button type="button" class="doc-table-btn doc-btn-start-blue" id="topAddApptBtn">
+            <svg class="icon ic-18">
+              <use href="#i-calendar" />
+            </svg>
+            <span>إضافة موعد جديد</span>
+          </button>
+        </div>
+
+
+        <!-- ثانياً: قسم إحصائيات المواعيد (بطاقة أفقية كبيرة بعرض كامل) -->
+        <div class="doc-stats-horizontal-card">
+
+
+          <!-- الكروت الإحصائية الأربعة الموزعة بالتساوي -->
+          <div class="doc-substats-grid">
+
+            <!-- الكرت الأول: مواعيد اليوم -->
+            <div class="doc-substat-card is-today">
+              <div class="doc-substat-top">
+                <div class="doc-substat-icon-wrap" style="background:#E5EEFF; color:#24558F;">
+                  <svg class="icon ic-20">
+                    <use href="#i-calendar" />
+                  </svg>
+                </div>
+                <span class="text-xs font-bold text-primary">اليوم</span>
+              </div>
+              <div>
+                <div id="statApptsToday" class="doc-substat-number">3</div>
+                <div class="doc-substat-label">مواعيد اليوم</div>
+              </div>
+            </div>
+
+            <!-- الكرت الثاني: المواعيد القادمة -->
+            <div class="doc-substat-card is-upcoming">
+              <div class="doc-substat-top">
+                <div class="doc-substat-icon-wrap" style="background:#EBF5FF; color:#3278C7;">
+                  <svg class="icon ic-20">
+                    <use href="#i-calendar" />
+                  </svg>
+                </div>
+                <span class="text-xs font-bold text-primary">مجدولة</span>
+              </div>
+              <div>
+                <div id="statApptsUpcoming" class="doc-substat-number">8</div>
+                <div class="doc-substat-label">المواعيد القادمة</div>
+              </div>
+            </div>
+
+            <!-- الكرت الثالث: المواعيد المكتملة (أخضر) -->
+            <div class="doc-substat-card is-completed">
+              <div class="doc-substat-top">
+                <div class="doc-substat-icon-wrap" style="background:#ECFDF5; color:#10B981;">
+                  <svg class="icon ic-20">
+                    <use href="#i-check" />
+                  </svg>
+                </div>
+                <span class="text-xs font-bold text-emerald-600">منجزة</span>
+              </div>
+              <div>
+                <div id="statApptsCompleted" class="doc-substat-number text-emerald-600">45</div>
+                <div class="doc-substat-label">المواعيد المكتملة</div>
+              </div>
+            </div>
+
+            <!-- الكرت الرابع: المواعيد الملغاة (أحمر هادئ) -->
+            <div class="doc-substat-card is-cancelled">
+              <div class="doc-substat-top">
+                <div class="doc-substat-icon-wrap" style="background:#FEF2F2; color:#EF4444;">
+                  <svg class="icon ic-20">
+                    <use href="#i-x-circle" />
+                  </svg>
+                </div>
+                <span class="text-xs font-bold text-rose-600">ملغاة</span>
+              </div>
+              <div>
+                <div id="statApptsCancelled" class="doc-substat-number text-rose-600">2</div>
+                <div class="doc-substat-label">المواعيد الملغاة</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ثالثاً: قسم إدارة المواعيد Appointment Management وجدول المواعيد -->
+        <div class="doc-today-card">
+
+          <div class="doc-today-header">
+            <div class="doc-today-title-wrap">
+              <div class="doc-today-icon">
+                <svg class="icon ic-22"><use href="#i-calendar"/></svg>
+              </div>
+              <div>
+                <h2 class="doc-today-h">قائمة المواعيد</h2>
+                <span id="apptsFilterResultsCount" class="doc-today-counter">عرض 8 مواعيد قادمة</span>
+              </div>
+            </div>
+
+            <!-- أدوات الفرز والبحث المدمجة -->
+            <div class="doc-table-controls-wrap">
+              <!-- حقل البحث باسم المستفيد، التاريخ، أو نوع الاستشارة -->
+              <div class="doc-search-bar" style="max-width:300px;">
+                <svg class="icon ic-18 doc-search-icon"><use href="#i-search"/></svg>
+                <input type="text" id="apptsSearchInput" class="doc-search-input" placeholder="ابحث باسم المستفيد، التاريخ، أو نوع الاستشارة..." aria-label="بحث في قائمة المواعيد" />
+              </div>
+              
+              <!-- تصفية حسب نوع الاستشارة مع أيقونة الفلترة قبلها -->
+              <div class="doc-filter-wrap">
+                <svg class="icon ic-16 doc-filter-icon"><use href="#i-filter"/></svg>
+                <select id="apptsTypeFilter" class="doc-filter-select" aria-label="تصفية حسب نوع الاستشارة">
+                  <option value="">جميع أنواع الجلسات</option>
+                  <option value="استشارة نفسية فردية">استشارة نفسية فردية</option>
+                  <option value="جلسة متابعة نفسية">جلسة متابعة نفسية</option>
+                  <option value="جلسة علاجية">جلسة علاجية</option>
+                  <option value="جلسة دعم وإرشاد">جلسة دعم وإرشاد</option>
+                  <option value="استشارة أولية">استشارة أولية</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- شريط التبويبات Tabs بخمسة أزرار تفاعلية حقيقية -->
+          <div class="doc-tabs-bar" role="tablist" aria-label="تصنيفات المواعيد">
+            <button type="button" class="doc-tab-btn" data-appts-tab="new" role="tab" aria-selected="false">
+              <span>المواعيد الجديدة</span>
+              <span id="tabBadgeNew" class="doc-tab-count">3</span>
+            </button>
+            <button type="button" class="doc-tab-btn" data-appts-tab="today" role="tab" aria-selected="false">
+              <span>مواعيد اليوم</span>
+              <span id="tabBadgeToday" class="doc-tab-count">3</span>
+            </button>
+            <button type="button" class="doc-tab-btn is-active" data-appts-tab="upcoming" role="tab" aria-selected="true">
+              <span>المواعيد القادمة</span>
+              <span id="tabBadgeUpcoming" class="doc-tab-count">8</span>
+            </button>
+            <button type="button" class="doc-tab-btn" data-appts-tab="completed" role="tab" aria-selected="false">
+              <span>المواعيد المكتملة</span>
+              <span id="tabBadgeCompleted" class="doc-tab-count">45</span>
+            </button>
+            <button type="button" class="doc-tab-btn" data-appts-tab="cancelled" role="tab" aria-selected="false">
+              <span>المواعيد الملغاة</span>
+              <span id="tabBadgeCancelled" class="doc-tab-count">2</span>
+            </button>
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          </div>
+
+          <!-- جدول المواعيد المنظم بنظام RTL -->
+          <div class="doc-table-wrap">
+            <table class="doc-table" aria-label="جدول إدارة المواعيد">
+              <thead>
+                <tr>
+                  <th scope="col">المستفيد</th>
+                  <th scope="col">التاريخ</th>
+                  <th scope="col">الوقت</th>
+                  <th scope="col">نوع الجلسة</th>
+                  <th scope="col">الحالة</th>
+                  <th scope="col" style="text-align:center;">الإجراءات</th>
+                </tr>
+              </thead>
+              <tbody id="apptsManagerTableBody">
+                <!-- يتم توليد صفوف المواعيد بواسطة JavaScript -->
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- =====================================================================
+           المشهد الثالث: المستفيدون (Beneficiaries View)
+           ===================================================================== -->
+      <section id="view-beneficiaries" class="doc-view">
+        <div class="doc-today-card">
+          <div class="flex items-center justify-between pb-3 border-b border-line">
+            <div>
+              <h2 class="doc-today-h">سجل المستفيدين والحالات</h2>
+              <p class="text-xs text-muted mt-1">الملفات السريرية للمستفيدين تحت إشرافك ومتابعة تقدمهم.</p>
+            </div>
+          </div>
+          <div id="beneficiariesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
+            <!-- يتم حقن البطاقات بالجافاسكربت -->
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           المشهد الرابع: الاستشارات والمحادثات (Doctor Consultations & Messages)
+           ===================================================================== -->
+      <section id="view-consultations" class="doc-view">
+        <div class="doc-today-card">
+          <div class="pb-3 border-b border-line">
+            <h2 class="doc-today-h">المحادثات والاستشارات السرية</h2>
+            <p class="text-xs text-muted mt-1">قناة تواصل مشفرة ومباشرة مع المستفيدين المسجلين في جدولك.</p>
+          </div>
+          <div class="p-6 text-center text-muted bg-bg-soft rounded-2xl border border-line">
+            <svg class="icon ic-32 text-primary mx-auto mb-2">
+              <use href="#i-message-square" />
+            </svg>
+            <h3 class="font-bold text-ink text-base">غرفة المحادثات المهنية للأخصائي</h3>
+            <p class="text-xs max-w-md mx-auto mt-1">جميع المراسلات بين الأخصائي والمستفيد تخضع لأعلى معايير التشفير
+              والسرية الطبية لمنصة ملاذ.</p>
+            <button type="button" class="btn btn-solid btn-sm mt-4"
+              onclick="showToast('جارِ مزامنة قنوات المحادثة الآمنة...')">
+              تحديث الرسائل
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           المشهد الخامس: الجلسات والتقارير (Sessions & Reports)
+           ===================================================================== -->
+      <section id="view-reports" class="doc-view">
+        <div class="doc-today-card">
+          <div class="flex items-center justify-between pb-3 border-b border-line">
+            <div>
+              <h2 class="doc-today-h">التقارير السريرية وخلاصات الجلسات</h2>
+              <p class="text-xs text-muted mt-1">توثيق التوصيات العلاجية والخطط السلوكية المعتمدة.</p>
+            </div>
+            <button type="button" class="btn btn-solid btn-sm"
+              onclick="showToast('تم فتح محرر التقرير السريري الجديد')">
+              <span>إنشاء تقرير جديد</span>
+            </button>
+          </div>
+          <div class="space-y-3 mt-2">
+            <div class="p-4 rounded-xl border border-line flex items-center justify-between">
+              <div>
+                <h4 class="font-bold text-sm text-ink">تقرير متابعة مسار التعافي (اليوم 42) - محمد العتيبي</h4>
+                <p class="text-xs text-muted">التشخيص: تقدم إيجابي في إدارة محفزات التوتر • 6 نوفمبر 2026</p>
+              </div>
+              <button type="button" class="btn btn-outline btn-sm"
+                onclick="showToast('تم تحميل التقرير بصيغة PDF المشفرة')">طباعة التقرير</button>
+            </div>
+            <div class="p-4 rounded-xl border border-line flex items-center justify-between">
+              <div>
+                <h4 class="font-bold text-sm text-ink">تقرير التقييم المبدئي - سارة القحطاني</h4>
+                <p class="text-xs text-muted">التشخيص: اضطراب القلق التكيفي • 4 نوفمبر 2026</p>
+              </div>
+              <button type="button" class="btn btn-outline btn-sm"
+                onclick="showToast('تم تحميل التقرير بصيغة PDF المشفرة')">طباعة التقرير</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           المشهد السادس: جدول التوفر (Availability Schedule)
+           ===================================================================== -->
+      <section id="view-schedule" class="doc-view">
+        <div class="doc-today-card">
+          <div class="pb-3 border-b border-line">
+            <h2 class="doc-today-h">جدول توفر الأخصائي وساعات العمل</h2>
+            <p class="text-xs text-muted mt-1">تحديد الأيام وساعات الاستشارات الصباحية والمسائية المتاحة للمستفيدين.</p>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 mt-2 text-center text-xs">
+            <div class="p-3 rounded-xl bg-bg-soft border border-line">
+              <span class="font-bold block mb-1">الأحد</span>
+              <span class="text-emerald-600 font-bold">09:00 ص - 01:00 م</span>
+              <span class="text-primary font-bold block mt-1">04:00 م - 08:00 م</span>
+            </div>
+            <div class="p-3 rounded-xl bg-bg-soft border border-line">
+              <span class="font-bold block mb-1">الاثنين</span>
+              <span class="text-emerald-600 font-bold">09:00 ص - 01:00 م</span>
+              <span class="text-primary font-bold block mt-1">04:00 م - 08:00 م</span>
+            </div>
+            <div class="p-3 rounded-xl bg-bg-soft border border-line">
+              <span class="font-bold block mb-1">الثلاثاء</span>
+              <span class="text-emerald-600 font-bold">09:00 ص - 01:00 م</span>
+              <span class="text-primary font-bold block mt-1">04:00 م - 08:00 م</span>
+            </div>
+            <div class="p-3 rounded-xl bg-bg-soft border border-line">
+              <span class="font-bold block mb-1">الأربعاء</span>
+              <span class="text-emerald-600 font-bold">09:00 ص - 01:00 م</span>
+              <span class="text-primary font-bold block mt-1">04:00 م - 08:00 م</span>
+            </div>
+            <div class="p-3 rounded-xl bg-bg-soft border border-line">
+              <span class="font-bold block mb-1">الخميس</span>
+              <span class="text-emerald-600 font-bold">09:00 ص - 02:00 م</span>
+              <span class="text-muted block mt-1">مساءً: غير متاح</span>
+            </div>
+          </div>
+          <div class="pt-3 border-t border-line flex justify-end">
+            <button type="button" class="btn btn-solid btn-sm"
+              onclick="showToast('تم حفظ وتحديث جدول التوفر في المنصة بنجاح')">
+              حفظ وتطبيق جدول التوفر
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           المشهد السابع: الملف الشخصي للأخصائي (Doctor Profile View)
+           ===================================================================== -->
+      <section id="view-profile" class="doc-view">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+          <!-- بطاقة المعاينة السريعة -->
+          <div class="doc-today-card text-center flex flex-col items-center">
+            <img src="assets/specialist-sara.jpg" alt=""
+              class="w-24 h-24 rounded-full object-cover border-4 border-[#E5EEFF] shadow-sm mb-3" />
+            <h3 id="cardDoctorName" class="font-extrabold text-xl text-ink">د. سارة العتيبي</h3>
+            <p id="cardDoctorTitle" class="text-xs text-primary font-bold mt-0.5">أخصائية في علم النفس العلاجي</p>
+            <p id="cardDoctorLicense" class="text-[11px] text-muted mt-1 font-semibold">رخصة هيئة التخصصات: PSY-88492
+            </p>
+
+            <div class="w-full pt-4 mt-4 border-t border-line text-xs space-y-2 text-start">
+              <div class="flex justify-between">
+                <span class="text-muted">المنصة:</span>
+                <span class="font-bold text-ink">ملاذ للاستشارات النفسية</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-muted">حالة الحساب:</span>
+                <span class="text-emerald-600 font-bold">معتمد وموثق ✓</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- نموذج تعديل الملف الشخصي -->
+          <div class="doc-today-card lg:col-span-2">
+            <div class="pb-3 border-b border-line">
+              <h3 class="font-extrabold text-lg text-ink">تعديل بيانات الملف الشخصي للأخصائي</h3>
+              <p class="text-xs text-muted mt-0.5">يتم تحديث الاسم والبيانات تلقائياً في البانر وأعلى اللوحة.</p>
+            </div>
+
+            <form id="doctorProfileForm" class="space-y-4 mt-2">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label for="profileDoctorName" class="block text-xs font-bold text-ink mb-1.5">اسم الأخصائي (يظهر في
+                    البانر والترحيب):</label>
+                  <input type="text" id="profileDoctorName" class="doc-search-input" required />
+                </div>
+                <div>
+                  <label for="profileDoctorTitle" class="block text-xs font-bold text-ink mb-1.5">المسمى الوظيفي /
+                    التخصص السريري:</label>
+                  <input type="text" id="profileDoctorTitle" class="doc-search-input" />
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label for="profileDoctorLicense" class="block text-xs font-bold text-ink mb-1.5">رقم الترخيص
+                    المهني:</label>
+                  <input type="text" id="profileDoctorLicense" class="doc-search-input" />
+                </div>
+                <div>
+                  <label for="profileDoctorPhone" class="block text-xs font-bold text-ink mb-1.5">رقم الهاتف
+                    المهني:</label>
+                  <input type="text" id="profileDoctorPhone" class="doc-search-input" />
+                </div>
+              </div>
+
+              <div>
+                <label for="profileDoctorBio" class="block text-xs font-bold text-ink mb-1.5">نبذة مختصرة عن الخبرة
+                  والمسار:</label>
+                <textarea id="profileDoctorBio" rows="3" class="doc-textarea"></textarea>
+              </div>
+
+              <div class="pt-3 border-t border-line flex justify-end gap-3">
+                <button type="submit" class="btn btn-solid btn-sm">حفظ التغييرات الآن</button>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- ===================== النوافذ المنبثقة التفاعلية (Modals) ===================== -->
+
+  <!-- 1. نافذة بدء الجلسة التفاعلية الحية مع المستفيد -->
+  <div id="doctorLiveSessionModal" class="doc-modal-overlay" role="dialog" aria-modal="true"
+    aria-labelledby="liveSessionModalTitle">
+    <div class="doc-modal-box modal-xl">
+
+      <div class="doc-modal-header">
+        <div>
+          <h3 id="liveSessionModalTitle" class="doc-modal-title">
+            <svg class="icon ic-22 text-primary">
+              <use href="#i-video" />
+            </svg>
+            <span>غرفة الجلسة الاستشارية المشفرة</span>
+          </h3>
+          <p class="text-xs text-muted mt-0.5">جلسة مرئية مباشرة مع المستفيد: <strong id="sessionPatientName"
+              class="text-ink">أمل السلمي</strong></p>
+        </div>
+        <button type="button" class="doc-modal-close-btn" data-close-modal="#doctorLiveSessionModal" aria-label="إغلاق">
+          <svg class="icon ic-20">
+            <use href="#i-x" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- مساحة الجلسة والفيديو والملاحظات السريرية -->
+      <div class="doc-session-grid">
+
+        <!-- مساحة الفيديو المباشر -->
+        <div class="doc-session-video-area">
+          <div class="doc-session-top-tag">
+            <span class="doc-encryption-pill">
+              <svg class="icon ic-14">
+                <use href="#i-shield" />
+              </svg>
+              <span>اتصال طبي مشفر 256-bit</span>
+            </span>
+            <span id="sessionLiveTimer" class="doc-session-timer">00:00:00</span>
+          </div>
+
+          <div class="doc-session-patient-mockup">
+            <div id="sessionPatientInitial" class="doc-patient-circle">أ</div>
+            <h4 class="font-bold text-base text-white">المستفيد متصل الآن</h4>
+            <span id="sessionConsultType" class="text-xs text-white/80 font-medium">استشارة فردية</span>
+            <span id="sessionApptTime" class="text-[11px] text-white/60 mt-0.5">09:00 صباحاً</span>
+          </div>
+
+          <!-- أدوات التحكم بالمكالمة -->
+          <div class="doc-session-controls">
+            <button type="button" class="doc-ctrl-btn" title="كتم / تفعيل المايكروفون"
+              onclick="showToast('تم تبديل حالة المايكروفون')">
+              <svg class="icon ic-20">
+                <use href="#i-mic" />
+              </svg>
+            </button>
+            <button type="button" class="doc-ctrl-btn" title="إيقاف / تشغيل الكاميرا"
+              onclick="showToast('تم تبديل حالة الكاميرا')">
+              <svg class="icon ic-20">
+                <use href="#i-video" />
+              </svg>
+            </button>
+            <button type="button" class="doc-ctrl-btn" title="مشاركة الشاشة"
+              onclick="showToast('ميزة مشاركة الشاشة جاهزة')">
+              <svg class="icon ic-20">
+                <use href="#i-share" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- مساحة الملاحظات السريرية والتوصيات الفورية -->
+        <div class="doc-clinical-notes-pane">
+          <div>
+            <label for="sessionClinicalNotes" class="block text-xs font-bold text-ink mb-1">الملاحظات والتوصيات السريرية
+              للجلسة:</label>
+            <textarea id="sessionClinicalNotes" rows="7" class="doc-textarea"
+              placeholder="سجّل ملاحظاتك وتطور حالة المستفيد هنا..."></textarea>
+          </div>
+
+          <div class="p-3 rounded-xl bg-blue-50 dark:bg-slate-800 border border-line text-xs">
+            <span class="font-bold text-primary block mb-0.5">خصوصية تامة:</span>
+            <p class="text-muted leading-relaxed">تحفظ التوصيات في ملف المستفيد السري للاطلاع عليها في جلسات المتابعة
+              القادمة.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- أسفل المودال: زر إنهاء الجلسة وزر الإغلاق -->
+      <div class="pt-3 border-t border-line flex items-center justify-between">
+        <button type="button" class="btn btn-outline btn-sm" data-close-modal="#doctorLiveSessionModal">
+          تصغير النافذة والمتابعة
+        </button>
+        <button type="button" id="endLiveSessionBtn"
+          class="btn btn-solid btn-sm bg-rose-600 hover:bg-rose-700 text-white border-rose-600">
+          <svg class="icon ic-18">
+            <use href="#i-check" />
+          </svg>
+          <span>إنهاء الجلسة وحفظ التقرير</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 2. نافذة عرض تفاصيل الموعد المحدد -->
+  <div id="doctorApptDetailModal" class="doc-modal-overlay" role="dialog" aria-modal="true"
+    aria-labelledby="apptDetailModalTitle">
+    <div class="doc-modal-box">
+      <div class="doc-modal-header">
+        <h3 id="apptDetailModalTitle" class="doc-modal-title">
+          <svg class="icon ic-20 text-primary">
+            <use href="#i-calendar" />
+          </svg>
+          <span>تفاصيل موعد الاستشارة</span>
+        </h3>
+        <button type="button" class="doc-modal-close-btn" data-close-modal="#doctorApptDetailModal" aria-label="إغلاق">
+          <svg class="icon ic-20">
+            <use href="#i-x" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-sm">
+        <div class="p-3 rounded-2xl bg-bg-soft border border-line flex items-center justify-between">
+          <div>
+            <span class="text-xs text-muted block">اسم المستفيد</span>
+            <strong id="detailBeneficiaryName" class="text-base text-ink">أمل السلمي</strong>
+          </div>
+          <span id="detailApptStatus" class="doc-chip doc-chip-blue font-bold">مؤكد</span>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div class="p-3 rounded-xl bg-bg-soft border border-line">
+            <span class="text-xs text-muted block">تاريخ الموعد:</span>
+            <strong id="detailApptDate" class="text-ink">اليوم</strong>
+          </div>
+          <div class="p-3 rounded-xl bg-bg-soft border border-line">
+            <span class="text-xs text-muted block">وقت الموعد:</span>
+            <strong id="detailApptTime" class="text-primary">09:00 صباحاً</strong>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div class="p-3 rounded-xl bg-bg-soft border border-line">
+            <span class="text-xs text-muted block">نوع الاستشارة:</span>
+            <strong id="detailConsultType" class="text-ink">استشارة فردية</strong>
+          </div>
+          <div class="p-3 rounded-xl bg-bg-soft border border-line">
+            <span class="text-xs text-muted block">نوع الجلسة:</span>
+            <strong id="detailSessionType" class="text-ink">جلسة فردية</strong>
+          </div>
+        </div>
+
+        <div class="p-3 rounded-xl bg-bg-soft border border-line">
+          <span class="text-xs text-muted block mb-0.5">طريقة الجلسة:</span>
+          <div class="flex items-center gap-2 font-bold text-ink">
+            <svg class="icon ic-16 text-primary">
+              <use href="#i-video" />
+            </svg>
+            <span id="detailSessionMethod">عن بُعد - اتصال فيديو مشفر عبر المنصة</span>
+          </div>
+        </div>
+
+        <div class="p-3 rounded-xl bg-bg-soft border border-line">
+          <span class="text-xs text-muted block mb-1">ملاحظات الحجز:</span>
+          <p id="detailApptNotes" class="text-xs t-body leading-relaxed">المستفيدة تطلب استشارة للتعامل مع نوبات القلق.
+          </p>
+        </div>
+      </div>
+
+      <div class="pt-3 border-t border-line flex items-center justify-end gap-3">
+        <button type="button" class="btn btn-outline btn-sm" data-close-modal="#doctorApptDetailModal">إغلاق</button>
+        <button type="button" id="modalStartSessionBtn" class="btn btn-solid btn-sm">
+          <svg class="icon ic-18">
+            <use href="#i-video" />
+          </svg>
+          <span>بدء الجلسة الآن</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2-ب. نافذة تعديل بيانات وحقول الموعد بالكامل -->
+  <div id="doctorEditApptModal" class="doc-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="editApptModalTitle">
+    <div class="doc-modal-box modal-xl">
+      <div class="doc-modal-header">
+        <div>
+          <h3 id="editApptModalTitle" class="doc-modal-title">
+            <svg class="icon ic-20 text-primary"><use href="#i-edit"/></svg>
+            <span>تعديل بيانات وحقول الموعد</span>
+          </h3>
+          <p class="text-xs text-muted mt-0.5">تحديث كافة تفاصيل الموعد الإكلينيكي وحالة الحجز للمستفيد.</p>
+        </div>
+        <button type="button" class="doc-modal-close-btn" data-close-modal="#doctorEditApptModal" aria-label="إغلاق">
+          <svg class="icon ic-20"><use href="#i-x"/></svg>
+        </button>
+      </div>
+
+      <form id="editApptFullForm" class="space-y-4 text-sm">
+        <input type="hidden" id="editApptId" />
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+          <!-- اسم المستفيد -->
+          <div>
+            <label for="editApptPatient" class="block text-xs font-bold text-ink mb-1">اسم المستفيد:</label>
+            <input type="text" id="editApptPatient" class="doc-search-input" required />
+          </div>
+
+          <!-- رقم الهاتف -->
+          <div>
+            <label for="editApptPhone" class="block text-xs font-bold text-ink mb-1">رقم الهاتف:</label>
+            <input type="text" id="editApptPhone" class="doc-search-input" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+          <!-- تاريخ الموعد -->
+          <div>
+            <label for="editApptDate" class="block text-xs font-bold text-ink mb-1">تاريخ الموعد:</label>
+            <input type="date" id="editApptDate" class="doc-search-input" required />
+          </div>
+
+          <!-- وقت الموعد -->
+          <div>
+            <label for="editApptTime" class="block text-xs font-bold text-ink mb-1">وقت الموعد:</label>
+            <select id="editApptTime" class="doc-filter-select w-full" required>
+              <option value="09:00 صباحاً">09:00 صباحاً</option>
+              <option value="09:30 صباحاً">09:30 صباحاً</option>
+              <option value="10:00 صباحاً">10:00 صباحاً</option>
+              <option value="10:30 صباحاً">10:30 صباحاً</option>
+              <option value="11:00 صباحاً">11:00 صباحاً</option>
+              <option value="11:30 صباحاً">11:30 صباحاً</option>
+              <option value="12:00 ظهراً">12:00 ظهراً</option>
+              <option value="01:00 مساءً">01:00 مساءً</option>
+              <option value="02:00 مساءً">02:00 مساءً</option>
+              <option value="02:30 مساءً">02:30 مساءً</option>
+              <option value="04:00 مساءً">04:00 مساءً</option>
+              <option value="04:30 مساءً">04:30 مساءً</option>
+              <option value="05:00 مساءً">05:00 مساءً</option>
+              <option value="05:30 مساءً">05:30 مساءً</option>
+              <option value="06:00 مساءً">06:00 مساءً</option>
+              <option value="07:00 مساءً">07:00 مساءً</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+          <!-- نوع الاستشارة -->
+          <div>
+            <label for="editApptConsultType" class="block text-xs font-bold text-ink mb-1">نوع الاستشارة:</label>
+            <select id="editApptConsultType" class="doc-filter-select w-full">
+              <option value="استشارة نفسية فردية">استشارة نفسية فردية</option>
+              <option value="جلسة متابعة نفسية">جلسة متابعة نفسية</option>
+              <option value="جلسة علاجية">جلسة علاجية</option>
+              <option value="جلسة دعم وإرشاد">جلسة دعم وإرشاد</option>
+              <option value="استشارة أولية">استشارة أولية</option>
+            </select>
+          </div>
+
+          <!-- نوع الجلسة -->
+          <div>
+            <label for="editApptSessionType" class="block text-xs font-bold text-ink mb-1">نوع الجلسة:</label>
+            <select id="editApptSessionType" class="doc-filter-select w-full">
+              <option value="جلسة فردية">جلسة فردية</option>
+              <option value="جلسة أولية">جلسة أولية</option>
+              <option value="جلسة متابعة">جلسة متابعة</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+          <!-- حالة الموعد -->
+          <div>
+            <label for="editApptStatus" class="block text-xs font-bold text-ink mb-1">حالة الموعد:</label>
+            <select id="editApptStatus" class="doc-filter-select w-full">
+              <option value="new">جديد</option>
+              <option value="confirmed">مؤكد</option>
+              <option value="pending">قيد الانتظار</option>
+              <option value="completed">مكتمل</option>
+              <option value="cancelled">ملغي</option>
+            </select>
+          </div>
+
+          <!-- طريقة الجلسة -->
+          <div>
+            <label for="editApptMethod" class="block text-xs font-bold text-ink mb-1">طريقة الجلسة:</label>
+            <select id="editApptMethod" class="doc-filter-select w-full">
+              <option value="عن بُعد - اتصال فيديو مشفر عبر المنصة">عن بُعد - اتصال فيديو مشفر عبر المنصة</option>
+              <option value="حضوري في العيادة">حضوري في العيادة</option>
+              <option value="استشارة صوتية">استشارة صوتية</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- ملاحظات الحجز والتوصيات السريرية -->
+        <div>
+          <label for="editApptNotes" class="block text-xs font-bold text-ink mb-1">ملاحظات الحجز والتوصيات السريرية:</label>
+          <textarea id="editApptNotes" rows="3" class="doc-textarea" placeholder="اكتب الملاحظات والتوصيات السريرية هنا..."></textarea>
+        </div>
+
+        <div class="pt-3 border-t border-line flex items-center justify-end gap-3">
+          <button type="button" class="btn btn-outline btn-sm" data-close-modal="#doctorEditApptModal">إلغاء</button>
+          <button type="submit" class="btn btn-solid btn-sm">
+            <svg class="icon ic-16"><use href="#i-check"/></svg>
+            <span>حفظ كافة التعديلات</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2-ج. نافذة عرض التقرير الطبي والملاحظات للمواعيد التي تمت -->
+  <div id="doctorSessionReportModal" class="doc-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="sessionReportModalTitle">
+    <div class="doc-modal-box modal-xl">
+      <div class="doc-modal-header">
+        <div>
+          <h3 id="sessionReportModalTitle" class="doc-modal-title">
+            <svg class="icon ic-20 text-emerald-600"><use href="#i-file-text"/></svg>
+            <span>التقرير السريري وملاحظات الجلسة</span>
+          </h3>
+          <p class="text-xs text-muted mt-0.5">سجل التقييم والتوصيات الإكلينيكية المكتوبة للمستفيد بعد إتمام الجلسة.</p>
+        </div>
+        <button type="button" class="doc-modal-close-btn" data-close-modal="#doctorSessionReportModal" aria-label="إغلاق">
+          <svg class="icon ic-20"><use href="#i-x"/></svg>
+        </button>
+      </div>
+
+      <div class="space-y-4 text-sm" id="printableReportArea">
+        <!-- شريط ملخص المستفيد والموعد -->
+        <div class="p-3.5 rounded-2xl bg-bg-soft border border-line flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 font-extrabold text-base flex items-center justify-center" id="reportPatientInitial">
+              ف
+            </div>
+            <div>
+              <h4 class="font-bold text-base text-ink" id="reportPatientName">فهد المطيري</h4>
+              <span class="text-xs text-muted" id="reportSessionTypes">جلسة علاجية • جلسة متابعة</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="doc-chip doc-chip-green font-bold">جلسة منجزة وموثقة</span>
+            <span class="text-xs text-primary font-bold" id="reportDateTime">5 نوفمبر 2026 - 10:00 صباحاً</span>
+          </div>
+        </div>
+
+        <!-- 1. التشخيص والتقييم السريري -->
+        <div>
+          <h5 class="font-bold text-xs text-ink mb-1.5 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-primary inline-block"></span>
+            <span>التشخيص والتقييم السريري العام:</span>
+          </h5>
+          <div class="p-3 rounded-xl bg-bg-soft border border-line-soft text-xs t-body leading-relaxed" id="reportDiagnosis">
+            المستفيد يعاني من أعراض القلق والتوتر المرتبط بضغوط العمل، مع استجابة إيجابية ممتازة لتقنيات التنفس العميق واليقظة الذهنية.
+          </div>
+        </div>
+
+        <!-- 2. التقرير التفصيلي والملاحظات السريرية المدونة -->
+        <div>
+          <h5 class="font-bold text-xs text-ink mb-1.5 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-600 inline-block"></span>
+            <span>تقرير الجلسة وملاحظات الأخصائي المدونة:</span>
+          </h5>
+          <div class="p-3.5 rounded-xl bg-blue-50/50 dark:bg-slate-800 border border-blue-100 text-xs t-body leading-relaxed" id="reportClinicalNotes">
+            تم خلال الجلسة مراجعة مسار التعافي لآخر أسبوعين، المستفيد أظهر التزاماً ممتازاً بالتمارين اليومية، كما تم تقييم وتعديل أنماط التفكير المشوهة وتدريبه على أسلوب حل المشكلات التدريجي. الحالة مستقرة وتتجه نحو الاستقلالية التامة.
+          </div>
+        </div>
+
+        <!-- 3. الخطة العلاجية والتوصيات للمستفيد -->
+        <div>
+          <h5 class="font-bold text-xs text-ink mb-1.5 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-amber-500 inline-block"></span>
+            <span>الخطة العلاجية والتوصيات المعتمدة:</span>
+          </h5>
+          <ul class="p-3 rounded-xl bg-bg-soft border border-line-soft space-y-1.5 text-xs text-ink" id="reportRecommendations">
+            <li class="flex items-center gap-2">
+              <svg class="icon ic-14 text-emerald-600 flex-shrink-0"><use href="#i-check"/></svg>
+              <span>الاستمرار في ممارسة تمرين التنفس البطني (4-7-8) مرتين يومياً.</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="icon ic-14 text-emerald-600 flex-shrink-0"><use href="#i-check"/></svg>
+              <span>تدوين سجل الأفكار والمشاعر اليومي في تطبيق ملاذ.</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="icon ic-14 text-emerald-600 flex-shrink-0"><use href="#i-check"/></svg>
+              <span>جلسة المتابعة القادمة بعد أسبوعين لتقييم النتائج.</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- خاتمة التقرير والاعتماد الطبي -->
+        <div class="p-3 rounded-xl bg-blue-50/30 border border-line text-[11px] text-muted flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <svg class="icon ic-16 text-primary"><use href="#i-shield"/></svg>
+            <span>تقرير طبي سريري مشفر ومحمي بموجب معايير الخصوصية الصحية لمنصة ملاذ.</span>
+          </div>
+          <strong class="text-ink">الأخصائية: د. سارة العتيبي (PSY-88492)</strong>
+        </div>
+      </div>
+
+      <div class="pt-3 border-t border-line flex items-center justify-between">
+        <button type="button" class="btn btn-outline btn-sm" id="printReportBtn">
+          <svg class="icon ic-16"><use href="#i-printer"/></svg>
+          <span>طباعة التقرير</span>
+        </button>
+        <button type="button" class="btn btn-solid btn-sm" data-close-modal="#doctorSessionReportModal">إغلاق التقرير</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2-ج. نافذة تأكيد حذف الموعد -->
+  <div id="doctorDeleteModal" class="doc-modal-overlay" role="dialog" aria-modal="true"
+    aria-labelledby="deleteModalTitle">
+    <div class="doc-modal-box max-w-md">
+      <div class="doc-modal-header">
+        <h3 id="deleteModalTitle" class="doc-modal-title text-rose-600">
+          <svg class="icon ic-20 text-rose-600">
+            <use href="#i-trash" />
+          </svg>
+          <span>تأكيد حذف الموعد</span>
+        </h3>
+        <button type="button" class="doc-modal-close-btn" data-close-modal="#doctorDeleteModal" aria-label="إغلاق">
+          <svg class="icon ic-20">
+            <use href="#i-x" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="py-2 text-sm">
+        <p class="font-bold text-base text-ink mb-2">هل أنت متأكد من رغبتك في حذف هذا الموعد؟</p>
+        <p class="text-xs text-muted leading-relaxed">
+          سيتم حذف هذا الموعد نهائياً من قائمة المواعيد وجدول المستفيد:
+          <strong id="deletePatientName" class="text-ink">محمد العتيبي</strong>
+          (<span id="deleteApptDetails" class="text-primary font-bold">11:30 صباحاً</span>).
+        </p>
+      </div>
+
+      <div class="pt-3 border-t border-line flex items-center justify-end gap-3">
+        <button type="button" class="btn btn-outline btn-sm" data-close-modal="#doctorDeleteModal">إلغاء</button>
+        <button type="button" id="confirmDeleteApptBtn"
+          class="btn btn-solid btn-sm bg-rose-600 hover:bg-rose-700 text-white border-rose-600">
+          تأكيد الحذف
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2-د. نافذة إضافة موعد استشارة جديد -->
+  <div id="doctorNewApptModal" class="doc-modal-overlay" role="dialog" aria-modal="true"
+    aria-labelledby="newApptModalTitle">
+    <div class="doc-modal-box">
+      <div class="doc-modal-header">
+        <h3 id="newApptModalTitle" class="doc-modal-title">
+          <svg class="icon ic-20 text-primary">
+            <use href="#i-calendar" />
+          </svg>
+          <span>إضافة موعد استشارة جديد</span>
+        </h3>
+        <button type="button" class="doc-modal-close-btn" data-close-modal="#doctorNewApptModal" aria-label="إغلاق">
+          <svg class="icon ic-20">
+            <use href="#i-x" />
+          </svg>
+        </button>
+      </div>
+
+      <form id="newApptForm" class="space-y-3.5 text-sm">
+        <div>
+          <label for="newApptPatient" class="block text-xs font-bold text-ink mb-1">اسم المستفيد:</label>
+          <input type="text" id="newApptPatient" class="doc-search-input" placeholder="مثال: ريم محمد" required />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="newApptDate" class="block text-xs font-bold text-ink mb-1">تاريخ الموعد:</label>
+            <input type="date" id="newApptDate" class="doc-search-input" required />
+          </div>
+          <div>
+            <label for="newApptTime" class="block text-xs font-bold text-ink mb-1">وقت الموعد:</label>
+            <select id="newApptTime" class="doc-filter-select w-full" required>
+              <option value="09:00 صباحاً">09:00 صباحاً</option>
+              <option value="10:30 صباحاً">10:30 صباحاً</option>
+              <option value="12:00 ظهراً">12:00 ظهراً</option>
+              <option value="02:00 مساءً">02:00 مساءً</option>
+              <option value="04:00 مساءً">04:00 مساءً</option>
+              <option value="06:00 مساءً">06:00 مساءً</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="newApptConsultType" class="block text-xs font-bold text-ink mb-1">نوع الاستشارة:</label>
+            <select id="newApptConsultType" class="doc-filter-select w-full">
+              <option value="استشارة نفسية فردية">استشارة نفسية فردية</option>
+              <option value="جلسة متابعة نفسية">جلسة متابعة نفسية</option>
+              <option value="جلسة علاجية">جلسة علاجية</option>
+              <option value="جلسة دعم وإرشاد">جلسة دعم وإرشاد</option>
+              <option value="استشارة أولية">استشارة أولية</option>
+            </select>
+          </div>
+          <div>
+            <label for="newApptSessionType" class="block text-xs font-bold text-ink mb-1">نوع الجلسة:</label>
+            <select id="newApptSessionType" class="doc-filter-select w-full">
+              <option value="جلسة فردية">جلسة فردية</option>
+              <option value="جلسة أولية">جلسة أولية</option>
+              <option value="جلسة متابعة">جلسة متابعة</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label for="newApptNotes" class="block text-xs font-bold text-ink mb-1">ملاحظات الحجز:</label>
+          <textarea id="newApptNotes" rows="2" class="doc-textarea" placeholder="ملاحظات سريرية مبدئية..."></textarea>
+        </div>
+
+        <div class="pt-3 border-t border-line flex items-center justify-end gap-3">
+          <button type="button" class="btn btn-outline btn-sm" data-close-modal="#doctorNewApptModal">إلغاء</button>
+          <button type="submit" class="btn btn-solid btn-sm">حفظ وإضافة الموعد</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3. نافذة تفاصيل بطاقات الإحصائيات -->
+  <div id="statDetailModal" class="doc-modal-overlay" role="dialog" aria-modal="true"
+    aria-labelledby="statDetailModalTitle">
+    <div class="doc-modal-box">
+      <div class="doc-modal-header">
+        <h3 id="statDetailModalTitle" class="doc-modal-title">تفاصيل الإحصائية</h3>
+        <button type="button" class="doc-modal-close-btn" data-close-modal="#statDetailModal" aria-label="إغلاق">
+          <svg class="icon ic-20">
+            <use href="#i-x" />
+          </svg>
+        </button>
+      </div>
+      <p id="statDetailModalDesc" class="text-xs text-muted"></p>
+      <div id="statDetailModalContent" class="py-2">
+        <!-- المحتوى يتغير بحسب البطاقة المختارة -->
+      </div>
+      <div class="pt-3 border-t border-line flex justify-end">
+        <button type="button" class="btn btn-solid btn-sm" data-close-modal="#statDetailModal">إغلاق</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. نافذة الإعدادات للأخصائي -->
+  <div id="doctorSettingsModal" class="doc-modal-overlay" role="dialog" aria-modal="true"
+    aria-labelledby="doctorSettingsTitle">
+    <div class="doc-modal-box max-w-md">
+      <div class="doc-modal-header">
+        <h3 id="doctorSettingsTitle" class="doc-modal-title">
+          <svg class="icon ic-20 text-primary">
+            <use href="#i-settings" />
+          </svg>
+          <span>إعدادات لوحة التحكم</span>
+        </h3>
+        <button type="button" class="doc-modal-close-btn" data-close-modal="#doctorSettingsModal" aria-label="إغلاق">
+          <svg class="icon ic-20">
+            <use href="#i-x" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="space-y-4 text-sm">
+        <!-- المظهر الداكن / الفاتح -->
+        <div class="flex items-center justify-between p-3 rounded-xl bg-bg-soft border border-line">
+          <div>
+            <span class="font-bold text-ink block">مظهر الواجهة</span>
+            <span class="text-xs text-muted">تبديل الوضع الداكن أو الفاتح</span>
+          </div>
+          <div class="flex gap-1.5">
+            <button type="button" class="btn btn-outline btn-sm text-xs py-1 px-3" data-doc-theme="light">فاتح</button>
+            <button type="button" class="btn btn-outline btn-sm text-xs py-1 px-3" data-doc-theme="dark">داكن</button>
+          </div>
+        </div>
+
+        <!-- اللغة -->
+        <div class="flex items-center justify-between p-3 rounded-xl bg-bg-soft border border-line">
+          <div>
+            <span class="font-bold text-ink block">اللغة</span>
+            <span class="text-xs text-muted">لغة الواجهة المعتمدة</span>
+          </div>
+          <span class="font-bold text-xs text-primary">العربية (الافتراضية)</span>
+        </div>
+
+        <!-- تسجيل الخروج -->
+        <div class="pt-2">
+          <button type="button"
+            class="btn btn-solid btn-sm w-full bg-rose-600 hover:bg-rose-700 text-white border-rose-600"
+            data-doc-logout>
+            <svg class="icon ic-18">
+              <use href="#i-logout" />
+            </svg>
+            <span>تسجيل الخروج من الحساب</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- عنصر التوست للإشعارات الفورية -->
+  <div id="docToast" class="doc-toast" role="status" aria-live="polite"></div>
+
+  <!-- سكربت لوحة تحكم الأخصائي -->
+  <script src="js/doctor-dashboard.js"></script>
+</body>
+
+</html>

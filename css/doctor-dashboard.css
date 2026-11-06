@@ -1,0 +1,1851 @@
+/* =====================================================================
+   منصة ملاذ - لوحة تحكم الأخصائي النفسي (Specialist Dashboard Stylesheet)
+   الهوية البصرية المعتمدة:
+   - الأزرق الداكن: #24558F
+   - الأزرق الأساسي: #3278C7
+   - الأزرق الفاتح: #E5EEFF
+   - خلفية الصفحة: #F3F6FD
+   - الأبيض: #FFFFFF
+   - النصوص الرئيسية: #173C6A
+   - النصوص الثانوية: #71849B
+   ===================================================================== */
+
+:root {
+  --doc-navy: #24558F;
+  --doc-navy-dark: #1B406D;
+  --doc-blue: #3278C7;
+  --doc-blue-hover: #2664A8;
+  --doc-blue-light: #E5EEFF;
+  --doc-blue-subtle: #F3F6FD;
+  --doc-bg: #F3F6FD;
+  --doc-white: #FFFFFF;
+  --doc-ink: #173C6A;
+  --doc-muted: #71849B;
+  --doc-line: #E1EAF7;
+  --doc-line-soft: #EDF3FC;
+  --doc-green: #10B981;
+  --doc-green-bg: #ECFDF5;
+  --doc-green-border: #A7F3D0;
+  --doc-red: #EF4444;
+  --doc-red-bg: #FEF2F2;
+  --doc-amber: #F59E0B;
+  --doc-amber-bg: #FFFBEB;
+  
+  --doc-shadow-sm: 0 2px 8px rgba(36, 85, 143, 0.04);
+  --doc-shadow: 0 4px 18px rgba(36, 85, 143, 0.06);
+  --doc-shadow-lg: 0 10px 32px rgba(36, 85, 143, 0.12);
+  --doc-radius: 1.25rem;
+  --doc-radius-lg: 1.5rem;
+  --doc-radius-sm: 0.75rem;
+}
+
+[data-theme="dark"] {
+  --doc-bg: #0B192C;
+  --doc-white: #112238;
+  --doc-ink: #F0F6FF;
+  --doc-muted: #94A3B8;
+  --doc-line: #1E344F;
+  --doc-line-soft: #172A40;
+  --doc-blue-light: #1A314D;
+  --doc-blue-subtle: #0E1F36;
+  --doc-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  --doc-shadow-lg: 0 12px 36px rgba(0, 0, 0, 0.5);
+}
+
+/* إعادة الضبط والخط */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: 'Cairo', 'Tajawal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  direction: rtl;
+  background-color: var(--doc-bg);
+  color: var(--doc-ink);
+  font-size: 16px;
+  line-height: 1.5;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--doc-bg);
+  color: var(--doc-ink);
+  overflow-x: hidden;
+}
+
+/* أيقونات SVG المشتركة */
+.icon {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  flex-shrink: 0;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.ic-14 { width: 14px; height: 14px; }
+.ic-16 { width: 16px; height: 16px; }
+.ic-18 { width: 18px; height: 18px; }
+.ic-20 { width: 20px; height: 20px; }
+.ic-22 { width: 22px; height: 22px; }
+.ic-24 { width: 24px; height: 24px; }
+.ic-32 { width: 32px; height: 32px; }
+
+/* =====================================================================
+   هيكل لوحة تحكم الأخصائي (Main Specialist Layout)
+   ===================================================================== */
+.doc-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100vh;
+  background-color: var(--doc-bg);
+  position: relative;
+}
+
+/* =====================================================================
+   الشريط الجانبي الأيمن الثابت (Right Sidebar)
+   ===================================================================== */
+.doc-sidebar {
+  background-color: var(--doc-navy);
+  color: #FFFFFF;
+  margin: 1rem 1rem 1rem 0;
+  border-radius: var(--doc-radius-lg);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 1rem;
+  height: calc(100vh - 2rem);
+  box-shadow: 0 8px 30px rgba(36, 85, 143, 0.2);
+  z-index: 50;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ترويسة الشريط الجانبي */
+.doc-sidebar-header {
+  padding: 1.75rem 1.5rem 1.25rem;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.doc-sidebar-logo {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.15));
+}
+
+.doc-sidebar-brand-name {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.85);
+  text-transform: uppercase;
+}
+
+/* قائمة التنقل الرئيسية */
+.doc-nav-list {
+  list-style: none;
+  padding: 1.25rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.doc-nav-item {
+  width: 100%;
+}
+
+.doc-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.85rem 1.4rem;
+  color: #FFFFFF;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  position: relative;
+  width: 100%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: start;
+}
+
+.doc-nav-link:hover:not(.is-active) {
+  background-color: rgba(255, 255, 255, 0.09);
+  color: #FFFFFF;
+  padding-inline-start: 1.6rem;
+}
+
+/* حالة العنصر النشط (Active State):
+   خلفية بيضاء، حواف دائرية فقط من اليمين (في اتجاه RTL جهة البداية)، حادة من اليسار،
+   نص وأيقونة باللون الأزرق الداكن */
+.doc-nav-link.is-active {
+  background-color: #FFFFFF !important;
+  color: var(--doc-navy) !important;
+  font-weight: 800;
+  /* حواف دائرية على اليمين فقط وحادة على اليسار */
+  border-top-right-radius: 1.25rem;
+  border-bottom-right-radius: 1.25rem;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  margin-inline-end: 0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.doc-nav-link.is-active .icon {
+  color: var(--doc-navy);
+  stroke-width: 2.3;
+}
+
+.doc-nav-badge {
+  margin-inline-start: auto;
+  padding: 0.15rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+}
+
+.doc-nav-link.is-active .doc-nav-badge {
+  background-color: var(--doc-blue-light);
+  color: var(--doc-navy);
+}
+
+/* بطاقة الدعم الفني في أسفل الشريط الجانبي */
+.doc-support-card {
+  margin: 1rem 1rem 1.25rem;
+  padding: 1rem 1.15rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  backdrop-filter: blur(8px);
+}
+
+.doc-support-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 0.75rem;
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.doc-support-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.doc-support-title {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 600;
+}
+
+.doc-support-phone {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  direction: ltr;
+  text-align: start;
+}
+
+.doc-support-phone:hover {
+  text-decoration: underline;
+}
+
+/* =====================================================================
+   منطقة المحتوى الرئيسية (Main Content Area)
+   ===================================================================== */
+.doc-main-content {
+  padding: 1rem 1.5rem 2.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-width: 0;
+}
+
+/* =====================================================================
+   الشريط العلوي الأفقي الأبيض (Top Navbar)
+   ===================================================================== */
+.doc-top-navbar {
+  background-color: var(--doc-white);
+  border-radius: var(--doc-radius);
+  height: 72px;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  border: 1px solid var(--doc-line);
+  box-shadow: var(--doc-shadow-sm);
+  position: sticky;
+  top: 1rem;
+  z-index: 40;
+}
+
+/* شعار المنصة على اليمين */
+.doc-top-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.doc-top-logo {
+  height: 34px;
+  width: auto;
+}
+
+.doc-top-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--doc-navy);
+}
+
+
+
+.doc-search-input {
+  width: 100%;
+  height: 44px;
+  padding: 0 2.85rem 0 1.25rem;
+  border-radius: 9999px;
+  border: 1.5px solid transparent;
+  background-color: var(--doc-blue-subtle);
+  color: var(--doc-ink);
+  font-family: inherit;
+  font-size: 0.9rem;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.doc-search-input:focus {
+  border-color: var(--doc-blue);
+  background-color: var(--doc-white);
+  box-shadow: 0 0 0 3px rgba(50, 120, 199, 0.12);
+}
+
+.doc-search-icon {
+  position: absolute;
+  inset-inline-start: 1rem;
+  color: var(--doc-muted);
+  pointer-events: none;
+}
+
+/* أدوات الجهة اليسرى في الشريط العلوي */
+.doc-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-shrink: 0;
+}
+
+/* زر صورة واسم الأخصائية (Profile Pill) */
+.doc-profile-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.35rem 0.85rem 0.35rem 0.35rem;
+  border-radius: 9999px;
+  border: 1.5px solid var(--doc-line);
+  background-color: var(--doc-blue-subtle);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  text-decoration: none;
+  color: var(--doc-ink);
+}
+
+.doc-profile-pill:hover {
+  background-color: var(--doc-blue-light);
+  border-color: var(--doc-blue);
+  transform: translateY(-1px);
+}
+
+.doc-doctor-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 9999px;
+  object-fit: cover;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.doc-doctor-name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--doc-ink);
+}
+
+/* أزرار الإشعارات والإعدادات */
+.doc-icon-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 0.85rem;
+  border: 1.5px solid var(--doc-line);
+  background-color: var(--doc-white);
+  color: var(--doc-ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.doc-icon-btn:hover {
+  background-color: var(--doc-blue-light);
+  color: var(--doc-blue);
+  border-color: var(--doc-blue);
+  transform: translateY(-1px);
+}
+
+/* نقطة حمراء صغيرة للإشعار الجديد */
+.doc-notif-dot {
+  position: absolute;
+  top: 9px;
+  inset-inline-end: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background-color: var(--doc-red);
+  border: 1.5px solid var(--doc-white);
+}
+
+/* زر قائمة الموبايل */
+.doc-mobile-toggle {
+  display: none;
+}
+
+/* =====================================================================
+   بانر الترحيب الرئيسي (Welcome Banner)
+   ===================================================================== */
+.doc-welcome-banner {
+  background: linear-gradient(135deg, #24558F 0%, #3278C7 100%);
+  border-radius: var(--doc-radius);
+  padding: 1.75rem 2rem;
+  color: #FFFFFF;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--doc-shadow);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.doc-welcome-banner::before {
+  content: "";
+  position: absolute;
+  inset-inline-end: -40px;
+  top: -40px;
+  width: 220px;
+  height: 220px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 70%);
+  pointer-events: none;
+}
+
+.doc-banner-title {
+  font-size: 1.65rem;
+  font-weight: 800;
+  margin-bottom: 0.35rem;
+  color: #FFFFFF;
+}
+
+.doc-banner-sub {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+.doc-banner-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.15rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(8px);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  white-space: nowrap;
+}
+
+/* =====================================================================
+   بطاقات الإحصائيات الأربع (Four Stat Cards)
+   الضلع الأيمن للبوردر أزرق فاتح/أساسي أنيق
+   ===================================================================== */
+.doc-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+
+.doc-stat-card {
+  background-color: var(--doc-white);
+  border-radius: var(--doc-radius);
+  border: 1px solid var(--doc-line);
+  /* الضلع الأيمن للبوردر أزرق أنيق */
+  border-right: 4.5px solid var(--doc-blue);
+  padding: 1.35rem 1.25rem;
+  box-shadow: var(--doc-shadow-sm);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.doc-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--doc-shadow);
+  border-color: var(--doc-blue);
+  border-right-color: var(--doc-navy);
+}
+
+.doc-stat-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.doc-stat-icon-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 0.85rem;
+  background-color: var(--doc-blue-light);
+  color: var(--doc-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.doc-stat-number {
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: var(--doc-ink);
+  line-height: 1.1;
+  margin: 0.4rem 0 0.15rem;
+}
+
+.doc-stat-title {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--doc-muted);
+}
+
+.doc-stat-detail-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 0.65rem;
+  border: 1px solid var(--doc-line);
+  background-color: var(--doc-blue-subtle);
+  color: var(--doc-navy);
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: fit-content;
+}
+
+.doc-stat-detail-btn:hover {
+  background-color: var(--doc-blue-light);
+  border-color: var(--doc-blue);
+  color: var(--doc-blue);
+}
+
+/* =====================================================================
+   بطاقة مواعيد اليوم والجدول المنظم (Today's Appointments Card)
+   ===================================================================== */
+.doc-today-card {
+  background-color: var(--doc-white);
+  border-radius: var(--doc-radius);
+  border: 1px solid var(--doc-line);
+  box-shadow: var(--doc-shadow);
+  padding: 1.5rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.doc-today-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--doc-line);
+}
+
+.doc-today-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.doc-today-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 0.85rem;
+  background-color: var(--doc-blue-light);
+  color: var(--doc-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.doc-today-h {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--doc-ink);
+  margin: 0;
+}
+
+.doc-today-counter {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--doc-muted);
+}
+
+/* جدول المواعيد المنظم */
+.doc-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.doc-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  text-align: start;
+}
+
+.doc-table th {
+  background-color: var(--doc-blue-subtle);
+  color: var(--doc-ink);
+  font-size: 0.85rem;
+  font-weight: 800;
+  padding: 0.9rem 1rem;
+  border-bottom: 1.5px solid var(--doc-line);
+  white-space: nowrap;
+}
+
+.doc-table th:first-child {
+  border-top-right-radius: 0.75rem;
+  border-bottom-right-radius: 0.75rem;
+}
+
+.doc-table th:last-child {
+  border-top-left-radius: 0.75rem;
+  border-bottom-left-radius: 0.75rem;
+}
+
+.doc-table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--doc-line-soft);
+  font-size: 0.9rem;
+  vertical-align: middle;
+}
+
+.doc-table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.doc-table tbody tr:hover {
+  background-color: #F8FAFD;
+}
+
+[data-theme="dark"] .doc-table tbody tr:hover {
+  background-color: #162B44;
+}
+
+/* خلايا الجدول */
+.doc-user-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-weight: 700;
+  color: var(--doc-ink);
+}
+
+.doc-user-cell-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  background-color: var(--doc-blue-light);
+  color: var(--doc-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.doc-time-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--doc-navy);
+}
+
+.doc-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.doc-chip-blue {
+  background-color: var(--doc-blue-light);
+  color: var(--doc-navy);
+  border: 1px solid rgba(50, 120, 199, 0.2);
+}
+
+.doc-chip-purple {
+  background-color: #F3E8FF;
+  color: #6B21A8;
+  border: 1px solid #E9D5FF;
+}
+
+.doc-chip-teal {
+  background-color: #CCFBF1;
+  color: #0F766E;
+  border: 1px solid #99F6E4;
+}
+
+/* أزرار التحكم داخل جدول المواعيد */
+.doc-table-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.55rem 1.1rem;
+  border-radius: 0.75rem;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  border: none;
+  white-space: nowrap;
+}
+
+/* الزر الأول: بدء الجلسة (أزرق أو أخضر) */
+.doc-btn-start-blue {
+  background-color: var(--doc-blue);
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(50, 120, 199, 0.25);
+}
+
+.doc-btn-start-blue:hover {
+  background-color: var(--doc-blue-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(50, 120, 199, 0.35);
+}
+
+.doc-btn-start-green {
+  background-color: var(--doc-green);
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25);
+}
+
+.doc-btn-start-green:hover {
+  background-color: #059669;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
+}
+
+/* الزر الثاني: عرض التفاصيل (خلفية زرقاء فاتحة وأيقونة عين أزرق داكن) */
+.doc-btn-view-details {
+  background-color: var(--doc-blue-light);
+  color: var(--doc-navy);
+  border: 1.5px solid rgba(50, 120, 199, 0.2);
+}
+
+.doc-btn-view-details:hover {
+  background-color: #D6E4FC;
+  border-color: var(--doc-blue);
+  transform: translateY(-1px);
+}
+
+.doc-btn-view-details .icon {
+  color: var(--doc-navy);
+}
+
+/* =====================================================================
+   نظام المشاهد والتبديل (Views System)
+   ==================================================================== */
+.doc-view {
+  display: none;
+  flex-direction: column;
+  gap: 1.5rem;
+  animation: docFadeIn 0.25s ease forwards;
+}
+
+.doc-view.is-active {
+  display: flex;
+}
+
+@keyframes docFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* =====================================================================
+   النوافذ المنبثقة التفاعلية (Modals)
+   ===================================================================== */
+.doc-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 39, 67, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.doc-modal-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.doc-modal-box {
+  background-color: var(--doc-white);
+  border-radius: var(--doc-radius-lg);
+  border: 1px solid var(--doc-line);
+  box-shadow: var(--doc-shadow-lg);
+  width: 100%;
+  max-width: 580px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 1.75rem;
+  transform: scale(0.96) translateY(10px);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.doc-modal-overlay.is-open .doc-modal-box {
+  transform: scale(1) translateY(0);
+}
+
+.doc-modal-box.modal-xl {
+  max-width: 860px;
+}
+
+.doc-modal-box.modal-2xl {
+  max-width: 1050px;
+}
+
+.doc-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--doc-line);
+}
+
+.doc-modal-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--doc-ink);
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.doc-modal-close-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 0.65rem;
+  border: 1px solid var(--doc-line);
+  background: transparent;
+  color: var(--doc-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.doc-modal-close-btn:hover {
+  background-color: var(--doc-red-bg);
+  border-color: var(--doc-red);
+  color: var(--doc-red);
+}
+
+/* =====================================================================
+   واجهة الجلسة التفاعلية الحية (Live Session Interface)
+   ===================================================================== */
+.doc-session-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 1.5rem;
+}
+
+.doc-session-video-area {
+  background-color: #0E1F36;
+  border-radius: var(--doc-radius);
+  height: 360px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.25rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 40px rgba(0,0,0,0.5);
+  color: #FFFFFF;
+}
+
+.doc-session-top-tag {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 2;
+}
+
+.doc-encryption-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  background: rgba(16, 185, 129, 0.2);
+  border: 1px solid #10B981;
+  color: #34D399;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.doc-session-timer {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #FFFFFF;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  direction: ltr;
+}
+
+.doc-session-patient-mockup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 2;
+  margin: auto;
+}
+
+.doc-patient-circle {
+  width: 90px;
+  height: 90px;
+  border-radius: 9999px;
+  background-color: var(--doc-blue);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 800;
+  border: 3px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  margin-bottom: 0.75rem;
+}
+
+.doc-session-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  z-index: 2;
+}
+
+.doc-ctrl-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.doc-ctrl-btn:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: scale(1.05);
+}
+
+.doc-ctrl-btn.btn-danger {
+  background-color: var(--doc-red);
+  border-color: var(--doc-red);
+}
+
+.doc-ctrl-btn.btn-danger:hover {
+  background-color: #DC2626;
+}
+
+/* مساحة الملاحظات السريرية */
+.doc-clinical-notes-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.doc-textarea {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border-radius: var(--doc-radius-sm);
+  border: 1.5px solid var(--doc-line);
+  background-color: var(--doc-blue-subtle);
+  color: var(--doc-ink);
+  font-family: inherit;
+  font-size: 0.88rem;
+  resize: vertical;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.doc-textarea:focus {
+  border-color: var(--doc-blue);
+  background-color: var(--doc-white);
+  box-shadow: 0 0 0 3px rgba(50, 120, 199, 0.12);
+}
+
+/* نافذة الإشعارات المنسدلة */
+.doc-popover-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  inset-inline-end: 0;
+  width: 340px;
+  background-color: var(--doc-white);
+  border-radius: var(--doc-radius);
+  border: 1px solid var(--doc-line);
+  box-shadow: var(--doc-shadow-lg);
+  padding: 1rem;
+  display: none;
+  flex-direction: column;
+  gap: 0.75rem;
+  z-index: 60;
+  animation: docFadeIn 0.2s ease;
+}
+
+.doc-popover-menu.is-open {
+  display: flex;
+}
+
+/* =====================================================================
+   التجاوب مع الشاشات (Responsive Design)
+   ===================================================================== */
+/* الأجهزة اللوحية (Tablet) */
+@media (max-width: 1100px) {
+  .doc-layout {
+    grid-template-columns: 240px 1fr;
+  }
+  .doc-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .doc-session-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* الهواتف الذكية (Mobile) */
+@media (max-width: 860px) {
+  .doc-layout {
+    grid-template-columns: 1fr;
+  }
+
+  /* الشريط الجانبي يتحول لقائمة منبثقة/درج */
+  .doc-sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    inset-inline-end: 0;
+    width: 280px;
+    margin: 0;
+    border-radius: 0;
+    transform: translateX(100%);
+    box-shadow: -8px 0 30px rgba(0, 0, 0, 0.35);
+  }
+
+  [dir="rtl"] .doc-sidebar {
+    transform: translateX(100%);
+  }
+
+  .doc-sidebar.is-open {
+    transform: translateX(0);
+  }
+
+  .doc-mobile-toggle {
+    display: inline-flex;
+  }
+
+  .doc-main-content {
+    padding: 0.85rem;
+  }
+
+  .doc-top-navbar {
+    padding: 0 1rem;
+    height: 64px;
+  }
+
+
+  .doc-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .doc-banner-title {
+    font-size: 1.35rem;
+  }
+
+  .doc-today-card {
+    padding: 1.15rem;
+  }
+}
+
+/* إشعارات التوست */
+.doc-toast {
+  position: fixed;
+  bottom: 2rem;
+  inset-inline-start: 50%;
+  transform: translateX(50%) translateY(100px);
+  background-color: var(--doc-navy);
+  color: #FFFFFF;
+  padding: 0.85rem 1.6rem;
+  border-radius: 9999px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  box-shadow: 0 8px 24px rgba(36, 85, 143, 0.35);
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.doc-toast.is-show {
+  transform: translateX(50%) translateY(0);
+  opacity: 1;
+}
+
+/* =====================================================================
+   واجهة إدارة المواعيد والاستشارات (Appointments Management View)
+   ===================================================================== */
+
+.doc-view-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.doc-page-heading {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--doc-ink);
+  margin: 0;
+}
+
+.doc-page-subheading {
+  font-size: 0.85rem;
+  color: var(--doc-muted);
+  margin: 0.25rem 0 0 0;
+}
+
+.doc-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--doc-line);
+}
+
+.doc-card-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--doc-ink);
+  margin: 0;
+}
+
+/* الشبكة العلوية: المواعيد القادمة في اليمين والتقويم في اليسار */
+.doc-appointments-top-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.35fr;
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
+@media (max-width: 991px) {
+  .doc-appointments-top-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* بطاقة المواعيد القادمة */
+.doc-upcoming-card {
+  background-color: var(--doc-white);
+  border-radius: var(--doc-radius);
+  border: 1px solid var(--doc-line);
+  box-shadow: var(--doc-shadow);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.doc-upcoming-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  overflow-y: auto;
+  max-height: 420px;
+  padding-inline-end: 0.25rem;
+}
+
+.doc-upcoming-item {
+  background: var(--doc-white);
+  border: 1px solid var(--doc-line);
+  border-radius: 1rem;
+  padding: 0.85rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.doc-upcoming-item:hover {
+  border-color: var(--doc-blue);
+  transform: translateY(-1.5px);
+  box-shadow: 0 4px 12px rgba(36, 85, 143, 0.06);
+}
+
+.doc-upcoming-initial {
+  width: 40px;
+  height: 40px;
+  border-radius: 0.75rem;
+  background-color: var(--doc-blue-light);
+  color: var(--doc-navy);
+  font-weight: 800;
+  font-size: 1.05rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* بطاقة التقويم التفاعلي */
+.doc-calendar-card {
+  background-color: var(--doc-white);
+  border-radius: var(--doc-radius);
+  border: 1px solid var(--doc-line);
+  box-shadow: var(--doc-shadow);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.doc-calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--doc-line);
+}
+
+.doc-cal-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.doc-cal-nav-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 0.6rem;
+  border: 1px solid var(--doc-line);
+  background: var(--doc-white);
+  color: var(--doc-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.doc-cal-nav-btn:hover {
+  background: var(--doc-blue-subtle);
+  border-color: var(--doc-blue);
+  color: var(--doc-blue);
+}
+
+.doc-cal-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--doc-ink);
+  min-width: 130px;
+  text-align: center;
+  margin: 0;
+}
+
+.doc-cal-today-btn {
+  padding: 0.35rem 0.75rem;
+  border-radius: 0.6rem;
+  border: 1px solid var(--doc-line);
+  background: var(--doc-blue-subtle);
+  color: var(--doc-navy);
+  font-weight: 700;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.doc-cal-today-btn:hover {
+  background: var(--doc-blue);
+  color: #FFFFFF;
+  border-color: var(--doc-blue);
+}
+
+.doc-cal-view-switch {
+  display: flex;
+  background: var(--doc-blue-subtle);
+  border: 1px solid var(--doc-line);
+  border-radius: 0.65rem;
+  padding: 0.2rem;
+  gap: 0.2rem;
+}
+
+.doc-cal-view-btn {
+  padding: 0.3rem 0.7rem;
+  border-radius: 0.5rem;
+  border: none;
+  background: transparent;
+  color: var(--doc-muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.doc-cal-view-btn.is-active {
+  background: var(--doc-white);
+  color: var(--doc-navy);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.doc-calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  gap: 0.35rem;
+}
+
+.doc-cal-weekday {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--doc-muted);
+  padding: 0.35rem 0;
+}
+
+.doc-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.35rem;
+}
+
+.doc-cal-cell {
+  position: relative;
+  aspect-ratio: 1;
+  min-height: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--doc-ink);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.doc-cal-cell:hover:not(.is-empty) {
+  background-color: var(--doc-blue-subtle);
+  border-color: var(--doc-line);
+  color: var(--doc-blue);
+}
+
+.doc-cal-cell.is-other-month {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.doc-cal-cell.is-today {
+  border-color: var(--doc-blue);
+  font-weight: 800;
+  color: var(--doc-blue);
+}
+
+.doc-cal-cell.is-selected {
+  background-color: var(--doc-navy) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 12px rgba(36, 85, 143, 0.25);
+  border-color: var(--doc-navy);
+}
+
+.doc-cal-cell.has-appts::after {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--doc-blue);
+}
+
+.doc-cal-cell.is-selected.has-appts::after {
+  background-color: #FFFFFF;
+}
+
+.doc-calendar-legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid var(--doc-line-soft);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--doc-muted);
+  flex-wrap: wrap;
+}
+
+.doc-cal-dot-sample {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--doc-blue);
+  display: inline-block;
+}
+
+.doc-cal-today-sample {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border: 1.5px solid var(--doc-blue);
+  color: var(--doc-blue);
+  font-size: 9px;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.doc-cal-selected-sample {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  background-color: var(--doc-navy);
+  display: inline-block;
+}
+
+/* بطاقة إحصائيات المواعيد الأفقية الكبيرة */
+.doc-stats-horizontal-card {
+  
+  border-radius: var(--doc-radius);
+ 
+  box-shadow: var(--doc-shadow);
+  padding: 1.5rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.doc-substats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+
+@media (max-width: 900px) {
+  .doc-substats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 540px) {
+  .doc-substats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.doc-substat-card {
+  background-color: var(--doc-white);
+  border-radius: 1rem;
+  border: 1px solid var(--doc-line);
+  border-right: 4.5px solid var(--doc-blue);
+  padding: 1.15rem 1.25rem;
+  box-shadow: 0 2px 8px rgba(36, 85, 143, 0.04);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.75rem;
+  transition: all 0.25s ease;
+}
+
+.doc-substat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(36, 85, 143, 0.08);
+}
+
+.doc-substat-card.is-completed {
+  border-right-color: #10B981;
+}
+
+.doc-substat-card.is-cancelled {
+  border-right-color: #EF4444;
+}
+
+.doc-substat-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.doc-substat-icon-wrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.doc-substat-number {
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: var(--doc-ink);
+  line-height: 1.1;
+  margin: 0.35rem 0 0.15rem;
+}
+
+.doc-substat-label {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--doc-muted);
+}
+
+/* شريط تبويبات تصنيف المواعيد */
+.doc-tabs-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  background: var(--doc-blue-subtle);
+  padding: 0.35rem;
+  border-radius: 0.95rem;
+  border: 1px solid var(--doc-line);
+}
+
+.doc-tab-btn {
+  padding: 0.55rem 1.15rem;
+  border-radius: 0.75rem;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--doc-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  white-space: nowrap;
+}
+
+.doc-tab-btn:hover {
+  color: var(--doc-navy);
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+.doc-tab-btn.is-active {
+  background-color: var(--doc-navy) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 2px 8px rgba(36, 85, 143, 0.25);
+}
+
+.doc-tab-count {
+  padding: 0.15rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  background: rgba(36, 85, 143, 0.1);
+  color: var(--doc-navy);
+}
+
+.doc-tab-btn.is-active .doc-tab-count {
+  background: rgba(255, 255, 255, 0.24);
+  color: #FFFFFF;
+}
+
+/* أدوات الفرز والبحث */
+.doc-table-controls-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.doc-filter-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.doc-filter-icon {
+  position: absolute;
+  inset-inline-start: 0.85rem;
+  color: var(--doc-blue);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.doc-filter-select {
+  padding: 0.55rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--doc-line);
+  background-color: var(--doc-white);
+  color: var(--doc-ink);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.doc-filter-wrap .doc-filter-select {
+  padding-inline-start: 2.35rem;
+}
+
+.doc-filter-select:focus {
+  border-color: var(--doc-blue);
+  box-shadow: 0 0 0 3px rgba(50, 120, 199, 0.15);
+}
+
+/* أزرار الإجراءات داخل الجدول مع Tooltip */
+.doc-actions-group {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+}
+
+.doc-action-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--doc-line);
+  background: var(--doc-white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  padding: 0;
+}
+
+.doc-action-view {
+  color: #059669;
+  background: #ECFDF5;
+  border-color: rgba(16, 185, 129, 0.25);
+}
+
+.doc-action-view:hover {
+  background: #10B981;
+  color: #FFFFFF;
+  border-color: #10B981;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+}
+
+/* زر التعديل (أيقونة القلم / التعديل) */
+.doc-action-edit {
+  color: #2563EB;
+  background: #EFF6FF;
+  border-color: rgba(37, 99, 235, 0.25);
+}
+
+.doc-action-edit:hover {
+  background: #2563EB;
+  color: #FFFFFF;
+  border-color: #2563EB;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+}
+
+.doc-action-reschedule {
+  color: #D97706;
+  background: #FEF3C7;
+  border-color: rgba(217, 119, 6, 0.25);
+}
+
+.doc-action-reschedule:hover {
+  background: #D97706;
+  color: #FFFFFF;
+  border-color: #D97706;
+  transform: translateY(-1px);
+}
+
+.doc-action-delete {
+  color: #DC2626;
+  background: #FEE2E2;
+  border-color: rgba(220, 38, 38, 0.25);
+}
+
+.doc-action-delete:hover {
+  background: #DC2626;
+  color: #FFFFFF;
+  border-color: #DC2626;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(220, 38, 38, 0.3);
+}
+
+/* تنسيق صناديق التقارير السريرية */
+.doc-report-box {
+  padding: 0.85rem 1rem;
+  border-radius: 0.85rem;
+  background: var(--doc-white);
+  border: 1px solid var(--doc-line);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.doc-report-highlight {
+  background-color: rgba(50, 120, 199, 0.05);
+  border-color: rgba(50, 120, 199, 0.2);
+}
+
+/* التولتيب المخصص عند مرور المؤشر */
+.doc-action-btn[data-tooltip]::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 7px);
+  inset-inline-start: 50%;
+  transform: translateX(50%) scale(0.9);
+  background: #173C6A;
+  color: #FFFFFF;
+  padding: 0.25rem 0.55rem;
+  border-radius: 0.45rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  z-index: 20;
+}
+
+.doc-action-btn[data-tooltip]:hover::before {
+  opacity: 1;
+  transform: translateX(50%) scale(1);
+}
+
+/* شارات الحالات الإضافية */
+.doc-chip-green {
+  background-color: #ECFDF5;
+  color: #065F46;
+  border: 1px solid #A7F3D0;
+}
+
+.doc-chip-amber {
+  background-color: #FFFBEB;
+  color: #92400E;
+  border: 1px solid #FDE68A;
+}
+
+.doc-chip-red {
+  background-color: #FEF2F2;
+  color: #991B1B;
+  border: 1px solid #FECACA;
+}
+
+.doc-chip-cyan {
+  background-color: #ECFEFF;
+  color: #155E75;
+  border: 1px solid #A5F3FC;
+}
+
+

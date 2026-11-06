@@ -677,24 +677,38 @@
   margin-top: 3px;
 }
 
-/* فقاعة الرسالة التحفيزية اليومية */
+/* فقاعة الرسالة التحفيزية اليومية - مبرزة وأنيقة */
 .recovery-quote-bubble {
-  background: linear-gradient(135deg, rgba(220, 233, 252, 0.5) 0%, rgba(240, 246, 252, 0.8) 100%);
-  border: 1px solid rgba(25, 101, 179, 0.15);
+  background: linear-gradient(135deg, #F0F6FD 0%, #E2EDFC 100%);
+  border: 1.5px solid #BDD8F8;
   border-radius: 1.25rem;
-  padding: 1.15rem 1.25rem;
-  margin: 0.75rem 0;
-  min-height: 85px;
+  padding: 1.25rem 1.4rem;
+  margin: 0.85rem 0;
+  min-height: 90px;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  box-shadow: 0 2px 8px rgba(25, 101, 179, 0.04);
+  box-shadow: 0 4px 16px rgba(23, 71, 127, 0.07);
+  transition: all 0.25s ease;
+}
+
+.recovery-quote-bubble p {
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: #17477F;
+  line-height: 1.6;
+  margin: 0;
 }
 
 html[data-theme="dark"] .recovery-quote-bubble {
-  background: rgba(25, 101, 179, 0.15);
-  border-color: rgba(109, 231, 247, 0.2);
+  background: rgba(23, 71, 127, 0.28);
+  border-color: rgba(77, 131, 197, 0.45);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+html[data-theme="dark"] .recovery-quote-bubble p {
+  color: #BAE6FD;
 }
 
 /* 3. بطاقتا حاسبة الادخار ومراحل الرحلة في الأسفل (بجانب بعضهما) */
@@ -970,51 +984,424 @@ html[data-theme="dark"] .recovery-quote-bubble {
   flex-shrink: 0;
 }
 
-/* بطاقات المواعيد */
-.appt-card {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 1.5rem;
-  padding: 1.5rem;
+/* =====================================================================
+   تصميم واجهة المواعيد المحدثة بالكامل بالألوان والهيكل المعتمد
+   ===================================================================== */
+:root {
+  --appt-navy: #17477F;
+  --appt-blue-mid: #4D83C5;
+  --appt-blue-light: #DCE9FC;
+  --appt-bg: #F4F7FD;
+  --appt-white: #FFFFFF;
+  --appt-ink: #183B63;
+  --appt-muted: #71849E;
+  --appt-green: #4DAA91;
+  --appt-red: #EF4444;
+  --appt-red-bg: #FEF2F2;
+  --appt-red-border: #FCA5A5;
+}
+
+/* شريط تبويبات المواعيد */
+.appt-tabs-bar {
   display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  transition: all .2s;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 2rem;
 }
 
-.appt-card:hover {
-  border-color: var(--line-soft);
-  box-shadow: var(--shadow);
-}
-
-.status-chip {
+.appt-tab-btn {
   display: inline-flex;
   align-items: center;
-  gap: .4rem;
-  padding: .35rem .75rem;
+  gap: 0.65rem;
+  padding: 0.75rem 1.6rem;
   border-radius: 9999px;
-  font-size: .82rem;
+  font-family: inherit;
+  font-size: 0.95rem;
   font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: var(--appt-white);
+  color: var(--appt-navy);
+  border: 1.5px solid var(--appt-blue-light);
+  box-shadow: 0 2px 6px rgba(23, 71, 127, 0.04);
 }
 
-.status-chip.is-confirmed {
-  background: rgba(34, 197, 94, .12);
-  color: #16a34a;
+.appt-tab-btn:hover {
+  border-color: var(--appt-blue-mid);
+  background-color: #F8FAFC;
+  transform: translateY(-1px);
 }
 
-.status-chip.is-pending {
-  background: rgba(234, 179, 8, .12);
-  color: #ca8a04;
+.appt-tab-btn.is-active {
+  background-color: var(--appt-navy) !important;
+  color: var(--appt-white) !important;
+  border-color: var(--appt-navy) !important;
+  box-shadow: 0 4px 14px rgba(23, 71, 127, 0.25);
 }
 
-.status-chip.is-completed {
-  background: rgba(25, 101, 179, .12);
-  color: var(--primary);
+.appt-tab-counter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 0.45rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  background-color: rgba(255, 255, 255, 0.25);
+  color: #FFFFFF;
 }
 
-.status-chip.is-cancelled {
-  background: rgba(117, 162, 185, .15);
-  color: var(--muted);
+.appt-tab-btn:not(.is-active) .appt-tab-counter {
+  background-color: var(--appt-blue-light);
+  color: var(--appt-navy);
+}
+
+/* بطاقة الموعد الأفقية الكبيرة */
+.appt-horizontal-card {
+  background-color: var(--appt-white);
+  border-radius: 1.25rem;
+  border: 1px solid var(--appt-blue-light);
+  box-shadow: 0 4px 18px rgba(24, 59, 99, 0.05);
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 1.25rem;
+  display: grid;
+  grid-template-columns: 240px auto 180px;
+  align-items: center;
+  gap: 1.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  position: relative;
+}
+
+.appt-horizontal-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 26px rgba(24, 59, 99, 0.09);
+  border-color: var(--appt-blue-mid);
+}
+
+/* الجزء الأول: بيانات الموعد – الجهة اليمنى */
+.appt-col-datetime {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding-inline-end: 1rem;
+  border-inline-end: 1.5px dashed var(--appt-blue-light);
+}
+
+.appt-datetime-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.appt-icon-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 0.85rem;
+  background-color: var(--appt-blue-light);
+  color: var(--appt-navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.appt-day-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--appt-muted);
+}
+
+.appt-date-heading {
+  font-size: 0.98rem;
+  font-weight: 800;
+  color: var(--appt-ink);
+  margin: 0;
+}
+
+.appt-time-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--appt-muted);
+}
+
+.appt-time-heading {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--appt-navy);
+  margin: 0;
+}
+
+/* شارات حالة الموعد */
+.appt-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  width: fit-content;
+}
+
+.appt-status-badge.is-confirmed {
+  background-color: rgba(77, 170, 145, 0.14);
+  color: var(--appt-green);
+  border: 1px solid rgba(77, 170, 145, 0.35);
+}
+
+.appt-status-badge.is-pending {
+  background-color: var(--appt-blue-light);
+  color: var(--appt-navy);
+  border: 1px solid rgba(77, 131, 197, 0.35);
+}
+
+.appt-status-badge.is-completed {
+  background-color: rgba(77, 170, 145, 0.14);
+  color: var(--appt-green);
+  border: 1px solid rgba(77, 170, 145, 0.35);
+}
+
+.appt-status-badge.is-cancelled {
+  background-color: var(--appt-red-bg);
+  color: var(--appt-red);
+  border: 1px solid var(--appt-red-border);
+}
+
+.appt-status-badge.is-no_show {
+  background-color: #F1F5F9;
+  color: #64748B;
+  border: 1px solid #CBD5E1;
+}
+
+/* الجزء الثاني: معلومات الجلسة – منتصف البطاقة */
+.appt-col-session {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.appt-spec-avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.appt-spec-avatar-img {
+  width: 76px;
+  height: 76px;
+  border-radius: 9999px;
+  object-fit: cover;
+  border: 3px solid var(--appt-white);
+  box-shadow: 0 4px 12px rgba(23, 71, 127, 0.12);
+}
+
+.appt-consult-type-badge {
+  position: absolute;
+  bottom: -4px;
+  inset-inline-start: 50%;
+  transform: translateX(50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background-color: var(--appt-navy);
+  color: var(--appt-white);
+  padding: 0.15rem 0.55rem;
+  border-radius: 9999px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(23, 71, 127, 0.3);
+}
+
+.appt-session-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.appt-session-subtag {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--appt-blue-mid);
+}
+
+.appt-spec-name {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--appt-ink);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.appt-spec-role {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--appt-muted);
+  margin: 0;
+}
+
+/* الجزء الثالث: أزرار التحكم – الجهة اليسرى */
+.appt-col-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding-inline-start: 1rem;
+  border-inline-start: 1.5px dashed var(--appt-blue-light);
+  justify-content: center;
+}
+
+.appt-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.1rem;
+  border-radius: 0.85rem;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.appt-action-btn.btn-reschedule {
+  background-color: var(--appt-white);
+  color: var(--appt-navy);
+  border: 1.5px solid var(--appt-blue-mid);
+}
+
+.appt-action-btn.btn-reschedule:hover {
+  background-color: var(--appt-blue-light);
+  color: var(--appt-navy);
+  border-color: var(--appt-navy);
+  transform: translateY(-1px);
+}
+
+.appt-action-btn.btn-cancel {
+  background-color: var(--appt-white);
+  color: var(--appt-red);
+  border: 1.5px solid var(--appt-red-border);
+}
+
+.appt-action-btn.btn-cancel:hover {
+  background-color: var(--appt-red-bg);
+  border-color: var(--appt-red);
+  color: #B91C1C;
+  transform: translateY(-1px);
+}
+
+.appt-action-btn.btn-details {
+  background-color: var(--appt-white);
+  color: var(--appt-navy);
+  border: 1.5px solid var(--appt-blue-light);
+}
+
+.appt-action-btn.btn-details:hover {
+  background-color: var(--appt-blue-light);
+  border-color: var(--appt-blue-mid);
+}
+
+.appt-action-btn.btn-rebook {
+  background-color: var(--appt-navy);
+  color: var(--appt-white);
+  border: 1.5px solid var(--appt-navy);
+}
+
+.appt-action-btn.btn-rebook:hover {
+  background-color: var(--appt-blue-mid);
+  border-color: var(--appt-blue-mid);
+}
+
+/* الحالة الفارغة الأنيقة */
+.appt-empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: var(--appt-white);
+  border-radius: 1.5rem;
+  border: 1px dashed var(--appt-blue-light);
+  box-shadow: 0 4px 14px rgba(24, 59, 99, 0.03);
+}
+
+.appt-empty-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 9999px;
+  background-color: var(--appt-blue-light);
+  color: var(--appt-navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.25rem auto;
+}
+
+.appt-empty-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--appt-ink);
+  margin-bottom: 0.5rem;
+}
+
+.appt-empty-desc {
+  font-size: 0.88rem;
+  color: var(--appt-muted);
+  max-width: 420px;
+  margin: 0 auto 1.5rem auto;
+}
+
+/* أزرار السلايد والأوقات في نافذة إعادة الجدولة */
+.reschedule-slot-btn {
+  padding: 0.6rem 0.85rem;
+  border-radius: 0.75rem;
+  border: 1.5px solid var(--appt-blue-light);
+  background-color: var(--appt-white);
+  color: var(--appt-ink);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.reschedule-slot-btn:hover {
+  border-color: var(--appt-blue-mid);
+  background-color: #F8FAFC;
+}
+
+.reschedule-slot-btn.is-selected {
+  background-color: var(--appt-navy) !important;
+  color: var(--appt-white) !important;
+  border-color: var(--appt-navy) !important;
+  box-shadow: 0 2px 8px rgba(23, 71, 127, 0.25);
+}
+
+/* الاستجابة للشاشات الصغيرة والمتوسطة (Responsive) */
+@media (max-width: 900px) {
+  .appt-horizontal-card {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .appt-col-datetime {
+    padding-inline-end: 0;
+    border-inline-end: none;
+    border-bottom: 1.5px dashed var(--appt-blue-light);
+    padding-bottom: 1rem;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .appt-col-actions {
+    padding-inline-start: 0;
+    border-inline-start: none;
+    border-top: 1.5px dashed var(--appt-blue-light);
+    padding-top: 1rem;
+    flex-direction: row;
+  }
 }
 
 /* =====================================================================

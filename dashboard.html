@@ -225,6 +225,10 @@
       <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
       <polyline points="22 4 12 14.01 9 11.01"/>
     </symbol>
+    <symbol id="i-camera" viewBox="0 0 24 24">
+      <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+      <circle cx="12" cy="13" r="4"/>
+    </symbol>
   </svg>
 
   <div class="dash-layout">
@@ -301,7 +305,7 @@
           <li><a href="#recovery" class="mobile-link" data-nav="recovery">رحلة التعافي</a></li>
           <li><a href="appointments.html" class="mobile-link" data-nav="appointments">مواعيدي</a></li>
           <li><a href="support.html" class="mobile-link" data-nav="support">الدعم الخاص</a></li>
-          <li><a href="#profile" class="mobile-link" data-nav="profile">الملف الشخصي</a></li>
+          <li><a href="profile.html" class="mobile-link" data-nav="profile">الملف الشخصي</a></li>
           <li class="pt-2 mt-2 border-t border-line">
             <button class="mobile-link w-full text-start text-rose-500 font-bold flex items-center gap-2"
               data-dash-logout>
@@ -609,10 +613,7 @@
                     <div class="recovery-hero-val" id="heroRecoveryDate">1 أكتوبر 2025</div>
                   </div>
                 </div>
-                <button type="button" class="text-xs text-primary font-bold hover:underline flex items-center gap-1 mt-1" id="quickEditDateBtn">
-                  <span>تعديل تاريخ البداية</span>
-                  <svg class="icon ic-14"><use href="#i-arrow-left" /></svg>
-                </button>
+               
               </div>
 
               <!-- الجزء الثاني: مستوى التقدم -->
@@ -628,10 +629,9 @@
                 <div class="recovery-progress-track" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">
                   <div class="recovery-progress-bar" id="recoveryHeroProgressBar" style="width: 70%;"></div>
                 </div>
-                <div class="flex items-center justify-between text-xs t-body mt-2">
-                  <p class="flex items-center gap-1.5 text-slate-700 dark:text-slate-300 font-medium">
-                    <svg class="icon ic-16 text-rose-500 flex-shrink-0"><use href="#i-heart" /></svg>
-                    <span>«أنت تبذل جهداً رائعاً.. استمر في رحلتك نحو التعافي»</span>
+                <div class="flex items-center justify-between mt-2.5">
+                  <p class="text-[13.5px] font-extrabold text-[#17477F] dark:text-sky-300 leading-normal" id="heroProgressMotivationalMsg">
+                    «أنت تبذل جهداً رائعاً.. استمر في رحلتك نحو التعافي»
                   </p>
                 </div>
               </div>
@@ -656,9 +656,8 @@
             </div>
           </div>
 
-           
-
-            <!--  رسالتك اليوم -->
+       
+            <!-- البطاقة الثالثة: رسالتك اليوم -->
             <div class="recovery-stat-card flex flex-col justify-between">
               <div>
                 <div class="flex items-center justify-between gap-2 mb-3">
@@ -674,7 +673,7 @@
                 </div>
 
                 <div class="recovery-quote-bubble">
-                  <p id="recoveryDailyQuoteText" class="text-sm font-bold text-primary dark:text-sky leading-relaxed">
+                  <p id="recoveryDailyQuoteText" class="text-base font-extrabold text-[#17477F] leading-relaxed">
                     «أنت أقوى من الإدمان.. ومستقبلك أجمل بدونها».
                   </p>
                 </div>
@@ -682,7 +681,7 @@
 
               <div class="pt-3 border-t border-line flex items-center justify-between text-xs t-muted">
                 <span>تتجدد يومياً لمساندتك</span>
-                <span class="font-bold text-ink">فريق ملاذ </span>
+                <span class="font-bold text-ink">فريق ملاذ</span>
               </div>
             </div>
 
@@ -695,7 +694,7 @@
             <div class="recovery-bottom-card">
               <div class="flex items-start justify-between gap-3 mb-4">
                 <div class="flex items-center gap-3">
-                  <div class="recovery-icon-circle bg-emerald-50 text-emerald-600 dark:bg-emerald-950/60">
+                  <div class="recovery-icon-circle bg-emerald-50 text-emerald-600">
                     <svg class="icon ic-22"><use href="#i-calculator" /></svg>
                   </div>
                   <div>
@@ -797,13 +796,17 @@
             </button>
           </div>
 
-          <!-- تبويبات المواعيد (القادمة vs السابقة) -->
-          <div class="flex gap-2 mb-6" role="tablist">
-            <button class="btn btn-solid btn-sm" data-appt-tab="upcoming" aria-pressed="true">
-              الاستشارات القادمة
+          <!-- شريط تبويبات المواعيد (القادمة vs السابقة) -->
+          <div class="appt-tabs-bar" role="tablist">
+            <button type="button" class="appt-tab-btn is-active" data-appt-tab="upcoming" role="tab" aria-selected="true">
+              <svg class="icon ic-18" aria-hidden="true"><use href="#i-calendar"/></svg>
+              <span>المواعيد القادمة</span>
+              <span class="appt-tab-counter" data-appt-counter="upcoming">2</span>
             </button>
-            <button class="btn btn-outline btn-sm" data-appt-tab="past" aria-pressed="false">
-              المواعيد السابقة والمكتملة
+            <button type="button" class="appt-tab-btn" data-appt-tab="past" role="tab" aria-selected="false">
+              <svg class="icon ic-18" aria-hidden="true"><use href="#i-clock"/></svg>
+              <span>المواعيد السابقة</span>
+              <span class="appt-tab-counter" data-appt-counter="past">3</span>
             </button>
           </div>
 
@@ -1061,138 +1064,219 @@
 
         <!-- ================= 6. الملف الشخصي ================= -->
         <section id="view-profile" class="dash-view">
-          <div class="mb-6">
-            <h2 class="text-2xl font-extrabold text-ink">الملف الشخصي للمستفيد</h2>
-            <p class="text-sm t-body mt-1">بياناتك الشخصية، وإعدادات السرية، وتاريخ مسار تعافيك.</p>
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+            <div>
+              <h2 class="text-2xl font-extrabold text-ink">الملف الشخصي للمستفيد</h2>
+              <p class="text-sm t-body mt-1">إدارة معلوماتك الشخصية، وصورتك، وتفضيلات الهوية والسرية التامة في منصة ملاذ.</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <div id="profileAutoSaveBadge" class="flex items-center gap-2 text-xs font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/50 px-3.5 py-1.5 rounded-full border border-emerald-200 dark:border-emerald-800 shadow-sm">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>يتم تحديث المعلومات تلقائياً وبسرية</span>
+              </div>
+            </div>
           </div>
 
           <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- البيانات الأساسية -->
-            <div class="dash-card lg:col-span-2">
-              <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
-                <svg class="icon ic-20 text-primary">
-                  <use href="#i-user" />
-                </svg>
-                <span>المعلومات الأساسية وتفضيلات الهوية</span>
-              </h3>
 
-              <form id="profileForm" class="space-y-4">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div class="field">
-                    <label for="profileUsername">الاسم أو الاسم المستعار</label>
-                    <div class="input-wrap">
-                      <svg class="icon ic-18">
-                        <use href="#i-user" />
-                      </svg>
-                      <input id="profileUsername" type="text" required />
-                    </div>
-                    <p class="text-xs t-muted mt-1">يمكنك استخدام اسم مستعار للحفاظ على سرية هويتك الكاملة.</p>
-                  </div>
-
-                  <div class="field">
-                    <label for="profileEmail">البريد الإلكتروني</label>
-                    <div class="input-wrap">
-                      <svg class="icon ic-18">
-                        <use href="#i-user" />
-                      </svg>
-                      <input id="profileEmail" type="email" dir="ltr" required />
-                    </div>
-                  </div>
-
-                  <div class="field">
-                    <label for="profilePhone">رقم الجوال (اختياري وسري)</label>
-                    <div class="input-wrap">
-                      <svg class="icon ic-18">
-                        <use href="#i-phone" />
-                      </svg>
-                      <input id="profilePhone" type="tel" dir="ltr" />
-                    </div>
-                  </div>
-
-                  <div class="field">
-                    <label for="profileAge">العمر</label>
-                    <div class="input-wrap">
-                      <svg class="icon ic-18">
-                        <use href="#i-calendar" />
-                      </svg>
-                      <input id="profileAge" type="number" min="16" max="100" />
-                    </div>
-                  </div>
-
-                  <div class="field">
-                    <label for="profileRecoveryDate">تاريخ بداية رحلة التعافي</label>
-                    <div class="input-wrap">
-                      <svg class="icon ic-18">
-                        <use href="#i-calendar" />
-                      </svg>
-                      <input id="profileRecoveryDate" type="date" />
-                    </div>
-                  </div>
-
-                  <div class="field">
-                    <label for="profileEmergency">جهة الاتصال في الطوارئ (اختياري)</label>
-                    <div class="input-wrap">
-                      <svg class="icon ic-18">
-                        <use href="#i-phone" />
-                      </svg>
-                      <input id="profileEmergency" type="text" placeholder="اسم ورقم شخص موثوق" />
-                    </div>
+            <!-- العمود الأيمن: بطاقة الصورة الشخصية وهوية المستفيد -->
+            <div class="dash-card flex flex-col items-center text-center p-6">
+              <div class="relative mb-4 group">
+                <!-- حاوية الصورة الشخصية الدائرية -->
+                <div class="w-32 h-32 rounded-full border-4 border-white dark:border-slate-800 shadow-xl overflow-hidden bg-gradient-to-tr from-blue-100 to-sky-100 dark:from-slate-800 dark:to-slate-700 flex items-center justify-center relative">
+                  <img id="profileAvatarImg" src="" alt="الصورة الشخصية" class="w-full h-full object-cover hidden" />
+                  <div id="profileAvatarFallback" class="text-4xl font-extrabold text-primary select-none">
+                    ع
                   </div>
                 </div>
-
-                <div class="pt-4 border-t border-line flex justify-end">
-                  <button type="submit" class="btn btn-solid btn-sm">
-                    <span>حفظ التعديلات</span>
-                  </button>
-                </div>
-              </form>
-            </div>
-
-            <!-- الأمان وكلمة المرور -->
-            <div class="dash-card">
-              <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
-                <svg class="icon ic-20 text-primary">
-                  <use href="#i-lock" />
-                </svg>
-                <span>تغيير كلمة المرور</span>
-              </h3>
-
-              <form id="passwordForm" class="space-y-4">
-                <div class="field">
-                  <label for="oldPass">كلمة المرور الحالية</label>
-                  <div class="input-wrap">
-                    <svg class="icon ic-18">
-                      <use href="#i-lock" />
-                    </svg>
-                    <input id="oldPass" type="password" required />
-                  </div>
-                </div>
-
-                <div class="field">
-                  <label for="newPass">كلمة المرور الجديدة</label>
-                  <div class="input-wrap">
-                    <svg class="icon ic-18">
-                      <use href="#i-lock" />
-                    </svg>
-                    <input id="newPass" type="password" required />
-                  </div>
-                </div>
-
-                <div class="field">
-                  <label for="confPass">تأكيد كلمة المرور الجديدة</label>
-                  <div class="input-wrap">
-                    <svg class="icon ic-18">
-                      <use href="#i-lock" />
-                    </svg>
-                    <input id="confPass" type="password" required />
-                  </div>
-                </div>
-
-                <button type="submit" class="btn btn-outline btn-sm w-full">
-                  <span>تحديث كلمة المرور</span>
+                <!-- زر رفع وتعديل الصورة العائم -->
+                <button type="button" id="changeAvatarBtn" class="absolute bottom-1 inset-inline-end-1 w-10 h-10 rounded-full bg-primary text-white shadow-lg hover:bg-sky-600 active:scale-95 transition-all grid place-items-center" title="إضافة أو تغيير الصورة الشخصية" aria-label="تغيير الصورة">
+                  <svg class="icon ic-18"><use href="#i-camera" /></svg>
                 </button>
-              </form>
+                <input type="file" id="profileAvatarInput" accept="image/png, image/jpeg, image/webp" hidden />
+              </div>
+
+              <!-- معلومات العرض -->
+              <h3 class="text-xl font-extrabold text-ink mb-1" id="profileDisplayName">عبد الرحمن الشمري</h3>
+              <p class="text-xs font-semibold text-primary mb-4" id="profileDisplayEmail">abdulrahman@example.com</p>
+
+              <!-- زر إضافة / تغيير الصورة الرسمي -->
+              <div class="w-full space-y-2 mb-6">
+                <button type="button" id="triggerAvatarUploadBtn" class="btn btn-outline btn-sm w-full flex items-center justify-center gap-2">
+                  <svg class="icon ic-18 text-primary"><use href="#i-camera" /></svg>
+                  <span>إضافة / تغيير الصورة الشخصية</span>
+                </button>
+                <button type="button" id="removeAvatarBtn" class="text-xs text-rose-500 font-bold hover:underline w-full text-center" style="display:none;">
+                  إزالة الصورة والعودة للحرف الرمزي
+                </button>
+              </div>
+
+              <div class="w-full pt-4 border-t border-line space-y-3 text-xs text-start">
+                <div class="flex items-center justify-between">
+                  <span class="t-muted">حالة الحساب:</span>
+                  <span class="inline-flex items-center gap-1.5 text-emerald-600 font-bold">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                    <span>مستفيد نشط ومحمي</span>
+                  </span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="t-muted">تاريخ الانضمام:</span>
+                  <span class="font-bold text-ink">1 أكتوبر 2025</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="t-muted">أيام التعافي المسجلة:</span>
+                  <span class="font-bold text-primary" id="profileRecoveryDaysDisplay">42 يوماً</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="t-muted">الجلسات المكتملة:</span>
+                  <span class="font-bold text-ink">3 استشارات</span>
+                </div>
+              </div>
             </div>
+
+            <!-- العمود الأيسر: نموذج تعديل المعلومات الكاملة وإعدادات الأمان -->
+            <div class="lg:col-span-2 space-y-6">
+
+              <!-- نموذج تعديل المعلومات الشخصية -->
+              <div class="dash-card">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 pb-3 border-b border-line">
+                  <div>
+                    <h3 class="font-bold text-lg text-ink flex items-center gap-2">
+                      <svg class="icon ic-20 text-primary"><use href="#i-user" /></svg>
+                      <span>المعلومات الشخصية والبيانات المسجلة</span>
+                    </h3>
+                    <p class="text-xs t-body mt-0.5">جميع معلوماتك التي أدخلتها عند التسجيل. يمكنك تعديل أي حقل ويتم حفظها تلقائياً.</p>
+                  </div>
+                  <span class="text-[11px] font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-1 rounded-full">
+                    حفظ تلقائي فوري
+                  </span>
+                </div>
+
+                <form id="profileForm" class="space-y-4">
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="field">
+                      <label for="profileUsername">الاسم أو الاسم المستعار</label>
+                      <div class="input-wrap">
+                        <svg class="icon ic-18"><use href="#i-user" /></svg>
+                        <input id="profileUsername" type="text" required placeholder="اسمك أو الاسم المفضل لك" />
+                      </div>
+                      <p class="text-xs t-muted mt-1">يظهر هذا الاسم في الجلسات ولأخصائيك النفسي.</p>
+                    </div>
+
+                    <div class="field">
+                      <label for="profileEmail">البريد الإلكتروني</label>
+                      <div class="input-wrap">
+                        <svg class="icon ic-18"><use href="#i-user" /></svg>
+                        <input id="profileEmail" type="email" dir="ltr" required placeholder="example@mail.com" />
+                      </div>
+                    </div>
+
+                    <div class="field">
+                      <label for="profilePhone">رقم الجوال (اختياري وسري)</label>
+                      <div class="input-wrap">
+                        <svg class="icon ic-18"><use href="#i-phone" /></svg>
+                        <input id="profilePhone" type="tel" dir="ltr" placeholder="+966 5X XXX XXXX" />
+                      </div>
+                    </div>
+
+                    <div class="field">
+                      <label for="profileAge">العمر (بالسنوات)</label>
+                      <div class="input-wrap">
+                        <svg class="icon ic-18"><use href="#i-calendar" /></svg>
+                        <input id="profileAge" type="number" min="16" max="100" placeholder="29" />
+                      </div>
+                    </div>
+
+                    <div class="field">
+                      <label for="profileRecoveryDate">تاريخ بداية رحلة التعافي</label>
+                      <div class="input-wrap">
+                        <svg class="icon ic-18"><use href="#i-calendar" /></svg>
+                        <input id="profileRecoveryDate" type="date" />
+                      </div>
+                      <p class="text-xs t-muted mt-1">يُحتسب منه عدد أيام الالتزام التقديرية ونسبة التقدم.</p>
+                    </div>
+
+                    <div class="field">
+                      <label for="profileEmergency">جهة الاتصال في الطوارئ (اختياري)</label>
+                      <div class="input-wrap">
+                        <svg class="icon ic-18"><use href="#i-phone" /></svg>
+                        <input id="profileEmergency" type="text" placeholder="اسم ورقم شخص موثوق للضرورة" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- وضع التصفح والسرية التامة -->
+                  <div class="p-4 rounded-2xl bg-bg-soft border border-line flex items-center justify-between gap-4 mt-2">
+                    <div>
+                      <h4 class="font-bold text-sm text-ink mb-1">وضع السرية والتصفح المجهول (Incognito Mode)</h4>
+                      <p class="text-xs t-body">إخفاء البيانات الحقيقية واستخدام رمز تعريفي مشفر لحماية خصوصيتك المطلقة.</p>
+                    </div>
+                    <button type="button" id="incognitoSwitch" class="switch" role="switch" aria-checked="true" aria-label="تفعيل وضع السرية">
+                      <span class="knob"></span>
+                    </button>
+                  </div>
+
+                  <div class="pt-4 border-t border-line flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <div class="text-xs font-semibold text-emerald-600 flex items-center gap-1.5" id="profileSaveStatusHint">
+                      <svg class="icon ic-16"><use href="#i-check" /></svg>
+                      <span>التعديلات تُحفظ تلقائياً في حسابك</span>
+                    </div>
+
+                    <div class="flex items-center gap-2 w-full sm:w-auto">
+                      <button type="submit" id="saveProfileBtn" class="btn btn-solid btn-sm flex-1 sm:flex-initial flex items-center justify-center gap-2">
+                        <svg class="icon ic-18"><use href="#i-check" /></svg>
+                        <span>تعديل وحفظ المعلومات</span>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+              <!-- بطاقة تغيير كلمة المرور والأمان -->
+              <div class="dash-card">
+                <h3 class="font-bold text-lg mb-3 flex items-center gap-2">
+                  <svg class="icon ic-20 text-primary"><use href="#i-lock" /></svg>
+                  <span>تغيير كلمة المرور وأمان الحساب</span>
+                </h3>
+                <p class="text-xs t-body mb-4">احرص على استخدام كلمة مرور قوية تحتوي على أحرف وأرقام لحماية حسابك.</p>
+
+                <form id="passwordForm" class="space-y-4">
+                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="field">
+                      <label for="oldPass">كلمة المرور الحالية</label>
+                      <div class="input-wrap">
+                        <svg class="icon ic-18"><use href="#i-lock" /></svg>
+                        <input id="oldPass" type="password" required placeholder="••••••••" />
+                      </div>
+                    </div>
+
+                    <div class="field">
+                      <label for="newPass">كلمة المرور الجديدة</label>
+                      <div class="input-wrap">
+                        <svg class="icon ic-18"><use href="#i-lock" /></svg>
+                        <input id="newPass" type="password" required placeholder="8 خانات على الأقل" />
+                      </div>
+                    </div>
+
+                    <div class="field">
+                      <label for="confPass">تأكيد كلمة المرور الجديدة</label>
+                      <div class="input-wrap">
+                        <svg class="icon ic-18"><use href="#i-lock" /></svg>
+                        <input id="confPass" type="password" required placeholder="تأكيد الكلمة" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="flex justify-end pt-2">
+                    <button type="submit" class="btn btn-outline btn-sm">
+                      <span>تحديث كلمة المرور</span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+
+            </div>
+
           </div>
         </section>
 
@@ -1221,14 +1305,14 @@
               <li><a href="#recovery" data-nav="recovery">رحلة التعافي</a></li>
               <li><a href="appointments.html" data-nav="appointments">مواعيدي</a></li>
               <li><a href="support.html" data-nav="support">الدعم الخاص</a></li>
-              <li><a href="#profile" data-nav="profile">الملف الشخصي</a></li>
+              <li><a href="profile.html" data-nav="profile">الملف الشخصي</a></li>
             </ul>
           </div>
 
           <div>
             <h3 class="footer-h">مصادر الدعم</h3>
             <ul class="footer-list text-sm">
-              <li><a href="#recovery" data-nav="recovery">حاسبة الادخار المالي</a></li>
+              <li><a href="#recovery" data-nav="recovery">متابعة مسار التعافي</a></li>
               <li><a href="support.html" data-nav="support">المحادثة السرية المشفرة</a></li>
               <li><a href="#consultations" data-nav="consultations">نخبة الأخصائيين النفسيين</a></li>
             </ul>
@@ -1364,6 +1448,162 @@
     </div>
   </div>
 
+  <!-- نافذة إعادة جدولة الموعد -->
+  <div id="rescheduleModal" class="dash-modal" role="dialog" aria-modal="true" aria-labelledby="rescheduleModalTitle">
+    <div class="dash-modal-box max-w-lg">
+      <div class="flex items-center justify-between mb-4 pb-3 border-b border-line">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-blue-50 dark:bg-slate-800 text-primary flex items-center justify-center">
+            <svg class="icon ic-20"><use href="#i-calendar"/></svg>
+          </div>
+          <h3 id="rescheduleModalTitle" class="text-lg font-bold text-ink">إعادة جدولة الموعد</h3>
+        </div>
+        <button id="closeRescheduleModalBtn" class="icon-btn icon-btn-sm" aria-label="إغلاق">
+          <svg class="icon ic-20"><use href="#i-x"/></svg>
+        </button>
+      </div>
+
+      <!-- ملخص الموعد الحالي -->
+      <div class="p-3.5 rounded-2xl bg-[#F4F7FD] dark:bg-slate-800/60 border border-[#DCE9FC] dark:border-slate-700 mb-5">
+        <div class="flex items-center gap-3">
+          <img id="rescheduleSpecPhoto" src="assets/specialist-sara.jpg" alt="" class="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm" />
+          <div class="flex-1 min-w-0">
+            <h4 id="rescheduleSpecName" class="font-extrabold text-sm text-[#183B63] dark:text-slate-100">د. سارة العتيبي</h4>
+            <p id="rescheduleSessionTitle" class="text-xs text-[#4D83C5] font-semibold">جلسة استشارية نفسية - عن بُعد</p>
+          </div>
+          <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-white text-[#17477F] border border-[#DCE9FC] shadow-2xs">
+            <svg class="icon ic-18"><use href="#i-clock"/></svg>
+            <span id="rescheduleCurrentTimeLabel">05:00 مساءً</span>
+          </span>
+        </div>
+        <div class="mt-2.5 pt-2 border-t border-[#DCE9FC]/60 dark:border-slate-700/60 text-xs text-[#71849E] flex items-center gap-1.5">
+          <svg class="icon ic-18 text-[#4D83C5]"><use href="#i-calendar"/></svg>
+          <span>الموعد الحالي: <strong id="rescheduleCurrentDateLabel" class="text-[#183B63] dark:text-slate-200">السبت، 8 نوفمبر 2025</strong></span>
+        </div>
+      </div>
+
+      <form id="rescheduleForm" class="space-y-4">
+        <input type="hidden" id="rescheduleApptId" value="" />
+
+        <div>
+          <label for="rescheduleDatePicker" class="block text-xs font-bold text-[#183B63] dark:text-slate-200 mb-1.5">
+            اختر التاريخ الجديد
+          </label>
+          <input id="rescheduleDatePicker" type="date"
+            class="w-full h-11 px-4 rounded-xl border border-line bg-bg-soft text-sm text-ink outline-none focus:border-primary transition"
+            required />
+          <p class="text-[11px] text-muted mt-1">يقتصر الحجز على الأيام المتاحة القادمة فقط.</p>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-[#183B63] dark:text-slate-200 mb-1.5">
+            اختر التوقيت المناسب
+          </label>
+          <div id="rescheduleSlotsContainer" class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <!-- أزرار الأوقات تملأ ديناميكياً -->
+          </div>
+        </div>
+
+        <div>
+          <label for="rescheduleNotes" class="block text-xs font-bold text-[#183B63] dark:text-slate-200 mb-1.5">
+            سبب إعادة الجدولة (اختياري)
+          </label>
+          <textarea id="rescheduleNotes" rows="2"
+            class="w-full p-3 rounded-xl border border-line bg-bg-soft text-sm text-ink outline-none resize-none focus:border-primary transition"
+            placeholder="مثال: ظرف عمل طارئ، رغبة في توقيت مسائي..."></textarea>
+        </div>
+
+        <div class="pt-3 border-t border-line flex items-center justify-end gap-3">
+          <button type="button" id="cancelRescheduleBtn" class="btn btn-outline btn-sm">إلغاء والعودة</button>
+          <button type="submit" id="submitRescheduleBtn" class="btn btn-solid btn-sm">تأكيد إعادة الجدولة</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- نافذة تأكيد إلغاء الموعد -->
+  <div id="cancelConfirmModal" class="dash-modal" role="dialog" aria-modal="true" aria-labelledby="cancelConfirmModalTitle">
+    <div class="dash-modal-box max-w-md text-center">
+      <div class="w-16 h-16 rounded-full bg-rose-50 text-rose-500 mx-auto mb-4 grid place-items-center">
+        <svg class="icon ic-32"><use href="#i-x"/></svg>
+      </div>
+
+      <h3 id="cancelConfirmModalTitle" class="text-xl font-bold text-ink mb-2">هل أنت متأكد من إلغاء الموعد؟</h3>
+      <p class="text-sm t-body mb-5 leading-relaxed">
+        سيتم إلغاء جلستك الاستشارية مع <strong id="cancelApptSpecName" class="text-ink">د. سارة العتيبي</strong> المقررة في <strong id="cancelApptDate" class="text-primary">8 نوفمبر 2025</strong>. سيتم نقل الموعد إلى قائمة المواعيد السابقة كملغي.
+      </p>
+
+      <div class="p-3 bg-amber-50 dark:bg-amber-950/30 rounded-xl border border-amber-200 dark:border-amber-800 text-xs text-amber-800 dark:text-amber-300 text-start mb-6">
+        <span class="font-bold">ملاحظة:</span> يمكنك حجز جلسة استشارية جديدة أو إعادة طلب الموعد في أي وقت تشاء.
+      </div>
+
+      <div class="flex items-center justify-center gap-3">
+        <button type="button" id="dismissCancelModalBtn" class="btn btn-outline btn-sm">
+          العودة وعدم الإلغاء
+        </button>
+        <button type="button" id="confirmCancelActionBtn" class="btn btn-solid btn-sm bg-rose-600 hover:bg-rose-700 text-white border-rose-600">
+          <svg class="icon ic-18"><use href="#i-trash"/></svg>
+          <span>نعم، إلغاء الموعد</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- نافذة تفاصيل الموعد السابق -->
+  <div id="pastApptDetailModal" class="dash-modal" role="dialog" aria-modal="true" aria-labelledby="pastDetailModalTitle">
+    <div class="dash-modal-box max-w-lg">
+      <div class="flex items-center justify-between mb-4 pb-3 border-b border-line">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-blue-50 dark:bg-slate-800 text-primary flex items-center justify-center">
+            <svg class="icon ic-20"><use href="#i-shield"/></svg>
+          </div>
+          <h3 id="pastDetailModalTitle" class="text-lg font-bold text-ink">تفاصيل الجلسة السابقة</h3>
+        </div>
+        <button id="closePastDetailModalBtn" class="icon-btn icon-btn-sm" aria-label="إغلاق">
+          <svg class="icon ic-20"><use href="#i-x"/></svg>
+        </button>
+      </div>
+
+      <div class="flex items-center gap-3 p-3 rounded-2xl bg-bg-soft border border-line mb-4">
+        <img id="pastDetailSpecPhoto" src="assets/specialist-sara.jpg" alt="" class="w-14 h-14 rounded-full object-cover border-2 border-white shadow-sm" />
+        <div class="flex-1">
+          <div class="flex items-center justify-between">
+            <h4 id="pastDetailSpecName" class="font-bold text-base text-ink">د. سارة العتيبي</h4>
+            <span id="pastDetailStatusBadge" class="appt-status-badge is-completed">
+              <svg class="icon ic-18"><use href="#i-check"/></svg>
+              <span>مكتمل</span>
+            </span>
+          </div>
+          <p id="pastDetailSpecRole" class="text-xs text-primary font-semibold">أخصائية نفسية</p>
+          <p id="pastDetailDateTime" class="text-xs text-muted mt-1">23 أكتوبر 2025 - 06:00 مساءً</p>
+        </div>
+      </div>
+
+      <div class="space-y-3 mb-6">
+        <div class="p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 text-xs">
+          <h5 class="font-bold text-emerald-800 dark:text-emerald-300 mb-1 flex items-center gap-1.5">
+            <svg class="icon ic-18"><use href="#i-check-circle"/></svg>
+            <span>ملخص وتوصيات الأخصائي</span>
+          </h5>
+          <p id="pastDetailSummary" class="text-emerald-900 dark:text-emerald-200 leading-relaxed"></p>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-bg-soft border border-line text-xs">
+          <h5 class="font-bold text-ink mb-1">موضوع الجلسة وملاحظات المتابعة:</h5>
+          <p id="pastDetailNotes" class="t-body leading-relaxed"></p>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end gap-3 pt-3 border-t border-line">
+        <button type="button" id="dismissPastDetailBtn" class="btn btn-outline btn-sm">إغلاق</button>
+        <button type="button" id="pastDetailRebookBtn" class="btn btn-solid btn-sm">
+          <svg class="icon ic-18"><use href="#i-calendar"/></svg>
+          <span>حجز موعد مشابه</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- 3. نافذة عرض جميع الإنجازات -->
   <div id="achievementsModal" class="dash-modal" role="dialog" aria-modal="true" aria-labelledby="achievementsModalTitle">
     <div class="dash-modal-box dash-modal-lg">
@@ -1405,7 +1645,7 @@
     <div class="dash-modal-box dash-modal-lg">
       <div class="flex items-center justify-between mb-4 pb-3 border-b border-line">
         <div class="flex items-center gap-2.5">
-          <div class="recovery-icon-circle bg-emerald-50 text-emerald-600 dark:bg-emerald-950/60">
+          <div class="recovery-icon-circle bg-emerald-50 text-emerald-600">
             <svg class="icon ic-22"><use href="#i-calculator" /></svg>
           </div>
           <div>
@@ -1494,7 +1734,7 @@
     <div class="dash-modal-box">
       <div class="flex items-center justify-between mb-4 pb-3 border-b border-line">
         <div class="flex items-center gap-2.5">
-          <div class="recovery-icon-circle bg-blue-50 text-primary dark:bg-blue-950/60" id="milestoneModalIconWrap">
+          <div class="recovery-icon-circle bg-blue-50 text-primary" id="milestoneModalIconWrap">
             <svg class="icon ic-22"><use href="#i-flag" /></svg>
           </div>
           <div>
@@ -1552,7 +1792,7 @@
     <div class="dash-modal-box">
       <div class="flex items-center justify-between mb-4 pb-3 border-b border-line">
         <div class="flex items-center gap-2.5">
-          <div class="recovery-icon-circle bg-blue-50 text-primary dark:bg-blue-950/60">
+          <div class="recovery-icon-circle bg-blue-50 text-primary">
             <svg class="icon ic-22"><use href="#i-settings" /></svg>
           </div>
           <div>

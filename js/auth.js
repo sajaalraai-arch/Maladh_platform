@@ -138,24 +138,62 @@ document.addEventListener('click', (e) => {
   eye.setAttribute('aria-label', t(show ? 'pw.hide' : 'pw.show'));
 });
 
-// ---------- الإرسال (تجريبي) ----------
+// ---------- الإرسال (تسجيل الدخول / إنشاء الحساب) ----------
 function submitForm(form) {
-  // TODO: أرسل البيانات إلى الخادم عبر fetch('/api/...') ثم عالج الاستجابة.
-  // الواجهة هنا تجريبية: لا تتحقق من الحساب فعليًا ولا تحفظ كلمة المرور.
   let user;
-  if (form.dataset.form === 'register') {
-    user = { username: form.elements.username.value.trim(), email: form.elements.email.value.trim(), age: +form.elements.age.value };
+  const isRegister = form.dataset.form === 'register';
+  const pass = (form.elements.password ? form.elements.password.value : '').trim();
+  const isDoctor = !isRegister && pass.toLowerCase() === 'doctor';
+
+  if (isRegister) {
+    user = {
+      username: form.elements.username.value.trim(),
+      email: form.elements.email.value.trim(),
+      age: +form.elements.age.value,
+      role: 'beneficiary'
+    };
+    localStorage.setItem('maladh:current_role', 'beneficiary');
   } else {
     const id = form.elements.identifier.value.trim();
-    user = { username: id.includes('@') ? id.split('@')[0] : id, email: id.includes('@') ? id : '' };
+    let name = id.includes('@') ? id.split('@')[0] : id;
+
+    if (isDoctor) {
+      if (!name || name.toLowerCase() === 'doctor') {
+        name = 'د. سارة العتيبي';
+      } else if (!name.startsWith('د.') && !name.startsWith('دكتور')) {
+        name = 'د. ' + name;
+      }
+      user = {
+        username: name,
+        email: id.includes('@') ? id : 'sara.otaibi@maladh.com',
+        role: 'specialist',
+        title: 'أخصائية في علم النفس العلاجي',
+        license: 'PSY-88492',
+        avatar: 'assets/specialist-sara.jpg'
+      };
+      localStorage.setItem('maladh:doctor_user', JSON.stringify(user));
+      localStorage.setItem('maladh:current_role', 'specialist');
+    } else {
+      user = {
+        username: name,
+        email: id.includes('@') ? id : '',
+        role: 'beneficiary'
+      };
+      localStorage.setItem('maladh:current_role', 'beneficiary');
+    }
   }
+
   setUser(user);
   renderAuthState();
   closeAuth();
   form.reset();
-  $('#strength').dataset.score = 0; $('#r-strength').textContent = '';
-  showToast(t(form.dataset.form === 'register' ? 'toast.created' : 'toast.welcome', { name: user.username }));
-  setTimeout(() => { window.location.href = 'dashboard.html'; }, 900);
+  $('#strength').dataset.score = 0;
+  $('#r-strength').textContent = '';
+  showToast(t(isRegister ? 'toast.created' : 'toast.welcome', { name: user.username }));
+  
+  setTimeout(() => {
+    window.location.href = isDoctor ? 'doctor-dashboard.html' : 'dashboard.html';
+  }, 900);
 }
 
 window.addEventListener('langchange', () => {

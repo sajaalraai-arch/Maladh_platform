@@ -87,12 +87,27 @@
 
   function formatArabicDate(dateStr) {
     if (!dateStr) return '1 أكتوبر 2025';
+    if (typeof dateStr === 'object') {
+      if (dateStr.formattedDate) return dateStr.formattedDate;
+      if (dateStr.date) return dateStr.date;
+    }
     const months = [
       'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
       'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'
     ];
+    if (typeof dateStr === 'string' && dateStr.includes('-')) {
+      const parts = dateStr.split('-');
+      if (parts.length === 3) {
+        const y = parseInt(parts[0], 10);
+        const m = parseInt(parts[1], 10) - 1;
+        const d = parseInt(parts[2], 10);
+        if (!isNaN(y) && !isNaN(m) && !isNaN(d) && m >= 0 && m < 12) {
+          return `${d} ${months[m]} ${y}`;
+        }
+      }
+    }
     const d = new Date(dateStr);
-    if (isNaN(d.getTime())) return dateStr;
+    if (isNaN(d.getTime())) return String(dateStr);
     return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
   }
 
@@ -110,44 +125,87 @@
 
   const INITIAL_APPOINTMENTS = [
     {
-      id: 'apt-101',
+      id: 'apt-1',
+      day: 'السبت',
+      date: '8 نوفمبر 2025',
+      rawDate: '2025-11-08',
+      time: '05:00 مساءً',
+      status: 'confirmed',
+      statusText: 'موعد مؤكد',
       specialistId: 'sara',
-      specialistName: 'د. سارة العريفي',
-      specialistRole: 'أخصائية علم النفس العلاجي والعلاج السلوكي',
+      specialistName: 'د. سارة العتيبي',
+      specialistRole: 'أخصائية نفسية - علاج معرفي سلوكي',
       specialistPhoto: 'assets/specialist-sara.jpg',
-      date: '2026-11-06',
-      time: '06:00 م',
-      type: 'جلسة فيديو مرئية مشفرة',
-      status: 'confirmed', // confirmed, pending, completed, cancelled
-      statusText: 'مؤكد',
-      notes: 'متابعة تمارين اليقظة الذهنية والتعامل مع محفزات القلق.'
+      sessionTitle: 'جلسة استشارية نفسية',
+      type: 'عن بُعد',
+      notes: 'جلسة متابعة دورية لليقظة الذهنية والتحكم في محفزات التوتر والضغوط اليومية.'
     },
     {
-      id: 'apt-102',
-      specialistId: 'ahmed',
-      specialistName: 'د. أحمد السقاف',
-      specialistRole: 'استشاري دعم التعافي وإعادة التأهيل',
-      specialistPhoto: 'assets/specialist-ahmed.jpg',
-      date: '2026-11-12',
-      time: '04:30 م',
-      type: 'استشارة صوتية خاصة',
+      id: 'apt-2',
+      day: 'الاثنين',
+      date: '10 نوفمبر 2025',
+      rawDate: '2025-11-10',
+      time: '04:00 مساءً',
       status: 'pending',
       statusText: 'قيد الانتظار',
-      notes: 'تقييم مرحلة ترسيخ العادات والاحتفال بمرور 150 يوماً.'
+      specialistId: 'ahmed',
+      specialistName: 'د. أحمد البلوي',
+      specialistRole: 'استشاري دعم وإرشاد نفسي وسلوكي',
+      specialistPhoto: 'assets/specialist-ahmed.jpg',
+      sessionTitle: 'جلسة دعم وإرشاد',
+      type: 'عن بُعد',
+      notes: 'جلسة إرشادية حول تعزيز العادات الإيجابية والتخطيط للمستقبل.'
     },
     {
-      id: 'apt-099',
-      specialistId: 'sara',
-      specialistName: 'د. سارة العريفي',
-      specialistRole: 'أخصائية علم النفس العلاجي',
-      specialistPhoto: 'assets/specialist-sara.jpg',
-      date: '2026-10-24',
-      time: '06:00 م',
-      type: 'جلسة فيديو مرئية مشفرة',
+      id: 'apt-past-1',
+      day: 'الخميس',
+      date: '23 أكتوبر 2025',
+      rawDate: '2025-10-23',
+      time: '06:00 مساءً',
       status: 'completed',
-      statusText: 'مكتملة',
-      notes: 'تمت مناقشة استراتيجيات ضبط النوم والتغذية الإيجابية.',
-      summary: 'أظهر المستفيد التزاماً ممتازاً في تدوين الملاحظات اليومية. التوصية بالاستمرار في تمارين التنفس البطني.'
+      statusText: 'مكتمل',
+      specialistId: 'sara',
+      specialistName: 'د. سارة العتيبي',
+      specialistRole: 'أخصائية نفسية',
+      specialistPhoto: 'assets/specialist-sara.jpg',
+      sessionTitle: 'جلسة استشارية نفسية',
+      type: 'عن بُعد',
+      notes: 'مناقشة أساليب التعامل مع القلق وضغوط العمل.',
+      summary: 'تمت مراجعة خطة الرعاية الذاتية. المستفيد يبدي التزاماً ملحوظاً ويُوصى بالاستمرار في كتابة اليوميات.'
+    },
+    {
+      id: 'apt-past-2',
+      day: 'الأحد',
+      date: '12 أكتوبر 2025',
+      rawDate: '2025-10-12',
+      time: '04:30 مساءً',
+      status: 'cancelled',
+      statusText: 'ملغي',
+      specialistId: 'ahmed',
+      specialistName: 'د. أحمد البلوي',
+      specialistRole: 'استشاري دعم وإرشاد',
+      specialistPhoto: 'assets/specialist-ahmed.jpg',
+      sessionTitle: 'جلسة دعم وإرشاد',
+      type: 'عن بُعد',
+      notes: 'تم إلغاء الموعد بناءً على طلب المستفيد لظروف طارئة.',
+      summary: 'تم إشعار الأخصائي بالإلغاء وإعادة فتح التوقيت في جدول المواعيد.'
+    },
+    {
+      id: 'apt-past-3',
+      day: 'الأربعاء',
+      date: '1 أكتوبر 2025',
+      rawDate: '2025-10-01',
+      time: '05:00 مساءً',
+      status: 'no_show',
+      statusText: 'لم يتم الحضور',
+      specialistId: 'noura',
+      specialistName: 'د. نورة القحطاني',
+      specialistRole: 'استشارية الدعم النفسي والأسري',
+      specialistPhoto: 'assets/service-counseling.jpg',
+      sessionTitle: 'جلسة تقييم نفسي أولي',
+      type: 'عن بُعد',
+      notes: 'تعذر حضور الجلسة بسبب خلل في الاتصال بالإنترنت.',
+      summary: 'تم التواصل مع المستفيد لإعادة جدولة الجلسة في موعد مناسب آخر.'
     }
   ];
 
@@ -328,11 +386,16 @@
     manualDays: 42
   };
 
+  const storedAppts = getStorage(KEYS.APPOINTMENTS, null);
+  const initialAppts = (storedAppts && storedAppts.length && storedAppts.some(a => a.id === 'apt-1' || a.id === 'apt-2'))
+    ? storedAppts
+    : INITIAL_APPOINTMENTS;
+
   // ---------- الحالة العامة للوحة التحكم ----------
   let state = {
     user: initialUser,
     recovery: getStorage(KEYS.RECOVERY, INITIAL_RECOVERY),
-    appointments: getStorage(KEYS.APPOINTMENTS, INITIAL_APPOINTMENTS),
+    appointments: initialAppts,
     multiChats: getStorage(KEYS.MULTI_CHATS, INITIAL_MULTI_CHATS),
     notifications: getStorage(KEYS.NOTIFS, INITIAL_NOTIFICATIONS),
     currentView: 'home',
@@ -432,6 +495,10 @@
         window.location.href = 'appointments.html';
         return;
       }
+      if (viewName === 'profile' && currentPage !== 'profile') {
+        window.location.href = 'profile.html';
+        return;
+      }
       if (viewName === 'home' && currentPage !== 'dashboard') {
         window.location.href = 'dashboard.html';
         return;
@@ -487,6 +554,7 @@
     // تشغيل التحديثات الخاصة بالمشهد
     if (viewName === 'recovery') updateRecoveryStats();
     if (viewName === 'appointments') renderAppointments();
+    if (viewName === 'profile') renderUserData();
     if (viewName === 'support') {
       renderConversationList($('#convSearchInput')?.value || '');
       renderChat(state.activeChatId);
@@ -519,8 +587,16 @@
         window.location.href = 'appointments.html';
         return;
       }
+      if (targetNav === 'profile' && currentPage !== 'profile') {
+        window.location.href = 'profile.html';
+        return;
+      }
       if (targetNav === 'home' && currentPage !== 'dashboard') {
         window.location.href = 'dashboard.html';
+        return;
+      }
+      if ((targetNav === 'consultations' || targetNav === 'recovery') && currentPage !== 'dashboard') {
+        window.location.href = `dashboard.html#${targetNav}`;
         return;
       }
 
@@ -537,13 +613,68 @@
     const u = state.user;
     if ($('#userNameHeading')) $('#userNameHeading').textContent = u.username;
     if ($('#dashUserBadge')) $('#dashUserBadge').textContent = u.username;
-    if ($('#headerAvatarText')) $('#headerAvatarText').textContent = u.username.charAt(0);
+    if ($('#headerAvatarText')) $('#headerAvatarText').textContent = (u.username || 'ع').charAt(0);
+
+    // بطاقة الملف الشخصي
+    if ($('#profileDisplayName')) $('#profileDisplayName').textContent = u.username;
+    if ($('#profileDisplayEmail')) $('#profileDisplayEmail').textContent = u.email || 'لا يوجد بريد مسجل';
     if ($('#profileUsername')) $('#profileUsername').value = u.username || '';
     if ($('#profileEmail')) $('#profileEmail').value = u.email || '';
     if ($('#profilePhone')) $('#profilePhone').value = u.phone || '';
     if ($('#profileAge')) $('#profileAge').value = u.age || '';
     if ($('#profileRecoveryDate')) $('#profileRecoveryDate').value = u.recoveryStart || '';
     if ($('#profileEmergency')) $('#profileEmergency').value = u.emergencyContact || '';
+
+    if ($('#profileRecoveryDaysDisplay')) {
+      const days = getRecoveryDays();
+      $('#profileRecoveryDaysDisplay').textContent = `${days} يوماً`;
+    }
+
+    // إدارة صورة المستخدم
+    const avatarImg = $('#profileAvatarImg');
+    const avatarFallback = $('#profileAvatarFallback');
+    const removeBtn = $('#removeAvatarBtn');
+    const userBtn = $('#userProfileBtn');
+
+    if (u.avatar) {
+      if (avatarImg) {
+        avatarImg.src = u.avatar;
+        avatarImg.classList.remove('hidden');
+      }
+      if (avatarFallback) avatarFallback.classList.add('hidden');
+      if (removeBtn) removeBtn.style.display = 'block';
+
+      if (userBtn) {
+        let navImg = userBtn.querySelector('.navbar-user-avatar');
+        if (!navImg) {
+          navImg = document.createElement('img');
+          navImg.className = 'navbar-user-avatar w-5 h-5 rounded-full object-cover';
+          const icon = userBtn.querySelector('.icon');
+          if (icon) icon.replaceWith(navImg);
+        }
+        navImg.src = u.avatar;
+      }
+    } else {
+      if (avatarImg) {
+        avatarImg.src = '';
+        avatarImg.classList.add('hidden');
+      }
+      if (avatarFallback) {
+        avatarFallback.textContent = (u.username || 'ع').charAt(0);
+        avatarFallback.classList.remove('hidden');
+      }
+      if (removeBtn) removeBtn.style.display = 'none';
+
+      if (userBtn && userBtn.querySelector('.navbar-user-avatar')) {
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('class', 'icon ic-18');
+        const useEl = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+        useEl.setAttribute('href', '#i-user');
+        svg.appendChild(useEl);
+        userBtn.querySelector('.navbar-user-avatar').replaceWith(svg);
+      }
+    }
+
     const incognito = $('#incognitoSwitch');
     if (incognito) {
       incognito.setAttribute('aria-checked', String(!!u.incognito));
@@ -666,7 +797,7 @@
     const heroPct = $('#heroProgressPercent');
     if (heroPct) heroPct.textContent = `${percent}%`;
 
-    const heroBar = $('#recoveryHeroProgressBar');
+    const heroBar = $('#recoveryHeroProgressBar') || $('#heroProgressBar');
     if (heroBar) heroBar.style.width = `${percent}%`;
 
     const heroSaved = $('#heroTotalSaved');
@@ -981,7 +1112,7 @@
     if (quoteEl) {
       quoteEl.textContent = RECOVERY_QUOTES[state.recoveryQuoteIdx];
     }
-    showToast('تم تحديث الرسالة التحفيزية ✨');
+    showToast('تم تحديث الرسالة التحفيزية ');
   });
 
   // إدارة إغلاق جميع النوافذ المنبثقة بشكل عام
@@ -1111,9 +1242,7 @@
               <svg class="icon ic-18"><use href="#i-calendar"/></svg>
               <span>حجز جلسة</span>
             </button>
-            <button class="btn btn-outline btn-sm" data-spec-profile="${s.id}">
-              <span>التفاصيل</span>
-            </button>
+            
           </div>
         </div>
       </div>
@@ -1183,17 +1312,21 @@
     const sessionType = $('input[name="sessionType"]:checked')?.value || 'جلسة فيديو مرئية مشفرة';
     const notes = $('#bookingNotes').value.trim();
 
+    const { day, formattedDate } = getArabicDayAndDate(selectedDate);
     const newAppointment = {
       id: `apt-${Date.now()}`,
+      day: day,
+      date: formattedDate,
+      rawDate: selectedDate,
+      time: selectedSlot,
+      type: sessionType,
+      status: 'confirmed',
+      statusText: 'موعد مؤكد',
       specialistId: s.id,
       specialistName: s.name,
       specialistRole: s.title,
       specialistPhoto: s.photo,
-      date: selectedDate,
-      time: selectedSlot,
-      type: sessionType,
-      status: 'confirmed',
-      statusText: 'مؤكد',
+      sessionTitle: sessionType || 'جلسة استشارية نفسية',
       notes: notes || 'استشارة استرشادية سرية'
     };
 
@@ -1204,7 +1337,7 @@
     state.notifications.unshift({
       id: `notif-${Date.now()}`,
       title: 'تم تأكيد حجز جلستك',
-      desc: `تم تأكيد موعدك مع ${s.name} في ${selectedDate} الساعة ${selectedSlot}.`,
+      desc: `تم تأكيد موعدك مع ${s.name} في ${formattedDate} الساعة ${selectedSlot}.`,
       time: 'الآن',
       read: false,
       type: 'calendar'
@@ -1213,148 +1346,477 @@
     updateNotifBadge();
 
     closeBookingModal();
-    showToast(`تم تأكيد موعدك بنجاح مع ${s.name} في ${selectedDate} ✨`);
+    showToast(`تم تأكيد موعدك بنجاح مع ${s.name} في ${formattedDate} ✨`);
     
+    // إعادة رسم قائمة المواعيد
+    renderAppointments();
+
     // الانتقال إلى مواعيدي
     setTimeout(() => {
       switchView('appointments');
     }, 600);
   });
 
+  // ---------- دالة استخراج اليوم والتاريخ العربي للمواعيد ----------
+  function getArabicDayAndDate(dateStr) {
+    try {
+      if (!dateStr) return { day: 'الموعد', formattedDate: '' };
+      const parts = dateStr.split('-');
+      if (parts.length === 3) {
+        const y = parseInt(parts[0], 10);
+        const m = parseInt(parts[1], 10) - 1;
+        const d = parseInt(parts[2], 10);
+        const dt = new Date(y, m, d);
+        const days = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+        const months = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
+        return {
+          day: days[dt.getDay()],
+          formattedDate: `${d} ${months[m]} ${y}`
+        };
+      }
+    } catch (e) {}
+    return { day: 'اليوم', formattedDate: dateStr };
+  }
+
   // ---------- مواعيدي (Appointments Manager) ----------
   let currentApptTab = 'upcoming';
+
+  function updateAppointmentTabCounters() {
+    const upcomingCount = state.appointments.filter(a => a.status === 'confirmed' || a.status === 'pending').length;
+    const pastCount = state.appointments.filter(a => a.status === 'completed' || a.status === 'cancelled' || a.status === 'no_show').length;
+    $$('[data-appt-counter="upcoming"]').forEach(el => el.textContent = upcomingCount);
+    $$('[data-appt-counter="past"]').forEach(el => el.textContent = pastCount);
+  }
 
   function renderAppointments() {
     const container = $('#appointmentsList');
     if (!container) return;
+    updateAppointmentTabCounters();
 
+    const isUpcoming = currentApptTab === 'upcoming';
     const list = state.appointments.filter(a => {
-      if (currentApptTab === 'upcoming') {
+      if (isUpcoming) {
         return a.status === 'confirmed' || a.status === 'pending';
       } else {
-        return a.status === 'completed' || a.status === 'cancelled';
+        return a.status === 'completed' || a.status === 'cancelled' || a.status === 'no_show';
       }
     });
 
     if (!list.length) {
-      container.innerHTML = `
-        <div class="empty-dash-state">
-          <svg class="empty-dash-icon"><use href="#i-calendar"/></svg>
-          <h3 class="text-lg font-bold mb-2">لا توجد مواعيد في هذا القسم</h3>
-          <p class="text-sm t-body mb-4">يمكنك تصفح نخبة الأخصائيين وحجز جلستك في الوقت الذي يناسبك بكل سرية.</p>
-          <button class="btn btn-solid btn-sm" data-nav="consultations">
-            <svg class="icon ic-18"><use href="#i-calendar"/></svg>
-            <span>استعراض الأخصائيين وحجز موعد</span>
-          </button>
-        </div>
-      `;
+      if (isUpcoming) {
+        container.innerHTML = `
+          <div class="appt-empty-state">
+            <div class="appt-empty-icon">
+              <svg class="icon ic-24"><use href="#i-calendar"/></svg>
+            </div>
+            <h3 class="appt-empty-title">لا توجد مواعيد قادمة مجدولة</h3>
+            <p class="appt-empty-desc">يمكنك استعراض نخبة الأخصائيين المعتمدين وحجز جلستك بكل سرية وأمان في الوقت الذي يناسبك.</p>
+            <a href="dashboard.html#consultations" class="btn btn-solid btn-sm inline-flex items-center gap-2">
+              <svg class="icon ic-18"><use href="#i-calendar"/></svg>
+              <span>حجز استشارة جديدة</span>
+            </a>
+          </div>
+        `;
+      } else {
+        container.innerHTML = `
+          <div class="appt-empty-state">
+            <div class="appt-empty-icon">
+              <svg class="icon ic-24"><use href="#i-calendar"/></svg>
+            </div>
+            <h3 class="appt-empty-title">لا توجد مواعيد سابقة حتى الآن</h3>
+            <p class="appt-empty-desc">جميع استشاراتك السابقة وجلسات المتابعة المنتهية ستظهر هنا مع سجل التوصيات الكامل.</p>
+          </div>
+        `;
+      }
       return;
     }
 
-    container.innerHTML = list.map(a => `
-      <div class="appt-card" id="card-${a.id}">
-        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div class="flex items-center gap-3">
-            <img src="${a.specialistPhoto}" alt="${a.specialistName}" class="w-14 h-14 rounded-2xl object-cover border border-line" />
-            <div>
-              <div class="flex items-center gap-2">
-                <h4 class="font-bold text-lg">${a.specialistName}</h4>
-                <span class="status-chip is-${a.status}">${a.statusText}</span>
+    container.innerHTML = list.map(a => {
+      let statusBadgeHtml = '';
+      if (a.status === 'confirmed') {
+        statusBadgeHtml = `
+          <span class="appt-status-badge is-confirmed">
+            <svg class="icon ic-18"><use href="#i-check"/></svg>
+            <span>${a.statusText || 'موعد مؤكد'}</span>
+          </span>
+        `;
+      } else if (a.status === 'pending') {
+        statusBadgeHtml = `
+          <span class="appt-status-badge is-pending">
+            <svg class="icon ic-18"><use href="#i-clock"/></svg>
+            <span>${a.statusText || 'قيد الانتظار'}</span>
+          </span>
+        `;
+      } else if (a.status === 'completed') {
+        statusBadgeHtml = `
+          <span class="appt-status-badge is-completed">
+            <svg class="icon ic-18"><use href="#i-check"/></svg>
+            <span>${a.statusText || 'جلسة مكتملة'}</span>
+          </span>
+        `;
+      } else if (a.status === 'cancelled') {
+        statusBadgeHtml = `
+          <span class="appt-status-badge is-cancelled">
+            <svg class="icon ic-18"><use href="#i-x"/></svg>
+            <span>${a.statusText || 'ملغي'}</span>
+          </span>
+        `;
+      } else if (a.status === 'no_show') {
+        statusBadgeHtml = `
+          <span class="appt-status-badge is-no_show">
+            <svg class="icon ic-18"><use href="#i-clock"/></svg>
+            <span>${a.statusText || 'لم يحضر'}</span>
+          </span>
+        `;
+      } else {
+        statusBadgeHtml = `
+          <span class="appt-status-badge is-confirmed">
+            <span>${escapeHtml(a.statusText || a.status)}</span>
+          </span>
+        `;
+      }
+
+      let actionsHtml = '';
+      if (isUpcoming) {
+        actionsHtml = `
+          <button type="button" class="appt-action-btn btn-reschedule" data-open-reschedule="${a.id}">
+            <svg class="icon ic-18"><use href="#i-calendar"/></svg>
+            <span>إعادة الجدولة</span>
+          </button>
+          <button type="button" class="appt-action-btn btn-cancel" data-open-cancel="${a.id}">
+            <svg class="icon ic-18"><use href="#i-x"/></svg>
+            <span>إلغاء الموعد</span>
+          </button>
+        `;
+      } else {
+        actionsHtml = `
+          <button type="button" class="appt-action-btn btn-details" data-open-past-detail="${a.id}">
+            <svg class="icon ic-18"><use href="#i-shield"/></svg>
+            <span>عرض التفاصيل</span>
+          </button>
+          <button type="button" class="appt-action-btn btn-rebook" data-rebook-spec="${a.specialistId || 'sara'}">
+            <svg class="icon ic-18"><use href="#i-calendar"/></svg>
+            <span>حجز موعد مشابه</span>
+          </button>
+        `;
+      }
+
+      return `
+        <div class="appt-horizontal-card" id="card-${a.id}">
+          <!-- الجزء الأول: بيانات الموعد – الجهة اليمنى -->
+          <div class="appt-col-datetime">
+            <div class="appt-datetime-row">
+              <div class="appt-icon-circle">
+                <svg class="icon ic-18"><use href="#i-calendar"/></svg>
               </div>
-              <p class="text-xs font-semibold text-primary mt-0.5">${a.specialistRole}</p>
+              <div>
+                <span class="appt-day-label">${a.day || 'اليوم'}</span>
+                <h4 class="appt-date-heading">${a.date}</h4>
+              </div>
+            </div>
+            <div class="appt-datetime-row">
+              <div class="appt-icon-circle">
+                <svg class="icon ic-18"><use href="#i-clock"/></svg>
+              </div>
+              <div>
+                <span class="appt-time-label">التوقيت</span>
+                <h4 class="appt-time-heading">${a.time}</h4>
+              </div>
+            </div>
+            <div>
+              ${statusBadgeHtml}
             </div>
           </div>
 
-          <div class="text-start sm:text-end bg-bg-soft px-3.5 py-2 rounded-xl border border-line w-full sm:w-auto">
-            <div class="font-bold text-sm text-ink flex items-center sm:justify-end gap-1.5">
-              <svg class="icon ic-18 text-primary"><use href="#i-calendar"/></svg>
-              <span>${a.date}</span>
+          <!-- الجزء الثاني: معلومات الجلسة – منتصف البطاقة -->
+          <div class="appt-col-session">
+            <div class="appt-spec-avatar-wrap">
+              <img src="${a.specialistPhoto || 'assets/specialist-sara.jpg'}" alt="${escapeHtml(a.specialistName)}" class="appt-spec-avatar-img" />
+              <span class="appt-consult-type-badge">
+                <svg class="icon" style="width:12px;height:12px;"><use href="#i-video"/></svg>
+                <span>عن بُعد</span>
+              </span>
             </div>
-            <div class="text-xs t-muted font-semibold mt-0.5 flex items-center sm:justify-end gap-1.5">
-              <svg class="icon ic-18"><use href="#i-clock"/></svg>
-              <span>الساعة ${a.time}</span>
+            <div class="appt-session-details">
+              <span class="appt-session-subtag">${escapeHtml(a.sessionTitle || 'جلسة استشارية نفسية')}</span>
+              <h3 class="appt-spec-name">
+                <span>${escapeHtml(a.specialistName)}</span>
+                <svg class="icon ic-18 text-emerald-500" title="أخصائي موثق ومصرح"><use href="#i-check-circle"/></svg>
+              </h3>
+              <p class="appt-spec-role">${escapeHtml(a.specialistRole || 'أخصائي معتمد في منصة ملاذ')}</p>
             </div>
           </div>
-        </div>
 
-        <div class="text-sm t-body bg-slate-50 dark:bg-slate-900/60 p-3 rounded-xl border border-line-soft">
-          <span class="font-bold text-ink">نوع الجلسة:</span> ${a.type}
-          ${a.notes ? `<br><span class="font-bold text-ink">الملاحظات:</span> ${a.notes}` : ''}
-          ${a.summary ? `<br><span class="font-bold text-emerald-600">توصيات الأخصائي:</span> ${a.summary}` : ''}
-        </div>
-
-        <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-line">
-          <div class="text-xs t-muted flex items-center gap-1.5">
-            <svg class="icon ic-18 text-primary"><use href="#i-shield"/></svg>
-            <span>جلسة رقمية سرية مشفرة بالكامل</span>
-          </div>
-          <div class="flex items-center gap-2">
-            ${a.status === 'confirmed' ? `
-              <button class="btn btn-solid btn-sm" data-join-session="${a.id}">
-                <svg class="icon ic-18"><use href="#i-video"/></svg>
-                <span>الانضمام للجلسة</span>
-              </button>
-              <button class="btn btn-outline btn-sm" data-reschedule="${a.id}">
-                <span>تغيير الموعد</span>
-              </button>
-              <button class="icon-btn icon-btn-sm text-rose-500 hover:bg-rose-50" data-cancel-appt="${a.id}" title="إلغاء الموعد">
-                <svg class="icon ic-18"><use href="#i-x"/></svg>
-              </button>
-            ` : (a.status === 'completed' ? `
-              <button class="btn btn-solid btn-sm" data-open-booking="${a.specialistId}">
-                <span>حجز جلسة متابعة</span>
-              </button>
-            ` : '')}
+          <!-- الجزء الثالث: أزرار التحكم – الجهة اليسرى -->
+          <div class="appt-col-actions">
+            ${actionsHtml}
           </div>
         </div>
-      </div>
-    `).join('');
+      `;
+    }).join('');
   }
 
-  // تبديل تبويب المواعيد
+  // تبديل تبويب المواعيد (القادمة vs السابقة)
   $$('[data-appt-tab]').forEach(btn => {
     btn.addEventListener('click', () => {
+      const targetTab = btn.dataset.apptTab;
+      currentApptTab = targetTab;
       $$('[data-appt-tab]').forEach(b => {
-        b.setAttribute('aria-pressed', 'false');
-        b.classList.remove('btn-solid');
-        b.classList.add('btn-outline');
+        const isMatch = b.dataset.apptTab === targetTab;
+        b.classList.toggle('is-active', isMatch);
+        b.setAttribute('aria-selected', isMatch ? 'true' : 'false');
       });
-      btn.setAttribute('aria-pressed', 'true');
-      btn.classList.add('btn-solid');
-      btn.classList.remove('btn-outline');
-      currentApptTab = btn.dataset.apptTab;
       renderAppointments();
     });
   });
 
-  // إلغاء موعد
-  document.addEventListener('click', (e) => {
-    const cancelBtn = e.target.closest('[data-cancel-appt]');
-    if (cancelBtn) {
-      const id = cancelBtn.dataset.cancelAppt;
-      if (confirm('هل أنت متأكد من رغبتك في إلغاء هذا الموعد؟')) {
-        const appt = state.appointments.find(x => x.id === id);
-        if (appt) {
-          appt.status = 'cancelled';
-          appt.statusText = 'ملغي';
-          setStorage(KEYS.APPOINTMENTS, state.appointments);
-          renderAppointments();
-          showToast('تم إلغاء الموعد بنجاح.');
-        }
+  // ---------- تفاعلات نافذة إعادة جدولة الموعد (Reschedule Modal) ----------
+  let selectedRescheduleSlot = '05:00 مساءً';
+  let activeRescheduleAppt = null;
+
+  function openRescheduleModal(apptId) {
+    const appt = state.appointments.find(a => a.id === apptId);
+    if (!appt) return;
+    activeRescheduleAppt = appt;
+
+    const idInput = $('#rescheduleApptId');
+    if (idInput) idInput.value = appt.id;
+
+    const photoEl = $('#rescheduleSpecPhoto');
+    if (photoEl) photoEl.src = appt.specialistPhoto || 'assets/specialist-sara.jpg';
+
+    const nameEl = $('#rescheduleSpecName');
+    if (nameEl) nameEl.textContent = appt.specialistName;
+
+    const titleEl = $('#rescheduleSessionTitle');
+    if (titleEl) titleEl.textContent = `${appt.sessionTitle || 'جلسة استشارية'} - عن بُعد`;
+
+    const dateLabelEl = $('#rescheduleCurrentDateLabel');
+    if (dateLabelEl) dateLabelEl.textContent = `${appt.day ? appt.day + '، ' : ''}${appt.date}`;
+
+    const timeLabelEl = $('#rescheduleCurrentTimeLabel');
+    if (timeLabelEl) timeLabelEl.textContent = appt.time;
+
+    // منع اختيار التواريخ السابقة
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    const todayStr = `${yyyy}-${mm}-${dd}`;
+
+    const dateInput = $('#rescheduleDatePicker');
+    if (dateInput) {
+      dateInput.min = todayStr;
+      if (appt.rawDate && appt.rawDate >= todayStr) {
+        dateInput.value = appt.rawDate;
+      } else {
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const tmY = tomorrow.getFullYear();
+        const tmM = String(tomorrow.getMonth() + 1).padStart(2, '0');
+        const tmD = String(tomorrow.getDate()).padStart(2, '0');
+        dateInput.value = `${tmY}-${tmM}-${tmD}`;
       }
+    }
+
+    // بناء خيارات الأوقات التفاعلية
+    const slots = ['03:00 مساءً', '04:00 مساءً', '05:00 مساءً', '06:00 مساءً', '07:00 مساءً', '08:00 مساءً'];
+    selectedRescheduleSlot = slots.includes(appt.time) ? appt.time : slots[2];
+
+    const slotsContainer = $('#rescheduleSlotsContainer');
+    if (slotsContainer) {
+      slotsContainer.innerHTML = slots.map(slot => `
+        <button type="button" class="reschedule-slot-btn ${slot === selectedRescheduleSlot ? 'is-selected' : ''}" data-reschedule-slot="${slot}">
+          ${slot}
+        </button>
+      `).join('');
+    }
+
+    const notesInput = $('#rescheduleNotes');
+    if (notesInput) notesInput.value = '';
+
+    $('#rescheduleModal')?.classList.add('is-open');
+  }
+
+  function closeRescheduleModal() {
+    $('#rescheduleModal')?.classList.remove('is-open');
+    activeRescheduleAppt = null;
+  }
+
+  // تبديل اختيار الوقت في نافذة إعادة الجدولة
+  document.addEventListener('click', (e) => {
+    const slotBtn = e.target.closest('[data-reschedule-slot]');
+    if (slotBtn) {
+      selectedRescheduleSlot = slotBtn.dataset.rescheduleSlot;
+      $$('[data-reschedule-slot]').forEach(b => b.classList.remove('is-selected'));
+      slotBtn.classList.add('is-selected');
     }
   });
 
-  // الانضمام للجلسة
+  // تأكيد إعادة الجدولة
+  $('#rescheduleForm')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!activeRescheduleAppt) return;
+
+    const dateVal = $('#rescheduleDatePicker')?.value;
+    if (!dateVal) {
+      showToast('يرجى اختيار التاريخ الجديد.');
+      return;
+    }
+
+    const { day, formattedDate } = getArabicDayAndDate(dateVal);
+    activeRescheduleAppt.date = formattedDate;
+    activeRescheduleAppt.rawDate = dateVal;
+    activeRescheduleAppt.day = day;
+    activeRescheduleAppt.time = selectedRescheduleSlot;
+    activeRescheduleAppt.status = 'confirmed';
+    activeRescheduleAppt.statusText = 'موعد مؤكد';
+
+    const notesVal = $('#rescheduleNotes')?.value.trim();
+    if (notesVal) {
+      activeRescheduleAppt.notes = (activeRescheduleAppt.notes ? activeRescheduleAppt.notes + ' | ' : '') + `إعادة جدولة: ${notesVal}`;
+    }
+
+    setStorage(KEYS.APPOINTMENTS, state.appointments);
+    renderAppointments();
+    closeRescheduleModal();
+    showToast('تمت إعادة جدولة موعدك بنجاح');
+  });
+
+  $('#closeRescheduleModalBtn')?.addEventListener('click', closeRescheduleModal);
+  $('#cancelRescheduleBtn')?.addEventListener('click', closeRescheduleModal);
+
+  // ---------- تفاعلات نافذة تأكيد إلغاء الموعد (Cancel Confirm Modal) ----------
+  let activeCancelAppt = null;
+
+  function openCancelConfirmModal(apptId) {
+    const appt = state.appointments.find(a => a.id === apptId);
+    if (!appt) return;
+    activeCancelAppt = appt;
+
+    const specEl = $('#cancelApptSpecName');
+    if (specEl) specEl.textContent = appt.specialistName;
+
+    const dateEl = $('#cancelApptDate');
+    if (dateEl) dateEl.textContent = `${appt.day ? appt.day + '، ' : ''}${appt.date} (${appt.time})`;
+
+    $('#cancelConfirmModal')?.classList.add('is-open');
+  }
+
+  function closeCancelConfirmModal() {
+    $('#cancelConfirmModal')?.classList.remove('is-open');
+    activeCancelAppt = null;
+  }
+
+  $('#confirmCancelActionBtn')?.addEventListener('click', () => {
+    if (!activeCancelAppt) return;
+    activeCancelAppt.status = 'cancelled';
+    activeCancelAppt.statusText = 'ملغي';
+    setStorage(KEYS.APPOINTMENTS, state.appointments);
+    renderAppointments();
+    closeCancelConfirmModal();
+    showToast('تم إلغاء الموعد بنجاح');
+  });
+
+  $('#closeCancelModalBtn')?.addEventListener('click', closeCancelConfirmModal);
+  $('#dismissCancelModalBtn')?.addEventListener('click', closeCancelConfirmModal);
+
+  // ---------- تفاعلات نافذة تفاصيل الموعد السابق (Past Detail Modal) ----------
+  let activePastAppt = null;
+
+  function openPastDetailModal(apptId) {
+    const appt = state.appointments.find(a => a.id === apptId);
+    if (!appt) return;
+    activePastAppt = appt;
+
+    const photoEl = $('#pastDetailSpecPhoto');
+    if (photoEl) photoEl.src = appt.specialistPhoto || 'assets/specialist-sara.jpg';
+
+    const nameEl = $('#pastDetailSpecName');
+    if (nameEl) nameEl.textContent = appt.specialistName;
+
+    const roleEl = $('#pastDetailSpecRole');
+    if (roleEl) roleEl.textContent = appt.specialistRole || 'أخصائي نفسي معتمد';
+
+    const dateEl = $('#pastDetailDateTime');
+    if (dateEl) dateEl.textContent = `${appt.day ? appt.day + '، ' : ''}${appt.date} - ${appt.time} (عن بُعد)`;
+
+    const badgeEl = $('#pastDetailStatusBadge');
+    if (badgeEl) {
+      badgeEl.className = `appt-status-badge is-${appt.status}`;
+      const iconHref = (appt.status === 'completed') ? '#i-check' : (appt.status === 'cancelled' ? '#i-x' : '#i-clock');
+      badgeEl.innerHTML = `<svg class="icon ic-18"><use href="${iconHref}"/></svg><span>${appt.statusText || 'مكتمل'}</span>`;
+    }
+
+    const summaryEl = $('#pastDetailSummary');
+    if (summaryEl) {
+      summaryEl.textContent = appt.summary || 'تم استكمال محاور الجلسة بنجاح، ويوصى بمواصلة التمارين المحددة ومتابعة التقدم الدوري.';
+    }
+
+    const notesEl = $('#pastDetailNotes');
+    if (notesEl) {
+      notesEl.textContent = appt.notes || 'استشارة استرشادية سرية ضمن مسار التعافي والدعم النفسي.';
+    }
+
+    $('#pastApptDetailModal')?.classList.add('is-open');
+  }
+
+  function closePastDetailModal() {
+    $('#pastApptDetailModal')?.classList.remove('is-open');
+    activePastAppt = null;
+  }
+
+  $('#closePastDetailModalBtn')?.addEventListener('click', closePastDetailModal);
+  $('#dismissPastDetailBtn')?.addEventListener('click', closePastDetailModal);
+
+  $('#pastDetailRebookBtn')?.addEventListener('click', () => {
+    if (activePastAppt) {
+      const specId = activePastAppt.specialistId || 'sara';
+      closePastDetailModal();
+      openBookingModal(specId);
+    }
+  });
+
+  // تفويض أحداث النقر العامة لأزرار المواعيد
   document.addEventListener('click', (e) => {
+    const rescheduleBtn = e.target.closest('[data-open-reschedule]');
+    if (rescheduleBtn) {
+      e.preventDefault();
+      openRescheduleModal(rescheduleBtn.dataset.openReschedule);
+      return;
+    }
+
+    const cancelBtn = e.target.closest('[data-open-cancel]');
+    if (cancelBtn) {
+      e.preventDefault();
+      openCancelConfirmModal(cancelBtn.dataset.openCancel);
+      return;
+    }
+
+    const pastDetailBtn = e.target.closest('[data-open-past-detail]');
+    if (pastDetailBtn) {
+      e.preventDefault();
+      openPastDetailModal(pastDetailBtn.dataset.openPastDetail);
+      return;
+    }
+
+    const rebookBtn = e.target.closest('[data-rebook-spec]');
+    if (rebookBtn) {
+      e.preventDefault();
+      openBookingModal(rebookBtn.dataset.rebookSpec);
+      return;
+    }
+
     const joinBtn = e.target.closest('[data-join-session]');
     if (joinBtn) {
-      $('#sessionRoomModal').classList.add('is-open');
+      e.preventDefault();
+      $('#sessionRoomModal')?.classList.add('is-open');
+      return;
     }
   });
 
   $('#closeSessionRoomBtn')?.addEventListener('click', () => {
-    $('#sessionRoomModal').classList.remove('is-open');
+    $('#sessionRoomModal')?.classList.remove('is-open');
   });
 
   // ---------- المحادثة والدعم الخاص متعدد المحادثات (Confidential Multi-Chat System) ----------
@@ -1762,7 +2224,7 @@
     const chat = state.multiChats[state.activeChatId];
     if (chat) {
       chat.isMuted = !chat.isMuted;
-      showToast(chat.isMuted ? 'تم كتم إشعارات المحادثة 🔕' : 'تم تفعيل إشعارات المحادثة 🔔');
+      showToast(chat.isMuted ? 'تم كتم إشعارات المحادثة ' : 'تم تفعيل إشعارات المحادثة 🔔');
       setStorage(KEYS.MULTI_CHATS, state.multiChats);
     }
   });
@@ -1851,9 +2313,18 @@
     }
   });
 
-  // ---------- حفظ الملف الشخصي وتغيير كلمة المرور ----------
-  $('#profileForm')?.addEventListener('submit', (e) => {
-    e.preventDefault();
+  // ---------- حفظ الملف الشخصي وتغيير كلمة المرور وتحديث الصورة ----------
+  let profileAutoSaveTimer = null;
+  function handleProfileAutoSave() {
+    clearTimeout(profileAutoSaveTimer);
+    profileAutoSaveTimer = setTimeout(() => {
+      saveProfileData(true);
+    }, 450);
+  }
+
+  function saveProfileData(isAuto = false) {
+    if (!$('#profileUsername')) return;
+
     state.user.username = $('#profileUsername').value.trim() || 'عبد الرحمن الشمري';
     state.user.email = $('#profileEmail').value.trim();
     state.user.phone = $('#profilePhone').value.trim();
@@ -1865,7 +2336,72 @@
     renderUserData();
     updateRecoveryStats();
     renderChat(state.activeChatId);
-    showToast('تم حفظ بيانات الملف الشخصي بنجاح ✓');
+
+    const hint = $('#profileSaveStatusHint');
+    if (hint) {
+      const nowStr = new Date().toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' });
+      hint.innerHTML = `
+        <svg class="icon ic-16 text-emerald-500 animate-pulse"><use href="#i-check" /></svg>
+        <span class="text-emerald-600 font-bold">تم حفظ وتحديث المعلومات تلقائياً (${nowStr})</span>
+      `;
+    }
+
+    if (!isAuto) {
+      showToast('تم حفظ وتعديل كافة معلومات الملف الشخصي بنجاح ✨');
+    }
+  }
+
+  $('#profileForm')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    saveProfileData(false);
+  });
+
+  // حفظ تلقائي مباشر عند تعديل أي حقل من حقول الملف الشخصي
+  ['profileUsername', 'profileEmail', 'profilePhone', 'profileAge', 'profileRecoveryDate', 'profileEmergency'].forEach(fId => {
+    const el = document.getElementById(fId);
+    if (el) {
+      el.addEventListener('input', handleProfileAutoSave);
+      el.addEventListener('change', handleProfileAutoSave);
+    }
+  });
+
+  // إضافة وتغيير الصورة الشخصية للمستفيد
+  $('#changeAvatarBtn')?.addEventListener('click', () => {
+    $('#profileAvatarInput')?.click();
+  });
+  $('#triggerAvatarUploadBtn')?.addEventListener('click', () => {
+    $('#profileAvatarInput')?.click();
+  });
+
+  $('#profileAvatarInput')?.addEventListener('change', (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      showToast('يرجى اختيار ملف صورة صالح (JPG, PNG, WebP).');
+      return;
+    }
+    if (file.size > 3 * 1024 * 1024) {
+      showToast('حجم الصورة كبير جداً، الحد الأقصى 3 ميجابايت.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function (evt) {
+      state.user.avatar = evt.target.result;
+      setStorage(KEYS.USER, state.user);
+      renderUserData();
+      showToast('تمت إضافة وتحديث الصورة الشخصية بنجاح ✨');
+    };
+    reader.readAsDataURL(file);
+  });
+
+  // إزالة الصورة والعودة للحرف الرمزي
+  $('#removeAvatarBtn')?.addEventListener('click', () => {
+    delete state.user.avatar;
+    setStorage(KEYS.USER, state.user);
+    renderUserData();
+    showToast('تمت إزالة الصورة الشخصية والعودة للافتراضي.');
   });
 
   $('#passwordForm')?.addEventListener('submit', (e) => {
@@ -1914,7 +2450,7 @@
     document.documentElement.dataset.theme = theme;
     setStorage(KEYS.PREFS, prefs);
     syncSettingsUI();
-    showToast(theme === 'dark' ? 'تم تفعيل الوضع الداكن 🌙' : 'تم تفعيل الوضع الفاتح ☀️');
+    showToast(theme === 'dark' ? 'تم تفعيل الوضع الداكن ' : 'تم تفعيل الوضع الفاتح ');
   }
 
   function applyFont(size) {
@@ -1963,7 +2499,7 @@
     if (e.target.closest('[data-dash-logout]')) {
       e.preventDefault();
       if (confirm('هل ترغب حقاً في تسجيل الخروج من مساحتك في ملاذ؟')) {
-        showToast('إلى اللقاء، ننتظر عودتك دائماً بكل حب 🤍');
+        showToast('إلى اللقاء، ننتظر عودتك دائماً بكل حب');
         setTimeout(() => {
           window.location.href = 'index.html';
         }, 800);
