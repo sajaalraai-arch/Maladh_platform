@@ -20,6 +20,19 @@ function renderAuthState() {
     label.textContent = u.username;
     $('#umName').textContent = u.username;
     $('#umEmail').textContent = u.email || '';
+    const dashLink = $('#umDashboardLink');
+    if (dashLink) {
+      if (u.role === 'admin') {
+        dashLink.href = 'admin-dashboard.html';
+        dashLink.querySelector('span') && (dashLink.querySelector('span').textContent = 'لوحة تحكم المدير');
+      } else if (u.role === 'specialist') {
+        dashLink.href = 'doctor-dashboard.html';
+        dashLink.querySelector('span') && (dashLink.querySelector('span').textContent = 'لوحة تحكم الأخصائي');
+      } else {
+        dashLink.href = 'dashboard.html';
+        dashLink.querySelector('span') && (dashLink.querySelector('span').textContent = 'لوحة تحكم المستفيد');
+      }
+    }
   } else {
     label.setAttribute('data-i18n', 'n.login');
     label.textContent = currentLang === 'en' ? EN['n.login'] : 'تسجيل الدخول';
@@ -143,7 +156,9 @@ function submitForm(form) {
   let user;
   const isRegister = form.dataset.form === 'register';
   const pass = (form.elements.password ? form.elements.password.value : '').trim();
-  const isDoctor = !isRegister && pass.toLowerCase() === 'doctor';
+  const id = (form.elements.identifier ? form.elements.identifier.value : '').trim();
+  const isAdmin = !isRegister && (pass.toLowerCase() === 'admin' || id.toLowerCase() === 'admin');
+  const isDoctor = !isRegister && !isAdmin && (pass.toLowerCase() === 'doctor' || id.toLowerCase() === 'doctor');
 
   if (isRegister) {
     user = {
@@ -154,10 +169,19 @@ function submitForm(form) {
     };
     localStorage.setItem('maladh:current_role', 'beneficiary');
   } else {
-    const id = form.elements.identifier.value.trim();
     let name = id.includes('@') ? id.split('@')[0] : id;
 
-    if (isDoctor) {
+    if (isAdmin) {
+      user = {
+        username: 'أ. عبد الله الشمري',
+        email: id.includes('@') ? id : 'admin@maladh.com',
+        role: 'admin',
+        title: 'مدير النظام',
+        avatar: 'assets/specialist-sara.jpg'
+      };
+      localStorage.setItem('maladh:admin_user', JSON.stringify(user));
+      localStorage.setItem('maladh:current_role', 'admin');
+    } else if (isDoctor) {
       if (!name || name.toLowerCase() === 'doctor') {
         name = 'د. سارة العتيبي';
       } else if (!name.startsWith('د.') && !name.startsWith('دكتور')) {
@@ -192,7 +216,7 @@ function submitForm(form) {
   showToast(t(isRegister ? 'toast.created' : 'toast.welcome', { name: user.username }));
   
   setTimeout(() => {
-    window.location.href = isDoctor ? 'doctor-dashboard.html' : 'dashboard.html';
+    window.location.href = isAdmin ? 'admin-dashboard.html' : (isDoctor ? 'doctor-dashboard.html' : 'dashboard.html');
   }, 900);
 }
 

@@ -15,6 +15,7 @@
     SCHEDULE: 'maladh:doctor_schedule',
     THEME: 'maladh:theme',
     NOTIFS: 'maladh:doctor_notifs',
+    CHAT: 'maladh:doctor_chat_v1',
     VERSION: 'maladh:doctor_appts_version'
   };
 
@@ -410,6 +411,186 @@
     { id: 'notif-4', title: 'تقييم جديد 5 نجوم', desc: 'حصلت على تقييم 5 نجوم من المستفيدة سارة القحطاني.', time: 'أمس', unread: false }
   ];
 
+  // البيانات الافتراضية لجدول توفر الأخصائية (Doctor Availability Schedule Mock Data)
+  const INITIAL_SCHEDULE = {
+    days: [
+      {
+        id: 'saturday',
+        name: 'السبت',
+        enabled: true,
+        periods: [
+          { id: 1, startTime: '09:00', endTime: '13:00' },
+          { id: 2, startTime: '16:00', endTime: '20:00' }
+        ]
+      },
+      {
+        id: 'sunday',
+        name: 'الأحد',
+        enabled: true,
+        periods: [
+          { id: 1, startTime: '09:00', endTime: '13:00' },
+          { id: 2, startTime: '16:00', endTime: '20:00' }
+        ]
+      },
+      {
+        id: 'monday',
+        name: 'الاثنين',
+        enabled: true,
+        periods: [
+          { id: 1, startTime: '09:00', endTime: '13:00' },
+          { id: 2, startTime: '16:00', endTime: '20:00' }
+        ]
+      },
+      {
+        id: 'tuesday',
+        name: 'الثلاثاء',
+        enabled: true,
+        periods: [
+          { id: 1, startTime: '09:00', endTime: '13:00' },
+          { id: 2, startTime: '16:00', endTime: '20:00' }
+        ]
+      },
+      {
+        id: 'wednesday',
+        name: 'الأربعاء',
+        enabled: true,
+        periods: [
+          { id: 1, startTime: '09:00', endTime: '13:00' },
+          { id: 2, startTime: '16:00', endTime: '20:00' }
+        ]
+      },
+      {
+        id: 'thursday',
+        name: 'الخميس',
+        enabled: false,
+        periods: [
+          { id: 1, startTime: '09:00', endTime: '14:00' }
+        ]
+      },
+      {
+        id: 'friday',
+        name: 'الجمعة',
+        enabled: false,
+        periods: [
+          { id: 1, startTime: '16:00', endTime: '20:00' }
+        ]
+      }
+    ],
+    settings: {
+      sessionDuration: 45,
+      breakDuration: 10,
+      maxDailySessions: 8,
+      minNoticeHours: 2,
+      bookingWindowDays: 30
+    },
+    vacations: [
+      {
+        id: 'vac-1',
+        title: 'إجازة منتصف الفصل الدراسي',
+        startDate: '2026-11-20',
+        endDate: '2026-11-24',
+        notes: 'عطلة رسمية'
+      },
+      {
+        id: 'vac-2',
+        title: 'مؤتمر الطب النفسي السريري',
+        startDate: '2026-12-05',
+        endDate: '2026-12-07',
+        notes: 'مشاركة علمية'
+      }
+    ],
+    selectedDate: '2026-11-14',
+    modalDate: '2026-11-14',
+    dayErrors: {},
+    pendingDeleteVacationId: null
+  };
+
+  const INITIAL_DOCTOR_CHAT = [
+    {
+      id: 'amal',
+      name: 'أمل السلمي',
+      role: 'مستفيدة • جلسات علاجية سلوكية',
+      isOnline: true,
+      unread: 2,
+      lastMsg: 'شكراً جزيلاً دكتورة، أشعر بتحسن كبير.',
+      lastTime: '10:24 ص',
+      nextSession: 'جلسة اليوم 4:00 م',
+      avatar: null,
+      monogram: 'أ',
+      messages: [
+        { id: 1, type: 'beneficiary', text: 'صباح الخير دكتورة، كيف حالك؟', time: '09:15 ص', date: 'اليوم' },
+        { id: 2, type: 'doctor', text: 'صباح النور أمل، أنا بخير والحمد لله، كيف حالك؟ كيف كانت ليلتك؟', time: '09:18 ص', date: 'اليوم' },
+        { id: 3, type: 'beneficiary', text: 'الحمد لله، نمت بشكل أفضل الليلة. مارست تقنيات التنفس التي علمتيني إياها.', time: '09:22 ص', date: 'اليوم' },
+        { id: 4, type: 'doctor', text: 'هذا رائع جداً! أنا سعيدة بهذا التقدم. استمري على هذا المنوال. 🌟', time: '09:25 ص', date: 'اليوم' },
+        { id: 5, type: 'beneficiary', text: 'شكراً جزيلاً دكتورة، أشعر بتحسن كبير.', time: '10:24 ص', date: 'اليوم' }
+      ]
+    },
+    {
+      id: 'mohammed',
+      name: 'محمد العتيبي',
+      role: 'مستفيد • مسار التعافي (اليوم 42)',
+      isOnline: false,
+      unread: 0,
+      lastMsg: 'حاضر، شكراً دكتورة سأكون في الموعد.',
+      lastTime: 'أمس 8:15 م',
+      nextSession: 'جلسة الأحد 11:30 ص',
+      avatar: null,
+      monogram: 'م',
+      messages: [
+        { id: 1, type: 'doctor', text: 'مرحباً محمد، تذكير بجلستنا القادمة لمتابعة إدارة المحفزات يوم الأحد.', time: '8:00 م', date: 'أمس' },
+        { id: 2, type: 'beneficiary', text: 'حاضر، شكراً دكتورة سأكون في الموعد.', time: '8:15 م', date: 'أمس' }
+      ]
+    },
+    {
+      id: 'sara',
+      name: 'سارة القحطاني',
+      role: 'مستفيدة • اضطراب القلق التكيفي',
+      isOnline: true,
+      unread: 1,
+      lastMsg: 'وصلتني استمارة التقييم دكتورة، سأكملها الليلة.',
+      lastTime: 'السبت 6:30 م',
+      nextSession: null,
+      avatar: null,
+      monogram: 'س',
+      messages: [
+        { id: 1, type: 'doctor', text: 'سارة، أرسلت لك تقييم الجلسة الأخيرة. أرجو مراجعته عند فراغك.', time: '6:00 م', date: 'السبت' },
+        { id: 2, type: 'beneficiary', text: 'وصلتني استمارة التقييم دكتورة، سأكملها الليلة.', time: '6:30 م', date: 'السبت' }
+      ]
+    },
+    {
+      id: 'abdulrahman',
+      name: 'عبد الرحمن الشمري',
+      role: 'مستفيد • جلسات دعم وإرشاد',
+      isOnline: false,
+      unread: 0,
+      lastMsg: 'جزاك الله خيراً دكتورة، أراكم في الجلسة القادمة.',
+      lastTime: 'الأحد 5:30 م',
+      nextSession: 'جلسة الأحد 6:00 م',
+      avatar: null,
+      monogram: 'ع',
+      messages: [
+        { id: 1, type: 'doctor', text: 'أحسنت عبد الرحمن في الجلسة الأخيرة. تقدم ملموس في ضبط التفكير الإيجابي.', time: '5:00 م', date: 'الأحد' },
+        { id: 2, type: 'beneficiary', text: 'جزاك الله خيراً دكتورة، أراكم في الجلسة القادمة.', time: '5:30 م', date: 'الأحد' }
+      ]
+    },
+    {
+      id: 'moneera',
+      name: 'منيرة السبيعي',
+      role: 'مستفيدة • جلسة متابعة نفسية',
+      isOnline: false,
+      unread: 0,
+      lastMsg: 'حسناً دكتورة، موعدنا يوم الأربعاء.',
+      lastTime: 'الأربعاء 3:00 م',
+      nextSession: null,
+      avatar: null,
+      monogram: 'م',
+      messages: [
+        { id: 1, type: 'doctor', text: 'منيرة، تم تثبيت موعد المتابعة القادم معنا.', time: '2:45 م', date: 'الأربعاء' },
+        { id: 2, type: 'beneficiary', text: 'حسناً دكتورة، موعدنا يوم الأربعاء.', time: '3:00 م', date: 'الأربعاء' }
+      ]
+    }
+  ];
+
   // الحالة العامة للتطبيق
   let state = {
     doctor: storedDoctor,
@@ -417,6 +598,11 @@
     completedBaseCount: 45,
     stats: getStorage(KEYS.STATS, INITIAL_STATS),
     notifications: getStorage(KEYS.NOTIFS, INITIAL_NOTIFICATIONS),
+    schedule: getStorage(KEYS.SCHEDULE, INITIAL_SCHEDULE),
+    chatConversations: getStorage(KEYS.CHAT, INITIAL_DOCTOR_CHAT),
+    chatActiveId: 'amal',
+    chatFilter: 'all',
+    chatSearch: '',
     currentView: 'appointments', // «إدارة المواعيد» نشطة افتراضياً حسب طلب المستخدم
     currentApptsTab: 'upcoming',  // التبويب النشط افتراضياً في قائمة المواعيد
     calendar: {
@@ -1153,6 +1339,8 @@
       renderBeneficiariesList();
     } else if (viewName === 'consultations') {
       renderDoctorChat();
+    } else if (viewName === 'schedule') {
+      renderScheduleView();
     } else if (viewName === 'profile') {
       syncDoctorProfileUI();
     }
@@ -1387,10 +1575,413 @@
     `).join('');
   }
 
-  // ---------- الاستشارات والمحادثات ----------
+  // ---------- الاستشارات والمحادثات للأخصائي ----------
+  function getActiveDocConversation() {
+    return state.chatConversations.find(c => c.id === state.chatActiveId) || state.chatConversations[0];
+  }
+
+  function renderDocConversationsList() {
+    const listEl = $('#docConversationsList');
+    const badgeEl = $('#docConvCountBadge');
+    if (!listEl) return;
+
+    let convs = state.chatConversations || [];
+    if (badgeEl) badgeEl.textContent = convs.length;
+
+    // تصفية حسب البحث
+    const q = (state.chatSearch || '').trim().toLowerCase();
+    if (q) {
+      convs = convs.filter(c => c.name.toLowerCase().includes(q) || c.role.toLowerCase().includes(q) || (c.lastMsg && c.lastMsg.toLowerCase().includes(q)));
+    }
+
+    // تصفية حسب التبويب
+    if (state.chatFilter === 'unread') {
+      convs = convs.filter(c => c.unread > 0);
+    } else if (state.chatFilter === 'active') {
+      convs = convs.filter(c => c.isOnline);
+    }
+
+    if (convs.length === 0) {
+      listEl.innerHTML = `
+        <div class="p-6 text-center text-muted text-xs">
+          <svg class="icon ic-20 mx-auto mb-2 text-slate-400"><use href="#i-message-square"/></svg>
+          <p>لا توجد محادثات تطابق الفلتر المحدد</p>
+        </div>
+      `;
+      return;
+    }
+
+    listEl.innerHTML = convs.map(c => {
+      const isActive = c.id === state.chatActiveId;
+      return `
+        <button type="button" class="doc-conversation-item ${isActive ? 'is-active' : ''}" data-conv-id="${c.id}" role="tab" aria-selected="${isActive}">
+          <div class="doc-conv-avatar-wrap">
+            <div class="doc-conv-avatar-monogram">${c.monogram || c.name.charAt(0)}</div>
+            ${c.isOnline ? '<span class="doc-conv-online-dot"></span>' : ''}
+          </div>
+          <div class="doc-conv-body">
+            <div class="doc-conv-top-row">
+              <span class="doc-conv-name">${c.name}</span>
+              <span class="doc-conv-time">${c.lastTime}</span>
+            </div>
+            <div class="doc-conv-bottom-row">
+              <span class="doc-conv-last-msg">${c.lastMsg || 'لا توجد رسائل'}</span>
+              ${c.unread > 0 ? `<span class="doc-conv-unread-badge">${c.unread}</span>` : ''}
+            </div>
+          </div>
+        </button>
+      `;
+    }).join('');
+
+    // ربط النقر
+    $$('.doc-conversation-item', listEl).forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.convId;
+        switchDocConversation(id);
+      });
+    });
+  }
+
+  function renderDocChatMessages(conv) {
+    const container = $('#docChatMessagesContainer');
+    if (!container || !conv) return;
+
+    if (!conv.messages || conv.messages.length === 0) {
+      container.innerHTML = `
+        <div class="p-8 text-center text-muted text-xs">
+          <svg class="icon ic-24 mx-auto mb-2 text-slate-300"><use href="#i-message-square"/></svg>
+          <p>بدأت جلسة المحادثة الطبية الآمنة مع ${conv.name}. يمكنك كتابة أي توجيه علاجي هنا.</p>
+        </div>
+      `;
+      return;
+    }
+
+    let html = '';
+    let lastDate = '';
+
+    conv.messages.forEach(m => {
+      if (m.date && m.date !== lastDate) {
+        lastDate = m.date;
+        html += `
+          <div class="doc-chat-date-separator">
+            <span>${m.date}</span>
+          </div>
+        `;
+      }
+
+      const isDoc = m.type === 'doctor';
+      const senderName = isDoc ? (state.doctor.username || 'د. سارة العتيبي') : conv.name;
+
+      html += `
+        <div class="doc-message-row ${isDoc ? 'is-doctor' : 'is-beneficiary'}">
+          <div class="doc-message-avatar-wrap">
+            ${isDoc ? `
+              <img src="${state.doctor.avatar || 'assets/specialist-sara.jpg'}" alt="الأخصائي" class="doc-message-avatar-img">
+            ` : `
+              <div class="doc-message-avatar-monogram">${conv.monogram || conv.name.charAt(0)}</div>
+            `}
+          </div>
+          <div class="doc-message-content">
+            <div class="doc-message-sender-name">${senderName}</div>
+            <div class="doc-message-bubble">
+              ${m.attachment ? `
+                <div class="doc-message-attachment-box">
+                  <svg class="icon ic-16 text-primary flex-shrink-0"><use href="#i-file-text"/></svg>
+                  <span class="text-xs font-semibold truncate">${m.attachment.name}</span>
+                </div>
+              ` : ''}
+              <p class="doc-message-text">${m.text}</p>
+            </div>
+            <div class="doc-message-meta">
+              <span class="doc-message-time">${m.time}</span>
+              ${isDoc ? `
+                <svg class="doc-message-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              ` : ''}
+            </div>
+          </div>
+        </div>
+      `;
+    });
+
+    container.innerHTML = html;
+    container.scrollTop = container.scrollHeight;
+  }
+
+  function renderDocChatWindow(convId) {
+    const conv = state.chatConversations.find(c => c.id === convId) || state.chatConversations[0];
+    if (!conv) return;
+
+    state.chatActiveId = conv.id;
+
+    // تحديث الهيدر
+    const nameEl = $('#docChatHeaderName');
+    const roleEl = $('#docChatHeaderRole');
+    const monoEl = $('#docChatHeaderMonogram');
+    const dotEl = $('#docChatHeaderOnlineDot');
+    const statusPill = $('#docChatHeaderStatusPill');
+    const statusText = $('#docChatHeaderStatusText');
+    const nextSessWrap = $('#docChatNextSessionBadge');
+    const nextSessText = $('#docChatNextSessionText');
+    const typingAvatar = $('#docTypingAvatar');
+
+    if (nameEl) nameEl.textContent = conv.name;
+    if (roleEl) roleEl.textContent = conv.role;
+    if (monoEl) monoEl.textContent = conv.monogram || conv.name.charAt(0);
+    if (typingAvatar) typingAvatar.textContent = conv.monogram || conv.name.charAt(0);
+
+    if (dotEl) dotEl.style.display = conv.isOnline ? 'block' : 'none';
+
+    if (statusPill && statusText) {
+      if (conv.isOnline) {
+        statusPill.className = 'doc-chat-online-status-pill is-active';
+        statusText.textContent = 'متصلة الآن';
+      } else {
+        statusPill.className = 'doc-chat-online-status-pill is-offline';
+        statusText.textContent = 'غير متصلة حالياً';
+      }
+    }
+
+    if (nextSessWrap && nextSessText) {
+      if (conv.nextSession) {
+        nextSessWrap.style.display = 'inline-flex';
+        nextSessText.textContent = conv.nextSession;
+      } else {
+        nextSessWrap.style.display = 'none';
+      }
+    }
+
+    // تصفير غير المقروء
+    conv.unread = 0;
+    setStorage(KEYS.CHAT, state.chatConversations);
+
+    // إخفاء مؤشر الكتابة
+    const typingRow = $('#docTypingIndicator');
+    if (typingRow) typingRow.classList.remove('is-active');
+
+    renderDocChatMessages(conv);
+  }
+
+  function switchDocConversation(convId) {
+    state.chatActiveId = convId;
+    renderDocConversationsList();
+    renderDocChatWindow(convId);
+
+    // للموبايل
+    document.body.classList.add('doc-mobile-view-chat');
+  }
+
+  let isDocChatEventsInitialized = false;
+
+  function initDocChatEvents() {
+    if (isDocChatEventsInitialized) return;
+    isDocChatEventsInitialized = true;
+
+    // 1. بحث المحادثات
+    $('#docConvSearchInput')?.addEventListener('input', (e) => {
+      state.chatSearch = e.target.value;
+      renderDocConversationsList();
+    });
+
+    // 2. فلتر المحادثات
+    $$('.doc-conv-filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        $$('.doc-conv-filter-btn').forEach(b => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+        state.chatFilter = btn.dataset.filter || 'all';
+        renderDocConversationsList();
+      });
+    });
+
+    // 3. إرسال رسالة جديدة من الأخصائي
+    $('#docChatForm')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = $('#docChatInput');
+      const text = input ? input.value.trim() : '';
+      const attachedPill = $('#docAttachedFilePill');
+      const hasAttachment = attachedPill && attachedPill.classList.contains('is-visible');
+      const attachedName = $('#docAttachedFileName')?.textContent || 'مرفق';
+
+      if (!text && !hasAttachment) return;
+
+      const conv = getActiveDocConversation();
+      if (!conv) return;
+
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const period = hours >= 12 ? 'م' : 'ص';
+      const h12 = hours % 12 || 12;
+      const timeStr = `${h12}:${minutes} ${period}`;
+
+      const newMsg = {
+        id: Date.now(),
+        type: 'doctor',
+        text: text,
+        time: timeStr,
+        date: 'اليوم',
+        attachment: hasAttachment ? { name: attachedName } : null
+      };
+
+      if (!conv.messages) conv.messages = [];
+      conv.messages.push(newMsg);
+      conv.lastMsg = text || `مرفق: ${attachedName}`;
+      conv.lastTime = timeStr;
+
+      // حفظ
+      setStorage(KEYS.CHAT, state.chatConversations);
+
+      // تفريغ الحقول
+      if (input) input.value = '';
+      if (attachedPill) attachedPill.classList.remove('is-visible');
+
+      renderDocChatMessages(conv);
+      renderDocConversationsList();
+
+      // محاكاة رد من المستفيد بعد ثانية ونصف
+      simulateBeneficiaryReply(conv);
+    });
+
+    // 4. محاكاة رد المستفيد
+    function simulateBeneficiaryReply(conv) {
+      const typingRow = $('#docTypingIndicator');
+      if (typingRow) typingRow.classList.add('is-active');
+
+      const container = $('#docChatMessagesContainer');
+      if (container) container.scrollTop = container.scrollHeight;
+
+      setTimeout(() => {
+        if (typingRow) typingRow.classList.remove('is-active');
+
+        const replies = [
+          'شكراً لك دكتورة على هذا التوجيه، سأطبقه فوراً.',
+          'تمام دكتورة، ممتنة جداً لمتابعتك الدقيقة واهتمامك.',
+          'حاضر دكتورة، سأسجل ملاحظاتي اليومية كما طلبتِ.',
+          'أشعر براحة أكبر الآن، شكراً جزيلاً لك.'
+        ];
+        const randomReply = replies[Math.floor(Math.random() * replies.length)];
+
+        const now = new Date();
+        const hours = now.getHours();
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const period = hours >= 12 ? 'م' : 'ص';
+        const h12 = hours % 12 || 12;
+        const timeStr = `${h12}:${minutes} ${period}`;
+
+        conv.messages.push({
+          id: Date.now(),
+          type: 'beneficiary',
+          text: randomReply,
+          time: timeStr,
+          date: 'اليوم'
+        });
+        conv.lastMsg = randomReply;
+        conv.lastTime = timeStr;
+
+        setStorage(KEYS.CHAT, state.chatConversations);
+        if (state.chatActiveId === conv.id) {
+          renderDocChatMessages(conv);
+        }
+        renderDocConversationsList();
+      }, 1600);
+    }
+
+    // 5. الرموز التعبيرية
+    $('#docEmojiBtn')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      $('#docEmojiPopover')?.classList.toggle('is-open');
+    });
+
+    $$('.doc-emoji-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const emoji = btn.dataset.emoji;
+        const input = $('#docChatInput');
+        if (input && emoji) {
+          input.value += emoji;
+          input.focus();
+        }
+        $('#docEmojiPopover')?.classList.remove('is-open');
+      });
+    });
+
+    // 6. المرفقات
+    $('#docAttachBtn')?.addEventListener('click', () => {
+      $('#docFileInput')?.click();
+    });
+
+    $('#docFileInput')?.addEventListener('change', (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (file) {
+        const pill = $('#docAttachedFilePill');
+        const nameEl = $('#docAttachedFileName');
+        if (pill && nameEl) {
+          nameEl.textContent = file.name;
+          pill.classList.add('is-visible');
+        }
+      }
+    });
+
+    $('#docRemoveAttachBtn')?.addEventListener('click', () => {
+      const pill = $('#docAttachedFilePill');
+      const input = $('#docFileInput');
+      if (pill) pill.classList.remove('is-visible');
+      if (input) input.value = '';
+    });
+
+    // 7. قائمة الخيارات الإضافية
+    $('#docChatOptionsBtn')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      $('#docChatOptionsMenu')?.classList.toggle('is-open');
+    });
+
+    $('#docOptClearChat')?.addEventListener('click', () => {
+      $('#docChatOptionsMenu')?.classList.remove('is-open');
+      const conv = getActiveDocConversation();
+      if (!conv) return;
+      if (confirm(`هل أنت متأكد من رغبتك في مسح سجل المحادثة مع ${conv.name}؟`)) {
+        conv.messages = [];
+        conv.lastMsg = '';
+        setStorage(KEYS.CHAT, state.chatConversations);
+        renderDocChatMessages(conv);
+        renderDocConversationsList();
+        showToast('تم مسح سجل المحادثة');
+      }
+    });
+
+    $('#docOptMuteChat')?.addEventListener('click', () => {
+      $('#docChatOptionsMenu')?.classList.remove('is-open');
+      showToast('تم كتم إشعارات المحادثة مؤقتاً');
+    });
+
+    $('#docOptBeneficiaryInfo')?.addEventListener('click', () => {
+      $('#docChatOptionsMenu')?.classList.remove('is-open');
+      const conv = getActiveDocConversation();
+      if (conv) {
+        showToast(`ملف المستفيد: ${conv.name} - مسجل في ${conv.role}`);
+      }
+    });
+
+    // 8. زر الرجوع في الموبايل
+    $('#docMobileChatBackBtn')?.addEventListener('click', () => {
+      document.body.classList.remove('doc-mobile-view-chat');
+    });
+
+    // 9. إغلاق البوب أوفرز عند النقر خارجها
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('#docEmojiPopover') && !e.target.closest('#docEmojiBtn')) {
+        $('#docEmojiPopover')?.classList.remove('is-open');
+      }
+      if (!e.target.closest('#docChatOptionsMenu') && !e.target.closest('#docChatOptionsBtn')) {
+        $('#docChatOptionsMenu')?.classList.remove('is-open');
+      }
+    });
+  }
+
   function renderDoctorChat() {
-    const container = $('#doctorChatBox');
-    if (!container) return;
+    renderDocConversationsList();
+    renderDocChatWindow(state.chatActiveId);
+    initDocChatEvents();
   }
 
   // ---------- حفظ الملف الشخصي للأخصائي ----------
@@ -1423,6 +2014,1128 @@
         window.location.href = 'index.html';
       }, 600);
     }
+  }
+
+  // =====================================================================
+  // محرك واجهة جدول التوفر للأخصائية (Availability Schedule Controller)
+  // =====================================================================
+
+  const DAY_ID_MAP = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+  const DAY_NAMES_AR = {
+    saturday: 'السبت',
+    sunday: 'الأحد',
+    monday: 'الاثنين',
+    tuesday: 'الثلاثاء',
+    wednesday: 'الأربعاء',
+    thursday: 'الخميس',
+    friday: 'الجمعة'
+  };
+
+  // تحويل "HH:MM" إلى دقائق
+  function timeToMinutes(tStr) {
+    if (!tStr) return 0;
+    const parts = tStr.split(':').map(Number);
+    return (parts[0] || 0) * 60 + (parts[1] || 0);
+  }
+
+  // تحويل دقائق إلى "HH:MM"
+  function minutesToTime(mins) {
+    const h = Math.floor(mins / 60) % 24;
+    const m = mins % 60;
+    return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+  }
+
+  // تنسيق الوقت إلى صيغة عربية (مثال: 09:00 صباحاً)
+  function formatTimeArabic(tStr) {
+    if (!tStr) return '';
+    const [hStr, mStr] = tStr.split(':');
+    let h = parseInt(hStr, 10);
+    const m = mStr || '00';
+    const period = h >= 12 ? 'مساءً' : 'صباحاً';
+    if (h === 0) h = 12;
+    else if (h > 12) h -= 12;
+    return `${String(h).padStart(2, '0')}:${m} ${period}`;
+  }
+
+  // تنسيق التاريخ إلى نص عربي كامل (السبت، 14 نوفمبر 2026)
+  function formatDateArabicFull(dateStr) {
+    if (!dateStr) return '';
+    const [y, m, d] = dateStr.split('-').map(Number);
+    const dateObj = new Date(y, m - 1, d);
+    const dayName = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'][dateObj.getDay()];
+    const monthName = ARABIC_MONTHS[m - 1] || '';
+    return `${dayName}، ${d} ${monthName} ${y}`;
+  }
+
+  // الحصول على تاريخ اليوم بصيغة YYYY-MM-DD
+  function getTodayIsoDate() {
+    return '2026-11-14'; // تاريخ مرجعي للمنصة
+  }
+
+  // حساب إحصائيات جدول التوفر الأربع
+  function calculateScheduleStats() {
+    const { days, settings } = state.schedule;
+    const sessionDuration = parseInt(settings.sessionDuration, 10) || 45;
+    const breakDuration = parseInt(settings.breakDuration, 10) || 10;
+    const slotStep = sessionDuration + breakDuration;
+
+    let workDaysCount = 0;
+    let totalMinutes = 0;
+    let totalSlots = 0;
+
+    days.forEach(day => {
+      if (day.enabled && Array.isArray(day.periods) && day.periods.length > 0) {
+        workDaysCount++;
+        let dayMinutes = 0;
+        day.periods.forEach(p => {
+          const s = timeToMinutes(p.startTime);
+          const e = timeToMinutes(p.endTime);
+          if (e > s) {
+            const span = e - s;
+            dayMinutes += span;
+            const slotsInPeriod = Math.floor((span + breakDuration) / slotStep);
+            totalSlots += Math.max(0, slotsInPeriod);
+          }
+        });
+        totalMinutes += dayMinutes;
+      }
+    });
+
+    const totalHours = Math.round((totalMinutes / 60) * 10) / 10;
+    const offDays = 7 - workDaysCount;
+
+    return {
+      workDays: workDaysCount,
+      totalHours: totalHours,
+      slotsCount: totalSlots,
+      offDays: offDays
+    };
+  }
+
+  // تحديث أرقام كروت الإحصائيات الأربع لجدول التوفر
+  function renderScheduleStats() {
+    const stats = calculateScheduleStats();
+    const workDaysEl = $('#statScheduleWorkDays');
+    const totalHoursEl = $('#statScheduleTotalHours');
+    const slotsEl = $('#statScheduleSlots');
+    const offDaysEl = $('#statScheduleOffDays');
+
+    if (workDaysEl) workDaysEl.textContent = stats.workDays;
+    if (totalHoursEl) totalHoursEl.textContent = stats.totalHours;
+    if (slotsEl) slotsEl.textContent = stats.slotsCount;
+    if (offDaysEl) offDaysEl.textContent = stats.offDays;
+  }
+
+  // التحقق من صحة الأوقات في كل يوم
+  function validateScheduleTimes() {
+    state.schedule.dayErrors = {};
+    let hasError = false;
+
+    state.schedule.days.forEach(day => {
+      if (!day.enabled) return;
+
+      const periods = day.periods || [];
+      if (periods.length === 0) {
+        state.schedule.dayErrors[day.id] = 'يجب إضافة فترة عمل واحدة على الأقل لهذا اليوم أو تعطيله كعطلة.';
+        hasError = true;
+        return;
+      }
+
+      // فحص أوقات كل فترة
+      for (let i = 0; i < periods.length; i++) {
+        const p = periods[i];
+        const s = timeToMinutes(p.startTime);
+        const e = timeToMinutes(p.endTime);
+
+        if (e <= s) {
+          state.schedule.dayErrors[day.id] = 'وقت نهاية الدوام يجب أن يكون بعد وقت البداية.';
+          hasError = true;
+          return;
+        }
+      }
+
+      // فحص التداخل بين الفترات في نفس اليوم
+      if (periods.length > 1) {
+        for (let i = 0; i < periods.length; i++) {
+          for (let j = i + 1; j < periods.length; j++) {
+            const s1 = timeToMinutes(periods[i].startTime);
+            const e1 = timeToMinutes(periods[i].endTime);
+            const s2 = timeToMinutes(periods[j].startTime);
+            const e2 = timeToMinutes(periods[j].endTime);
+
+            if (Math.max(s1, s2) < Math.min(e1, e2)) {
+              state.schedule.dayErrors[day.id] = 'توجد فترات عمل متداخلة في هذا اليوم، يرجى تعديل أوقات البدء والانتهاء.';
+              hasError = true;
+              return;
+            }
+          }
+        }
+      }
+    });
+
+    return !hasError;
+  }
+
+  // رسم بطاقات أيام الأسبوع السبعة
+  function renderScheduleDaysList() {
+    const container = $('#scheduleDaysContainer');
+    if (!container) return;
+
+    validateScheduleTimes();
+    const days = state.schedule.days || [];
+
+    container.innerHTML = days.map((day, dIdx) => {
+      const isEnabled = day.enabled;
+      const periods = day.periods || [];
+      const errorMsg = state.schedule.dayErrors[day.id];
+
+      // حساب إجمالي ساعات اليوم
+      let dayHours = 0;
+      if (isEnabled && periods.length > 0) {
+        periods.forEach(p => {
+          const s = timeToMinutes(p.startTime);
+          const e = timeToMinutes(p.endTime);
+          if (e > s) dayHours += (e - s) / 60;
+        });
+      }
+      dayHours = Math.round(dayHours * 10) / 10;
+
+      return `
+        <div class="doc-day-card ${!isEnabled ? 'is-disabled' : ''}" data-day-id="${day.id}">
+          <!-- ترويسة اليوم -->
+          <div class="doc-day-header">
+            <div class="doc-day-title-wrap">
+              <span class="doc-day-name">${day.name}</span>
+              ${isEnabled ? `
+                <span class="doc-day-status-pill is-active">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                  <span>متاح • ${periods.length} ${periods.length === 1 ? 'فترة' : 'فترات'} (${dayHours} ساعة)</span>
+                </span>
+              ` : `
+                <span class="doc-day-status-pill is-off">
+                  <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+                  <span>عطلة أسبوعية</span>
+                </span>
+              `}
+            </div>
+
+            <div class="flex items-center gap-3">
+              <span class="text-xs font-semibold ${isEnabled ? 'text-primary' : 'text-muted'}">
+                ${isEnabled ? 'تشغيل الدوام' : 'إيقاف (عطلة)'}
+              </span>
+              <!-- مفتاح التشغيل والإيقاف Toggle -->
+              <label class="doc-switch" title="تبديل توفر يوم ${day.name}">
+                <input type="checkbox" class="schedule-day-toggle" data-day-id="${day.id}" ${isEnabled ? 'checked' : ''} aria-label="تبديل توفر يوم ${day.name}">
+                <span class="doc-switch-slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- محتوى فترات اليوم -->
+          ${isEnabled ? `
+            <div class="doc-day-slots-wrap">
+              ${errorMsg ? `
+                <div class="doc-slot-error-msg">
+                  <svg class="icon ic-16 flex-shrink-0"><use href="#i-alert-circle"/></svg>
+                  <span>${errorMsg}</span>
+                </div>
+              ` : ''}
+
+              ${periods.map((p, pIdx) => `
+                <div class="doc-slot-row" data-period-id="${p.id || pIdx}">
+                  <span class="doc-slot-period-tag">
+                    <svg class="icon ic-14"><use href="#i-clock"/></svg>
+                    <span>فترة ${pIdx + 1}</span>
+                  </span>
+
+                  <!-- وقت البدء -->
+                  <div class="doc-time-field-wrap">
+                    <span class="doc-time-label">من:</span>
+                    <input type="time" class="doc-time-input schedule-time-start"
+                      data-day-id="${day.id}" data-period-index="${pIdx}" value="${p.startTime}" required aria-label="وقت بداية الفترة ${pIdx + 1}">
+                  </div>
+
+                  <span class="text-xs text-muted font-bold">—</span>
+
+                  <!-- وقت النهاية -->
+                  <div class="doc-time-field-wrap">
+                    <span class="doc-time-label">إلى:</span>
+                    <input type="time" class="doc-time-input schedule-time-end"
+                      data-day-id="${day.id}" data-period-index="${pIdx}" value="${p.endTime}" required aria-label="وقت نهاية الفترة ${pIdx + 1}">
+                  </div>
+
+                  <!-- زر حذف الفترة -->
+                  ${periods.length > 1 ? `
+                    <button type="button" class="doc-btn-remove-slot schedule-btn-remove-period"
+                      data-day-id="${day.id}" data-period-index="${pIdx}" title="حذف هذه الفترة" aria-label="حذف فترة العمل">
+                      <svg class="icon ic-16"><use href="#i-trash"/></svg>
+                    </button>
+                  ` : ''}
+                </div>
+              `).join('')}
+
+              <!-- زر إضافة فترة عمل إضافية لنفس اليوم -->
+              <button type="button" class="doc-btn-add-day-slot schedule-btn-add-day-slot" data-day-id="${day.id}">
+                <svg class="icon ic-14"><use href="#i-plus"/></svg>
+                <span>إضافة فترة عمل إضافية لهذا اليوم</span>
+              </button>
+            </div>
+          ` : `
+            <!-- شريط العطلة عند الإيقاف -->
+            <div class="doc-day-off-banner">
+              <svg class="icon ic-16 text-muted flex-shrink-0"><use href="#i-coffee"/></svg>
+              <span>يوم إجازة أسبوعية مسجل — لا يتم استقبال أي حجوزات أو استشارات في هذا اليوم.</span>
+            </div>
+          `}
+        </div>
+      `;
+    }).join('');
+
+    attachDayEventListeners();
+  }
+
+  // ربط أحداث الأيام والـ Toggles ومربعات الأوقات
+  function attachDayEventListeners() {
+    // 1. مفاتيح التشغيل والإيقاف (Toggles)
+    $$('.schedule-day-toggle').forEach(chk => {
+      chk.addEventListener('change', (e) => {
+        const dayId = e.target.dataset.dayId;
+        const isChecked = e.target.checked;
+        const day = state.schedule.days.find(d => d.id === dayId);
+        if (day) {
+          day.enabled = isChecked;
+          // إذا لم يكن لديه فترات عند التفعيل، نضع فترة افتراضية
+          if (isChecked && (!day.periods || day.periods.length === 0)) {
+            day.periods = [{ id: 1, startTime: '09:00', endTime: '13:00' }];
+          }
+          renderScheduleDaysList();
+          renderScheduleStats();
+          renderQuickPreview(state.schedule.selectedDate);
+          showToast(`تم ${isChecked ? 'تفعيل واستقبال الحجوزات ليوم' : 'تعطيل واعتماد يوم'} ${day.name}`);
+        }
+      });
+    });
+
+    // 2. تغيير أوقات البداية
+    $$('.schedule-time-start').forEach(input => {
+      input.addEventListener('change', (e) => {
+        const { dayId, periodIndex } = e.target.dataset;
+        const day = state.schedule.days.find(d => d.id === dayId);
+        if (day && day.periods && day.periods[periodIndex]) {
+          day.periods[periodIndex].startTime = e.target.value;
+          renderScheduleStats();
+          renderQuickPreview(state.schedule.selectedDate);
+          validateScheduleTimes();
+          renderScheduleDaysList();
+        }
+      });
+    });
+
+    // 3. تغيير أوقات النهاية
+    $$('.schedule-time-end').forEach(input => {
+      input.addEventListener('change', (e) => {
+        const { dayId, periodIndex } = e.target.dataset;
+        const day = state.schedule.days.find(d => d.id === dayId);
+        if (day && day.periods && day.periods[periodIndex]) {
+          day.periods[periodIndex].endTime = e.target.value;
+          renderScheduleStats();
+          renderQuickPreview(state.schedule.selectedDate);
+          validateScheduleTimes();
+          renderScheduleDaysList();
+        }
+      });
+    });
+
+    // 4. حذف فترة معينة
+    $$('.schedule-btn-remove-period').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const targetBtn = e.target.closest('.schedule-btn-remove-period');
+        const { dayId, periodIndex } = targetBtn.dataset;
+        const day = state.schedule.days.find(d => d.id === dayId);
+        if (day && day.periods && day.periods.length > 1) {
+          day.periods.splice(parseInt(periodIndex, 10), 1);
+          renderScheduleDaysList();
+          renderScheduleStats();
+          renderQuickPreview(state.schedule.selectedDate);
+          showToast(`تم حذف فترة العمل من يوم ${day.name}`);
+        }
+      });
+    });
+
+    // 5. زر إضافة فترة أخرى لليوم نفسه
+    $$('.schedule-btn-add-day-slot').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const targetBtn = e.target.closest('.schedule-btn-add-day-slot');
+        const dayId = targetBtn.dataset.dayId;
+        const day = state.schedule.days.find(d => d.id === dayId);
+        if (day) {
+          // حساب وقت مناسب للفترة الجديدة (مثلاً بعد آخر فترة بساعتين)
+          const lastPeriod = day.periods[day.periods.length - 1];
+          let newStart = '16:00';
+          let newEnd = '20:00';
+          if (lastPeriod) {
+            const lastEndMin = timeToMinutes(lastPeriod.endTime);
+            if (lastEndMin + 120 < 1440) {
+              newStart = minutesToTime(lastEndMin + 60);
+              newEnd = minutesToTime(Math.min(1410, lastEndMin + 240));
+            }
+          }
+          day.periods.push({
+            id: Date.now(),
+            startTime: newStart,
+            endTime: newEnd
+          });
+          renderScheduleDaysList();
+          renderScheduleStats();
+          renderQuickPreview(state.schedule.selectedDate);
+          showToast(`تمت إضافة فترة عمل ثانية ليوم ${day.name}`);
+        }
+      });
+    });
+  }
+
+  // رسم قائمة الإجازات المسجلة
+  function renderScheduleVacationsList() {
+    const listEl = $('#scheduleVacationsList');
+    const badgeEl = $('#scheduleVacationsCountBadge');
+    if (!listEl) return;
+
+    const vacations = state.schedule.vacations || [];
+    if (badgeEl) badgeEl.textContent = `${vacations.length} إجازات مسجلة`;
+
+    if (vacations.length === 0) {
+      listEl.innerHTML = `
+        <div class="doc-vacations-empty">
+          <div class="w-12 h-12 mx-auto rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center mb-2">
+            <svg class="icon ic-20"><use href="#i-coffee"/></svg>
+          </div>
+          <h4 class="font-bold text-sm text-ink mb-1">لا توجد إجازات مسجلة حالياً</h4>
+          <p class="text-xs text-muted mb-3">يمكنك إضافة إجازاتك الرسمية أو السنوية لحجب مواعيد الحجز فيها تلقائياً.</p>
+          <button type="button" class="btn btn-solid btn-sm" id="emptyAddVacationBtn">
+            <svg class="icon ic-14"><use href="#i-plus"/></svg>
+            <span>إضافة إجازة الآن</span>
+          </button>
+        </div>
+      `;
+      $('#emptyAddVacationBtn')?.addEventListener('click', () => openVacationModal());
+      return;
+    }
+
+    const todayStr = getTodayIsoDate();
+
+    listEl.innerHTML = vacations.map(v => {
+      // حساب الأيام وحالة الإجازة
+      const sDate = new Date(v.startDate);
+      const eDate = new Date(v.endDate);
+      const diffDays = Math.max(1, Math.round((eDate - sDate) / (1000 * 60 * 60 * 24)) + 1);
+
+      let statusBadge = '<span class="doc-vacation-badge is-upcoming">قادمة</span>';
+      if (todayStr >= v.startDate && todayStr <= v.endDate) {
+        statusBadge = '<span class="doc-vacation-badge is-active">جارية الآن</span>';
+      } else if (todayStr > v.endDate) {
+        statusBadge = '<span class="doc-vacation-badge is-past">منتهية</span>';
+      }
+
+      return `
+        <div class="doc-vacation-card" data-vacation-id="${v.id}">
+          <div class="doc-vacation-info">
+            <div class="flex items-center gap-2">
+              <span class="doc-vacation-title">${v.title}</span>
+              ${statusBadge}
+            </div>
+            <div class="doc-vacation-dates">
+              <svg class="icon ic-14 text-muted"><use href="#i-calendar"/></svg>
+              <span>من ${v.startDate} إلى ${v.endDate} (${diffDays} ${diffDays === 1 ? 'يوم' : 'أيام'})</span>
+            </div>
+            ${v.notes ? `<p class="text-[11px] text-muted italic">${v.notes}</p>` : ''}
+          </div>
+
+          <div class="doc-vacation-actions">
+            <button type="button" class="doc-table-btn doc-btn-outline-blue py-1 px-2.5 text-xs schedule-edit-vacation-btn"
+              data-vacation-id="${v.id}" title="تعديل بيانات الإجازة">
+              <svg class="icon ic-14"><use href="#i-edit"/></svg>
+              <span>تعديل</span>
+            </button>
+            <button type="button" class="doc-table-btn doc-btn-remove-slot py-1 px-2 text-xs schedule-delete-vacation-btn"
+              data-vacation-id="${v.id}" title="حذف الإجازة">
+              <svg class="icon ic-14"><use href="#i-trash"/></svg>
+            </button>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    // ربط أزرار التعديل والحذف
+    $$('.schedule-edit-vacation-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        openVacationModal(btn.dataset.vacationId);
+      });
+    });
+
+    $$('.schedule-delete-vacation-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        openDeleteVacationConfirmModal(btn.dataset.vacationId);
+      });
+    });
+  }
+
+  // فتح نافذة إضافة / تعديل إجازة
+  function openVacationModal(vacationId = null) {
+    const titleEl = $('#scheduleVacationModalTitle');
+    const idInput = $('#vacationEditId');
+    const nameInput = $('#vacationTitle');
+    const startInput = $('#vacationStartDate');
+    const endInput = $('#vacationEndDate');
+    const notesInput = $('#vacationNotes');
+
+    if (vacationId) {
+      const v = (state.schedule.vacations || []).find(x => x.id === vacationId);
+      if (v) {
+        if (titleEl) titleEl.textContent = 'تعديل الإجازة المسجلة';
+        if (idInput) idInput.value = v.id;
+        if (nameInput) nameInput.value = v.title;
+        if (startInput) startInput.value = v.startDate;
+        if (endInput) endInput.value = v.endDate;
+        if (notesInput) notesInput.value = v.notes || '';
+      }
+    } else {
+      if (titleEl) titleEl.textContent = 'إضافة إجازة أو عطلة جديدة';
+      if (idInput) idInput.value = '';
+      if (nameInput) nameInput.value = '';
+      if (startInput) startInput.value = '2026-11-20';
+      if (endInput) endInput.value = '2026-11-22';
+      if (notesInput) notesInput.value = '';
+    }
+
+    openModal('#scheduleVacationModal');
+  }
+
+  // حفظ نموذج الإجازة
+  function handleVacationFormSubmit(e) {
+    e.preventDefault();
+    const id = $('#vacationEditId')?.value;
+    const title = $('#vacationTitle')?.value.trim();
+    const startDate = $('#vacationStartDate')?.value;
+    const endDate = $('#vacationEndDate')?.value;
+    const notes = $('#vacationNotes')?.value.trim();
+
+    if (!title || !startDate || !endDate) {
+      showToast('يرجى ملء جميع الحقول المطلوبة للإجازة');
+      return;
+    }
+
+    if (endDate < startDate) {
+      showToast('خطأ: تاريخ نهاية الإجازة يجب أن يكون مساوياً أو بعد تاريخ البداية');
+      return;
+    }
+
+    if (!state.schedule.vacations) state.schedule.vacations = [];
+
+    if (id) {
+      // تعديل
+      const idx = state.schedule.vacations.findIndex(x => x.id === id);
+      if (idx !== -1) {
+        state.schedule.vacations[idx] = { id, title, startDate, endDate, notes };
+        showToast('تم تعديل الإجازة وتحديث جدول الحجوزات بنجاح');
+      }
+    } else {
+      // إضافة جديدة
+      state.schedule.vacations.push({
+        id: `vac-${Date.now()}`,
+        title,
+        startDate,
+        endDate,
+        notes
+      });
+      showToast('تمت إضافة الإجازة وحجب الفترات المشمولة بنجاح');
+    }
+
+    closeModal('#scheduleVacationModal');
+    setStorage(KEYS.SCHEDULE, state.schedule);
+    renderScheduleVacationsList();
+    renderScheduleStats();
+    renderQuickPreview(state.schedule.selectedDate);
+    if ($('#scheduleDetailPreviewModal')?.classList.contains('is-open')) {
+      renderModalDetailedSlots(state.schedule.modalDate);
+    }
+  }
+
+  // فتح نافذة تأكيد حذف الإجازة
+  function openDeleteVacationConfirmModal(vacationId) {
+    const v = (state.schedule.vacations || []).find(x => x.id === vacationId);
+    if (!v) return;
+    state.schedule.pendingDeleteVacationId = vacationId;
+    const nameEl = $('#deleteVacationNameDisplay');
+    if (nameEl) nameEl.textContent = v.title;
+    openModal('#scheduleConfirmDeleteVacationModal');
+  }
+
+  // تنفيذ حذف الإجازة بعد التأكيد
+  function executeDeleteVacation() {
+    const id = state.schedule.pendingDeleteVacationId;
+    if (!id) return;
+
+    state.schedule.vacations = (state.schedule.vacations || []).filter(x => x.id !== id);
+    state.schedule.pendingDeleteVacationId = null;
+    closeModal('#scheduleConfirmDeleteVacationModal');
+    setStorage(KEYS.SCHEDULE, state.schedule);
+    renderScheduleVacationsList();
+    renderScheduleStats();
+    renderQuickPreview(state.schedule.selectedDate);
+    if ($('#scheduleDetailPreviewModal')?.classList.contains('is-open')) {
+      renderModalDetailedSlots(state.schedule.modalDate);
+    }
+    showToast('تم حذف الإجازة وإعادة إتاحة الفترات للحجز');
+  }
+
+  // تحديث مدخلات ونصوص إعدادات الجلسات
+  function syncScheduleSettingsUI() {
+    const s = state.schedule.settings || {};
+    const sessionDurEl = $('#settingSessionDuration');
+    const breakDurEl = $('#settingBreakDuration');
+    const maxDailyEl = $('#settingMaxDailySessions');
+    const minNoticeEl = $('#settingMinNoticeHours');
+    const bookingWinEl = $('#settingBookingWindowDays');
+
+    if (sessionDurEl && s.sessionDuration) sessionDurEl.value = s.sessionDuration;
+    if (breakDurEl && s.breakDuration) breakDurEl.value = s.breakDuration;
+    if (maxDailyEl && s.maxDailySessions) maxDailyEl.value = s.maxDailySessions;
+    if (minNoticeEl && s.minNoticeHours) minNoticeEl.value = s.minNoticeHours;
+    if (bookingWinEl && s.bookingWindowDays) bookingWinEl.value = s.bookingWindowDays;
+
+    updateScheduleSettingsSummary();
+  }
+
+  // تحديث نص الملخص الذكي لإعدادات الجلسات
+  function updateScheduleSettingsSummary() {
+    const sessionDur = $('#settingSessionDuration')?.value || 45;
+    const breakDur = $('#settingBreakDuration')?.value || 10;
+    const maxDaily = $('#settingMaxDailySessions')?.value || 8;
+    const minNotice = $('#settingMinNoticeHours')?.value || 2;
+    const summaryEl = $('#scheduleSettingsSummaryText');
+
+    if (summaryEl) {
+      summaryEl.textContent = `وفق إعداداتك: كل جلسة مدتها ${sessionDur} دقيقة تليها ${breakDur} دقائق استراحة، بحد أقصى ${maxDaily} جلسات يومياً، وتتطلب مهلة حجز مسبقة لا تقل عن ${minNotice} ساعات.`;
+    }
+  }
+
+  // توليد الفترات الزمنية لتاريخ محدد بناءً على جدول العمل والإجازات والمحجوز
+  function generateSlotsForDate(dateStr) {
+    const [y, m, d] = dateStr.split('-').map(Number);
+    const dateObj = new Date(y, m - 1, d);
+    const dayIndex = dateObj.getDay(); // 0: Sunday, 6: Saturday
+    const dayId = DAY_ID_MAP[dayIndex];
+    const dayConfig = (state.schedule.days || []).find(x => x.id === dayId);
+
+    // 1. فحص الإجازات المسجلة
+    const vacations = state.schedule.vacations || [];
+    const activeVacation = vacations.find(v => dateStr >= v.startDate && dateStr <= v.endDate);
+    if (activeVacation) {
+      return {
+        status: 'vacation',
+        reason: `إجازة مسجلة: ${activeVacation.title}`,
+        slots: []
+      };
+    }
+
+    // 2. فحص هل اليوم معطل
+    if (!dayConfig || !dayConfig.enabled) {
+      return {
+        status: 'day_off',
+        reason: 'يوم عطلة أسبوعية - الأخصائية غير متاحة لاستقبال الحجوزات',
+        slots: []
+      };
+    }
+
+    // 3. فحص هل اليوم لديه فترات عمل
+    const periods = dayConfig.periods || [];
+    if (periods.length === 0) {
+      return {
+        status: 'no_periods',
+        reason: 'لم يتم تحديد فترات عمل لهذا اليوم',
+        slots: []
+      };
+    }
+
+    // 4. توليد الفترات بناءً على مدة الجلسة والاستراحة
+    const sessionDuration = parseInt($('#settingSessionDuration')?.value || state.schedule.settings.sessionDuration, 10) || 45;
+    const breakDuration = parseInt($('#settingBreakDuration')?.value || state.schedule.settings.breakDuration, 10) || 10;
+    const maxDaily = parseInt($('#settingMaxDailySessions')?.value || state.schedule.settings.maxDailySessions, 10) || 8;
+    const slotStep = sessionDuration + breakDuration;
+
+    // استخراج المواعيد المحجوزة مسبقاً في نفس اليوم من `state.appointments`
+    const bookedApptsOnDate = (state.appointments || []).filter(a => a.isoDate === dateStr && a.status !== 'cancelled');
+    const bookedRawTimes = bookedApptsOnDate.map(a => a.rawTime);
+
+    // إضافة بعض الأوقات المحجوزة التجريبية لتاريخ 2026-11-14 في حال خلوه حتى تظهر الواجهة حية
+    if (dateStr === '2026-11-14') {
+      bookedRawTimes.push('10:00', '17:00');
+    } else if (dateStr === '2026-11-15') {
+      bookedRawTimes.push('11:00', '18:00');
+    }
+
+    let slots = [];
+
+    periods.forEach((period, pIdx) => {
+      const pStart = timeToMinutes(period.startTime);
+      const pEnd = timeToMinutes(period.endTime);
+
+      let currentMin = pStart;
+      while (currentMin + sessionDuration <= pEnd && slots.length < maxDaily) {
+        const slotStartStr = minutesToTime(currentMin);
+        const slotEndStr = minutesToTime(currentMin + sessionDuration);
+
+        // هل هذه الفترة محجوزة؟
+        const isBooked = bookedRawTimes.some(bt => {
+          if (!bt) return false;
+          const bMin = timeToMinutes(bt);
+          return Math.abs(bMin - currentMin) < sessionDuration;
+        });
+
+        // تصنيف الفترة صباحية أو مسائية
+        const isMorning = currentMin < 720; // قبل 12:00 ظهراً
+
+        slots.push({
+          timeStr: slotStartStr,
+          endTimeStr: slotEndStr,
+          formatted: formatTimeArabic(slotStartStr),
+          formattedRange: `${formatTimeArabic(slotStartStr)} – ${formatTimeArabic(slotEndStr)}`,
+          isAvailable: !isBooked,
+          isBooked: isBooked,
+          isMorning: isMorning,
+          periodIndex: pIdx + 1
+        });
+
+        currentMin += slotStep;
+      }
+    });
+
+    return {
+      status: slots.length > 0 ? 'available' : 'no_slots',
+      reason: slots.length > 0 ? '' : 'لا توجد فترات عمل متاحة',
+      slots: slots
+    };
+  }
+
+  // رسم المعاينة السريعة في الصفحة
+  function renderQuickPreview(dateStr) {
+    if (!dateStr) dateStr = state.schedule.selectedDate || '2026-11-14';
+    state.schedule.selectedDate = dateStr;
+
+    // تحديث نص التاريخ المعروض
+    const displayEl = $('#scheduleSelectedDateDisplay');
+    const hiddenPicker = $('#scheduleHiddenDatePicker');
+    if (displayEl) displayEl.textContent = formatDateArabicFull(dateStr);
+    if (hiddenPicker) hiddenPicker.value = dateStr;
+
+    const gridEl = $('#scheduleQuickSlotsGrid');
+    if (!gridEl) return;
+
+    const res = generateSlotsForDate(dateStr);
+
+    if (res.status === 'vacation') {
+      gridEl.innerHTML = `
+        <div class="doc-slots-empty-state">
+          <div class="w-12 h-12 mx-auto rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center mb-2">
+            <svg class="icon ic-22"><use href="#i-coffee"/></svg>
+          </div>
+          <h4 class="font-bold text-sm text-ink mb-1">إجازة رسمية مسجلة</h4>
+          <p class="text-xs text-muted max-w-sm mx-auto mb-2">${res.reason}</p>
+          <span class="doc-badge-pill is-off">جميع الفترات محجوبة ومغلقة</span>
+        </div>
+      `;
+      return;
+    }
+
+    if (res.status === 'day_off') {
+      gridEl.innerHTML = `
+        <div class="doc-slots-empty-state">
+          <div class="w-12 h-12 mx-auto rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center mb-2">
+            <svg class="icon ic-22"><use href="#i-moon"/></svg>
+          </div>
+          <h4 class="font-bold text-sm text-ink mb-1">يوم عطلة أسبوعية</h4>
+          <p class="text-xs text-muted max-w-sm mx-auto mb-2">الأخصائية غير متاحة في هذا اليوم وفق جدول ساعات الدوام المعتمد.</p>
+          <span class="doc-badge-pill is-off">لا توجد فترات متاحة للحجز في هذا اليوم</span>
+        </div>
+      `;
+      return;
+    }
+
+    if (!res.slots || res.slots.length === 0) {
+      gridEl.innerHTML = `
+        <div class="doc-slots-empty-state">
+          <div class="w-12 h-12 mx-auto rounded-xl bg-blue-50 text-primary flex items-center justify-center mb-2">
+            <svg class="icon ic-22"><use href="#i-calendar"/></svg>
+          </div>
+          <h4 class="font-bold text-sm text-ink mb-1">لا توجد فترات عمل محددة</h4>
+          <p class="text-xs text-muted mb-2">يرجى مراجعة ساعات بداية ونهاية الدوام وإعدادات الجلسات لتوليد الفترات.</p>
+        </div>
+      `;
+      return;
+    }
+
+    gridEl.innerHTML = res.slots.map(slot => {
+      if (slot.isAvailable) {
+        return `
+          <div class="doc-slot-chip is-avail" title="فترة متاحة للحجز">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              <span class="doc-slot-chip-time font-extrabold">${slot.formatted}</span>
+            </div>
+            <span class="doc-slot-chip-status">متاح</span>
+          </div>
+        `;
+      } else {
+        return `
+          <div class="doc-slot-chip is-booked" title="فترة محجوزة مسبقاً">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-slate-400"></span>
+              <span class="doc-slot-chip-time line-through text-slate-500">${slot.formatted}</span>
+            </div>
+            <span class="doc-slot-chip-status">محجوز</span>
+          </div>
+        `;
+      }
+    }).join('');
+  }
+
+  // رسم وتوليد الفترات في نافذة المعاينة الكبيرة (Modal Detailed Preview)
+  function renderModalDetailedSlots(dateStr) {
+    if (!dateStr) dateStr = state.schedule.modalDate || state.schedule.selectedDate || '2026-11-14';
+    state.schedule.modalDate = dateStr;
+
+    const displayEl = $('#modalPreviewDateDisplay');
+    const hiddenPicker = $('#modalPreviewHiddenDatePicker');
+    const statusBadge = $('#modalPreviewDayStatusBadge');
+    const statsBadge = $('#modalPreviewStatsBadge');
+    const container = $('#modalPreviewSlotsContainer');
+
+    if (displayEl) displayEl.textContent = formatDateArabicFull(dateStr);
+    if (hiddenPicker) hiddenPicker.value = dateStr;
+
+    if (!container) return;
+
+    const res = generateSlotsForDate(dateStr);
+
+    if (res.status === 'vacation') {
+      if (statusBadge) {
+        statusBadge.className = 'doc-badge-pill is-off';
+        statusBadge.textContent = 'إجازة مسجلة';
+      }
+      if (statsBadge) statsBadge.textContent = '0 فترات متاحة';
+
+      container.innerHTML = `
+        <div class="doc-slots-empty-state">
+          <div class="w-14 h-14 mx-auto rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center mb-3">
+            <svg class="icon ic-24"><use href="#i-coffee"/></svg>
+          </div>
+          <h4 class="font-bold text-base text-ink mb-1">${res.reason}</h4>
+          <p class="text-xs text-muted max-w-md mx-auto mb-3">
+            لن يتمكن أي مستفيد من حجز موعد في هذا التاريخ نظراً لتسجيل إجازة مسبقة.
+          </p>
+        </div>
+      `;
+      return;
+    }
+
+    if (res.status === 'day_off') {
+      if (statusBadge) {
+        statusBadge.className = 'doc-badge-pill is-off';
+        statusBadge.textContent = 'عطلة أسبوعية';
+      }
+      if (statsBadge) statsBadge.textContent = '0 فترات متاحة';
+
+      container.innerHTML = `
+        <div class="doc-slots-empty-state">
+          <div class="w-14 h-14 mx-auto rounded-2xl bg-slate-100 text-slate-600 flex items-center justify-center mb-3">
+            <svg class="icon ic-24"><use href="#i-moon"/></svg>
+          </div>
+          <h4 class="font-bold text-base text-ink mb-1">لا توجد فترات متاحة للحجز في هذا اليوم</h4>
+          <p class="text-xs text-muted max-w-md mx-auto mb-3">
+            هذا اليوم معطل في جدول أوقات العمل الأسبوعي. يمكنك تفعيله من قائمة «أيام وساعات العمل» في الواجهة الرئيسية.
+          </p>
+        </div>
+      `;
+      return;
+    }
+
+    const availableSlots = res.slots.filter(s => s.isAvailable);
+    const bookedSlots = res.slots.filter(s => s.isBooked);
+
+    if (statusBadge) {
+      statusBadge.className = 'doc-badge-pill is-avail';
+      statusBadge.textContent = 'يوم عمل متاح للحجز';
+    }
+    if (statsBadge) {
+      statsBadge.textContent = `${availableSlots.length} فترات متاحة • ${bookedSlots.length} محجوزة`;
+    }
+
+    const morningSlots = res.slots.filter(s => s.isMorning);
+    const eveningSlots = res.slots.filter(s => !s.isMorning);
+
+    container.innerHTML = `
+      <!-- الفترات الصباحية -->
+      ${morningSlots.length > 0 ? `
+        <div class="mb-4">
+          <div class="doc-preview-section-title">
+            <svg class="icon ic-18 text-amber-500"><use href="#i-sun"/></svg>
+            <span>الفترات الصباحية (قبل الظهر)</span>
+          </div>
+          <div class="doc-modal-slots-grid">
+            ${morningSlots.map(slot => `
+              <div class="doc-slot-chip ${slot.isAvailable ? 'is-avail' : 'is-booked'}">
+                <div>
+                  <div class="doc-slot-chip-time font-extrabold">${slot.formatted}</div>
+                  <div class="text-[11px] text-muted">${slot.formattedRange}</div>
+                </div>
+                <span class="doc-slot-chip-status">${slot.isAvailable ? 'متاح للحجز' : 'محجوز'}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      ` : ''}
+
+      <!-- الفترات المسائية -->
+      ${eveningSlots.length > 0 ? `
+        <div>
+          <div class="doc-preview-section-title">
+            <svg class="icon ic-18 text-indigo-500"><use href="#i-moon"/></svg>
+            <span>الفترات المسائية (بعد الظهر والمساء)</span>
+          </div>
+          <div class="doc-modal-slots-grid">
+            ${eveningSlots.map(slot => `
+              <div class="doc-slot-chip ${slot.isAvailable ? 'is-avail' : 'is-booked'}">
+                <div>
+                  <div class="doc-slot-chip-time font-extrabold">${slot.formatted}</div>
+                  <div class="text-[11px] text-muted">${slot.formattedRange}</div>
+                </div>
+                <span class="doc-slot-chip-status">${slot.isAvailable ? 'متاح للحجز' : 'محجوز'}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      ` : ''}
+    `;
+  }
+
+  // فتح نافذة المعاينة الكبيرة
+  function openDetailedSchedulePreviewModal(dateStr) {
+    if (!dateStr) dateStr = state.schedule.selectedDate || '2026-11-14';
+    state.schedule.modalDate = dateStr;
+    renderModalDetailedSlots(dateStr);
+    openModal('#scheduleDetailPreviewModal');
+  }
+
+  // فتح نافذة تأكيد حفظ التغييرات
+  function openScheduleSaveConfirmModal() {
+    if (!validateScheduleTimes()) {
+      renderScheduleDaysList();
+      showToast('يرجى تصحيح أخطاء أوقات الدوام الموضحة باللون الأحمر قبل الحفظ');
+      return;
+    }
+
+    const stats = calculateScheduleStats();
+    const sessionDur = $('#settingSessionDuration')?.value || 45;
+    const breakDur = $('#settingBreakDuration')?.value || 10;
+
+    const daysEl = $('#confirmModalWorkDays');
+    const hoursEl = $('#confirmModalTotalHours');
+    const rulesEl = $('#confirmModalSessionRules');
+
+    if (daysEl) daysEl.textContent = `${stats.workDays} أيام أسبوعياً`;
+    if (hoursEl) hoursEl.textContent = `${stats.totalHours} ساعة / أسبوعياً`;
+    if (rulesEl) rulesEl.textContent = `${sessionDur} دقيقة (+${breakDur} د استراحة)`;
+
+    openModal('#scheduleConfirmSaveModal');
+  }
+
+  // تنفيذ حفظ جدول التوفر في LocalStorage
+  function executeScheduleSave() {
+    // قراءة قيم الإعدادات وتحديثها
+    state.schedule.settings = {
+      sessionDuration: parseInt($('#settingSessionDuration')?.value, 10) || 45,
+      breakDuration: parseInt($('#settingBreakDuration')?.value, 10) || 10,
+      maxDailySessions: parseInt($('#settingMaxDailySessions')?.value, 10) || 8,
+      minNoticeHours: parseInt($('#settingMinNoticeHours')?.value, 10) || 2,
+      bookingWindowDays: parseInt($('#settingBookingWindowDays')?.value, 10) || 30
+    };
+
+    setStorage(KEYS.SCHEDULE, state.schedule);
+    closeModal('#scheduleConfirmSaveModal');
+
+    renderScheduleStats();
+    renderQuickPreview(state.schedule.selectedDate);
+    updateScheduleSettingsSummary();
+    showToast('تم حفظ جدول التوفر بنجاح');
+  }
+
+  // تهيئة وعرض واجهة جدول التوفر بالكامل
+  function renderScheduleView() {
+    renderScheduleStats();
+    renderScheduleDaysList();
+    syncScheduleSettingsUI();
+    renderScheduleVacationsList();
+    renderQuickPreview(state.schedule.selectedDate || '2026-11-14');
+  }
+
+  // إعداد الأحداث الخاصة بواجهة جدول التوفر
+  function initScheduleEvents() {
+    // 1. أزرار حفظ التغييرات
+    $('#scheduleHeaderSaveBtn')?.addEventListener('click', openScheduleSaveConfirmModal);
+    $('#scheduleSaveSettingsBtn')?.addEventListener('click', openScheduleSaveConfirmModal);
+    $('#executeScheduleSaveBtn')?.addEventListener('click', executeScheduleSave);
+
+    // 2. أزرار معاينة الجدول الكبيرة
+    $('#scheduleHeaderPreviewBtn')?.addEventListener('click', () => openDetailedSchedulePreviewModal(state.schedule.selectedDate));
+    $('#scheduleDetailedModalBtn')?.addEventListener('click', () => openDetailedSchedulePreviewModal(state.schedule.selectedDate));
+
+    // 3. زر إضافة فترة عمل إضافية من رأس بطاقة الدوام
+    $('#scheduleAddPeriodBtn')?.addEventListener('click', () => {
+      openModal('#scheduleQuickAddPeriodModal');
+    });
+
+    // 4. نموذج إضافة فترة عمل سريعة
+    $('#scheduleQuickAddPeriodForm')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const dayId = $('#quickAddDaySelect')?.value;
+      const startTime = $('#quickAddStartTime')?.value;
+      const endTime = $('#quickAddEndTime')?.value;
+      const errBox = $('#quickAddPeriodError');
+
+      if (timeToMinutes(endTime) <= timeToMinutes(startTime)) {
+        if (errBox) {
+          errBox.textContent = 'وقت نهاية الفترة يجب أن يكون بعد وقت بدايتها.';
+          errBox.classList.remove('hidden');
+        }
+        return;
+      }
+
+      const day = state.schedule.days.find(d => d.id === dayId);
+      if (day) {
+        day.enabled = true;
+        if (!day.periods) day.periods = [];
+
+        // فحص التداخل
+        const isOverlap = day.periods.some(p => {
+          const s1 = timeToMinutes(p.startTime);
+          const e1 = timeToMinutes(p.endTime);
+          const s2 = timeToMinutes(startTime);
+          const e2 = timeToMinutes(endTime);
+          return Math.max(s1, s2) < Math.min(e1, e2);
+        });
+
+        if (isOverlap) {
+          if (errBox) {
+            errBox.textContent = 'هذه الفترة تتداخل مع فترة عمل أخرى موجودة في نفس اليوم.';
+            errBox.classList.remove('hidden');
+          }
+          return;
+        }
+
+        day.periods.push({
+          id: Date.now(),
+          startTime,
+          endTime
+        });
+
+        closeModal('#scheduleQuickAddPeriodModal');
+        if (errBox) errBox.classList.add('hidden');
+        renderScheduleDaysList();
+        renderScheduleStats();
+        renderQuickPreview(state.schedule.selectedDate);
+        showToast(`تمت إضافة فترة العمل ليوم ${day.name} بنجاح`);
+      }
+    });
+
+    // 5. زر إضافة إجازة جديدة
+    $('#scheduleAddVacationBtn')?.addEventListener('click', () => openVacationModal());
+    $('#scheduleVacationForm')?.addEventListener('submit', handleVacationFormSubmit);
+    $('#executeDeleteVacationBtn')?.addEventListener('click', executeDeleteVacation);
+
+    // 6. تفاعل تغيير إعدادات الجلسات (تحديث المعاينة والملخص فورياً)
+    ['settingSessionDuration', 'settingBreakDuration', 'settingMaxDailySessions', 'settingMinNoticeHours', 'settingBookingWindowDays'].forEach(id => {
+      $(`#${id}`)?.addEventListener('change', () => {
+        updateScheduleSettingsSummary();
+        renderScheduleStats();
+        renderQuickPreview(state.schedule.selectedDate);
+        if ($('#scheduleDetailPreviewModal')?.classList.contains('is-open')) {
+          renderModalDetailedSlots(state.schedule.modalDate);
+        }
+      });
+    });
+
+    // 7. شريط التنقل بالتاريخ في الصفحة
+    $('#schedulePrevDayBtn')?.addEventListener('click', () => {
+      const cur = state.schedule.selectedDate || '2026-11-14';
+      const [y, m, d] = cur.split('-').map(Number);
+      const prevDate = new Date(y, m - 1, d - 1);
+      const iso = prevDate.toISOString().split('T')[0];
+      renderQuickPreview(iso);
+    });
+
+    $('#scheduleNextDayBtn')?.addEventListener('click', () => {
+      const cur = state.schedule.selectedDate || '2026-11-14';
+      const [y, m, d] = cur.split('-').map(Number);
+      const nextDate = new Date(y, m - 1, d + 1);
+      const iso = nextDate.toISOString().split('T')[0];
+      renderQuickPreview(iso);
+    });
+
+    $('#scheduleTodayBtn')?.addEventListener('click', () => {
+      renderQuickPreview(getTodayIsoDate());
+      showToast('تم الانتقال إلى تاريخ اليوم');
+    });
+
+    $('#scheduleDatePickerTriggerBtn')?.addEventListener('click', () => {
+      const picker = $('#scheduleHiddenDatePicker');
+      if (picker && typeof picker.showPicker === 'function') {
+        picker.showPicker();
+      } else {
+        picker?.focus();
+      }
+    });
+
+    $('#scheduleHiddenDatePicker')?.addEventListener('change', (e) => {
+      if (e.target.value) {
+        renderQuickPreview(e.target.value);
+      }
+    });
+
+    // 8. شريط التنقل بالتاريخ في نافذة المعاينة الكبيرة (Modal)
+    $('#modalPreviewPrevDayBtn')?.addEventListener('click', () => {
+      const cur = state.schedule.modalDate || '2026-11-14';
+      const [y, m, d] = cur.split('-').map(Number);
+      const prevDate = new Date(y, m - 1, d - 1);
+      const iso = prevDate.toISOString().split('T')[0];
+      renderModalDetailedSlots(iso);
+    });
+
+    $('#modalPreviewNextDayBtn')?.addEventListener('click', () => {
+      const cur = state.schedule.modalDate || '2026-11-14';
+      const [y, m, d] = cur.split('-').map(Number);
+      const nextDate = new Date(y, m - 1, d + 1);
+      const iso = nextDate.toISOString().split('T')[0];
+      renderModalDetailedSlots(iso);
+    });
+
+    $('#modalPreviewTodayBtn')?.addEventListener('click', () => {
+      renderModalDetailedSlots(getTodayIsoDate());
+    });
+
+    $('#modalPreviewDatePickerTrigger')?.addEventListener('click', () => {
+      const picker = $('#modalPreviewHiddenDatePicker');
+      if (picker && typeof picker.showPicker === 'function') {
+        picker.showPicker();
+      } else {
+        picker?.focus();
+      }
+    });
+
+    $('#modalPreviewHiddenDatePicker')?.addEventListener('change', (e) => {
+      if (e.target.value) {
+        renderModalDetailedSlots(e.target.value);
+      }
+    });
   }
 
   // ---------- تهيئة وإعداد الأحداث العامة ----------
@@ -1683,6 +3396,19 @@
     // استعادة المظهر
     const savedTheme = getStorage(KEYS.THEME, 'light');
     document.documentElement.setAttribute('data-theme', savedTheme);
+
+    // ربط أحداث واجهة جدول التوفر
+    initScheduleEvents();
+
+    // إغلاق النوافذ المنبثقة بمفتاح Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const openModalEl = $('.doc-modal-overlay.is-open');
+        if (openModalEl) {
+          openModalEl.classList.remove('is-open');
+        }
+      }
+    });
 
     // التحقق من الرابط أو التجزئة (Hash) لتحديد المشهد المبدئي
     const hash = window.location.hash.replace('#', '');

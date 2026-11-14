@@ -160,6 +160,45 @@
       <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
       <rect x="6" y="14" width="12" height="8" />
     </symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24">
+      <line x1="12" y1="5" x2="12" y2="19" />
+      <line x1="5" y1="12" x2="19" y2="12" />
+    </symbol>
+    <symbol id="i-info" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="16" x2="12" y2="12" />
+      <line x1="12" y1="8" x2="12.01" y2="8" />
+    </symbol>
+    <symbol id="i-alert-circle" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="8" x2="12" y2="12" />
+      <line x1="12" y1="16" x2="12.01" y2="16" />
+    </symbol>
+    <symbol id="i-coffee" viewBox="0 0 24 24">
+      <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
+      <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" />
+      <line x1="6" y1="1" x2="6" y2="4" />
+      <line x1="10" y1="1" x2="10" y2="4" />
+      <line x1="14" y1="1" x2="14" y2="4" />
+    </symbol>
+    <symbol id="i-check-square" viewBox="0 0 24 24">
+      <polyline points="9 11 12 14 22 4" />
+      <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+    </symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="5" />
+      <line x1="12" y1="1" x2="12" y2="3" />
+      <line x1="12" y1="21" x2="12" y2="23" />
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+      <line x1="1" y1="12" x2="3" y2="12" />
+      <line x1="21" y1="12" x2="23" y2="12" />
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+    </symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+    </symbol>
   </svg>
 
   <div class="doc-layout">
@@ -199,15 +238,7 @@
           </button>
         </li>
 
-        <!-- 3. المستفيدون – أيقونة Users -->
-        <li class="doc-nav-item">
-          <button type="button" class="doc-nav-link" data-doc-nav="beneficiaries" role="tab" aria-selected="false">
-            <svg class="icon ic-20">
-              <use href="#i-users" />
-            </svg>
-            <span>المستفيدون</span>
-          </button>
-        </li>
+
 
         <!-- 4. الاستشارات والمحادثات – أيقونة Messages -->
         <li class="doc-nav-item">
@@ -220,15 +251,6 @@
           </button>
         </li>
 
-        <!-- 5. الجلسات والتقارير – أيقونة Clipboard -->
-        <li class="doc-nav-item">
-          <button type="button" class="doc-nav-link" data-doc-nav="reports" role="tab" aria-selected="false">
-            <svg class="icon ic-20">
-              <use href="#i-clipboard" />
-            </svg>
-            <span>الجلسات والتقارير</span>
-          </button>
-        </li>
 
         <!-- 6. جدول التوفر – أيقونة Clock -->
         <li class="doc-nav-item">
@@ -239,6 +261,19 @@
             <span>جدول التوفر</span>
           </button>
         </li>
+
+      
+        <!-- 7. الملف الشخصي – أيقونة User -->
+        <li class="doc-nav-item">
+          <button type="button" class="doc-nav-link" data-doc-nav="profile" role="tab" aria-selected="false">
+            <svg class="icon ic-20">
+              <use href="#i-user" />
+            </svg>
+            <span>الملف الشخصي</span>
+          </button>
+        </li>
+
+        
       </nav>
 
       <!-- بطاقة الدعم الفني في أسفل الشريط الجانبي -->
@@ -253,6 +288,8 @@
           <a href="tel:772572361" class="doc-support-phone">772572361</a>
         </div>
       </div>
+
+      
 
     </aside>
 
@@ -277,7 +314,7 @@
 
         <!-- حقل بحث أفقي في المنتصف -->
         <div class="doc-search-bar">
-          <svg class="icon ic-18 doc-search-icon">
+          
             <use href="#i-search" />
           </svg>
           <input type="text" id="docGlobalSearch" class="doc-search-input" placeholder="ابحث هنا..."
@@ -328,7 +365,7 @@
       <!-- =====================================================================
            المشهد الأول: الرئيسية (Home View)
            ===================================================================== -->
-      <section id="view-home" class="doc-view">
+      <section id="view-home" class="doc-view is-active">
 
 
         <!-- 7. بطاقات الإحصائيات الرئيسية الأربع -->
@@ -459,10 +496,1039 @@
 
       </section>
 
+ 
+
+      <!-- =====================================================================
+           المشهد الرابع: الاستشارات والمحادثات (Doctor Consultations & Messages)
+           ===================================================================== -->
+      <section id="view-consultations" class="doc-view">
+
+        <!-- ترويسة الصفحة -->
+        <div class="doc-view-title-row">
+          <div class="flex items-center gap-3">
+            <div class="doc-title-icon-badge" style="background:#E5EEFF; color:#24558F;">
+              <svg class="icon ic-24">
+                <use href="#i-message-square" />
+              </svg>
+            </div>
+            <div>
+              <h1 class="doc-page-heading">الاستشارات والمحادثات</h1>
+              <p class="text-xs text-muted mt-0.5">تواصل مباشر ومشفر مع مستفيديك في بيئة تحمي السرية الطبية التامة.</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="flex items-center gap-1.5 text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-200">
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              <span>قناة مشفرة وآمنة</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- منطقة المحادثات المقسومة عمودين -->
+        <div class="doc-chat-main-grid">
+
+          <!-- 1. قائمة المستفيدين والمحادثات (الجهة اليمنى) -->
+          <aside class="doc-conversations-card" aria-label="قائمة محادثات المستفيدين">
+
+            <div class="doc-conversations-header">
+              <div class="doc-conversations-header-top">
+                <h3 class="doc-conversations-title">
+                  <span>محادثات المستفيدين</span>
+                  <span class="doc-conversations-count-badge" id="docConvCountBadge">5</span>
+                </h3>
+                <!-- زر محادثة جديدة -->
+                <button type="button" class="doc-new-conv-btn" id="docNewConvBtn" title="بدء محادثة جديدة مع مستفيد">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                  </svg>
+                </button>
+              </div>
+              <!-- شريط البحث -->
+              <div class="doc-conv-search-wrap">
+                <input type="text" id="docConvSearchInput" class="doc-conv-search-input" placeholder="ابحث باسم المستفيد..." aria-label="بحث في المحادثات" />
+                <svg class="doc-conv-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+              </div>
+              <!-- فلتر الحالة -->
+              <div class="doc-conv-filter-tabs">
+                <button class="doc-conv-filter-btn is-active" data-filter="all">الكل</button>
+                <button class="doc-conv-filter-btn" data-filter="unread">غير مقروء</button>
+                <button class="doc-conv-filter-btn" data-filter="active">نشط</button>
+              </div>
+            </div>
+
+            <!-- قائمة المحادثات -->
+            <div class="doc-conversations-list" id="docConversationsList" role="tablist">
+              <!-- يتم حقنها بالجافاسكربت -->
+            </div>
+          </aside>
+
+          <!-- 2. نافذة المحادثة النشطة (الجهة اليسرى) -->
+          <div class="doc-chat-window-card" id="docChatWindow" role="tabpanel">
+
+            <!-- رأس المحادثة -->
+            <header class="doc-chat-window-header" id="docChatHeader">
+              <div class="doc-chat-partner-info">
+                <!-- زر الرجوع للموبايل -->
+                <button class="doc-mobile-back-btn" id="docMobileChatBackBtn" aria-label="الرجوع إلى قائمة المحادثات">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </button>
+
+                <!-- صورة المستفيد في الهيدر -->
+                <div class="doc-chat-header-avatar-wrap">
+                  <div class="doc-chat-header-avatar-monogram" id="docChatHeaderMonogram">أ</div>
+                  <img id="docChatHeaderAvatar" src="" alt="" class="doc-chat-header-avatar hidden" />
+                  <span class="doc-online-dot-badge" id="docChatHeaderOnlineDot"></span>
+                </div>
+
+                <div class="doc-chat-header-details">
+                  <h3 class="doc-chat-header-name" id="docChatHeaderName">أمل السلمي</h3>
+                  <div class="doc-chat-header-meta">
+                    <span class="doc-chat-header-role" id="docChatHeaderRole">مستفيدة • جلسات علاجية</span>
+                    <span class="doc-chat-online-status-pill is-active" id="docChatHeaderStatusPill">
+                      <span class="doc-chat-pulse-dot"></span>
+                      <span id="docChatHeaderStatusText">متصلة الآن</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- أدوات المحادثة والقائمة -->
+              <div class="doc-chat-actions-wrap">
+                <!-- شارة الجلسة القادمة -->
+                <div id="docChatNextSessionBadge" class="doc-next-session-badge">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                  </svg>
+                  <span id="docChatNextSessionText">جلسة قادمة</span>
+                </div>
+
+                <!-- قائمة الخيارات -->
+                <button class="doc-options-menu-btn" id="docChatOptionsBtn" aria-expanded="false" aria-label="خيارات المحادثة">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/>
+                  </svg>
+                </button>
+
+                <div class="doc-options-dropdown" id="docChatOptionsMenu" role="menu">
+                  <button class="doc-dropdown-opt-item" id="docOptBeneficiaryInfo" role="menuitem">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+                    </svg>
+                    <span>ملف المستفيد وتفاصيله</span>
+                  </button>
+                  <button class="doc-dropdown-opt-item" id="docOptSessionHistory" role="menuitem">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+                    </svg>
+                    <span>سجل الجلسات والتقارير</span>
+                  </button>
+                  <button class="doc-dropdown-opt-item" id="docOptMuteChat" role="menuitem">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
+                    </svg>
+                    <span>كتم الإشعارات</span>
+                  </button>
+                  <div class="doc-dropdown-divider"></div>
+                  <button class="doc-dropdown-opt-item is-danger" id="docOptClearChat" role="menuitem">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                    </svg>
+                    <span>مسح سجل المحادثة</span>
+                  </button>
+                </div>
+              </div>
+            </header>
+
+            <!-- حاوية الرسائل -->
+            <div class="doc-chat-messages-container" id="docChatMessagesContainer" role="log" aria-live="polite">
+              <!-- يتم حقن الرسائل بالجافاسكربت -->
+            </div>
+
+            <!-- مؤشر "جاري الكتابة..." -->
+            <div class="doc-typing-indicator-row" id="docTypingIndicator">
+              <div class="doc-message-avatar-wrap">
+                <div class="doc-message-avatar-monogram" id="docTypingAvatar">أ</div>
+              </div>
+              <div class="doc-typing-bubble">
+                <span class="doc-typing-dot"></span>
+                <span class="doc-typing-dot"></span>
+                <span class="doc-typing-dot"></span>
+              </div>
+            </div>
+
+            <!-- شريط الخصوصية والأمان -->
+            <div class="doc-privacy-notice-wrapper">
+              <div class="doc-privacy-notice-bar">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+                <span>محادثة خاصة ومشفرة، تخضع لأعلى معايير السرية الطبية في منصة ملاذ</span>
+              </div>
+            </div>
+
+            <!-- تذييل المحادثة (منطقة كتابة الرسالة) -->
+            <footer class="doc-chat-footer-wrapper">
+
+              <!-- شريحة الملف المرفق -->
+              <div class="doc-attached-file-pill" id="docAttachedFilePill">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+                </svg>
+                <span id="docAttachedFileName">ملف.pdf</span>
+                <span class="doc-attached-file-remove" id="docRemoveAttachBtn" title="إلغاء الملف">✕</span>
+              </div>
+
+              <!-- لوحة الرموز التعبيرية -->
+              <div class="doc-emoji-popover" id="docEmojiPopover" role="dialog" aria-label="الرموز التعبيرية">
+                <div class="doc-emoji-popover-header">الرموز التعبيرية الداعمة للمريض</div>
+                <div class="doc-emoji-grid" id="docEmojiGrid">
+                  <button type="button" class="doc-emoji-btn" data-emoji="❤️">❤️</button>
+                  <button type="button" class="doc-emoji-btn" data-emoji="🌸">🌸</button>
+                  <button type="button" class="doc-emoji-btn" data-emoji="😊">😊</button>
+                  <button type="button" class="doc-emoji-btn" data-emoji="🌿">🌿</button>
+                  <button type="button" class="doc-emoji-btn" data-emoji="🕊️">🕊️</button>
+                  <button type="button" class="doc-emoji-btn" data-emoji="👍">👍</button>
+                  <button type="button" class="doc-emoji-btn" data-emoji="🙏">🙏</button>
+                  <button type="button" class="doc-emoji-btn" data-emoji="🤍">🤍</button>
+                  <button type="button" class="doc-emoji-btn" data-emoji="☕">☕</button>
+                  <button type="button" class="doc-emoji-btn" data-emoji="✨">✨</button>
+                  <button type="button" class="doc-emoji-btn" data-emoji="💪">💪</button>
+                  <button type="button" class="doc-emoji-btn" data-emoji="🌟">🌟</button>
+                  <button type="button" class="doc-emoji-btn" data-emoji="🧘‍♀️">🧘‍♀️</button>
+                  <button type="button" class="doc-emoji-btn" data-emoji="🤲">🤲</button>
+                  <button type="button" class="doc-emoji-btn" data-emoji="🌼">🌼</button>
+                  <button type="button" class="doc-emoji-btn" data-emoji="🫂">🫂</button>
+                </div>
+              </div>
+
+              <!-- حقل الملف المخفي -->
+              <input type="file" id="docFileInput" hidden />
+
+              <!-- نموذج الإرسال -->
+              <form class="doc-chat-input-form" id="docChatForm">
+                <div class="doc-chat-tools-group">
+                  <button type="button" class="doc-chat-tool-btn" id="docAttachBtn" aria-label="إرفاق ملف" title="إرفاق ملف أو تقرير">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+                    </svg>
+                  </button>
+                  <button type="button" class="doc-chat-tool-btn" id="docEmojiBtn" aria-label="الرموز التعبيرية" title="الرموز التعبيرية">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="10"/>
+                      <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                      <line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>
+                    </svg>
+                  </button>
+                </div>
+
+                <div class="doc-chat-input-container">
+                  <input type="text" id="docChatInput" class="doc-chat-text-input" placeholder="اكتبي ملاحظاتك أو تعليماتك العلاجية هنا..." autocomplete="off" />
+                </div>
+
+                <button type="submit" class="doc-chat-send-btn" id="docSendBtn" aria-label="إرسال" title="إرسال الرسالة">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                  </svg>
+                </button>
+              </form>
+            </footer>
+
+          </div>
+        </div>
+
+      </section>
+
+   
+
+      <!-- =====================================================================
+           المشهد السادس: جدول التوفر (Availability Schedule)
+           ===================================================================== -->
+      <section id="view-schedule" class="doc-view">
+
+        <!-- 1. ترويسة عنوان الصفحة -->
+        <div class="doc-view-title-row">
+          <div class="flex items-center gap-3">
+            <div class="doc-title-icon-badge">
+              <svg class="icon ic-24 text-primary">
+                <use href="#i-calendar-clock" />
+              </svg>
+            </div>
+            <div>
+              <h1 class="doc-page-heading">جدول التوفر</h1>
+              <p class="text-xs text-muted mt-0.5">نظّمي أوقات عملك وحددي الفترات المتاحة لاستقبال حجوزات المستفيدين.
+              </p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <button type="button" class="doc-table-btn doc-btn-outline-blue" id="scheduleHeaderPreviewBtn"
+              title="معاينة الجدول كما يظهر للمستفيدين">
+              <svg class="icon ic-18">
+                <use href="#i-eye" />
+              </svg>
+              <span>معاينة الجدول</span>
+            </button>
+            <button type="button" class="doc-table-btn doc-btn-start-blue" id="scheduleHeaderSaveBtn"
+              title="حفظ جدول التوفر">
+              <svg class="icon ic-18">
+                <use href="#i-check" />
+              </svg>
+              <span>حفظ التغييرات</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. بطاقات الإحصائيات الأربع (Horizontal Substats Grid) -->
+        <div class="doc-stats-horizontal-card">
+          <div class="doc-substats-grid">
+
+            <!-- الكرت الأول: أيام العمل -->
+            <div class="doc-substat-card is-workdays">
+              <div class="doc-substat-top">
+                <div class="doc-substat-icon-wrap" style="background:#E5EEFF; color:#24558F;">
+                  <svg class="icon ic-20">
+                    <use href="#i-calendar" />
+                  </svg>
+                </div>
+                <span class="text-xs font-bold text-primary">أسبوعياً</span>
+              </div>
+              <div>
+                <div class="doc-substat-number">
+                  <span id="statScheduleWorkDays">5</span>
+                  <span class="text-xs font-semibold text-muted">أيام</span>
+                </div>
+                <div class="doc-substat-label">أيام العمل</div>
+                <p class="text-[11px] text-muted mt-0.5">عدد أيام العمل الأسبوعية المتاحة</p>
+              </div>
+            </div>
+
+            <!-- الكرت الثاني: ساعات العمل -->
+            <div class="doc-substat-card is-upcoming">
+              <div class="doc-substat-top">
+                <div class="doc-substat-icon-wrap" style="background:#EBF5FF; color:#3278C7;">
+                  <svg class="icon ic-20">
+                    <use href="#i-clock" />
+                  </svg>
+                </div>
+                <span class="text-xs font-bold text-primary">إجمالي</span>
+              </div>
+              <div>
+                <div class="doc-substat-number">
+                  <span id="statScheduleTotalHours">36</span>
+                  <span class="text-xs font-semibold text-muted">ساعة</span>
+                </div>
+                <div class="doc-substat-label">ساعات العمل</div>
+                <p class="text-[11px] text-muted mt-0.5">إجمالي ساعات العمل الأسبوعية</p>
+              </div>
+            </div>
+
+            <!-- الكرت الثالث: الفترات المتاحة -->
+            <div class="doc-substat-card is-completed">
+              <div class="doc-substat-top">
+                <div class="doc-substat-icon-wrap" style="background:#ECFDF5; color:#10B981;">
+                  <svg class="icon ic-20">
+                    <use href="#i-check" />
+                  </svg>
+                </div>
+                <span class="text-xs font-bold text-emerald-600">للحجز</span>
+              </div>
+              <div>
+                <div class="doc-substat-number text-emerald-600">
+                  <span id="statScheduleSlots">48</span>
+                  <span class="text-xs font-semibold text-emerald-700">فترة</span>
+                </div>
+                <div class="doc-substat-label">الفترات المتاحة</div>
+                <p class="text-[11px] text-muted mt-0.5">عدد الفترات القابلة للحجز أسبوعياً</p>
+              </div>
+            </div>
+
+            <!-- الكرت الرابع: أيام الإجازة -->
+            <div class="doc-substat-card is-vacation">
+              <div class="doc-substat-top">
+                <div class="doc-substat-icon-wrap" style="background:#FFFBEB; color:#D97706;">
+                  <svg class="icon ic-20">
+                    <use href="#i-coffee" />
+                  </svg>
+                </div>
+                <span class="text-xs font-bold text-amber-600">عطل وإجازات</span>
+              </div>
+              <div>
+                <div class="doc-substat-number text-amber-600">
+                  <span id="statScheduleOffDays">2</span>
+                  <span class="text-xs font-semibold text-amber-700">أيام</span>
+                </div>
+                <div class="doc-substat-label">أيام الإجازة</div>
+                <p class="text-[11px] text-muted mt-0.5">عدد الأيام غير المتاحة أسبوعياً</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 3. قسم أيام وساعات الدوام -->
+        <div class="doc-today-card">
+          <div class="doc-today-header">
+            <div class="doc-today-title-wrap">
+              <div class="doc-today-icon">
+                <svg class="icon ic-22">
+                  <use href="#i-clock" />
+                </svg>
+              </div>
+              <div>
+                <h2 class="doc-today-h">أيام وساعات العمل</h2>
+                <span class="doc-today-counter">حددي فترات الدوام الصباحية والمسائية لكل يوم من أيام الأسبوع</span>
+              </div>
+            </div>
+            <!-- الجهة المقابلة للعنوان: زر إضافة فترة عمل إضافية -->
+            <div>
+              <button type="button" class="doc-table-btn doc-btn-outline-blue" id="scheduleAddPeriodBtn">
+                <svg class="icon ic-16">
+                  <use href="#i-plus" />
+                </svg>
+                <span>إضافة فترة عمل إضافية</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- قائمة أيام الأسبوع السبعة -->
+          <div id="scheduleDaysContainer" class="doc-schedule-days-list">
+            <!-- يتم حقن أيام الأسبوع السبعة ديناميكياً مع فتراتها والـ Toggles -->
+          </div>
+        </div>
+
+        <!-- شبكة مكونة من قسمين: إعدادات الجلسات + الإجازات والأيام غير المتاحة -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+          <!-- 4. قسم إعدادات الجلسات والمواعيد -->
+          <div class="doc-today-card flex flex-col justify-between">
+            <div>
+              <div class="doc-today-header mb-4">
+                <div class="doc-today-title-wrap">
+                  <div class="doc-today-icon" style="background:#E5EEFF; color:#24558F;">
+                    <svg class="icon ic-22">
+                      <use href="#i-settings" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h2 class="doc-today-h">إعدادات الجلسات</h2>
+                    <span class="doc-today-counter">تخصيص قواعد الحجز وفترات الاستراحة</span>
+                  </div>
+                </div>
+              </div>
+
+              <form id="scheduleSettingsForm" class="space-y-4">
+                <!-- مدة الجلسة -->
+                <div class="doc-setting-row">
+                  <div class="doc-setting-info">
+                    <label for="settingSessionDuration" class="doc-setting-label">مدة الجلسة</label>
+                    <span class="doc-setting-desc">الزمن المخصص للجلسة الواحدة مع المستفيد</span>
+                  </div>
+                  <select id="settingSessionDuration" class="doc-filter-select w-44">
+                    <option value="30">30 دقيقة</option>
+                    <option value="45" selected>45 دقيقة</option>
+                    <option value="60">60 دقيقة</option>
+                  </select>
+                </div>
+
+                <!-- وقت الاستراحة بين الجلسات -->
+                <div class="doc-setting-row">
+                  <div class="doc-setting-info">
+                    <label for="settingBreakDuration" class="doc-setting-label">وقت الاستراحة بين الجلسات</label>
+                    <span class="doc-setting-desc">فترة راحة للأخصائية وتدوين الملاحظات</span>
+                  </div>
+                  <select id="settingBreakDuration" class="doc-filter-select w-44">
+                    <option value="5">5 دقائق</option>
+                    <option value="10" selected>10 دقائق</option>
+                    <option value="15">15 دقيقة</option>
+                  </select>
+                </div>
+
+                <!-- الحد الأقصى للجلسات يومياً -->
+                <div class="doc-setting-row">
+                  <div class="doc-setting-info">
+                    <label for="settingMaxDailySessions" class="doc-setting-label">الحد الأقصى للجلسات يومياً</label>
+                    <span class="doc-setting-desc">أقصى عدد جلسات يمكن حجزها في اليوم الواحد</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <input type="number" id="settingMaxDailySessions" class="doc-number-input" min="1" max="16"
+                      value="8" />
+                    <span class="text-xs text-muted font-bold">جلسات</span>
+                  </div>
+                </div>
+
+                <!-- الحد الأدنى للحجز المسبق -->
+                <div class="doc-setting-row">
+                  <div class="doc-setting-info">
+                    <label for="settingMinNoticeHours" class="doc-setting-label">الحد الأدنى للحجز المسبق</label>
+                    <span class="doc-setting-desc">أقل مهلة زمنية قبل موعد الجلسة لتأكيد الحجز</span>
+                  </div>
+                  <select id="settingMinNoticeHours" class="doc-filter-select w-44">
+                    <option value="1">قبل ساعة واحدة</option>
+                    <option value="2" selected>قبل ساعتين</option>
+                    <option value="6">قبل 6 ساعات</option>
+                    <option value="12">قبل 12 ساعة</option>
+                    <option value="24">قبل 24 ساعة (يوم)</option>
+                  </select>
+                </div>
+
+                <!-- فترة السماح بالحجز المستقبلي -->
+                <div class="doc-setting-row">
+                  <div class="doc-setting-info">
+                    <label for="settingBookingWindowDays" class="doc-setting-label">فترة السماح بالحجز المستقبلي</label>
+                    <span class="doc-setting-desc">أقصى مدى زمني متاح في المستقبل يمكن للمستفيدين حجزه</span>
+                  </div>
+                  <select id="settingBookingWindowDays" class="doc-filter-select w-44">
+                    <option value="7">7 أيام (أسبوع)</option>
+                    <option value="15">15 يوماً (أسبوعان)</option>
+                    <option value="30" selected>30 يوماً (شهر)</option>
+                  </select>
+                </div>
+
+                <!-- ملخص الإعدادات الذكي -->
+                <div class="doc-settings-summary-banner">
+                  <svg class="icon ic-18 text-primary flex-shrink-0">
+                    <use href="#i-info" />
+                  </svg>
+                  <p id="scheduleSettingsSummaryText" class="text-xs leading-relaxed text-ink font-medium">
+                    وفق إعداداتك: كل جلسة مدتها 45 دقيقة تليها 10 دقائق استراحة، بحد أقصى 8 جلسات باليوم وبمهلة حجز
+                    ساعتين.
+                  </p>
+                </div>
+              </form>
+            </div>
+
+            <!-- زر حفظ التغييرات في آخر الكرت -->
+            <div class="pt-4 border-t border-line flex items-center justify-between mt-4">
+              <span class="text-xs text-muted font-medium">يتم تطبيق الإعدادات فوراً على نظام الحجوزات</span>
+              <button type="button" class="doc-table-btn doc-btn-start-blue" id="scheduleSaveSettingsBtn">
+                <svg class="icon ic-18">
+                  <use href="#i-check" />
+                </svg>
+                <span>حفظ التغييرات</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 5. قسم الإجازات والأيام غير المتاحة -->
+          <div class="doc-today-card flex flex-col justify-between">
+            <div>
+              <div class="doc-today-header mb-4">
+                <div class="doc-today-title-wrap">
+                  <div class="doc-today-icon" style="background:#FFFBEB; color:#D97706;">
+                    <svg class="icon ic-22">
+                      <use href="#i-coffee" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h2 class="doc-today-h">الإجازات والأيام غير المتاحة</h2>
+                    <span class="doc-today-counter">إدارة الإجازات السنوية والمؤتمرات والعطل الطارئة</span>
+                  </div>
+                </div>
+                <button type="button" class="doc-table-btn doc-btn-outline-blue" id="scheduleAddVacationBtn">
+                  <svg class="icon ic-16">
+                    <use href="#i-plus" />
+                  </svg>
+                  <span>إضافة إجازة</span>
+                </button>
+              </div>
+
+              <!-- قائمة الإجازات المسجلة -->
+              <div id="scheduleVacationsList" class="space-y-2.5 max-h-[380px] overflow-y-auto pr-0.5">
+                <!-- يتم حقن كروت الإجازات المسجلة بالجافاسكربت -->
+              </div>
+            </div>
+
+            <div
+              class="pt-3 border-t border-line mt-4 flex items-center justify-between text-xs text-muted font-medium">
+              <span>تُحجب جميع الفترات الزمنية تلقائياً في أيام الإجازات المسجلة.</span>
+              <span id="scheduleVacationsCountBadge" class="font-bold text-primary">2 إجازات مسجلة</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 6. قسم معاينة الفترات المتاحة للحجز -->
+        <div class="doc-today-card">
+          <div class="doc-preview-card-header">
+            <!-- الجانب الأيمن: العنوان -->
+            <div class="doc-today-title-wrap">
+              <div class="doc-today-icon">
+                <svg class="icon ic-22">
+                  <use href="#i-calendar" />
+                </svg>
+              </div>
+              <div>
+                <h2 class="doc-today-h">الفترات المتاحة للحجز</h2>
+              </div>
+            </div>
+
+            <!-- في الوسط: شريط اختيار التاريخ -->
+            <div class="doc-date-picker-bar">
+              <button type="button" id="schedulePrevDayBtn" class="doc-date-nav-btn" title="اليوم السابق"
+                aria-label="اليوم السابق">
+                <svg class="icon ic-16">
+                  <use href="#i-chevron-right" />
+                </svg>
+              </button>
+
+              <div class="doc-date-current-wrap">
+                <button type="button" id="scheduleDatePickerTriggerBtn" class="doc-date-picker-trigger"
+                  title="انقر لاختيار تاريخ محدد">
+                  <svg class="icon ic-16 text-primary">
+                    <use href="#i-calendar" />
+                  </svg>
+                  <span id="scheduleSelectedDateDisplay" class="font-bold text-sm text-ink">السبت، 14 نوفمبر 2026</span>
+                </button>
+              </div>
+
+              <button type="button" id="scheduleNextDayBtn" class="doc-date-nav-btn" title="اليوم التالي"
+                aria-label="اليوم التالي">
+                <svg class="icon ic-16">
+                  <use href="#i-chevron-left" />
+                </svg>
+              </button>
+
+              <button type="button" id="scheduleTodayBtn" class="doc-date-today-btn">اليوم</button>
+            </div>
+
+            <!-- الجنب الآخر: زر معاينة الجدول بالتفصيل -->
+            <div>
+              <button type="button" class="doc-table-btn doc-btn-start-blue" id="scheduleDetailedModalBtn">
+                <svg class="icon ic-18">
+                  <use href="#i-eye" />
+                </svg>
+                <span>معاينة الجدول بالتفصيل</span>
+              </button>
+            </div>
+          </div>
+
+          
+
+          <!-- شبكة عرض الفترات المختصرة التفاعلية -->
+          <div id="scheduleQuickSlotsGrid" class="doc-quick-slots-grid">
+            <!-- يتم حقن الفترات الناتجة بالجافاسكربت -->
+          </div>
+        </div>
+
+      </section>
+
+      <!-- =====================================================================
+           المشهد السابع: الملف الشخصي للأخصائي (Doctor Profile View)
+           ===================================================================== -->
+   
+<section id="view-profile" class="doc-view">
+
+  <!-- عنوان الصفحة -->
+  <div class="page-header">
+    <div class="page-header-icon">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+      </svg>
+    </div>
+    <div class="page-header-text">
+      <h1>الملف الشخصي</h1>
+      <p>إدارة بياناتك الشخصية والمهنية وتحديث معلوماتك المعروضة للمستفيدين</p>
+    </div>
+  </div>
+
+  <!-- البطاقة الرئيسية لبيانات الأخصائي (Hero Card) -->
+  <div class="hero-card">
+    <div class="hero-right-group">
+      <!-- صورة الأخصائي -->
+      <div class="avatar-wrapper">
+        <img src="assets/specialist-sara.jpg" alt="د. سارة العتيبي" class="hero-avatar" id="heroAvatarImg">
+        <input type="file" id="avatarFileInput" accept="image/*" hidden>
+        <button type="button" class="camera-upload-btn" id="changeAvatarBtn" title="تغيير الصورة الشخصية">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+            <circle cx="12" cy="13" r="4"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- المعلومات الأساسية -->
+      <div class="hero-basic-info">
+        <h2 class="hero-name" id="heroFullName">د. سارة العتيبي</h2>
+        <div class="hero-role-badge">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/>
+          </svg>
+          <span id="heroJobTitle">أخصائية نفسية</span>
+        </div>
+        <p class="hero-specialty">التخصص الرئيسي: <span id="heroMainSpecialty">علم النفس الإكلينيكي</span></p>
+      </div>
+
+      <div class="hero-vertical-divider"></div>
+
+      <!-- معلومات الحساب -->
+      <div class="hero-account-meta">
+        <div class="meta-row">
+          <div class="meta-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+          </div>
+          <div class="meta-text">
+            <span class="meta-label">تاريخ الانضمام</span>
+            <span class="meta-value" id="heroJoinDate">2025/01/15</span>
+          </div>
+        </div>
+
+        <div class="meta-row">
+          <div class="meta-icon" style="background: transparent;">
+            <span class="status-dot"></span>
+          </div>
+          <div class="meta-text">
+            <span class="meta-label">حالة الحساب</span>
+            <div class="status-active-wrap">
+              <span class="status-text" id="heroAccountStatus">نشط</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- أزرار البطاقة الرئيسية -->
+    <div class="hero-actions">
+      <button type="button" class="btn btn-outline-primary" id="openPreviewModalBtn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+          <circle cx="12" cy="12" r="3"/>
+        </svg>
+        <span>معاينة الملف الشخصي</span>
+      </button>
+      <button type="button" class="btn btn-primary" id="heroQuickEditBtn">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+        </svg>
+        <span>تعديل الملف الشخصي</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- شريط أقسام الملف الشخصي (6 Tabs) -->
+  <nav class="tabs-bar" role="tablist" aria-label="أقسام الملف الشخصي">
+    <button type="button" class="tab-btn active" data-tab="personal">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+      <span>المعلومات الشخصية</span>
+    </button>
+    <button type="button" class="tab-btn" data-tab="professional">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/></svg>
+      <span>المعلومات المهنية</span>
+    </button>
+    <button type="button" class="tab-btn" data-tab="certificates">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
+      <span>الشهادات والمؤهلات</span>
+    </button>
+    <button type="button" class="tab-btn" data-tab="experiences">
+      <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <span>الخبرات المهنية</span>
+    </button>
+    <button type="button" class="tab-btn" data-tab="services">
+      <svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+      <span>الخدمات والاستشارات</span>
+    </button>
+    <button type="button" class="tab-btn" data-tab="account">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      <span>إعدادات الحساب</span>
+    </button>
+  </nav>
+
+  <!-- التبويب 1: المعلومات الشخصية -->
+  <div class="tab-panel active" id="panel-personal">
+    <div class="section-card">
+      <div class="card-header">
+        <div class="card-title-group">
+          <div class="card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+          </div>
+          <div>
+            <h2>المعلومات الشخصية</h2>
+            <p>بياناتك الشخصية الأساسية ومعلومات التواصل</p>
+          </div>
+        </div>
+        <button type="button" class="btn btn-outline-primary" id="editPersonalBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+          <span>تعديل البيانات</span>
+        </button>
+      </div>
+
+      <div id="personalViewMode" class="info-grid"></div>
+
+      <form id="personalEditForm" style="display: none;" novalidate>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="inputFullName">الاسم الكامل *</label>
+            <input type="text" id="inputFullName" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail">البريد الإلكتروني *</label>
+            <input type="email" id="inputEmail" class="form-control" dir="ltr" required>
+          </div>
+          <div class="form-group">
+            <label for="inputPhone">رقم الهاتف *</label>
+            <input type="tel" id="inputPhone" class="form-control" dir="ltr" required>
+          </div>
+          <div class="form-group">
+            <label for="inputBirthDate">تاريخ الميلاد *</label>
+            <input type="date" id="inputBirthDate" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="inputGender">الجنس *</label>
+            <select id="inputGender" class="form-control">
+              <option value="أنثى">أنثى</option>
+              <option value="ذكر">ذكر</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="inputCity">المدينة *</label>
+            <input type="text" id="inputCity" class="form-control" required>
+          </div>
+          <div class="form-group full-width">
+            <label for="inputAddress">العنوان الكامل *</label>
+            <input type="text" id="inputAddress" class="form-control" required>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" id="cancelPersonalBtn">إلغاء</button>
+          <button type="submit" class="btn btn-primary">حفظ التغييرات</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- التبويب 2: المعلومات المهنية -->
+  <div class="tab-panel" id="panel-professional">
+    <div class="section-card">
+      <div class="card-header">
+        <div class="card-title-group">
+          <div class="card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/></svg>
+          </div>
+          <div>
+            <h2>المعلومات المهنية</h2>
+            <p>معلوماتك التخصصية، المؤهل العلمي، والنبذة التعريفية للمستفيدين</p>
+          </div>
+        </div>
+        <button type="button" class="btn btn-outline-primary" id="editProfBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+          <span>تعديل المعلومات المهنية</span>
+        </button>
+      </div>
+
+      <div id="profViewMode" class="info-grid"></div>
+
+      <form id="profEditForm" style="display: none;" novalidate>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="inputJobTitle">المسمى الوظيفي *</label>
+            <input type="text" id="inputJobTitle" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="inputMainSpec">التخصص الرئيسي *</label>
+            <input type="text" id="inputMainSpec" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="inputDegree">المؤهل العلمي *</label>
+            <input type="text" id="inputDegree" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="inputUniversity">الجامعة / الجهة التعليمية *</label>
+            <input type="text" id="inputUniversity" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="inputGradYear">سنة التخرج *</label>
+            <input type="number" id="inputGradYear" class="form-control" min="1970" max="2030" required>
+          </div>
+          <div class="form-group">
+            <label for="inputExpYears">عدد سنوات الخبرة *</label>
+            <input type="number" id="inputExpYears" class="form-control" min="0" max="50" required>
+          </div>
+          <div class="form-group">
+            <label for="inputLanguages">اللغات (افصل بينها بفاصلة) *</label>
+            <input type="text" id="inputLanguages" class="form-control" placeholder="مثال: العربية، الإنجليزية" required>
+          </div>
+          <div class="form-group">
+            <label>التخصصات الفرعية</label>
+            <div class="tag-input-row">
+              <input type="text" id="newSubSpecInput" class="form-control" placeholder="أضف تخصصاً فرعياً...">
+              <button type="button" class="btn btn-primary" id="addSubSpecBtn" style="padding: 0 18px;">إضافة</button>
+            </div>
+            <div class="tags-list" id="editSubSpecsList" style="margin-top: 8px;"></div>
+          </div>
+          <div class="form-group full-width">
+            <label for="inputBio">نبذة تعريفية عن الأخصائي *</label>
+            <textarea id="inputBio" class="form-control" rows="4" required></textarea>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" id="cancelProfBtn">إلغاء</button>
+          <button type="submit" class="btn btn-primary">حفظ التغييرات</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- التبويب 3: الشهادات والمؤهلات -->
+  <div class="tab-panel" id="panel-certificates">
+    <div class="section-card">
+      <div class="card-header">
+        <div class="card-title-group">
+          <div class="card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
+          </div>
+          <div>
+            <h2>الشهادات والمؤهلات</h2>
+            <p>شهاداتك العلمية والدورات التدريبية المعتمدة</p>
+          </div>
+        </div>
+        <button type="button" class="btn btn-primary" id="openAddCertModalBtn">
+          <span>+ إضافة شهادة</span>
+        </button>
+      </div>
+      <div class="certificates-grid" id="certificatesGrid"></div>
+    </div>
+  </div>
+
+  <!-- التبويب 4: الخبرات المهنية -->
+  <div class="tab-panel" id="panel-experiences">
+    <div class="section-card">
+      <div class="card-header">
+        <div class="card-title-group">
+          <div class="card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <div>
+            <h2>الخبرات المهنية</h2>
+            <p>خبراتك العملية ومسيرتك المهنية في المجال النفسي</p>
+          </div>
+        </div>
+        <button type="button" class="btn btn-primary" id="openAddExpModalBtn">
+          <span>+ إضافة خبرة</span>
+        </button>
+      </div>
+      <div class="experience-list" id="experiencesList"></div>
+    </div>
+  </div>
+
+  <!-- التبويب 5: الخدمات والاستشارات -->
+  <div class="tab-panel" id="panel-services">
+    <div class="section-card">
+      <div class="card-header">
+        <div class="card-title-group">
+          <div class="card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+          </div>
+          <div>
+            <h2>الخدمات والاستشارات</h2>
+            <p>حدد الخدمات وأنواع الجلسات التي تقدمها للمستفيدين عبر المنصة</p>
+          </div>
+        </div>
+        <button type="button" class="btn btn-primary" id="saveServicesBtn">
+          <span>حفظ إعدادات الخدمات</span>
+        </button>
+      </div>
+
+      <h3 class="services-sub-title">الخدمات الاستشارية المتاحة</h3>
+      <div class="services-grid" id="servicesToggleGrid"></div>
+
+      <h3 class="services-sub-title">أنواع الجلسات المقدمة</h3>
+      <div class="services-grid" id="sessionTypesGrid" style="margin-bottom: 0;"></div>
+    </div>
+  </div>
+
+  <!-- التبويب 6: إعدادات الحساب -->
+  <div class="tab-panel" id="panel-account">
+    <div class="section-card">
+      <div class="card-header">
+        <div class="card-title-group">
+          <div class="card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <div>
+            <h2>إعدادات الحساب والأمان</h2>
+            <p>إدارة البريد الإلكتروني المرتبط وتحديث كلمة المرور</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-row-item" style="margin-bottom: 24px; max-width: 540px;">
+        <span class="info-label">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <span>البريد الإلكتروني المرتبط بالحساب</span>
+        </span>
+        <span class="info-value" id="accountEmailDisplay" dir="ltr">sara@example.com</span>
+      </div>
+
+      <h3 class="services-sub-title">تغيير كلمة المرور</h3>
+      <form id="changePasswordForm" style="max-width: 540px;" novalidate>
+        <div class="form-grid" style="grid-template-columns: 1fr;">
+          <div class="form-group">
+            <label for="currentPassword">كلمة المرور الحالية *</label>
+            <div class="password-input-wrap">
+              <input type="password" id="currentPassword" class="form-control" placeholder="أدخل كلمة المرور الحالية" required>
+              <button type="button" class="toggle-pass-btn" data-target="currentPassword" aria-label="إظهار كلمة المرور">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="newPassword">كلمة المرور الجديدة *</label>
+            <div class="password-input-wrap">
+              <input type="password" id="newPassword" class="form-control" placeholder="8 أحرف على الأقل" required>
+              <button type="button" class="toggle-pass-btn" data-target="newPassword" aria-label="إظهار كلمة المرور">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="confirmPassword">تأكيد كلمة المرور الجديدة *</label>
+            <div class="password-input-wrap">
+              <input type="password" id="confirmPassword" class="form-control" placeholder="أعد كتابة كلمة المرور الجديدة" required>
+              <button type="button" class="toggle-pass-btn" data-target="confirmPassword" aria-label="إظهار كلمة المرور">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions" style="justify-content: flex-start; border-top: none; padding-top: 10px;">
+          <button type="submit" class="btn btn-primary">تحديث كلمة المرور</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       <!-- =====================================================================
            المشهد الثاني: إدارة المواعيد (Appointments Manager View)
            ===================================================================== -->
-      <section id="view-appointments" class="doc-view is-active">
+      <section id="view-appointments" class="doc-view">
 
         <!-- الترويسة العلوية لإدارة المواعيد -->
         <div class="doc-view-title-row">
@@ -558,7 +1624,9 @@
           <div class="doc-today-header">
             <div class="doc-today-title-wrap">
               <div class="doc-today-icon">
-                <svg class="icon ic-22"><use href="#i-calendar"/></svg>
+                <svg class="icon ic-22">
+                  <use href="#i-calendar" />
+                </svg>
               </div>
               <div>
                 <h2 class="doc-today-h">قائمة المواعيد</h2>
@@ -568,10 +1636,12 @@
 
             <!-- أدوات الفرز والبحث المدمجة -->
             <div class="doc-table-controls-wrap">
-              
+
               <!-- تصفية حسب نوع الاستشارة مع أيقونة الفلترة قبلها -->
               <div class="doc-filter-wrap">
-                <svg class="icon ic-16 doc-filter-icon"><use href="#i-filter"/></svg>
+                <svg class="icon ic-16 doc-filter-icon">
+                  <use href="#i-filter" />
+                </svg>
                 <select id="apptsTypeFilter" class="doc-filter-select" aria-label="تصفية حسب نوع الاستشارة">
                   <option value="">جميع أنواع الجلسات</option>
                   <option value="استشارة نفسية فردية">استشارة نفسية فردية</option>
@@ -594,7 +1664,8 @@
               <span>مواعيد اليوم</span>
               <span id="tabBadgeToday" class="doc-tab-count">3</span>
             </button>
-            <button type="button" class="doc-tab-btn is-active" data-appts-tab="upcoming" role="tab" aria-selected="true">
+            <button type="button" class="doc-tab-btn is-active" data-appts-tab="upcoming" role="tab"
+              aria-selected="true">
               <span>المواعيد القادمة</span>
               <span id="tabBadgeUpcoming" class="doc-tab-count">8</span>
             </button>
@@ -623,230 +1694,36 @@
 
 
 
-          </div>
-
-          <!-- جدول المواعيد المنظم بنظام RTL -->
-          <div class="doc-table-wrap">
-            <table class="doc-table" aria-label="جدول إدارة المواعيد">
-              <thead>
-                <tr>
-                  <th scope="col">المستفيد</th>
-                  <th scope="col">التاريخ</th>
-                  <th scope="col">الوقت</th>
-                  <th scope="col">نوع الجلسة</th>
-                  <th scope="col">الحالة</th>
-                  <th scope="col" style="text-align:center;">الإجراءات</th>
-                </tr>
-              </thead>
-              <tbody id="apptsManagerTableBody">
-                <!-- يتم توليد صفوف المواعيد بواسطة JavaScript -->
-              </tbody>
-            </table>
-          </div>
-
         </div>
 
-      </section>
-
-      <!-- =====================================================================
-           المشهد الثالث: المستفيدون (Beneficiaries View)
-           ===================================================================== -->
-      <section id="view-beneficiaries" class="doc-view">
-        <div class="doc-today-card">
-          <div class="flex items-center justify-between pb-3 border-b border-line">
-            <div>
-              <h2 class="doc-today-h">سجل المستفيدين والحالات</h2>
-              <p class="text-xs text-muted mt-1">الملفات السريرية للمستفيدين تحت إشرافك ومتابعة تقدمهم.</p>
-            </div>
-          </div>
-          <div id="beneficiariesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
-            <!-- يتم حقن البطاقات بالجافاسكربت -->
-          </div>
+        <!-- جدول المواعيد المنظم بنظام RTL -->
+        <div class="doc-table-wrap">
+          <table class="doc-table" aria-label="جدول إدارة المواعيد">
+            <thead>
+              <tr>
+                <th scope="col">المستفيد</th>
+                <th scope="col">التاريخ</th>
+                <th scope="col">الوقت</th>
+                <th scope="col">نوع الجلسة</th>
+                <th scope="col">الحالة</th>
+                <th scope="col" style="text-align:center;">الإجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="apptsManagerTableBody">
+              <!-- يتم توليد صفوف المواعيد بواسطة JavaScript -->
+            </tbody>
+          </table>
         </div>
-      </section>
 
-      <!-- =====================================================================
-           المشهد الرابع: الاستشارات والمحادثات (Doctor Consultations & Messages)
-           ===================================================================== -->
-      <section id="view-consultations" class="doc-view">
-        <div class="doc-today-card">
-          <div class="pb-3 border-b border-line">
-            <h2 class="doc-today-h">المحادثات والاستشارات السرية</h2>
-            <p class="text-xs text-muted mt-1">قناة تواصل مشفرة ومباشرة مع المستفيدين المسجلين في جدولك.</p>
-          </div>
-          <div class="p-6 text-center text-muted bg-bg-soft rounded-2xl border border-line">
-            <svg class="icon ic-32 text-primary mx-auto mb-2">
-              <use href="#i-message-square" />
-            </svg>
-            <h3 class="font-bold text-ink text-base">غرفة المحادثات المهنية للأخصائي</h3>
-            <p class="text-xs max-w-md mx-auto mt-1">جميع المراسلات بين الأخصائي والمستفيد تخضع لأعلى معايير التشفير
-              والسرية الطبية لمنصة ملاذ.</p>
-            <button type="button" class="btn btn-solid btn-sm mt-4"
-              onclick="showToast('جارِ مزامنة قنوات المحادثة الآمنة...')">
-              تحديث الرسائل
-            </button>
-          </div>
-        </div>
-      </section>
 
-      <!-- =====================================================================
-           المشهد الخامس: الجلسات والتقارير (Sessions & Reports)
-           ===================================================================== -->
-      <section id="view-reports" class="doc-view">
-        <div class="doc-today-card">
-          <div class="flex items-center justify-between pb-3 border-b border-line">
-            <div>
-              <h2 class="doc-today-h">التقارير السريرية وخلاصات الجلسات</h2>
-              <p class="text-xs text-muted mt-1">توثيق التوصيات العلاجية والخطط السلوكية المعتمدة.</p>
-            </div>
-            <button type="button" class="btn btn-solid btn-sm"
-              onclick="showToast('تم فتح محرر التقرير السريري الجديد')">
-              <span>إنشاء تقرير جديد</span>
-            </button>
-          </div>
-          <div class="space-y-3 mt-2">
-            <div class="p-4 rounded-xl border border-line flex items-center justify-between">
-              <div>
-                <h4 class="font-bold text-sm text-ink">تقرير متابعة مسار التعافي (اليوم 42) - محمد العتيبي</h4>
-                <p class="text-xs text-muted">التشخيص: تقدم إيجابي في إدارة محفزات التوتر • 6 نوفمبر 2026</p>
-              </div>
-              <button type="button" class="btn btn-outline btn-sm"
-                onclick="showToast('تم تحميل التقرير بصيغة PDF المشفرة')">طباعة التقرير</button>
-            </div>
-            <div class="p-4 rounded-xl border border-line flex items-center justify-between">
-              <div>
-                <h4 class="font-bold text-sm text-ink">تقرير التقييم المبدئي - سارة القحطاني</h4>
-                <p class="text-xs text-muted">التشخيص: اضطراب القلق التكيفي • 4 نوفمبر 2026</p>
-              </div>
-              <button type="button" class="btn btn-outline btn-sm"
-                onclick="showToast('تم تحميل التقرير بصيغة PDF المشفرة')">طباعة التقرير</button>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      <!-- =====================================================================
-           المشهد السادس: جدول التوفر (Availability Schedule)
-           ===================================================================== -->
-      <section id="view-schedule" class="doc-view">
-        <div class="doc-today-card">
-          <div class="pb-3 border-b border-line">
-            <h2 class="doc-today-h">جدول توفر الأخصائي وساعات العمل</h2>
-            <p class="text-xs text-muted mt-1">تحديد الأيام وساعات الاستشارات الصباحية والمسائية المتاحة للمستفيدين.</p>
-          </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 mt-2 text-center text-xs">
-            <div class="p-3 rounded-xl bg-bg-soft border border-line">
-              <span class="font-bold block mb-1">الأحد</span>
-              <span class="text-emerald-600 font-bold">09:00 ص - 01:00 م</span>
-              <span class="text-primary font-bold block mt-1">04:00 م - 08:00 م</span>
-            </div>
-            <div class="p-3 rounded-xl bg-bg-soft border border-line">
-              <span class="font-bold block mb-1">الاثنين</span>
-              <span class="text-emerald-600 font-bold">09:00 ص - 01:00 م</span>
-              <span class="text-primary font-bold block mt-1">04:00 م - 08:00 م</span>
-            </div>
-            <div class="p-3 rounded-xl bg-bg-soft border border-line">
-              <span class="font-bold block mb-1">الثلاثاء</span>
-              <span class="text-emerald-600 font-bold">09:00 ص - 01:00 م</span>
-              <span class="text-primary font-bold block mt-1">04:00 م - 08:00 م</span>
-            </div>
-            <div class="p-3 rounded-xl bg-bg-soft border border-line">
-              <span class="font-bold block mb-1">الأربعاء</span>
-              <span class="text-emerald-600 font-bold">09:00 ص - 01:00 م</span>
-              <span class="text-primary font-bold block mt-1">04:00 م - 08:00 م</span>
-            </div>
-            <div class="p-3 rounded-xl bg-bg-soft border border-line">
-              <span class="font-bold block mb-1">الخميس</span>
-              <span class="text-emerald-600 font-bold">09:00 ص - 02:00 م</span>
-              <span class="text-muted block mt-1">مساءً: غير متاح</span>
-            </div>
-          </div>
-          <div class="pt-3 border-t border-line flex justify-end">
-            <button type="button" class="btn btn-solid btn-sm"
-              onclick="showToast('تم حفظ وتحديث جدول التوفر في المنصة بنجاح')">
-              حفظ وتطبيق جدول التوفر
-            </button>
-          </div>
-        </div>
-      </section>
+  </div>
 
-      <!-- =====================================================================
-           المشهد السابع: الملف الشخصي للأخصائي (Doctor Profile View)
-           ===================================================================== -->
-      <section id="view-profile" class="doc-view">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+  </section>
 
-          <!-- بطاقة المعاينة السريعة -->
-          <div class="doc-today-card text-center flex flex-col items-center">
-            <img src="assets/specialist-sara.jpg" alt=""
-              class="w-24 h-24 rounded-full object-cover border-4 border-[#E5EEFF] shadow-sm mb-3" />
-            <h3 id="cardDoctorName" class="font-extrabold text-xl text-ink">د. سارة العتيبي</h3>
-            <p id="cardDoctorTitle" class="text-xs text-primary font-bold mt-0.5">أخصائية في علم النفس العلاجي</p>
-            <p id="cardDoctorLicense" class="text-[11px] text-muted mt-1 font-semibold">رخصة هيئة التخصصات: PSY-88492
-            </p>
 
-            <div class="w-full pt-4 mt-4 border-t border-line text-xs space-y-2 text-start">
-              <div class="flex justify-between">
-                <span class="text-muted">المنصة:</span>
-                <span class="font-bold text-ink">ملاذ للاستشارات النفسية</span>
-              </div>
-              <div class="flex justify-between">
-                <span class="text-muted">حالة الحساب:</span>
-                <span class="text-emerald-600 font-bold">معتمد وموثق ✓</span>
-              </div>
-            </div>
-          </div>
 
-          <!-- نموذج تعديل الملف الشخصي -->
-          <div class="doc-today-card lg:col-span-2">
-            <div class="pb-3 border-b border-line">
-              <h3 class="font-extrabold text-lg text-ink">تعديل بيانات الملف الشخصي للأخصائي</h3>
-              <p class="text-xs text-muted mt-0.5">يتم تحديث الاسم والبيانات تلقائياً في البانر وأعلى اللوحة.</p>
-            </div>
-
-            <form id="doctorProfileForm" class="space-y-4 mt-2">
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label for="profileDoctorName" class="block text-xs font-bold text-ink mb-1.5">اسم الأخصائي (يظهر في
-                    البانر والترحيب):</label>
-                  <input type="text" id="profileDoctorName" class="doc-search-input" required />
-                </div>
-                <div>
-                  <label for="profileDoctorTitle" class="block text-xs font-bold text-ink mb-1.5">المسمى الوظيفي /
-                    التخصص السريري:</label>
-                  <input type="text" id="profileDoctorTitle" class="doc-search-input" />
-                </div>
-              </div>
-
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label for="profileDoctorLicense" class="block text-xs font-bold text-ink mb-1.5">رقم الترخيص
-                    المهني:</label>
-                  <input type="text" id="profileDoctorLicense" class="doc-search-input" />
-                </div>
-                <div>
-                  <label for="profileDoctorPhone" class="block text-xs font-bold text-ink mb-1.5">رقم الهاتف
-                    المهني:</label>
-                  <input type="text" id="profileDoctorPhone" class="doc-search-input" />
-                </div>
-              </div>
-
-              <div>
-                <label for="profileDoctorBio" class="block text-xs font-bold text-ink mb-1.5">نبذة مختصرة عن الخبرة
-                  والمسار:</label>
-                <textarea id="profileDoctorBio" rows="3" class="doc-textarea"></textarea>
-              </div>
-
-              <div class="pt-3 border-t border-line flex justify-end gap-3">
-                <button type="submit" class="btn btn-solid btn-sm">حفظ التغييرات الآن</button>
-              </div>
-            </form>
-          </div>
-
-        </div>
-      </section>
-
-    </main>
+  </main>
 
   </div>
 
@@ -1034,18 +1911,23 @@
   </div>
 
   <!-- 2-ب. نافذة تعديل بيانات وحقول الموعد بالكامل -->
-  <div id="doctorEditApptModal" class="doc-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="editApptModalTitle">
+  <div id="doctorEditApptModal" class="doc-modal-overlay" role="dialog" aria-modal="true"
+    aria-labelledby="editApptModalTitle">
     <div class="doc-modal-box modal-xl">
       <div class="doc-modal-header">
         <div>
           <h3 id="editApptModalTitle" class="doc-modal-title">
-            <svg class="icon ic-20 text-primary"><use href="#i-edit"/></svg>
+            <svg class="icon ic-20 text-primary">
+              <use href="#i-edit" />
+            </svg>
             <span>تعديل بيانات وحقول الموعد</span>
           </h3>
           <p class="text-xs text-muted mt-0.5">تحديث كافة تفاصيل الموعد الإكلينيكي وحالة الحجز للمستفيد.</p>
         </div>
         <button type="button" class="doc-modal-close-btn" data-close-modal="#doctorEditApptModal" aria-label="إغلاق">
-          <svg class="icon ic-20"><use href="#i-x"/></svg>
+          <svg class="icon ic-20">
+            <use href="#i-x" />
+          </svg>
         </button>
       </div>
 
@@ -1147,14 +2029,18 @@
 
         <!-- ملاحظات الحجز والتوصيات السريرية -->
         <div>
-          <label for="editApptNotes" class="block text-xs font-bold text-ink mb-1">ملاحظات الحجز والتوصيات السريرية:</label>
-          <textarea id="editApptNotes" rows="3" class="doc-textarea" placeholder="اكتب الملاحظات والتوصيات السريرية هنا..."></textarea>
+          <label for="editApptNotes" class="block text-xs font-bold text-ink mb-1">ملاحظات الحجز والتوصيات
+            السريرية:</label>
+          <textarea id="editApptNotes" rows="3" class="doc-textarea"
+            placeholder="اكتب الملاحظات والتوصيات السريرية هنا..."></textarea>
         </div>
 
         <div class="pt-3 border-t border-line flex items-center justify-end gap-3">
           <button type="button" class="btn btn-outline btn-sm" data-close-modal="#doctorEditApptModal">إلغاء</button>
           <button type="submit" class="btn btn-solid btn-sm">
-            <svg class="icon ic-16"><use href="#i-check"/></svg>
+            <svg class="icon ic-16">
+              <use href="#i-check" />
+            </svg>
             <span>حفظ كافة التعديلات</span>
           </button>
         </div>
@@ -1163,18 +2049,24 @@
   </div>
 
   <!-- 2-ج. نافذة عرض التقرير الطبي والملاحظات للمواعيد التي تمت -->
-  <div id="doctorSessionReportModal" class="doc-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="sessionReportModalTitle">
+  <div id="doctorSessionReportModal" class="doc-modal-overlay" role="dialog" aria-modal="true"
+    aria-labelledby="sessionReportModalTitle">
     <div class="doc-modal-box modal-xl">
       <div class="doc-modal-header">
         <div>
           <h3 id="sessionReportModalTitle" class="doc-modal-title">
-            <svg class="icon ic-20 text-emerald-600"><use href="#i-file-text"/></svg>
+            <svg class="icon ic-20 text-emerald-600">
+              <use href="#i-file-text" />
+            </svg>
             <span>التقرير السريري وملاحظات الجلسة</span>
           </h3>
           <p class="text-xs text-muted mt-0.5">سجل التقييم والتوصيات الإكلينيكية المكتوبة للمستفيد بعد إتمام الجلسة.</p>
         </div>
-        <button type="button" class="doc-modal-close-btn" data-close-modal="#doctorSessionReportModal" aria-label="إغلاق">
-          <svg class="icon ic-20"><use href="#i-x"/></svg>
+        <button type="button" class="doc-modal-close-btn" data-close-modal="#doctorSessionReportModal"
+          aria-label="إغلاق">
+          <svg class="icon ic-20">
+            <use href="#i-x" />
+          </svg>
         </button>
       </div>
 
@@ -1182,7 +2074,9 @@
         <!-- شريط ملخص المستفيد والموعد -->
         <div class="p-3.5 rounded-2xl bg-bg-soft border border-line flex flex-wrap items-center justify-between gap-3">
           <div class="flex items-center gap-3">
-            <div class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 font-extrabold text-base flex items-center justify-center" id="reportPatientInitial">
+            <div
+              class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 font-extrabold text-base flex items-center justify-center"
+              id="reportPatientInitial">
               ف
             </div>
             <div>
@@ -1202,8 +2096,10 @@
             <span class="w-2 h-2 rounded-full bg-primary inline-block"></span>
             <span>التشخيص والتقييم السريري العام:</span>
           </h5>
-          <div class="p-3 rounded-xl bg-bg-soft border border-line-soft text-xs t-body leading-relaxed" id="reportDiagnosis">
-            المستفيد يعاني من أعراض القلق والتوتر المرتبط بضغوط العمل، مع استجابة إيجابية ممتازة لتقنيات التنفس العميق واليقظة الذهنية.
+          <div class="p-3 rounded-xl bg-bg-soft border border-line-soft text-xs t-body leading-relaxed"
+            id="reportDiagnosis">
+            المستفيد يعاني من أعراض القلق والتوتر المرتبط بضغوط العمل، مع استجابة إيجابية ممتازة لتقنيات التنفس العميق
+            واليقظة الذهنية.
           </div>
         </div>
 
@@ -1213,8 +2109,12 @@
             <span class="w-2 h-2 rounded-full bg-emerald-600 inline-block"></span>
             <span>تقرير الجلسة وملاحظات الأخصائي المدونة:</span>
           </h5>
-          <div class="p-3.5 rounded-xl bg-blue-50/50 dark:bg-slate-800 border border-blue-100 text-xs t-body leading-relaxed" id="reportClinicalNotes">
-            تم خلال الجلسة مراجعة مسار التعافي لآخر أسبوعين، المستفيد أظهر التزاماً ممتازاً بالتمارين اليومية، كما تم تقييم وتعديل أنماط التفكير المشوهة وتدريبه على أسلوب حل المشكلات التدريجي. الحالة مستقرة وتتجه نحو الاستقلالية التامة.
+          <div
+            class="p-3.5 rounded-xl bg-blue-50/50 dark:bg-slate-800 border border-blue-100 text-xs t-body leading-relaxed"
+            id="reportClinicalNotes">
+            تم خلال الجلسة مراجعة مسار التعافي لآخر أسبوعين، المستفيد أظهر التزاماً ممتازاً بالتمارين اليومية، كما تم
+            تقييم وتعديل أنماط التفكير المشوهة وتدريبه على أسلوب حل المشكلات التدريجي. الحالة مستقرة وتتجه نحو
+            الاستقلالية التامة.
           </div>
         </div>
 
@@ -1224,26 +2124,36 @@
             <span class="w-2 h-2 rounded-full bg-amber-500 inline-block"></span>
             <span>الخطة العلاجية والتوصيات المعتمدة:</span>
           </h5>
-          <ul class="p-3 rounded-xl bg-bg-soft border border-line-soft space-y-1.5 text-xs text-ink" id="reportRecommendations">
+          <ul class="p-3 rounded-xl bg-bg-soft border border-line-soft space-y-1.5 text-xs text-ink"
+            id="reportRecommendations">
             <li class="flex items-center gap-2">
-              <svg class="icon ic-14 text-emerald-600 flex-shrink-0"><use href="#i-check"/></svg>
+              <svg class="icon ic-14 text-emerald-600 flex-shrink-0">
+                <use href="#i-check" />
+              </svg>
               <span>الاستمرار في ممارسة تمرين التنفس البطني (4-7-8) مرتين يومياً.</span>
             </li>
             <li class="flex items-center gap-2">
-              <svg class="icon ic-14 text-emerald-600 flex-shrink-0"><use href="#i-check"/></svg>
+              <svg class="icon ic-14 text-emerald-600 flex-shrink-0">
+                <use href="#i-check" />
+              </svg>
               <span>تدوين سجل الأفكار والمشاعر اليومي في تطبيق ملاذ.</span>
             </li>
             <li class="flex items-center gap-2">
-              <svg class="icon ic-14 text-emerald-600 flex-shrink-0"><use href="#i-check"/></svg>
+              <svg class="icon ic-14 text-emerald-600 flex-shrink-0">
+                <use href="#i-check" />
+              </svg>
               <span>جلسة المتابعة القادمة بعد أسبوعين لتقييم النتائج.</span>
             </li>
           </ul>
         </div>
 
         <!-- خاتمة التقرير والاعتماد الطبي -->
-        <div class="p-3 rounded-xl bg-blue-50/30 border border-line text-[11px] text-muted flex items-center justify-between">
+        <div
+          class="p-3 rounded-xl bg-blue-50/30 border border-line text-[11px] text-muted flex items-center justify-between">
           <div class="flex items-center gap-2">
-            <svg class="icon ic-16 text-primary"><use href="#i-shield"/></svg>
+            <svg class="icon ic-16 text-primary">
+              <use href="#i-shield" />
+            </svg>
             <span>تقرير طبي سريري مشفر ومحمي بموجب معايير الخصوصية الصحية لمنصة ملاذ.</span>
           </div>
           <strong class="text-ink">الأخصائية: د. سارة العتيبي (PSY-88492)</strong>
@@ -1252,10 +2162,13 @@
 
       <div class="pt-3 border-t border-line flex items-center justify-between">
         <button type="button" class="btn btn-outline btn-sm" id="printReportBtn">
-          <svg class="icon ic-16"><use href="#i-printer"/></svg>
+          <svg class="icon ic-16">
+            <use href="#i-printer" />
+          </svg>
           <span>طباعة التقرير</span>
         </button>
-        <button type="button" class="btn btn-solid btn-sm" data-close-modal="#doctorSessionReportModal">إغلاق التقرير</button>
+        <button type="button" class="btn btn-solid btn-sm" data-close-modal="#doctorSessionReportModal">إغلاق
+          التقرير</button>
       </div>
     </div>
   </div>
@@ -1395,6 +2308,311 @@
     </div>
   </div>
 
+  <!-- =====================================================================
+       النوافذ المنبثقة الخاصة بجدول التوفر (Schedule Modals)
+       ===================================================================== -->
+
+  <!-- 1. نافذة المعاينة الكبيرة والمفصلة لجدول التوفر (Modal) -->
+  <div id="scheduleDetailPreviewModal" class="doc-modal-overlay" role="dialog" aria-modal="true"
+    aria-labelledby="schedulePreviewModalTitle">
+    <div class="doc-modal-box modal-xl">
+      <!-- 1. رأس النافذة -->
+      <div class="doc-modal-header">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-blue-100 text-primary flex items-center justify-center flex-shrink-0">
+            <svg class="icon ic-20">
+              <use href="#i-calendar-clock" />
+            </svg>
+          </div>
+          <div>
+            <h3 id="schedulePreviewModalTitle" class="doc-modal-title">معاينة جدول التوفر</h3>
+            <p class="text-xs text-muted mt-0.5">هذه هي الفترات التي ستظهر للمستفيدين عند حجز موعد معك في منصة ملاذ</p>
+          </div>
+        </div>
+        <button type="button" class="doc-modal-close-btn" data-close-modal="#scheduleDetailPreviewModal"
+          aria-label="إغلاق">
+          <svg class="icon ic-20">
+            <use href="#i-x" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- 2. شريط اختيار التاريخ ومعلومات اليوم -->
+      <div class="doc-modal-body-p">
+        <div class="doc-preview-modal-bar">
+          <div class="doc-date-picker-bar">
+            <button type="button" id="modalPreviewPrevDayBtn" class="doc-date-nav-btn" title="اليوم السابق"
+              aria-label="اليوم السابق">
+              <svg class="icon ic-16">
+                <use href="#i-chevron-right" />
+              </svg>
+            </button>
+
+            <div class="doc-date-current-wrap">
+              <button type="button" id="modalPreviewDatePickerTrigger" class="doc-date-picker-trigger"
+                title="اختيار تاريخ محدد">
+                <svg class="icon ic-16 text-primary">
+                  <use href="#i-calendar" />
+                </svg>
+                <span id="modalPreviewDateDisplay" class="font-bold text-sm text-ink">السبت، 14 نوفمبر 2026</span>
+              </button>
+              <input type="date" id="modalPreviewHiddenDatePicker" class="sr-only" aria-label="اختيار تاريخ المعاينة" />
+            </div>
+
+            <button type="button" id="modalPreviewNextDayBtn" class="doc-date-nav-btn" title="اليوم التالي"
+              aria-label="اليوم التالي">
+              <svg class="icon ic-16">
+                <use href="#i-chevron-left" />
+              </svg>
+            </button>
+
+            <button type="button" id="modalPreviewTodayBtn" class="doc-date-today-btn">اليوم</button>
+          </div>
+
+          <!-- شارات تلخيصية لليوم المختار -->
+          <div class="flex items-center gap-2 flex-wrap">
+            <span id="modalPreviewDayStatusBadge" class="doc-badge-pill is-avail">يوم عمل متاح</span>
+            <span id="modalPreviewStatsBadge"
+              class="text-xs text-muted font-medium bg-bg-soft px-3 py-1.5 rounded-lg border border-line">
+              6 فترات متاحة • 2 محجوزة
+            </span>
+          </div>
+        </div>
+
+        <!-- مفتاح دلالة الألوان في المودال -->
+        <div class="doc-legend-bar mt-3 mb-4">
+          <span class="text-xs font-bold text-muted ml-2">دلالة الألوان:</span>
+          <div class="doc-legend-item">
+            <span class="doc-legend-dot is-avail"></span>
+            <span class="text-xs font-semibold text-emerald-700">متاح للحجز (أخضر)</span>
+          </div>
+          <div class="doc-legend-item">
+            <span class="doc-legend-dot is-booked"></span>
+            <span class="text-xs font-semibold text-slate-600">محجوز مسبقاً (رمادي)</span>
+          </div>
+          <div class="doc-legend-item">
+            <span class="doc-legend-dot is-blocked"></span>
+            <span class="text-xs font-semibold text-rose-600">غير متاح / عطلة / استراحة (أحمر)</span>
+          </div>
+        </div>
+
+        <!-- 3. عرض الفترات الزمنية في شكل بطاقات وشبكة منظمة -->
+        <div id="modalPreviewSlotsContainer" class="space-y-4 min-h-[220px]">
+          <!-- يتم حقن الفترات الصباحية والمسائية ديناميكياً -->
+        </div>
+      </div>
+
+      <!-- أسفل النافذة -->
+      <div class="pt-3 border-t border-line flex items-center justify-between">
+        <span class="text-xs text-muted font-medium flex items-center gap-1.5">
+          <svg class="icon ic-14 text-emerald-600">
+            <use href="#i-check-circle" />
+          </svg>
+          <span>تظهر المعاينة التغييرات الفورية حتى قبل الحفظ</span>
+        </span>
+        <button type="button" class="btn btn-solid btn-sm" data-close-modal="#scheduleDetailPreviewModal">
+          إغلاق المعاينة
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. نافذة إضافة / تعديل إجازة (Vacation Modal) -->
+  <div id="scheduleVacationModal" class="doc-modal-overlay" role="dialog" aria-modal="true"
+    aria-labelledby="scheduleVacationModalTitle">
+    <div class="doc-modal-box max-w-lg">
+      <div class="doc-modal-header">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center">
+            <svg class="icon ic-18">
+              <use href="#i-coffee" />
+            </svg>
+          </div>
+          <h3 id="scheduleVacationModalTitle" class="doc-modal-title">إضافة إجازة أو يوم غير متاح</h3>
+        </div>
+        <button type="button" class="doc-modal-close-btn" data-close-modal="#scheduleVacationModal" aria-label="إغلاق">
+          <svg class="icon ic-20">
+            <use href="#i-x" />
+          </svg>
+        </button>
+      </div>
+
+      <form id="scheduleVacationForm" class="space-y-4 text-sm py-2">
+        <input type="hidden" id="vacationEditId" value="" />
+
+        <div>
+          <label for="vacationTitle" class="block font-bold text-xs text-ink mb-1.5">
+            سبب / مسمى الإجازة <span class="text-rose-500">*</span>
+          </label>
+          <input type="text" id="vacationTitle" class="doc-text-input"
+            placeholder="مثال: إجازة سنوية، مؤتمر الطب النفسي، عطلة خاصة..." required />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="vacationStartDate" class="block font-bold text-xs text-ink mb-1.5">
+              تاريخ بداية الإجازة <span class="text-rose-500">*</span>
+            </label>
+            <input type="date" id="vacationStartDate" class="doc-text-input" required />
+          </div>
+          <div>
+            <label for="vacationEndDate" class="block font-bold text-xs text-ink mb-1.5">
+              تاريخ نهاية الإجازة <span class="text-rose-500">*</span>
+            </label>
+            <input type="date" id="vacationEndDate" class="doc-text-input" required />
+          </div>
+        </div>
+
+        <div>
+          <label for="vacationNotes" class="block font-bold text-xs text-ink mb-1.5">
+            ملاحظات داخلية (اختياري)
+          </label>
+          <textarea id="vacationNotes" class="doc-text-input" rows="2" placeholder="ملاحظات تظهر لك فقط..."></textarea>
+        </div>
+
+        <div class="p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs flex items-start gap-2">
+          <svg class="icon ic-16 flex-shrink-0 mt-0.5">
+            <use href="#i-alert-circle" />
+          </svg>
+          <span>تنبيه: سيتم إيقاف وحجب جميع الفترات الزمنية المتاحة للحجز تلقائياً طوال فترة هذه الإجازة.</span>
+        </div>
+
+        <div class="pt-3 border-t border-line flex items-center justify-end gap-2">
+          <button type="button" class="btn btn-outline btn-sm" data-close-modal="#scheduleVacationModal">إلغاء</button>
+          <button type="submit" class="btn btn-solid btn-sm">حفظ الإجازة</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3. نافذة إضافة فترة عمل سريعة (Add Period Modal) -->
+  <div id="scheduleQuickAddPeriodModal" class="doc-modal-overlay" role="dialog" aria-modal="true"
+    aria-labelledby="quickAddPeriodTitle">
+    <div class="doc-modal-box max-w-md">
+      <div class="doc-modal-header">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-blue-100 text-primary flex items-center justify-center">
+            <svg class="icon ic-18">
+              <use href="#i-plus" />
+            </svg>
+          </div>
+          <h3 id="quickAddPeriodTitle" class="doc-modal-title">إضافة فترة عمل إضافية</h3>
+        </div>
+        <button type="button" class="doc-modal-close-btn" data-close-modal="#scheduleQuickAddPeriodModal"
+          aria-label="إغلاق">
+          <svg class="icon ic-20">
+            <use href="#i-x" />
+          </svg>
+        </button>
+      </div>
+
+      <form id="scheduleQuickAddPeriodForm" class="space-y-4 text-sm py-2">
+        <div>
+          <label for="quickAddDaySelect" class="block font-bold text-xs text-ink mb-1.5">
+            اختر اليوم لإضافة الفترة له <span class="text-rose-500">*</span>
+          </label>
+          <select id="quickAddDaySelect" class="doc-filter-select w-full" required>
+            <option value="saturday">السبت</option>
+            <option value="sunday">الأحد</option>
+            <option value="monday">الاثنين</option>
+            <option value="tuesday">الثلاثاء</option>
+            <option value="wednesday">الأربعاء</option>
+            <option value="thursday">الخميس</option>
+            <option value="friday">الجمعة</option>
+          </select>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label for="quickAddStartTime" class="block font-bold text-xs text-ink mb-1.5">
+              بداية الفترة <span class="text-rose-500">*</span>
+            </label>
+            <input type="time" id="quickAddStartTime" class="doc-text-input" value="16:00" required />
+          </div>
+          <div>
+            <label for="quickAddEndTime" class="block font-bold text-xs text-ink mb-1.5">
+              نهاية الفترة <span class="text-rose-500">*</span>
+            </label>
+            <input type="time" id="quickAddEndTime" class="doc-text-input" value="20:00" required />
+          </div>
+        </div>
+
+        <div id="quickAddPeriodError"
+          class="hidden p-2.5 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-xs">
+          <!-- رسالة خطأ التحقق -->
+        </div>
+
+        <div class="pt-3 border-t border-line flex items-center justify-end gap-2">
+          <button type="button" class="btn btn-outline btn-sm"
+            data-close-modal="#scheduleQuickAddPeriodModal">إلغاء</button>
+          <button type="submit" class="btn btn-solid btn-sm">إضافة الفترة</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 4. نافذة تأكيد حفظ التغييرات (Confirmation Modal) -->
+  <div id="scheduleConfirmSaveModal" class="doc-modal-overlay" role="dialog" aria-modal="true"
+    aria-labelledby="confirmSaveTitle">
+    <div class="doc-modal-box max-w-md text-center">
+      <div class="w-14 h-14 mx-auto rounded-2xl bg-blue-100 text-primary flex items-center justify-center mb-3">
+        <svg class="icon ic-24">
+          <use href="#i-check-circle" />
+        </svg>
+      </div>
+      <h3 id="confirmSaveTitle" class="doc-modal-title mb-1.5">تأكيد حفظ جدول التوفر</h3>
+      <p class="text-xs text-muted leading-relaxed mb-4">
+        هل أنتِ متأكدة من رغبتك في اعتماد وتطبيق جدول وساعات العمل وإعدادات الجلسات الجديدة؟ سيتم تحديث الفترات المتاحة
+        للمستفيدين فوراً.
+      </p>
+
+      <div class="p-3 rounded-xl bg-bg-soft border border-line text-xs text-right space-y-1.5 mb-4">
+        <div class="flex justify-between">
+          <span class="text-muted">أيام العمل المعتمدة:</span>
+          <span id="confirmModalWorkDays" class="font-bold text-ink">5 أيام</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-muted">إجمالي ساعات الدوام:</span>
+          <span id="confirmModalTotalHours" class="font-bold text-ink">36 ساعة / أسبوعياً</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-muted">مدة الجلسة والاستراحة:</span>
+          <span id="confirmModalSessionRules" class="font-bold text-ink">45 دقيقة (+10 د استراحة)</span>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-center gap-3">
+        <button type="button" class="btn btn-outline btn-sm px-5"
+          data-close-modal="#scheduleConfirmSaveModal">تراجع</button>
+        <button type="button" class="btn btn-solid btn-sm px-6" id="executeScheduleSaveBtn">تأكيد وحفظ الآن</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. نافذة تأكيد حذف الإجازة (Delete Vacation Modal) -->
+  <div id="scheduleConfirmDeleteVacationModal" class="doc-modal-overlay" role="dialog" aria-modal="true"
+    aria-labelledby="confirmDeleteVacationTitle">
+    <div class="doc-modal-box max-w-sm text-center">
+      <div class="w-12 h-12 mx-auto rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center mb-3">
+        <svg class="icon ic-22">
+          <use href="#i-trash" />
+        </svg>
+      </div>
+      <h3 id="confirmDeleteVacationTitle" class="doc-modal-title mb-1.5">حذف الإجازة المسجلة</h3>
+      <p class="text-xs text-muted leading-relaxed mb-4">
+        هل أنتِ متأكدة من حذف إجازة «<span id="deleteVacationNameDisplay" class="font-bold text-ink"></span>»؟ ستعود
+        فترات هذا التاريخ متاحة للحجز وفق ساعات العمل العادية.
+      </p>
+
+      <div class="flex items-center justify-center gap-3">
+        <button type="button" class="btn btn-outline btn-sm px-4"
+          data-close-modal="#scheduleConfirmDeleteVacationModal">إلغاء</button>
+        <button type="button" class="btn btn-solid btn-sm px-5 bg-rose-600 hover:bg-rose-700 text-white border-rose-600"
+          id="executeDeleteVacationBtn">نعم، احذف الإجازة</button>
+      </div>
+    </div>
+  </div>
+
   <!-- 4. نافذة الإعدادات للأخصائي -->
   <div id="doctorSettingsModal" class="doc-modal-overlay" role="dialog" aria-modal="true"
     aria-labelledby="doctorSettingsTitle">
@@ -1453,6 +2671,798 @@
   <!-- عنصر التوست للإشعارات الفورية -->
   <div id="docToast" class="doc-toast" role="status" aria-live="polite"></div>
 
+  
+
+
+
+
+
+
+
+
+
+
+
+  <script>
+document.addEventListener('DOMContentLoaded', function () {
+  'use strict';
+
+  const STORAGE_KEY = 'maladh_specialist_profile_v1';
+  const DEFAULT_AVATAR = 'assets/specialist-sara.jpg';
+
+  // 1. تفعيل التنقل إلى الملف الشخصي من الشريط العلوي والشريط الجانبي
+  function openProfileView(e) {
+    if (e) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+    }
+    document.querySelectorAll('.doc-view').forEach(v => v.classList.remove('is-active'));
+    const profileView = document.getElementById('view-profile');
+    if (profileView) profileView.classList.add('is-active');
+
+    document.querySelectorAll('.doc-nav-link').forEach(link => {
+      const isProfile = link.dataset.docNav === 'profile';
+      link.classList.toggle('is-active', isProfile);
+      link.setAttribute('aria-selected', isProfile ? 'true' : 'false');
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  const headerProfileBtn = document.getElementById('doctorProfileHeaderBtn');
+  if (headerProfileBtn) {
+    headerProfileBtn.addEventListener('click', openProfileView, true);
+  }
+
+  document.querySelectorAll('[data-doc-nav="profile"]').forEach(btn => {
+    btn.addEventListener('click', openProfileView, true);
+  });
+
+  // 2. البيانات الافتراضية
+  const defaultProfileData = {
+    avatar: DEFAULT_AVATAR,
+    joinDate: '2025/01/15',
+    accountStatus: 'نشط',
+    personal: {
+      fullName: 'د. سارة العتيبي',
+      email: 'sara@example.com',
+      phone: '+967 771234567',
+      birthDate: '1995-05-15',
+      gender: 'أنثى',
+      city: 'المكلا',
+      address: 'حضرموت - المكلا'
+    },
+    professional: {
+      jobTitle: 'أخصائية نفسية',
+      mainSpecialty: 'علم النفس الإكلينيكي',
+      subSpecialties: ['العلاج المعرفي السلوكي', 'الإرشاد الأسري'],
+      degree: 'ماجستير في علم النفس',
+      university: 'جامعة حضرموت',
+      graduationYear: '2019',
+      experienceYears: 5,
+      languages: 'العربية',
+      bio: 'أخصائية نفسية متخصصة في تقديم الدعم النفسي والمساعدة في تحقيق التوازن النفسي وتحسين جودة الحياة.'
+    },
+    certificates: [
+      {
+        id: 'cert-1',
+        title: 'ماجستير في علم النفس',
+        issuer: 'جامعة حضرموت',
+        date: '2019',
+        fileName: 'شهادة_الماجستير_سارة_العتيبي.pdf',
+        fileDataUrl: ''
+      },
+      {
+        id: 'cert-2',
+        title: 'دبلوم العلاج المعرفي السلوكي (CBT)',
+        issuer: 'الأكاديمية العربية للصحة النفسية',
+        date: '2021',
+        fileName: 'دبلوم_العلاج_المعرفي_السلوكي.pdf',
+        fileDataUrl: ''
+      }
+    ],
+    experiences: [
+      {
+        id: 'exp-1',
+        role: 'أخصائية نفسية إكلينيكية',
+        organization: 'مركز السكينة للاستشارات النفسية',
+        startDate: '2021-03',
+        endDate: '',
+        description: 'تقديم الجلسات العلاجية الفردية وبرامج العلاج المعرفي السلوكي ومتابعة خطط التعافي للمستفيدين.'
+      },
+      {
+        id: 'exp-2',
+        role: 'أخصائية دعم وإرشاد نفسي',
+        organization: 'عيادات الرعاية المتكاملة - المكلا',
+        startDate: '2019-09',
+        endDate: '2021-02',
+        description: 'إجراء التقييمات النفسية الأولية وتنفيذ جلسات الدعم والإرشاد النفسي والتوعية المجتمعية.'
+      }
+    ],
+    services: [
+      { id: 'srv-1', title: 'الاستشارات النفسية الفردية', description: 'جلسات خاصة وسرية للتعامل مع القلق، الاكتئاب، والضغوط النفسية.', enabled: true },
+      { id: 'srv-2', title: 'متابعة التعافي من الإدمان', description: 'برامج دعم سلوكي ومتابعة مستمرة لتعزيز التعافي ومنع الانتكاسة.', enabled: true },
+      { id: 'srv-3', title: 'جلسات الدعم والإرشاد النفسي', description: 'توجيه نفسي لمساعدة المستفيد على التكيف وبناء المرونة النفسية.', enabled: false },
+      { id: 'srv-4', title: 'جلسات التوعية والدعم النفسي', description: 'جلسات تثقيفية لتعزيز الوعي بالصحة النفسية ومهارات إدارة الذات.', enabled: false }
+    ],
+    sessionTypes: [
+      { id: 'stype-1', title: 'استشارة أولية', description: 'تقييم مبدئي للحالة وتحديد الخطة العلاجية المناسبة (30 دقيقة).', enabled: true },
+      { id: 'stype-2', title: 'جلسة متابعة', description: 'متابعة التقدم العلاجي وتعديل الخطة حسب استجابة المستفيد (45 دقيقة).', enabled: true },
+      { id: 'stype-3', title: 'جلسة علاجية', description: 'جلسة علاج نفسي متعمقة باستخدام الأساليب المعتمدة (60 دقيقة).', enabled: true }
+    ]
+  };
+
+  let state = loadState();
+  let tempSubSpecialties = [];
+  let pendingConfirmCallback = null;
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) return { ...defaultProfileData, ...JSON.parse(raw) };
+    } catch (e) {}
+    return JSON.parse(JSON.stringify(defaultProfileData));
+  }
+
+  function saveState() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (e) {
+      notify('تعذر حفظ البيانات في المتصفح.');
+    }
+  }
+
+  function notify(msg) {
+    if (typeof window.showToast === 'function') {
+      window.showToast(msg);
+    } else {
+      const toast = document.getElementById('docToast');
+      if (toast) {
+        toast.textContent = msg;
+        toast.classList.add('is-show');
+        setTimeout(() => toast.classList.remove('is-show'), 3000);
+      }
+    }
+  }
+
+  function escapeHTML(str) {
+    if (str === null || str === undefined) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  function formatDisplayDate(isoDate) {
+    if (!isoDate) return '';
+    const parts = isoDate.split('-');
+    if (parts.length === 3) return `${parts[2]}/${parts[1]}/${parts[0]}`;
+    if (parts.length === 2) return `${parts[0]}/${parts[1]}`;
+    return isoDate;
+  }
+
+  function openConfirmDialog(message, onConfirm) {
+    const msgEl = document.getElementById('confirmMessageText');
+    const modal = document.getElementById('confirmModalOverlay');
+    if (msgEl) msgEl.textContent = message;
+    pendingConfirmCallback = onConfirm;
+    if (modal) modal.classList.add('show');
+  }
+
+  // 3. دوال عرض البيانات (Render)
+  function renderAll() {
+    renderHeaderAndHero();
+    renderPersonalSection();
+    renderProfessionalSection();
+    renderCertificatesSection();
+    renderExperiencesSection();
+    renderServicesSection();
+    renderPreviewModal();
+  }
+
+  function renderHeaderAndHero() {
+    const avatarSrc = state.avatar || DEFAULT_AVATAR;
+    const dashAvatar = document.getElementById('headerDoctorAvatar');
+    const dashName = document.getElementById('headerDoctorName');
+    if (dashAvatar) dashAvatar.src = avatarSrc;
+    if (dashName) dashName.textContent = state.personal.fullName;
+
+    const setSrc = (id, src) => { const el = document.getElementById(id); if (el) el.src = src; };
+    const setTxt = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
+
+    setSrc('heroAvatarImg', avatarSrc);
+    setSrc('previewAvatarImg', avatarSrc);
+    setTxt('heroFullName', state.personal.fullName);
+    setTxt('heroJobTitle', state.professional.jobTitle);
+    setTxt('heroMainSpecialty', state.professional.mainSpecialty);
+    setTxt('heroJoinDate', state.joinDate);
+    setTxt('heroAccountStatus', state.accountStatus);
+    setTxt('accountEmailDisplay', state.personal.email);
+  }
+
+  function renderPersonalSection() {
+    const container = document.getElementById('personalViewMode');
+    if (!container) return;
+    const p = state.personal;
+    const rows = [
+      { label: 'الاسم الكامل', value: p.fullName, icon: '<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>' },
+      { label: 'البريد الإلكتروني', value: p.email, dir: 'ltr', icon: '<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>' },
+      { label: 'رقم الهاتف', value: p.phone, dir: 'ltr', icon: '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>' },
+      { label: 'تاريخ الميلاد', value: formatDisplayDate(p.birthDate), icon: '<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>' },
+      { label: 'الجنس', value: p.gender, icon: '<circle cx="12" cy="12" r="9"/>' },
+      { label: 'المدينة', value: p.city, icon: '<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>' },
+      { label: 'العنوان', value: p.address, full: true, icon: '<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>' }
+    ];
+
+    container.innerHTML = rows.map(r => `
+      <div class="info-row-item ${r.full ? 'full-width' : ''}">
+        <span class="info-label">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${r.icon}</svg>
+          <span>${r.label}</span>
+        </span>
+        <span class="info-value" ${r.dir ? `dir="${r.dir}"` : ''}>${escapeHTML(r.value)}</span>
+      </div>
+    `).join('');
+  }
+
+  function renderProfessionalSection() {
+    const container = document.getElementById('profViewMode');
+    if (!container) return;
+    const pr = state.professional;
+    const subSpecsHTML = pr.subSpecialties && pr.subSpecialties.length
+      ? `<div class="tags-list">${pr.subSpecialties.map(s => `<span class="tag-badge">${escapeHTML(s)}</span>`).join('')}</div>`
+      : '<span>لا يوجد</span>';
+
+    container.innerHTML = `
+      <div class="info-row-item"><span class="info-label"><span>المسمى الوظيفي</span></span><span class="info-value">${escapeHTML(pr.jobTitle)}</span></div>
+      <div class="info-row-item"><span class="info-label"><span>التخصص الرئيسي</span></span><span class="info-value">${escapeHTML(pr.mainSpecialty)}</span></div>
+      <div class="info-row-item"><span class="info-label"><span>المؤهل العلمي</span></span><span class="info-value">${escapeHTML(pr.degree)}</span></div>
+      <div class="info-row-item"><span class="info-label"><span>الجامعة</span></span><span class="info-value">${escapeHTML(pr.university)}</span></div>
+      <div class="info-row-item"><span class="info-label"><span>سنة التخرج</span></span><span class="info-value">${escapeHTML(pr.graduationYear)}</span></div>
+      <div class="info-row-item"><span class="info-label"><span>عدد سنوات الخبرة</span></span><span class="info-value">${escapeHTML(pr.experienceYears)} سنوات</span></div>
+      <div class="info-row-item"><span class="info-label"><span>اللغات</span></span><span class="info-value">${escapeHTML(pr.languages)}</span></div>
+      <div class="info-row-item"><span class="info-label"><span>التخصصات الفرعية</span></span><div class="info-value">${subSpecsHTML}</div></div>
+      <div class="info-row-item full-width"><span class="info-label"><span>نبذة تعريفية عن الأخصائي</span></span><p class="info-value">${escapeHTML(pr.bio)}</p></div>
+    `;
+  }
+
+  function renderCertificatesSection() {
+    const grid = document.getElementById('certificatesGrid');
+    if (!grid) return;
+    const certsHTML = state.certificates.map(cert => `
+      <article class="cert-card">
+        <div class="cert-top">
+          <div class="cert-doc-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            <span class="cert-medal">★</span>
+          </div>
+          <div class="cert-details">
+            <h3>${escapeHTML(cert.title)}</h3>
+            <p>${escapeHTML(cert.issuer)}</p>
+            <span class="cert-year">${escapeHTML(cert.date)}</span>
+          </div>
+        </div>
+        <div class="cert-actions">
+          <button type="button" class="icon-action-btn" data-action="view-cert" data-id="${cert.id}" title="معاينة ملف الشهادة">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+          <button type="button" class="icon-action-btn" data-action="edit-cert" data-id="${cert.id}" title="تعديل الشهادة">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+          </button>
+          <button type="button" class="icon-action-btn delete" data-action="delete-cert" data-id="${cert.id}" title="حذف الشهادة">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          </button>
+        </div>
+      </article>
+    `).join('');
+
+    grid.innerHTML = certsHTML + `
+      <button type="button" class="add-cert-dashed" data-action="add-cert">
+        <span style="font-size: 28px; line-height: 1;">+</span>
+        <span>إضافة شهادة</span>
+      </button>
+    `;
+  }
+
+  function renderExperiencesSection() {
+    const list = document.getElementById('experiencesList');
+    if (!list) return;
+    if (!state.experiences.length) {
+      list.innerHTML = `<p style="text-align:center; color:var(--text-muted); padding:24px;">لم يتم إضافة خبرات مهنية بعد.</p>`;
+      return;
+    }
+    list.innerHTML = state.experiences.map(exp => `
+      <article class="exp-card">
+        <div class="exp-content">
+          <h3>${escapeHTML(exp.role)}</h3>
+          <div class="exp-org">${escapeHTML(exp.organization)}</div>
+          <div class="exp-period">
+            <span>${formatDisplayDate(exp.startDate)} — ${exp.endDate ? formatDisplayDate(exp.endDate) : 'حتى الآن'}</span>
+          </div>
+          <p class="exp-desc">${escapeHTML(exp.description)}</p>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button type="button" class="icon-action-btn" data-action="edit-exp" data-id="${exp.id}" title="تعديل الخبرة">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+          </button>
+          <button type="button" class="icon-action-btn delete" data-action="delete-exp" data-id="${exp.id}" title="حذف الخبرة">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          </button>
+        </div>
+      </article>
+    `).join('');
+  }
+
+  function renderServicesSection() {
+    const sGrid = document.getElementById('servicesToggleGrid');
+    const tGrid = document.getElementById('sessionTypesGrid');
+    if (sGrid) {
+      sGrid.innerHTML = state.services.map(srv => `
+        <div class="service-toggle-card ${srv.enabled ? 'enabled' : ''}">
+          <div class="service-info">
+            <h4>${escapeHTML(srv.title)}</h4>
+            <p>${escapeHTML(srv.description)}</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" data-service-id="${srv.id}" ${srv.enabled ? 'checked' : ''}>
+            <span class="slider"></span>
+          </label>
+        </div>
+      `).join('');
+    }
+    if (tGrid) {
+      tGrid.innerHTML = state.sessionTypes.map(st => `
+        <div class="service-toggle-card ${st.enabled ? 'enabled' : ''}">
+          <div class="service-info">
+            <h4>${escapeHTML(st.title)}</h4>
+            <p>${escapeHTML(st.description)}</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" data-session-id="${st.id}" ${st.enabled ? 'checked' : ''}>
+            <span class="slider"></span>
+          </label>
+        </div>
+      `).join('');
+    }
+  }
+
+  function renderPreviewModal() {
+    const setTxt = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
+    setTxt('previewFullName', state.personal.fullName);
+    setTxt('previewJobTitle', state.professional.jobTitle);
+    setTxt('previewMainSpec', state.professional.mainSpecialty);
+    setTxt('previewBioText', state.professional.bio);
+
+    const qualList = document.getElementById('previewQualificationsList');
+    if (qualList) {
+      const items = [
+        `${state.professional.degree} - ${state.professional.university}`,
+        `خبرة أكثر من ${state.professional.experienceYears} سنوات في المجال النفسي`
+      ];
+      if (state.professional.subSpecialties.length) {
+        items.push(`مجالات التركيز: ${state.professional.subSpecialties.join('، ')}`);
+      }
+      state.experiences.slice(0, 2).forEach(exp => items.push(`${exp.role} في ${exp.organization}`));
+      qualList.innerHTML = items.map(text => `<li>${escapeHTML(text)}</li>`).join('');
+    }
+
+    const srvList = document.getElementById('previewServicesList');
+    if (srvList) {
+      const activeServices = state.services.filter(s => s.enabled);
+      srvList.innerHTML = activeServices.length
+        ? activeServices.map(s => `<li><span class="check-circle-icon">✓</span><span>${escapeHTML(s.title)}</span></li>`).join('')
+        : `<li style="color: var(--text-muted); font-weight: 500;">لم يتم تفعيل خدمات عامة حالياً</li>`;
+    }
+  }
+
+  function switchTab(tabName) {
+    document.querySelectorAll('#view-profile .tab-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.tab === tabName);
+    });
+    document.querySelectorAll('#view-profile .tab-panel').forEach(panel => {
+      panel.classList.toggle('active', panel.id === `panel-${tabName}`);
+    });
+  }
+
+  function openCertModal(cert = null) {
+    const form = document.getElementById('certForm');
+    if (form) form.reset();
+    document.getElementById('certId').value = cert ? cert.id : '';
+    document.getElementById('certModalTitle').textContent = cert ? 'تعديل بيانات الشهادة' : 'إضافة شهادة جديدة';
+    document.getElementById('certTitle').value = cert ? cert.title : '';
+    document.getElementById('certIssuer').value = cert ? cert.issuer : '';
+    document.getElementById('certDate').value = cert ? cert.date : '';
+    document.getElementById('certCurrentFileName').textContent = cert && cert.fileName ? `الملف الحالي: ${cert.fileName}` : '';
+    document.getElementById('certModalOverlay').classList.add('show');
+  }
+
+  function openExpModal(exp = null) {
+    const form = document.getElementById('expForm');
+    if (form) form.reset();
+    document.getElementById('expId').value = exp ? exp.id : '';
+    document.getElementById('expModalTitle').textContent = exp ? 'تعديل الخبرة المهنية' : 'إضافة خبرة مهنية';
+    document.getElementById('expRole').value = exp ? exp.role : '';
+    document.getElementById('expOrg').value = exp ? exp.organization : '';
+    document.getElementById('expStart').value = exp ? exp.startDate : '';
+    document.getElementById('expEnd').value = exp ? exp.endDate : '';
+    document.getElementById('expDesc').value = exp ? exp.description : '';
+    document.getElementById('expModalOverlay').classList.add('show');
+  }
+
+  function renderEditSubSpecs() {
+    const list = document.getElementById('editSubSpecsList');
+    if (!list) return;
+    list.innerHTML = tempSubSpecialties.map((spec, idx) => `
+      <span class="tag-badge"><span>${escapeHTML(spec)}</span><button type="button" class="tag-remove" data-remove-spec="${idx}">×</button></span>
+    `).join('');
+  }
+
+  // 4. تفويض الأحداث الشامل (Event Delegation) لضمان عمل كل زر بلا استثناء
+  document.addEventListener('click', function (e) {
+    const target = e.target;
+
+    // أ) تبويبات الملف الشخصي الـ 6
+    const tabBtn = target.closest('#view-profile .tab-btn');
+    if (tabBtn) {
+      switchTab(tabBtn.dataset.tab);
+      return;
+    }
+
+    // ب) أزرار البطاقة الرئيسية وتعديل البيانات
+    if (target.closest('#heroQuickEditBtn')) {
+      switchTab('personal');
+      document.getElementById('editPersonalBtn').click();
+      return;
+    }
+
+    if (target.closest('#openPreviewModalBtn')) {
+      renderPreviewModal();
+      document.getElementById('previewModalOverlay').classList.add('show');
+      return;
+    }
+
+    if (target.closest('#closePreviewXBtn') || target.closest('#returnToProfileBtn')) {
+      document.getElementById('previewModalOverlay').classList.remove('show');
+      return;
+    }
+
+    if (target.closest('#previewBookDemoBtn')) {
+      notify('هذه معاينة لزر «حجز موعد» كما يظهر للمستفيدين في المنصة.');
+      return;
+    }
+
+    // ج) تغيير الصورة الشخصية
+    if (target.closest('#changeAvatarBtn')) {
+      document.getElementById('avatarFileInput').click();
+      return;
+    }
+
+    // د) تعديل المعلومات الشخصية
+    if (target.closest('#editPersonalBtn')) {
+      const p = state.personal;
+      document.getElementById('inputFullName').value = p.fullName;
+      document.getElementById('inputEmail').value = p.email;
+      document.getElementById('inputPhone').value = p.phone;
+      document.getElementById('inputBirthDate').value = p.birthDate;
+      document.getElementById('inputGender').value = p.gender;
+      document.getElementById('inputCity').value = p.city;
+      document.getElementById('inputAddress').value = p.address;
+      document.getElementById('personalViewMode').style.display = 'none';
+      document.getElementById('personalEditForm').style.display = 'block';
+      document.getElementById('editPersonalBtn').style.display = 'none';
+      return;
+    }
+
+    if (target.closest('#cancelPersonalBtn')) {
+      document.getElementById('personalEditForm').style.display = 'none';
+      document.getElementById('personalViewMode').style.display = 'grid';
+      document.getElementById('editPersonalBtn').style.display = 'inline-flex';
+      return;
+    }
+
+    // هـ) تعديل المعلومات المهنية والتخصصات الفرعية
+    if (target.closest('#editProfBtn')) {
+      const pr = state.professional;
+      document.getElementById('inputJobTitle').value = pr.jobTitle;
+      document.getElementById('inputMainSpec').value = pr.mainSpecialty;
+      document.getElementById('inputDegree').value = pr.degree;
+      document.getElementById('inputUniversity').value = pr.university;
+      document.getElementById('inputGradYear').value = pr.graduationYear;
+      document.getElementById('inputExpYears').value = pr.experienceYears;
+      document.getElementById('inputLanguages').value = pr.languages;
+      document.getElementById('inputBio').value = pr.bio;
+      tempSubSpecialties = [...pr.subSpecialties];
+      renderEditSubSpecs();
+      document.getElementById('profViewMode').style.display = 'none';
+      document.getElementById('profEditForm').style.display = 'block';
+      document.getElementById('editProfBtn').style.display = 'none';
+      return;
+    }
+
+    if (target.closest('#cancelProfBtn')) {
+      document.getElementById('profEditForm').style.display = 'none';
+      document.getElementById('profViewMode').style.display = 'grid';
+      document.getElementById('editProfBtn').style.display = 'inline-flex';
+      return;
+    }
+
+    if (target.closest('#addSubSpecBtn')) {
+      const input = document.getElementById('newSubSpecInput');
+      const val = input.value.trim();
+      if (val && !tempSubSpecialties.includes(val)) {
+        tempSubSpecialties.push(val);
+        renderEditSubSpecs();
+      }
+      input.value = '';
+      return;
+    }
+
+    if (target.dataset.removeSpec !== undefined) {
+      tempSubSpecialties.splice(Number(target.dataset.removeSpec), 1);
+      renderEditSubSpecs();
+      return;
+    }
+
+    // و) أزرار الشهادات (إضافة / تعديل / حذف / معاينة / إغلاق)
+    if (target.closest('#openAddCertModalBtn') || target.closest('[data-action="add-cert"]')) {
+      openCertModal();
+      return;
+    }
+
+    if (target.closest('#closeCertModalBtn') || target.closest('#cancelCertModalBtn')) {
+      document.getElementById('certModalOverlay').classList.remove('show');
+      return;
+    }
+
+    if (target.closest('#closeCertPreviewBtn')) {
+      document.getElementById('certPreviewOverlay').classList.remove('show');
+      return;
+    }
+
+    // ز) أزرار الخبرات (إضافة / إغلاق)
+    if (target.closest('#openAddExpModalBtn')) {
+      openExpModal();
+      return;
+    }
+
+    if (target.closest('#closeExpModalBtn') || target.closest('#cancelExpModalBtn')) {
+      document.getElementById('expModalOverlay').classList.remove('show');
+      return;
+    }
+
+    // ح) أزرار الإجراءات داخل بطاقات الشهادات والخبرات
+    const actionBtn = target.closest('#view-profile button[data-action]');
+    if (actionBtn) {
+      const action = actionBtn.dataset.action;
+      const id = actionBtn.dataset.id;
+
+      if (action === 'edit-cert') {
+        const cert = state.certificates.find(c => c.id === id);
+        if (cert) openCertModal(cert);
+      } else if (action === 'delete-cert') {
+        const cert = state.certificates.find(c => c.id === id);
+        if (cert) {
+          openConfirmDialog(`هل أنت متأكد من حذف شهادة «${cert.title}»؟`, () => {
+            state.certificates = state.certificates.filter(c => c.id !== id);
+            saveState();
+            renderCertificatesSection();
+            notify('تم حذف الشهادة بنجاح.');
+          });
+        }
+      } else if (action === 'view-cert') {
+        const cert = state.certificates.find(c => c.id === id);
+        if (cert) {
+          document.getElementById('certViewerTitle').textContent = cert.title;
+          document.getElementById('certViewerSub').textContent = `${cert.issuer} • ${cert.date}`;
+          document.getElementById('certViewerContent').innerHTML = cert.fileDataUrl && cert.fileDataUrl.startsWith('data:image/')
+            ? `<img src="${cert.fileDataUrl}" style="max-width:100%; max-height:360px; border-radius:10px;">`
+            : `<p style="font-weight:700;">${escapeHTML(cert.fileName || 'وثيقة الشهادة المعتمدة')}</p>`;
+          document.getElementById('certPreviewOverlay').classList.add('show');
+        }
+      } else if (action === 'edit-exp') {
+        const exp = state.experiences.find(x => x.id === id);
+        if (exp) openExpModal(exp);
+      } else if (action === 'delete-exp') {
+        const exp = state.experiences.find(x => x.id === id);
+        if (exp) {
+          openConfirmDialog(`هل أنت متأكد من حذف خبرة «${exp.role}»؟`, () => {
+            state.experiences = state.experiences.filter(x => x.id !== id);
+            saveState();
+            renderExperiencesSection();
+            renderPreviewModal();
+            notify('تم حذف الخبرة المهنية بنجاح.');
+          });
+        }
+      }
+      return;
+    }
+
+    // ط) حفظ الخدمات وإظهار كلمة المرور وتأكيد الحذف
+    if (target.closest('#saveServicesBtn')) {
+      saveState();
+      renderPreviewModal();
+      notify('تم حفظ تحديثات الخدمات بنجاح.');
+      return;
+    }
+
+    const passBtn = target.closest('.toggle-pass-btn');
+    if (passBtn) {
+      const input = document.getElementById(passBtn.dataset.target);
+      if (input) input.type = input.type === 'password' ? 'text' : 'password';
+      return;
+    }
+
+    if (target.closest('#cancelConfirmBtn')) {
+      document.getElementById('confirmModalOverlay').classList.remove('show');
+      pendingConfirmCallback = null;
+      return;
+    }
+
+    if (target.closest('#acceptConfirmBtn')) {
+      document.getElementById('confirmModalOverlay').classList.remove('show');
+      if (typeof pendingConfirmCallback === 'function') {
+        pendingConfirmCallback();
+        pendingConfirmCallback = null;
+      }
+      return;
+    }
+
+    // إغلاق أي نافذة عند النقر على الخلفية المعتمة
+    if (target.classList.contains('modal-overlay')) {
+      target.classList.remove('show');
+    }
+  });
+
+  // 5. معالجة النماذج (Forms Submit) وتغيير المدخلات
+  document.addEventListener('submit', function (e) {
+    const form = e.target;
+
+    if (form.id === 'personalEditForm') {
+      e.preventDefault();
+      state.personal = {
+        fullName: document.getElementById('inputFullName').value.trim(),
+        email: document.getElementById('inputEmail').value.trim(),
+        phone: document.getElementById('inputPhone').value.trim(),
+        birthDate: document.getElementById('inputBirthDate').value,
+        gender: document.getElementById('inputGender').value,
+        city: document.getElementById('inputCity').value.trim(),
+        address: document.getElementById('inputAddress').value.trim()
+      };
+      saveState();
+      renderAll();
+      form.style.display = 'none';
+      document.getElementById('personalViewMode').style.display = 'grid';
+      document.getElementById('editPersonalBtn').style.display = 'inline-flex';
+      notify('تم حفظ المعلومات الشخصية بنجاح.');
+    }
+
+    if (form.id === 'profEditForm') {
+      e.preventDefault();
+      state.professional = {
+        jobTitle: document.getElementById('inputJobTitle').value.trim(),
+        mainSpecialty: document.getElementById('inputMainSpec').value.trim(),
+        subSpecialties: [...tempSubSpecialties],
+        degree: document.getElementById('inputDegree').value.trim(),
+        university: document.getElementById('inputUniversity').value.trim(),
+        graduationYear: document.getElementById('inputGradYear').value.trim(),
+        experienceYears: Number(document.getElementById('inputExpYears').value),
+        languages: document.getElementById('inputLanguages').value.trim(),
+        bio: document.getElementById('inputBio').value.trim()
+      };
+      saveState();
+      renderAll();
+      form.style.display = 'none';
+      document.getElementById('profViewMode').style.display = 'grid';
+      document.getElementById('editProfBtn').style.display = 'inline-flex';
+      notify('تم تحديث المعلومات المهنية بنجاح.');
+    }
+
+    if (form.id === 'certForm') {
+      e.preventDefault();
+      const id = document.getElementById('certId').value;
+      const title = document.getElementById('certTitle').value.trim();
+      const issuer = document.getElementById('certIssuer').value.trim();
+      const date = document.getElementById('certDate').value.trim();
+      if (!title || !issuer || !date) return;
+
+      const saveCert = (fileName, fileDataUrl) => {
+        if (id) {
+          const idx = state.certificates.findIndex(c => c.id === id);
+          if (idx > -1) {
+            state.certificates[idx] = {
+              ...state.certificates[idx],
+              title, issuer, date,
+              fileName: fileName || state.certificates[idx].fileName,
+              fileDataUrl: fileDataUrl !== undefined ? fileDataUrl : state.certificates[idx].fileDataUrl
+            };
+          }
+        } else {
+          state.certificates.push({
+            id: 'cert-' + Date.now(),
+            title, issuer, date,
+            fileName: fileName || 'ملف_الشهادة.pdf',
+            fileDataUrl: fileDataUrl || ''
+          });
+        }
+        saveState();
+        renderCertificatesSection();
+        document.getElementById('certModalOverlay').classList.remove('show');
+        notify('تم حفظ الشهادة بنجاح.');
+      };
+
+      const fileInput = document.getElementById('certFile');
+      if (fileInput.files && fileInput.files[0]) {
+        const f = fileInput.files[0];
+        const r = new FileReader();
+        r.onload = (ev) => saveCert(f.name, ev.target.result);
+        r.readAsDataURL(f);
+      } else {
+        saveCert(null, undefined);
+      }
+    }
+
+    if (form.id === 'expForm') {
+      e.preventDefault();
+      const id = document.getElementById('expId').value;
+      const role = document.getElementById('expRole').value.trim();
+      const organization = document.getElementById('expOrg').value.trim();
+      const startDate = document.getElementById('expStart').value;
+      const endDate = document.getElementById('expEnd').value;
+      const description = document.getElementById('expDesc').value.trim();
+      if (!role || !organization || !startDate || !description) return;
+
+      if (id) {
+        const idx = state.experiences.findIndex(x => x.id === id);
+        if (idx > -1) state.experiences[idx] = { id, role, organization, startDate, endDate, description };
+      } else {
+        state.experiences.unshift({ id: 'exp-' + Date.now(), role, organization, startDate, endDate, description });
+      }
+      saveState();
+      renderExperiencesSection();
+      renderPreviewModal();
+      document.getElementById('expModalOverlay').classList.remove('show');
+      notify('تم حفظ الخبرة المهنية بنجاح.');
+    }
+
+    if (form.id === 'changePasswordForm') {
+      e.preventDefault();
+      form.reset();
+      notify('تم تحديث كلمة المرور بنجاح.');
+    }
+  });
+
+  document.addEventListener('change', function (e) {
+    if (e.target.id === 'avatarFileInput') {
+      const file = e.target.files[0];
+      if (!file || !file.type.startsWith('image/')) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        state.avatar = ev.target.result;
+        saveState();
+        renderHeaderAndHero();
+        notify('تم تحديث الصورة الشخصية بنجاح.');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    if (e.target.dataset.serviceId) {
+      const srv = state.services.find(s => s.id === e.target.dataset.serviceId);
+      if (srv) srv.enabled = e.target.checked;
+      renderServicesSection();
+    }
+
+    if (e.target.dataset.sessionId) {
+      const st = state.sessionTypes.find(s => s.id === e.target.dataset.sessionId);
+      if (st) st.enabled = e.target.checked;
+      renderServicesSection();
+    }
+  });
+
+  // التشغيل الأولي
+  renderAll();
+});
+</script>
   <!-- سكربت لوحة تحكم الأخصائي -->
   <script src="js/doctor-dashboard.js"></script>
 </body>
