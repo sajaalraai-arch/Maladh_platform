@@ -276,17 +276,19 @@
         
       </nav>
 
-      <!-- بطاقة الدعم الفني في أسفل الشريط الجانبي -->
-      <div class="doc-support-card">
-        <div class="doc-support-icon">
-          <svg class="icon ic-20">
-            <use href="#i-phone" />
-          </svg>
-        </div>
-        <div class="doc-support-info">
-          <span class="doc-support-title">دعم فني</span>
-          <a href="tel:772572361" class="doc-support-phone">772572361</a>
-        </div>
+      <!-- خيار تسجيل الخروج في أسفل الشريط الجانبي (بدلاً من الدعم الفني) -->
+      <div class="doc-support-card doc-sidebar-logout-card" id="docSidebarLogoutWrap">
+        <button type="button" class="doc-sidebar-logout-btn" id="doctorSidebarLogoutBtn" title="تسجيل الخروج من الحساب" style="width:100%; display:flex; align-items:center; gap:0.85rem; background:transparent; border:none; color:inherit; text-align:start; cursor:pointer;">
+          <div class="doc-support-icon doc-logout-icon" style="background:rgba(239,68,68,0.15); color:#EF4444; width:38px; height:38px; border-radius:0.75rem; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <svg class="icon ic-20" style="color:#EF4444;">
+              <use href="#i-logout" />
+            </svg>
+          </div>
+          <div class="doc-support-info">
+            <span class="doc-support-title" style="color:#EF4444; font-weight:700;">تسجيل الخروج</span>
+            <span class="doc-support-phone" style="font-size:0.75rem; opacity:0.8; color:rgba(255,255,255,0.7);">إنهاء الجلسة بأمان</span>
+          </div>
+        </button>
       </div>
 
       
@@ -2636,6 +2638,113 @@
   <!-- عنصر التوست للإشعارات الفورية -->
   <div id="docToast" class="doc-toast" role="status" aria-live="polite"></div>
 
+  <!-- 1. نافذة إضافة وتعديل الشهادة والمؤهل (Certificate Modal) -->
+  <div id="certModalOverlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="certModalTitle">
+    <div class="modal-box">
+      <button type="button" class="modal-close-x" id="closeCertModalBtn" aria-label="إغلاق">×</button>
+      <div class="flex items-center gap-2.5 mb-4 pb-3 border-b border-line">
+        <div class="w-9 h-9 rounded-xl bg-blue-50 text-primary flex items-center justify-center">
+          <svg class="icon ic-20"><use href="#i-award" /></svg>
+        </div>
+        <h3 id="certModalTitle" class="text-lg font-bold text-ink">إضافة شهادة جديدة</h3>
+      </div>
+
+      <form id="certForm" class="space-y-4">
+        <input type="hidden" id="certId" value="" />
+
+        <!-- منطقة اختيار ومعاينة ملف الشهادة -->
+        <div id="certFileArea" class="p-3.5 rounded-2xl bg-bg-soft border-2 border-dashed border-sky-300 dark:border-sky-700 text-center">
+          <div id="certPreviewContainer" class="hidden mb-2">
+            <img id="certImagePreview" src="" alt="معاينة الشهادة" class="max-h-48 mx-auto rounded-xl object-contain border border-line shadow-sm" />
+          </div>
+          <div id="certEmptyFileState" class="py-3">
+            <svg class="icon ic-32 text-primary mx-auto mb-1.5"><use href="#i-award" /></svg>
+            <p class="text-xs font-bold text-ink mb-1">اختر صورة الشهادة أو المؤهل من جهازك</p>
+            <p class="text-[11px] text-muted">صيغ الصور المدعومة: PNG, JPG, WebP أو ملفات PDF</p>
+          </div>
+          <button type="button" class="btn btn-outline btn-sm text-xs mt-2" id="certTriggerFileBtn">
+            <svg class="icon ic-16"><use href="#i-plus" /></svg>
+            <span>اختيار ملف الشهادة</span>
+          </button>
+          <input type="file" id="certFileInput" accept="image/png, image/jpeg, image/webp, .pdf" style="display:none;" />
+          <p id="certCurrentFileName" class="text-[11px] text-primary font-bold mt-2 truncate"></p>
+        </div>
+
+        <div>
+          <label for="certTitle" class="block text-xs font-bold text-ink mb-1.5">عنوان الشهادة أو الدرجة العلمية *</label>
+          <input type="text" id="certTitle" class="form-control" placeholder="مثال: ماجستير في علم النفس الإكلينيكي" required />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="certIssuer" class="block text-xs font-bold text-ink mb-1.5">الجهة المانحة أو الجامعة *</label>
+            <input type="text" id="certIssuer" class="form-control" placeholder="مثال: جامعة الملك سعود" required />
+          </div>
+          <div>
+            <label for="certDate" class="block text-xs font-bold text-ink mb-1.5">سنة أو تاريخ الحصول عليها *</label>
+            <input type="text" id="certDate" class="form-control" placeholder="مثال: 2024" required />
+          </div>
+        </div>
+
+        <div class="pt-3 border-t border-line flex items-center justify-end gap-2.5">
+          <button type="button" class="btn btn-outline btn-sm" id="cancelCertModalBtn">إلغاء</button>
+          <button type="submit" class="btn btn-solid btn-sm" id="saveCertSubmitBtn">حفظ الشهادة</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. نافذة عرض ومعاينة الشهادة بحجم كامل (Certificate Viewer Lightbox) -->
+  <div id="certPreviewOverlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="certViewerTitle">
+    <div class="modal-box max-w-2xl text-center">
+      <button type="button" class="modal-close-x" id="closeCertPreviewBtn" aria-label="إغلاق">×</button>
+      <div class="text-start mb-4 pb-3 border-b border-line">
+        <h3 id="certViewerTitle" class="text-lg font-bold text-ink">شهادة علمية معتمدة</h3>
+        <p id="certViewerSub" class="text-xs text-primary font-semibold mt-0.5"></p>
+      </div>
+      <div id="certViewerContent" class="p-2 rounded-2xl bg-bg-soft border border-line min-h-[280px] max-h-[70vh] overflow-auto flex items-center justify-center mb-4">
+        <!-- يتم حقن صورة الشهادة هنا بحجمها الكامل -->
+      </div>
+      <div class="flex justify-end gap-2">
+        <button type="button" class="btn btn-outline btn-sm" id="closeCertPreviewBottomBtn">إغلاق المعاينة</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. نافذة التأكيد العامة (Confirm Dialog) -->
+  <div id="confirmModalOverlay" class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal-box max-w-sm text-center">
+      <div class="w-12 h-12 rounded-full bg-amber-50 text-amber-600 mx-auto mb-3 grid place-items-center">
+        <svg class="icon ic-24"><use href="#i-trash" /></svg>
+      </div>
+      <h3 id="confirmModalTitle" class="text-base font-bold text-ink mb-2">تأكيد الإجراء</h3>
+      <p id="confirmModalMsg" class="text-xs text-muted mb-5 leading-relaxed"></p>
+      <div class="flex items-center justify-center gap-3">
+        <button type="button" class="btn btn-outline btn-sm" id="cancelConfirmModalBtn">إلغاء</button>
+        <button type="button" class="btn btn-solid btn-sm bg-rose-600 hover:bg-rose-700 text-white border-rose-600" id="okConfirmModalBtn">تأكيد الحذف</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. نافذة تأكيد تسجيل الخروج للمختص (Logout Confirmation Modal) -->
+  <div id="docLogoutConfirmModal" class="doc-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="docLogoutConfirmTitle">
+    <div class="doc-modal-box max-w-sm text-center">
+      <div class="w-14 h-14 rounded-full bg-rose-50 text-rose-600 mx-auto mb-3 flex items-center justify-center shadow-sm">
+        <svg class="icon ic-24"><use href="#i-logout" /></svg>
+      </div>
+      <h3 id="docLogoutConfirmTitle" class="text-lg font-bold text-ink mb-1.5">تسجيل الخروج من الحساب</h3>
+      <p class="text-xs text-muted mb-5 leading-relaxed">
+        هل أنت متأكد من رغبتك في إنهاء الجلسة وتسجيل الخروج من لوحة تحكم المختص؟ يمكنك العودة في أي وقت.
+      </p>
+      <div class="flex items-center justify-center gap-2.5">
+        <button type="button" class="btn btn-outline btn-sm" id="cancelDocLogoutModalBtn">إلغاء</button>
+        <button type="button" class="btn btn-solid btn-sm bg-rose-600 hover:bg-rose-700 text-white border-rose-600" id="confirmDocLogoutBtn">
+          <span>نعم، تسجيل الخروج</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
   
 
 
@@ -2759,6 +2868,8 @@ document.addEventListener('DOMContentLoaded', function () {
   let state = loadState();
   let tempSubSpecialties = [];
   let pendingConfirmCallback = null;
+  let currentSelectedCertDataUrl = '';
+  let currentSelectedCertFileName = '';
 
   function loadState() {
     try {
@@ -2773,6 +2884,33 @@ document.addEventListener('DOMContentLoaded', function () {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     } catch (e) {
       notify('تعذر حفظ البيانات في المتصفح.');
+    }
+
+    // مزامنة الشهادات فورياً مع قاعدة بيانات Supabase
+    if (window.MaladhDB && window.MaladhDB.specialists) {
+      try {
+        const docUser = JSON.parse(localStorage.getItem('maladh:doctor_user') || '{}');
+        const specId = docUser.id || '11cea870-41e3-49e4-903c-6a2588520967';
+        window.MaladhDB.specialists.update(specId, {
+          certificates: state.certificates
+        }).catch(err => console.warn('[Supabase Sync Certs Error]:', err));
+      } catch (err) {}
+    }
+  }
+
+  // مزامنة الشهادات المحفوظة مسبقاً في Supabase
+  async function syncCertsFromSupabase() {
+    if (!window.MaladhDB || !window.MaladhDB.specialists) return;
+    try {
+      const docUser = JSON.parse(localStorage.getItem('maladh:doctor_user') || '{}');
+      const specId = docUser.id || '11cea870-41e3-49e4-903c-6a2588520967';
+      const liveSpec = await window.MaladhDB.specialists.getById(specId);
+      if (liveSpec && Array.isArray(liveSpec.certificates) && liveSpec.certificates.length > 0) {
+        state.certificates = liveSpec.certificates;
+        renderCertificatesSection();
+      }
+    } catch (e) {
+      console.warn('Could not sync certs from Supabase:', e);
     }
   }
 
@@ -2808,7 +2946,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function openConfirmDialog(message, onConfirm) {
-    const msgEl = document.getElementById('confirmMessageText');
+    const msgEl = document.getElementById('confirmModalMsg') || document.getElementById('confirmMessageText');
     const modal = document.getElementById('confirmModalOverlay');
     if (msgEl) msgEl.textContent = message;
     pendingConfirmCallback = onConfirm;
@@ -3168,8 +3306,19 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // و) أزرار الشهادات (إضافة / تعديل / حذف / معاينة / إغلاق)
-    if (target.closest('#openAddCertModalBtn') || target.closest('[data-action="add-cert"]')) {
-      openCertModal();
+    if (target.closest('#openAddCertModalBtn') || target.closest('[data-action="add-cert"]') || target.closest('.add-cert-dashed')) {
+      const fileInput = document.getElementById('certFileInput');
+      if (fileInput) {
+        fileInput.click();
+      } else {
+        openCertModal();
+      }
+      return;
+    }
+
+    if (target.closest('#certTriggerFileBtn')) {
+      const fileInput = document.getElementById('certFileInput');
+      if (fileInput) fileInput.click();
       return;
     }
 
@@ -3178,8 +3327,36 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
 
-    if (target.closest('#closeCertPreviewBtn')) {
+    if (target.closest('#closeCertPreviewBtn') || target.closest('#closeCertPreviewBottomBtn')) {
       document.getElementById('certPreviewOverlay').classList.remove('show');
+      return;
+    }
+
+    // تسجيل الخروج في الشريط الجانبي
+    if (target.closest('#doctorSidebarLogoutBtn') || target.closest('[data-doc-logout]')) {
+      const logoutModal = document.getElementById('docLogoutConfirmModal');
+      if (logoutModal) logoutModal.classList.add('is-open');
+      return;
+    }
+
+    if (target.closest('#cancelDocLogoutModalBtn') || target.closest('[data-close-modal="#docLogoutConfirmModal"]')) {
+      const logoutModal = document.getElementById('docLogoutConfirmModal');
+      if (logoutModal) logoutModal.classList.remove('is-open');
+      return;
+    }
+
+    if (target.closest('#confirmDocLogoutBtn')) {
+      const logoutModal = document.getElementById('docLogoutConfirmModal');
+      if (logoutModal) logoutModal.classList.remove('is-open');
+      if (window.MaladhDB && window.MaladhDB.auth) {
+        window.MaladhDB.auth.signOut().catch(() => {});
+      }
+      localStorage.removeItem('maladh:current_role');
+      localStorage.removeItem('maladh:doctor_user');
+      notify('تم تسجيل الخروج بنجاح. جارٍ التحويل...');
+      setTimeout(() => {
+        window.location.href = 'landing.html';
+      }, 500);
       return;
     }
 
@@ -3218,9 +3395,24 @@ document.addEventListener('DOMContentLoaded', function () {
         if (cert) {
           document.getElementById('certViewerTitle').textContent = cert.title;
           document.getElementById('certViewerSub').textContent = `${cert.issuer} • ${cert.date}`;
-          document.getElementById('certViewerContent').innerHTML = cert.fileDataUrl && cert.fileDataUrl.startsWith('data:image/')
-            ? `<img src="${cert.fileDataUrl}" style="max-width:100%; max-height:360px; border-radius:10px;">`
-            : `<p style="font-weight:700;">${escapeHTML(cert.fileName || 'وثيقة الشهادة المعتمدة')}</p>`;
+          const content = document.getElementById('certViewerContent');
+          if (cert.fileDataUrl && cert.fileDataUrl.startsWith('data:image/')) {
+            content.innerHTML = `<img src="${cert.fileDataUrl}" alt="${escapeHTML(cert.title)}" style="max-width:100%; max-height:55vh; border-radius:12px; object-fit:contain; box-shadow:0 8px 30px rgba(15,39,67,0.12); margin:auto;" />`;
+          } else {
+            content.innerHTML = `
+              <div class="py-8 px-4 text-center">
+                <div class="w-16 h-16 rounded-full bg-blue-50 text-primary mx-auto mb-3 flex items-center justify-center">
+                  <svg class="icon ic-32"><use href="#i-award" /></svg>
+                </div>
+                <h4 class="text-base font-extrabold text-ink mb-1">${escapeHTML(cert.title)}</h4>
+                <p class="text-xs text-muted font-semibold mb-2">${escapeHTML(cert.issuer)} — ${escapeHTML(cert.date)}</p>
+                <span class="inline-block px-3 py-1 rounded-full bg-emerald-50 text-emerald-600 text-xs font-bold border border-emerald-200">
+                  وثيقة رسمية معتمدة ومحققة
+                </span>
+                <p class="text-[11px] text-muted mt-2">${escapeHTML(cert.fileName || 'شهادة_معتمدة.pdf')}</p>
+              </div>
+            `;
+          }
           document.getElementById('certPreviewOverlay').classList.add('show');
         }
       } else if (action === 'edit-exp') {
@@ -3256,13 +3448,13 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
 
-    if (target.closest('#cancelConfirmBtn')) {
+    if (target.closest('#cancelConfirmBtn') || target.closest('#cancelConfirmModalBtn')) {
       document.getElementById('confirmModalOverlay').classList.remove('show');
       pendingConfirmCallback = null;
       return;
     }
 
-    if (target.closest('#acceptConfirmBtn')) {
+    if (target.closest('#acceptConfirmBtn') || target.closest('#okConfirmModalBtn')) {
       document.getElementById('confirmModalOverlay').classList.remove('show');
       if (typeof pendingConfirmCallback === 'function') {
         pendingConfirmCallback();
@@ -3354,12 +3546,14 @@ document.addEventListener('DOMContentLoaded', function () {
         notify('تم حفظ الشهادة بنجاح.');
       };
 
-      const fileInput = document.getElementById('certFile');
-      if (fileInput.files && fileInput.files[0]) {
+      const fileInput = document.getElementById('certFileInput') || document.getElementById('certFile');
+      if (fileInput && fileInput.files && fileInput.files[0]) {
         const f = fileInput.files[0];
         const r = new FileReader();
         r.onload = (ev) => saveCert(f.name, ev.target.result);
         r.readAsDataURL(f);
+      } else if (currentSelectedCertDataUrl) {
+        saveCert(currentSelectedCertFileName || 'شهادة_معتمدة.png', currentSelectedCertDataUrl);
       } else {
         saveCert(null, undefined);
       }
@@ -3396,6 +3590,36 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   document.addEventListener('change', function (e) {
+    if (e.target.id === 'certFileInput') {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function (ev) {
+        currentSelectedCertDataUrl = ev.target.result;
+        currentSelectedCertFileName = file.name;
+        const cleanTitle = file.name.replace(/\.[^/.]+$/, '').replace(/[_-]/g, ' ');
+        document.getElementById('certId').value = '';
+        document.getElementById('certTitle').value = cleanTitle;
+        document.getElementById('certIssuer').value = 'هيئة التخصصات الصحية / جامعة معتمدة';
+        document.getElementById('certDate').value = String(new Date().getFullYear());
+        document.getElementById('certCurrentFileName').textContent = file.name;
+
+        const previewImg = document.getElementById('certImagePreview');
+        const previewContainer = document.getElementById('certPreviewContainer');
+        const emptyState = document.getElementById('certEmptyFileState');
+        if (file.type.startsWith('image/')) {
+          if (previewImg) previewImg.src = currentSelectedCertDataUrl;
+          if (previewContainer) previewContainer.classList.remove('hidden');
+          if (emptyState) emptyState.classList.add('hidden');
+        } else {
+          if (previewContainer) previewContainer.classList.add('hidden');
+          if (emptyState) emptyState.classList.remove('hidden');
+        }
+        document.getElementById('certModalOverlay').classList.add('show');
+      };
+      reader.readAsDataURL(file);
+    }
+
     if (e.target.id === 'avatarFileInput') {
       const file = e.target.files[0];
       if (!file || !file.type.startsWith('image/')) return;
@@ -3424,6 +3648,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // التشغيل الأولي
   renderAll();
+  syncCertsFromSupabase();
 });
 </script>
   <!-- سكربت لوحة تحكم الأخصائي وعميل Supabase -->

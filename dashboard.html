@@ -510,6 +510,13 @@
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
             <div>
               <h2 class="text-2xl font-extrabold text-ink">نخبة الأخصائيين المعتمدين</h2>
+              <p class="text-xs text-muted mt-1">احجز جلستك الآن وتواصل مع نخبة من أفضل الأخصائيين النفسيين المعتمدين بسرية تامة.</p>
+            </div>
+            <div>
+              <button type="button" class="btn btn-solid btn-sm" id="headerBookConsultationBtn" data-open-booking="">
+                <svg class="icon ic-18"><use href="#i-calendar" /></svg>
+                <span>حجز استشارة</span>
+              </button>
             </div>
           </div>
 
@@ -1404,9 +1411,14 @@
 
   <!-- 1. نافذة حجز الاستشارة -->
   <div id="bookingModal" class="dash-modal" role="dialog" aria-modal="true" aria-labelledby="bookingModalTitle">
-    <div class="dash-modal-box">
+    <div class="dash-modal-box max-w-lg">
       <div class="flex items-center justify-between mb-4 pb-3 border-b border-line">
-        <h3 id="bookingModalTitle" class="text-lg font-bold text-ink">حجز استشارة نفسية جديدة</h3>
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-blue-50 text-primary flex items-center justify-center">
+            <svg class="icon ic-18"><use href="#i-calendar" /></svg>
+          </div>
+          <h3 id="bookingModalTitle" class="text-lg font-bold text-ink">حجز استشارة نفسية جديدة</h3>
+        </div>
         <button id="closeBookingModalBtn" class="icon-btn icon-btn-sm" aria-label="إغلاق">
           <svg class="icon ic-20">
             <use href="#i-x" />
@@ -1414,59 +1426,89 @@
         </button>
       </div>
 
-      <!-- معلومات الأخصائي المختار -->
-      <div class="flex items-center gap-3 p-3 rounded-2xl bg-bg-soft border border-line mb-4">
-        <img id="bookingSpecPhoto" src="assets/specialist-sara.jpg" alt="" class="w-12 h-12 rounded-xl object-cover" />
-        <div>
-          <h4 id="bookingSpecName" class="font-bold text-ink">د. سارة العتيبي</h4>
-          <p id="bookingSpecTitle" class="text-xs text-primary font-semibold">أخصائية في علم النفس العلاجي</p>
-        </div>
-      </div>
-
       <form id="confirmBookingForm" class="space-y-4">
+        <!-- 1. اختيار المختص من قائمة المختصين المتاحين -->
         <div>
-          <label class="block text-xs font-bold mb-1.5">نوع الجلسة</label>
+          <label for="bookingSpecialistSelect" class="block text-xs font-bold text-ink mb-1.5">اختيار المختص النفسي *</label>
+          <select id="bookingSpecialistSelect" class="w-full h-11 px-4 rounded-xl border border-line bg-bg-soft text-sm text-ink outline-none focus:border-primary" required>
+            <!-- يتم تعبئة المختصين ديناميكياً -->
+          </select>
+        </div>
+
+        <!-- معاينة بطاقة الأخصائي المختار -->
+        <div class="flex items-center gap-3 p-3 rounded-2xl bg-bg-soft border border-line">
+          <img id="bookingSpecPhoto" src="assets/specialist-sara.jpg" alt="" class="w-12 h-12 rounded-xl object-cover" />
+          <div class="flex-1 min-w-0">
+            <h4 id="bookingSpecName" class="font-bold text-ink text-sm">د. سارة العتيبي</h4>
+            <p id="bookingSpecTitle" class="text-xs text-primary font-semibold truncate">أخصائية في علم النفس العلاجي</p>
+          </div>
+          <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+            متاح للحجز
+          </span>
+        </div>
+
+        <!-- 2. تحديد نوع الاستشارة -->
+        <div>
+          <label class="block text-xs font-bold text-ink mb-1.5">نوع الاستشارة المطلوبة *</label>
           <div class="grid grid-cols-2 gap-2">
             <label class="cursor-pointer">
               <input type="radio" name="sessionType" value="جلسة فيديو مرئية مشفرة" class="sr-only peer" checked />
-              <div
-                class="p-3 text-center rounded-xl border border-line text-xs font-bold peer-checked:border-primary peer-checked:bg-blue-50 dark:peer-checked:bg-slate-800 peer-checked:text-primary">
+              <div class="p-2.5 text-center rounded-xl border border-line text-xs font-bold peer-checked:border-primary peer-checked:bg-blue-50 dark:peer-checked:bg-slate-800 peer-checked:text-primary transition">
                 جلسة فيديو مرئية
               </div>
             </label>
             <label class="cursor-pointer">
               <input type="radio" name="sessionType" value="استشارة صوتية خاصة" class="sr-only peer" />
-              <div
-                class="p-3 text-center rounded-xl border border-line text-xs font-bold peer-checked:border-primary peer-checked:bg-blue-50 dark:peer-checked:bg-slate-800 peer-checked:text-primary">
+              <div class="p-2.5 text-center rounded-xl border border-line text-xs font-bold peer-checked:border-primary peer-checked:bg-blue-50 dark:peer-checked:bg-slate-800 peer-checked:text-primary transition">
                 مكالمة صوتية خاصة
+              </div>
+            </label>
+            <label class="cursor-pointer">
+              <input type="radio" name="sessionType" value="محادثة كتابية فورية" class="sr-only peer" />
+              <div class="p-2.5 text-center rounded-xl border border-line text-xs font-bold peer-checked:border-primary peer-checked:bg-blue-50 dark:peer-checked:bg-slate-800 peer-checked:text-primary transition">
+                محادثة كتابية فورية
+              </div>
+            </label>
+            <label class="cursor-pointer">
+              <input type="radio" name="sessionType" value="جلسة استشارية حضورية" class="sr-only peer" />
+              <div class="p-2.5 text-center rounded-xl border border-line text-xs font-bold peer-checked:border-primary peer-checked:bg-blue-50 dark:peer-checked:bg-slate-800 peer-checked:text-primary transition">
+                استشارة حضورية
               </div>
             </label>
           </div>
         </div>
 
+        <!-- 3. اختيار التاريخ المناسب -->
         <div>
-          <label for="bookingDatePicker" class="block text-xs font-bold mb-1.5">اختر التاريخ</label>
+          <label for="bookingDatePicker" class="block text-xs font-bold text-ink mb-1.5">اختيار التاريخ المناسب *</label>
           <input id="bookingDatePicker" type="date"
-            class="w-full h-11 px-4 rounded-xl border border-line bg-bg-soft text-sm text-ink outline-none" required />
+            class="w-full h-11 px-4 rounded-xl border border-line bg-bg-soft text-sm text-ink outline-none focus:border-primary" required />
+          <p class="text-[11px] text-muted mt-1">المواعيد متاحة للأيام القادمة فقط وفق جدول الأخصائي.</p>
         </div>
 
+        <!-- 4. اختيار الوقت المتاح -->
         <div>
-          <label class="block text-xs font-bold mb-1.5">اختر الوقت المناسب</label>
+          <div class="flex items-center justify-between mb-1.5">
+            <label class="block text-xs font-bold text-ink">الأوقات المتاحة لهذا اليوم *</label>
+            <span id="bookingSlotsCountBadge" class="text-[11px] text-primary font-semibold"></span>
+          </div>
           <div id="bookingSlotsContainer" class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-            <!-- أوقات المواعيد -->
+            <!-- أوقات المواعيد يتم حقنها ديناميكياً مع استبعاد الأوقات المحجوزة -->
           </div>
         </div>
 
+        <!-- 5. كتابة وصف مختصر أو تفاصيل إضافية عن الحالة (اختياري) -->
         <div>
-          <label for="bookingNotes" class="block text-xs font-bold mb-1.5">ملاحظات للأخصائي (اختياري وسري)</label>
+          <label for="bookingNotes" class="block text-xs font-bold text-ink mb-1.5">وصف مختصر أو تفاصيل إضافية عن الحالة (اختياري وسري)</label>
           <textarea id="bookingNotes" rows="2"
-            class="w-full p-3 rounded-xl border border-line bg-bg-soft text-sm text-ink outline-none resize-none"
-            placeholder="أي موضوع تود التركيز عليه خلال الجلسة..."></textarea>
+            class="w-full p-3 rounded-xl border border-line bg-bg-soft text-sm text-ink outline-none resize-none focus:border-primary"
+            placeholder="اكتب بإيجاز ما تود مشاركته مع الأخصائي، جميع معلوماتك مشفرة ومحمية..."></textarea>
         </div>
 
         <div class="pt-3 border-t border-line flex items-center justify-end gap-3">
           <button type="button" id="cancelBookingBtn" class="btn btn-outline btn-sm">إلغاء</button>
-          <button type="submit" class="btn btn-solid btn-sm">تأكيد الحجز فوراً</button>
+          <button type="submit" id="confirmBookingBtn" class="btn btn-solid btn-sm">تأكيد الحجز فوراً</button>
         </div>
       </form>
     </div>

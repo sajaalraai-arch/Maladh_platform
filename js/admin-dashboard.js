@@ -462,6 +462,80 @@
   // 3. واجهة إدارة المختصين (Specialists)
   // =====================================================================
 
+  function openSpecialistViewModal(id) {
+    const s = state.specialists.find(x => x.id === id);
+    if (!s) return;
+    const content = $('#adminViewSpecialistContent');
+    if (content) {
+      content.innerHTML = `
+        <div class="space-y-4 text-xs">
+          <div class="flex items-center gap-3 p-3 bg-blue-50 rounded-xl">
+            <div class="table-avatar-monogram w-14 h-14 text-lg font-extrabold bg-blue-100 text-primary">${s.name.charAt(0)}</div>
+            <div class="flex-1">
+              <div class="flex items-center justify-between">
+                <h4 class="font-extrabold text-sm text-ink">${s.name}</h4>
+                <span class="text-amber-500 font-bold flex items-center gap-1">★ ${s.rating || 4.9}</span>
+              </div>
+              <p class="text-primary font-semibold mt-0.5">${s.specialty}</p>
+              <p class="text-slate-500 text-[11px] mt-0.5">رقم رخصة المزاولة: <span class="font-mono text-ink">${s.license}</span></p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2.5">
+            <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-100">
+              <span class="text-muted block text-[11px] mb-1">البريد الإلكتروني</span>
+              <span class="font-semibold text-ink font-mono">${s.email}</span>
+            </div>
+            <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-100">
+              <span class="text-muted block text-[11px] mb-1">رقم الهاتف</span>
+              <span class="font-semibold text-ink font-mono">${s.phone}</span>
+            </div>
+            <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-100">
+              <span class="text-muted block text-[11px] mb-1">سعر الجلسة الاستشارية</span>
+              <span class="font-extrabold text-emerald-700">${s.hourlyRate || 250} ر.س</span>
+            </div>
+            <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-100">
+              <span class="text-muted block text-[11px] mb-1">إجمالي الجلسات المنجزة</span>
+              <span class="font-extrabold text-ink">${s.sessions || 0} جلسة</span>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between p-3 bg-slate-50 rounded-lg border border-slate-100">
+            <div>
+              <span class="text-muted block text-[11px]">حالة الاعتماد المهني</span>
+              <span class="font-bold text-xs ${s.verified ? 'text-emerald-700' : 'text-amber-700'}">
+                ${s.verified ? '✓ معتمد وموثق من المنصة' : '⏳ بانتظار المراجعة والاعتماد'}
+              </span>
+            </div>
+            <div>
+              <span class="text-muted block text-[11px]">حالة التوفر للحجز</span>
+              <span class="font-bold text-xs ${s.available ? 'text-emerald-600' : 'text-slate-500'}">
+                ${s.available ? '● متاح لاستقبال الحجوزات' : '○ غير متاح حالياً'}
+              </span>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+    openModal('#adminViewSpecialistModal');
+  }
+
+  function openSpecialistEditModal(id) {
+    const s = state.specialists.find(x => x.id === id);
+    if (!s) return;
+    $('#editSpecId').value = s.id;
+    $('#editSpecName').value = s.name;
+    $('#editSpecSpecialty').value = s.specialty;
+    $('#editSpecLicense').value = s.license;
+    $('#editSpecEmail').value = s.email;
+    $('#editSpecPhone').value = s.phone;
+    $('#editSpecHourlyRate').value = s.hourlyRate || 250;
+    $('#editSpecRating').value = s.rating || 4.9;
+    $('#editSpecVerified').value = s.verified ? 'true' : 'false';
+    $('#editSpecAvailable').value = s.available ? 'true' : 'false';
+    openModal('#adminEditSpecialistModal');
+  }
+
   function renderSpecialistsTable() {
     const tbody = $('#specialistsTableTbody');
     if (!tbody) return;
@@ -504,48 +578,47 @@
         </td>
         <td>
           <div class="table-actions-cell">
-            ${!s.verified ? `
-              <button type="button" class="table-action-btn bg-emerald-50 text-emerald-700 approve-spec-btn" data-id="${s.id}">
-                <svg class="icon ic-14"><use href="#i-check" /></svg>
-                <span>اعتماد</span>
-              </button>
-            ` : `
-              <button type="button" class="table-action-btn toggle-avail-btn" data-id="${s.id}">
-                <span>تبديل التوفر</span>
-              </button>
-            `}
+            <button type="button" class="table-icon-btn view spec-view-btn" data-id="${s.id}" title="عرض تفاصيل المختص">
+              <svg class="icon ic-16"><use href="#i-eye" /></svg>
+            </button>
+            <button type="button" class="table-icon-btn edit spec-edit-btn" data-id="${s.id}" title="تعديل بيانات المختص">
+              <svg class="icon ic-16"><use href="#i-edit" /></svg>
+            </button>
+            <button type="button" class="table-icon-btn delete spec-delete-btn" data-id="${s.id}" title="حذف المختص">
+              <svg class="icon ic-16"><use href="#i-trash" /></svg>
+            </button>
           </div>
         </td>
       </tr>
     `).join('');
 
-    $$('.approve-spec-btn', tbody).forEach(btn => {
-      btn.addEventListener('click', () => {
-        const s = state.specialists.find(x => x.id === btn.dataset.id);
-        if (s) {
-          s.verified = true;
-          setStorage(KEYS.SPECIALISTS, state.specialists);
-          renderSpecialistsTable();
-          showToast(`تم اعتماد وتوثيق رخصة المختص: ${s.name}`);
-          if (window.MaladhDB && window.MaladhDB.specialists && s.id) {
-            window.MaladhDB.specialists.verifySpecialist(s.id, true).catch(err => console.warn(err));
-          }
-        }
-      });
+    $$('.spec-view-btn', tbody).forEach(btn => {
+      btn.addEventListener('click', () => openSpecialistViewModal(btn.dataset.id));
     });
 
-    $$('.toggle-avail-btn', tbody).forEach(btn => {
+    $$('.spec-edit-btn', tbody).forEach(btn => {
+      btn.addEventListener('click', () => openSpecialistEditModal(btn.dataset.id));
+    });
+
+    $$('.spec-delete-btn', tbody).forEach(btn => {
       btn.addEventListener('click', () => {
         const s = state.specialists.find(x => x.id === btn.dataset.id);
-        if (s) {
-          s.available = !s.available;
-          setStorage(KEYS.SPECIALISTS, state.specialists);
-          renderSpecialistsTable();
-          showToast(`تم تعديل حالة توفر المختص: ${s.name}`);
-          if (window.MaladhDB && window.MaladhDB.specialists && s.id) {
-            window.MaladhDB.specialists.setAvailability(s.id, s.available).catch(err => console.warn(err));
+        if (!s) return;
+        openAdminConfirm(
+          'حذف حساب الأخصائي',
+          `هل أنت متأكد من رغبتك في حذف حساب المختص "${s.name}"؟ سيتم حذف بياناته نهائياً من النظام.`,
+          async () => {
+            state.specialists = state.specialists.filter(x => x.id !== s.id);
+            setStorage(KEYS.SPECIALISTS, state.specialists);
+            renderSpecialistsTable();
+            showToast(`تم حذف حساب الأخصائي: ${s.name}`);
+            if (window.MaladhDB && window.MaladhDB.supabase && s.id) {
+              try {
+                await window.MaladhDB.supabase.from('specialist_profiles').delete().eq('id', s.id);
+              } catch(err) { console.warn(err); }
+            }
           }
-        }
+        );
       });
     });
   }
@@ -553,6 +626,72 @@
   // =====================================================================
   // 4. واجهة إدارة المواعيد (Appointments)
   // =====================================================================
+
+  function openApptViewModal(id) {
+    const a = state.appointments.find(x => x.id === id);
+    if (!a) return;
+    const content = $('#adminViewApptContent');
+    if (content) {
+      const statusLabel = a.status === 'completed' ? 'مكتمل' : a.status === 'cancelled' ? 'ملغي' : a.status === 'confirmed' ? 'مؤكد' : 'قادم';
+      const statusClass = a.status === 'completed' ? 'badge-success' : a.status === 'cancelled' ? 'badge-danger' : 'badge-warning';
+
+      content.innerHTML = `
+        <div class="space-y-4 text-xs">
+          <div class="flex items-center justify-between p-3 bg-blue-50 rounded-xl">
+            <div>
+              <span class="text-[11px] text-muted block">رمز الموعد الاستشاري</span>
+              <span class="text-base font-extrabold text-primary font-mono">${a.id}</span>
+            </div>
+            <span class="${statusClass} text-xs px-3 py-1 rounded-full font-bold">${statusLabel}</span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2.5">
+            <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-100">
+              <span class="text-muted block text-[11px] mb-1">اسم المستفيد</span>
+              <span class="font-bold text-ink">${a.beneficiary}</span>
+            </div>
+            <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-100">
+              <span class="text-muted block text-[11px] mb-1">الأخصائي المعالج</span>
+              <span class="font-bold text-ink">${a.specialist}</span>
+            </div>
+            <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-100">
+              <span class="text-muted block text-[11px] mb-1">تاريخ الجلسة</span>
+              <span class="font-bold text-ink font-mono">${a.date}</span>
+            </div>
+            <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-100">
+              <span class="text-muted block text-[11px] mb-1">وقت الجلسة</span>
+              <span class="font-bold text-ink font-mono">${a.time}</span>
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-50 rounded-lg border border-slate-100">
+            <span class="text-muted block text-[11px] mb-1">نوع الجلسة والاستشارة</span>
+            <span class="font-semibold text-primary">${a.type || 'عن بُعد (مرئية مشفرة)'}</span>
+          </div>
+
+          ${a.notes ? `
+            <div class="p-3 bg-amber-50 rounded-lg border border-amber-100 text-amber-900">
+              <span class="font-bold block text-[11px] mb-1">ملاحظات الموعد:</span>
+              <p class="leading-relaxed">${a.notes}</p>
+            </div>
+          ` : ''}
+        </div>
+      `;
+    }
+    openModal('#adminViewApptModal');
+  }
+
+  function openApptEditModal(id) {
+    const a = state.appointments.find(x => x.id === id);
+    if (!a) return;
+    $('#editApptId').value = a.id;
+    $('#editApptDate').value = a.date || '';
+    $('#editApptTime').value = a.time || '';
+    $('#editApptStatus').value = a.status || 'upcoming';
+    $('#editApptType').value = a.type || 'عن بُعد';
+    $('#editApptNotes').value = a.notes || '';
+    openModal('#adminEditApptModal');
+  }
 
   function renderAppointmentsTable() {
     const tbody = $('#appointmentsTableTbody');
@@ -583,25 +722,47 @@
         </td>
         <td>
           <div class="table-actions-cell">
-            ${a.status === 'upcoming' ? `
-              <button type="button" class="btn-danger-outline cancel-appt-btn" data-id="${a.id}">إلغاء الموعد</button>
-            ` : '<span class="text-xs text-muted">—</span>'}
+            <button type="button" class="table-icon-btn view appt-view-btn" data-id="${a.id}" title="عرض تفاصيل الموعد">
+              <svg class="icon ic-16"><use href="#i-eye" /></svg>
+            </button>
+            <button type="button" class="table-icon-btn edit appt-edit-btn" data-id="${a.id}" title="تعديل بيانات الموعد">
+              <svg class="icon ic-16"><use href="#i-edit" /></svg>
+            </button>
+            <button type="button" class="table-icon-btn delete appt-delete-btn" data-id="${a.id}" title="حذف الموعد">
+              <svg class="icon ic-16"><use href="#i-trash" /></svg>
+            </button>
           </div>
         </td>
       </tr>
     `).join('');
 
-    $$('.cancel-appt-btn', tbody).forEach(btn => {
+    $$('.appt-view-btn', tbody).forEach(btn => {
+      btn.addEventListener('click', () => openApptViewModal(btn.dataset.id));
+    });
+
+    $$('.appt-edit-btn', tbody).forEach(btn => {
+      btn.addEventListener('click', () => openApptEditModal(btn.dataset.id));
+    });
+
+    $$('.appt-delete-btn', tbody).forEach(btn => {
       btn.addEventListener('click', () => {
-        if (confirm('هل أنت متأكد من رغبتك في إلغاء هذا الموعد؟')) {
-          const a = state.appointments.find(x => x.id === btn.dataset.id);
-          if (a) {
-            a.status = 'cancelled';
+        const a = state.appointments.find(x => x.id === btn.dataset.id);
+        if (!a) return;
+        openAdminConfirm(
+          'حذف الموعد الاستشاري',
+          `هل أنت متأكد من رغبتك في حذف الموعد رقم "${a.id}" للمستفيد "${a.beneficiary}"؟ لا يمكن استرجاع الموعد بعد حذفه.`,
+          async () => {
+            state.appointments = state.appointments.filter(x => x.id !== a.id);
             setStorage(KEYS.APPOINTMENTS, state.appointments);
             renderAppointmentsTable();
-            showToast(`تم إلغاء الموعد رقم ${a.id} بنجاح`);
+            showToast(`تم حذف الموعد رقم ${a.id} بنجاح`);
+            if (window.MaladhDB && window.MaladhDB.supabase) {
+              try {
+                await window.MaladhDB.supabase.from('appointments').delete().or(`appointment_code.eq.${a.id},id.eq.${a.id}`);
+              } catch(err) { console.warn(err); }
+            }
           }
-        }
+        );
       });
     });
   }
@@ -670,6 +831,55 @@
   // 8. واجهة إدارة الإشعارات (Notifications)
   // =====================================================================
 
+  function openNotifViewModal(id) {
+    const n = state.notifications.find(x => x.id === id);
+    if (!n) return;
+    const content = $('#adminViewNotifContent');
+    if (content) {
+      content.innerHTML = `
+        <div class="space-y-3 text-xs">
+          <div class="p-3 bg-blue-50 rounded-xl">
+            <span class="text-[11px] text-muted block mb-0.5">عنوان الإشعار</span>
+            <h4 class="font-extrabold text-sm text-ink">${n.title}</h4>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-100">
+              <span class="text-muted block text-[11px] mb-1">الفئة المستهدفة</span>
+              <span class="font-bold text-ink">${n.target}</span>
+            </div>
+            <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-100">
+              <span class="text-muted block text-[11px] mb-1">نوع الإشعار</span>
+              <span class="font-semibold text-primary">${n.type}</span>
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-50 rounded-lg border border-slate-100">
+            <span class="text-muted block text-[11px] mb-1">نص ومحتوى الإشعار</span>
+            <p class="leading-relaxed text-ink font-medium">${n.content || n.title}</p>
+          </div>
+
+          <div class="flex items-center justify-between text-muted text-[11px] pt-1">
+            <span>تاريخ الإرسال: ${n.date}</span>
+            <span class="badge-success text-xs px-2 py-0.5 rounded-full">${n.status}</span>
+          </div>
+        </div>
+      `;
+    }
+    openModal('#adminViewNotifModal');
+  }
+
+  function openNotifEditModal(id) {
+    const n = state.notifications.find(x => x.id === id);
+    if (!n) return;
+    $('#editNotifId').value = n.id;
+    $('#editNotifTitle').value = n.title;
+    $('#editNotifTarget').value = n.target;
+    $('#editNotifType').value = n.type;
+    $('#editNotifContent').value = n.content || n.title;
+    openModal('#adminEditNotifModal');
+  }
+
   function renderNotificationsLog() {
     const tbody = $('#notificationsLogTbody');
     if (!tbody) return;
@@ -682,17 +892,43 @@
         <td><span class="text-xs text-muted">${n.date}</span></td>
         <td><span class="badge-success text-xs px-2 py-0.5 rounded-full">${n.status}</span></td>
         <td>
-          <button type="button" class="btn-danger-outline delete-notif-btn" data-id="${n.id}">حذف</button>
+          <div class="table-actions-cell">
+            <button type="button" class="table-icon-btn view notif-view-btn" data-id="${n.id}" title="عرض تفاصيل الإشعار">
+              <svg class="icon ic-16"><use href="#i-eye" /></svg>
+            </button>
+            <button type="button" class="table-icon-btn edit notif-edit-btn" data-id="${n.id}" title="تعديل الإشعار">
+              <svg class="icon ic-16"><use href="#i-edit" /></svg>
+            </button>
+            <button type="button" class="table-icon-btn delete notif-delete-btn" data-id="${n.id}" title="حذف الإشعار">
+              <svg class="icon ic-16"><use href="#i-trash" /></svg>
+            </button>
+          </div>
         </td>
       </tr>
     `).join('');
 
-    $$('.delete-notif-btn', tbody).forEach(btn => {
+    $$('.notif-view-btn', tbody).forEach(btn => {
+      btn.addEventListener('click', () => openNotifViewModal(btn.dataset.id));
+    });
+
+    $$('.notif-edit-btn', tbody).forEach(btn => {
+      btn.addEventListener('click', () => openNotifEditModal(btn.dataset.id));
+    });
+
+    $$('.notif-delete-btn', tbody).forEach(btn => {
       btn.addEventListener('click', () => {
-        state.notifications = state.notifications.filter(x => x.id !== btn.dataset.id);
-        setStorage(KEYS.NOTIFS, state.notifications);
-        renderNotificationsLog();
-        showToast('تم حذف الإشعار من السجل');
+        const n = state.notifications.find(x => x.id === btn.dataset.id);
+        if (!n) return;
+        openAdminConfirm(
+          'حذف الإشعار الإداري',
+          `هل أنت متأكد من رغبتك في حذف الإشعار "${n.title}"؟`,
+          () => {
+            state.notifications = state.notifications.filter(x => x.id !== n.id);
+            setStorage(KEYS.NOTIFS, state.notifications);
+            renderNotificationsLog();
+            showToast('تم حذف الإشعار بنجاح');
+          }
+        );
       });
     });
   }
@@ -700,6 +936,16 @@
   // =====================================================================
   // إدارة النوافذ المنبثقة (Modals Management)
   // =====================================================================
+
+  let adminConfirmCallback = null;
+  function openAdminConfirm(title, message, onConfirm) {
+    const titleEl = $('#adminConfirmActionTitle');
+    const msgEl = $('#adminConfirmActionMessage');
+    if (titleEl) titleEl.textContent = title;
+    if (msgEl) msgEl.textContent = message;
+    adminConfirmCallback = onConfirm;
+    openModal('#adminConfirmActionModal');
+  }
 
   function openModal(modalSelector) {
     const modal = $(modalSelector);
@@ -773,15 +1019,33 @@
       $('#adminSidebar')?.classList.toggle('is-open');
     });
 
-    // 5. تسجيل الخروج
-    const handleLogout = () => {
-      if (confirm('هل أنت متأكد من رغبتك في تسجيل الخروج من لوحة تحكم المدير؟')) {
-        localStorage.removeItem('maladh:current_role');
-        showToast('تم تسجيل الخروج بنجاح.');
-        setTimeout(() => {
-          window.location.href = 'index.html';
-        }, 600);
+    // 5. زر تأكيد الحذف أو الإجراء العام
+    $('#adminConfirmActionSubmitBtn')?.addEventListener('click', async () => {
+      if (typeof adminConfirmCallback === 'function') {
+        const cb = adminConfirmCallback;
+        adminConfirmCallback = null;
+        closeModal('#adminConfirmActionModal');
+        await cb();
       }
+    });
+
+    // 6. تسجيل الخروج
+    const handleLogout = () => {
+      openAdminConfirm(
+        'تسجيل الخروج من لوحة الإدارة',
+        'هل أنت متأكد من رغبتك في تسجيل الخروج وإنهاء جلسة مدير النظام الحالية؟',
+        async () => {
+          localStorage.removeItem('maladh:current_role');
+          localStorage.removeItem('maladh:admin_user');
+          if (window.MaladhDB && window.MaladhDB.auth) {
+            try { await window.MaladhDB.auth.signOut(); } catch(e){}
+          }
+          showToast('تم تسجيل الخروج بنجاح.');
+          setTimeout(() => {
+            window.location.href = 'index.html';
+          }, 500);
+        }
+      );
     };
 
     $('#adminSidebarLogoutBtn')?.addEventListener('click', handleLogout);
@@ -883,6 +1147,40 @@
       showToast(`تمت إضافة واعتماد المختص: ${name} بنجاح`);
     });
 
+    // نموذج تعديل بيانات المختص (Edit Specialist Form)
+    $('#adminEditSpecialistForm')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const id = $('#editSpecId')?.value;
+      const s = state.specialists.find(x => x.id === id);
+      if (s) {
+        s.name = $('#editSpecName').value.trim();
+        s.specialty = $('#editSpecSpecialty').value.trim();
+        s.license = $('#editSpecLicense').value.trim();
+        s.email = $('#editSpecEmail').value.trim();
+        s.phone = $('#editSpecPhone').value.trim();
+        s.hourlyRate = Number($('#editSpecHourlyRate').value) || 250;
+        s.rating = Number($('#editSpecRating').value) || 4.9;
+        s.verified = $('#editSpecVerified').value === 'true';
+        s.available = $('#editSpecAvailable').value === 'true';
+        setStorage(KEYS.SPECIALISTS, state.specialists);
+        closeModal('#adminEditSpecialistModal');
+        renderSpecialistsTable();
+        showToast(`تم حفظ وتحديث بيانات المختص: ${s.name}`);
+
+        if (window.MaladhDB && window.MaladhDB.supabase && s.id) {
+          try {
+            await window.MaladhDB.supabase.from('specialist_profiles').update({
+              specialty: s.specialty,
+              license_number: s.license,
+              is_verified: s.verified,
+              is_available: s.available,
+              hourly_rate: s.hourlyRate
+            }).eq('id', s.id);
+          } catch(err) { console.warn(err); }
+        }
+      }
+    });
+
     // 9. أزرار فلاتر المواعيد
     $$('[data-appt-filter]').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -894,6 +1192,36 @@
     });
 
     $('#apptSearchInput')?.addEventListener('input', renderAppointmentsTable);
+
+    // نموذج تعديل بيانات الموعد (Edit Appointment Form)
+    $('#adminEditApptForm')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const id = $('#editApptId')?.value;
+      const a = state.appointments.find(x => x.id === id);
+      if (a) {
+        a.date = $('#editApptDate').value;
+        a.time = $('#editApptTime').value;
+        a.status = $('#editApptStatus').value;
+        a.type = $('#editApptType').value;
+        a.notes = $('#editApptNotes').value;
+        setStorage(KEYS.APPOINTMENTS, state.appointments);
+        closeModal('#adminEditApptModal');
+        renderAppointmentsTable();
+        showToast(`تم حفظ وتحديث بيانات الموعد رقم ${a.id}`);
+
+        if (window.MaladhDB && window.MaladhDB.supabase) {
+          try {
+            await window.MaladhDB.supabase.from('appointments').update({
+              appointment_date: a.date,
+              appointment_time: a.time,
+              status: a.status,
+              type: a.type,
+              notes: a.notes
+            }).or(`appointment_code.eq.${a.id},id.eq.${a.id}`);
+          } catch(err) { console.warn(err); }
+        }
+      }
+    });
 
     // 10. نموذج إضافة وتعديل الخدمات
     $('#openAddServiceModalBtn')?.addEventListener('click', () => {
@@ -1030,6 +1358,23 @@
       $('#createNotificationForm').reset();
       renderNotificationsLog();
       showToast(`تم بث وإرسال الإشعار بنجاح إلى: ${target}`);
+    });
+
+    // نموذج تعديل الإشعار (Edit Notification Form)
+    $('#adminEditNotifForm')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const id = $('#editNotifId')?.value;
+      const n = state.notifications.find(x => x.id === id);
+      if (n) {
+        n.title = $('#editNotifTitle').value.trim();
+        n.target = $('#editNotifTarget').value;
+        n.type = $('#editNotifType').value;
+        n.content = $('#editNotifContent').value.trim();
+        setStorage(KEYS.NOTIFS, state.notifications);
+        closeModal('#adminEditNotifModal');
+        renderNotificationsLog();
+        showToast(`تم حفظ وتحديث الإشعار: ${n.title}`);
+      }
     });
 
     // 14. تصدير التقارير

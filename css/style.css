@@ -3,8 +3,8 @@
    الألوان معرّفة كمتغيرات: يغيّرها الوضع الداكن تلقائيًا (data-theme="dark")
    ===================================================================== */
 :root {
-  /* ألوان الهوية */
-  --navy: #0F2743; --primary: #1965B3; --aqua: #6DE7F7; --sky: #41BCE6; --calm: #75A2B9; --mist: #F0F6FC;
+  /* ألوان الهوية المعتمدة */
+  --navy: #0F2743; --primary: #1965B3; --aqua: #6DE7F7; --sky: #41BCE6; --calm: #75A2B9; --navy-dark: #1A4474; --blue-medium: #5B90C4; --mist: #F0F6FC;
 
   /* الوضع الفاتح */
   --bg: #FFFFFF; --bg-soft: #F0F6FC; --surface: #FFFFFF; --glass: rgba(255,255,255,.88);

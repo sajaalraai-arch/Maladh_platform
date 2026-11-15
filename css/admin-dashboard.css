@@ -7,19 +7,22 @@
    ===================================================================== */
 
 :root {
-  --admin-navy: #1B406D;
-  --admin-navy-dark: #122B4A;
-  --admin-navy-deep: #0F233D;
-  --admin-blue: #24558F;
-  --admin-blue-accent: #3278C7;
-  --admin-blue-hover: #1E66B0;
+  /* لوحة الألوان المعتمدة حصرياً لمنصة ملاذ */
+  --admin-navy: #1A4474;        /* أزرق داكن */
+  --admin-navy-dark: #0F2743;   /* كحلي داكن */
+  --admin-navy-deep: #0F2743;   /* كحلي داكن */
+  --admin-blue: #1965B3;        /* أزرق أساسي */
+  --admin-blue-accent: #41BCE6; /* أزرق سماوي */
+  --admin-blue-hover: #1A4474;  /* أزرق داكن */
   --admin-blue-light: #E5EEFF;
-  --admin-blue-subtle: #F3F6FD;
-  --admin-bg: #F4F7FC;
+  --admin-blue-subtle: #F0F6FC;
+  --admin-bg: #F0F6FC;
   --admin-white: #FFFFFF;
-  --admin-ink: #173C6A;
+  --admin-ink: #0F2743;         /* كحلي داكن للنصوص والعناوين */
   --admin-ink-dark: #0F2743;
-  --admin-muted: #64748B;
+  --admin-muted: #75A2B9;       /* أزرق رمادي */
+  --admin-medium: #5B90C4;      /* أزرق متوسط */
+  --admin-aqua: #6DE7F7;        /* سماوي فاتح */
   --admin-line: #E2E8F0;
   --admin-line-soft: #EDF2F9;
   
@@ -815,6 +818,50 @@ body {
   background: var(--admin-blue-subtle);
   border-color: var(--admin-blue-accent);
   color: var(--admin-blue);
+}
+
+.table-icon-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 0.5rem;
+  border: 1px solid var(--admin-line);
+  background: var(--admin-white);
+  color: var(--admin-ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.table-icon-btn.view {
+  color: #1965B3;
+}
+.table-icon-btn.view:hover {
+  background: #E5EEFF;
+  border-color: #1965B3;
+  color: #0F2743;
+  transform: translateY(-1px);
+}
+
+.table-icon-btn.edit {
+  color: #5B90C4;
+}
+.table-icon-btn.edit:hover {
+  background: #F0F6FC;
+  border-color: #1965B3;
+  color: #1965B3;
+  transform: translateY(-1px);
+}
+
+.table-icon-btn.delete {
+  color: #EF4444;
+}
+.table-icon-btn.delete:hover {
+  background: #FEF2F2;
+  border-color: #EF4444;
+  color: #B91C1C;
+  transform: translateY(-1px);
 }
 
 /* شريط الفلاتر والبحث في الجداول */

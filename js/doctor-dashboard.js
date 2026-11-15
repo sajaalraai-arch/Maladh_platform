@@ -3229,7 +3229,7 @@
     $('#doctorProfileForm')?.addEventListener('submit', handleDoctorProfileSubmit);
 
     // تسجيل الخروج
-    $$('[data-doc-logout]').forEach(btn => {
+    $$('[data-doc-logout], #doctorSidebarLogoutBtn').forEach(btn => {
       btn.addEventListener('click', handleLogout);
     });
 

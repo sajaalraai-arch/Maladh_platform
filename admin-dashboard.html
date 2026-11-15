@@ -1116,6 +1116,252 @@
     </div>
   </div>
 
+  <!-- 6. مودال عرض تفاصيل المختص (View Specialist) -->
+  <div id="adminViewSpecialistModal" class="admin-modal-overlay" role="dialog" aria-modal="true">
+    <div class="admin-modal-box max-w-lg">
+      <div class="admin-modal-header">
+        <h3 class="admin-modal-title">ملف وبيانات الأخصائي النفسي</h3>
+        <button type="button" class="admin-modal-close-btn" data-close-modal="#adminViewSpecialistModal">
+          <svg class="icon ic-20"><use href="#i-x" /></svg>
+        </button>
+      </div>
+      <div class="admin-modal-body" id="adminViewSpecialistContent">
+        <!-- يتم حقن التفاصيل هنا -->
+      </div>
+      <div class="admin-modal-footer">
+        <button type="button" class="btn-outline" data-close-modal="#adminViewSpecialistModal">إغلاق</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. مودال تعديل بيانات المختص (Edit Specialist) -->
+  <div id="adminEditSpecialistModal" class="admin-modal-overlay" role="dialog" aria-modal="true">
+    <div class="admin-modal-box max-w-lg">
+      <div class="admin-modal-header">
+        <h3 class="admin-modal-title">تعديل بيانات الأخصائي</h3>
+        <button type="button" class="admin-modal-close-btn" data-close-modal="#adminEditSpecialistModal">
+          <svg class="icon ic-20"><use href="#i-x" /></svg>
+        </button>
+      </div>
+      <form id="adminEditSpecialistForm">
+        <input type="hidden" id="editSpecId" value="" />
+        <div class="admin-modal-body space-y-3">
+          <div class="admin-form-group">
+            <label class="admin-form-label">اسم الأخصائي الكامل</label>
+            <input type="text" id="editSpecName" class="admin-form-input" required />
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div class="admin-form-group">
+              <label class="admin-form-label">التخصص الدقيق</label>
+              <input type="text" id="editSpecSpecialty" class="admin-form-input" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">رقم رخصة المزاولة</label>
+              <input type="text" id="editSpecLicense" class="admin-form-input" required />
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div class="admin-form-group">
+              <label class="admin-form-label">البريد الإلكتروني</label>
+              <input type="email" id="editSpecEmail" class="admin-form-input" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">رقم الهاتف</label>
+              <input type="tel" id="editSpecPhone" class="admin-form-input" required />
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div class="admin-form-group">
+              <label class="admin-form-label">سعر الجلسة (ر.س)</label>
+              <input type="number" id="editSpecHourlyRate" class="admin-form-input" placeholder="250" />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">التقييم (من 5)</label>
+              <input type="number" step="0.1" max="5" min="1" id="editSpecRating" class="admin-form-input" placeholder="4.9" />
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div class="admin-form-group">
+              <label class="admin-form-label">حالة التوثيق والاعتماد</label>
+              <select id="editSpecVerified" class="admin-form-select">
+                <option value="true">معتمد وموثق</option>
+                <option value="false">بانتظار المراجعة</option>
+              </select>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">حالة التوفر للحجز</label>
+              <select id="editSpecAvailable" class="admin-form-select">
+                <option value="true">متاح لاستقبال الحجوزات</option>
+                <option value="false">غير متاح حالياً</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="admin-modal-footer">
+          <button type="button" class="btn-outline" data-close-modal="#adminEditSpecialistModal">إلغاء</button>
+          <button type="submit" class="btn-primary">حفظ التغييرات</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 8. مودال عرض تفاصيل الموعد (View Appointment) -->
+  <div id="adminViewApptModal" class="admin-modal-overlay" role="dialog" aria-modal="true">
+    <div class="admin-modal-box max-w-lg">
+      <div class="admin-modal-header">
+        <h3 class="admin-modal-title">تفاصيل الموعد الاستشاري</h3>
+        <button type="button" class="admin-modal-close-btn" data-close-modal="#adminViewApptModal">
+          <svg class="icon ic-20"><use href="#i-x" /></svg>
+        </button>
+      </div>
+      <div class="admin-modal-body" id="adminViewApptContent">
+        <!-- يتم حقن التفاصيل هنا -->
+      </div>
+      <div class="admin-modal-footer">
+        <button type="button" class="btn-outline" data-close-modal="#adminViewApptModal">إغلاق</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. مودال تعديل بيانات الموعد (Edit Appointment) -->
+  <div id="adminEditApptModal" class="admin-modal-overlay" role="dialog" aria-modal="true">
+    <div class="admin-modal-box max-w-lg">
+      <div class="admin-modal-header">
+        <h3 class="admin-modal-title">تعديل بيانات الموعد</h3>
+        <button type="button" class="admin-modal-close-btn" data-close-modal="#adminEditApptModal">
+          <svg class="icon ic-20"><use href="#i-x" /></svg>
+        </button>
+      </div>
+      <form id="adminEditApptForm">
+        <input type="hidden" id="editApptId" value="" />
+        <div class="admin-modal-body space-y-3">
+          <div class="grid grid-cols-2 gap-2">
+            <div class="admin-form-group">
+              <label class="admin-form-label">تاريخ الموعد</label>
+              <input type="date" id="editApptDate" class="admin-form-input" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">وقت الموعد</label>
+              <input type="text" id="editApptTime" class="admin-form-input" placeholder="05:00 م" required />
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div class="admin-form-group">
+              <label class="admin-form-label">حالة الموعد</label>
+              <select id="editApptStatus" class="admin-form-select">
+                <option value="upcoming">قادم / قيد الانتظار</option>
+                <option value="confirmed">مؤكد</option>
+                <option value="completed">مكتمل ومنتهي</option>
+                <option value="cancelled">ملغي</option>
+              </select>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">نوع الجلسة</label>
+              <select id="editApptType" class="admin-form-select">
+                <option value="عن بُعد">عن بُعد (مرئية مشفرة)</option>
+                <option value="صوتية">استشارة صوتية</option>
+                <option value="محادثة">محادثة كتابية</option>
+                <option value="حضورية">جلسة عيادة حضورية</option>
+              </select>
+            </div>
+          </div>
+          <div class="admin-form-group">
+            <label class="admin-form-label">ملاحظات الموعد أو سبب التعديل</label>
+            <textarea id="editApptNotes" rows="2" class="admin-form-textarea" placeholder="أي تفاصيل أو ملاحظات إدارية..."></textarea>
+          </div>
+        </div>
+        <div class="admin-modal-footer">
+          <button type="button" class="btn-outline" data-close-modal="#adminEditApptModal">إلغاء</button>
+          <button type="submit" class="btn-primary">حفظ تعديلات الموعد</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 10. مودال عرض تفاصيل الإشعار (View Notification) -->
+  <div id="adminViewNotifModal" class="admin-modal-overlay" role="dialog" aria-modal="true">
+    <div class="admin-modal-box max-w-md">
+      <div class="admin-modal-header">
+        <h3 class="admin-modal-title">تفاصيل الإشعار الإداري</h3>
+        <button type="button" class="admin-modal-close-btn" data-close-modal="#adminViewNotifModal">
+          <svg class="icon ic-20"><use href="#i-x" /></svg>
+        </button>
+      </div>
+      <div class="admin-modal-body" id="adminViewNotifContent">
+        <!-- يتم حقن المحتوى هنا -->
+      </div>
+      <div class="admin-modal-footer">
+        <button type="button" class="btn-outline" data-close-modal="#adminViewNotifModal">إغلاق</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11. مودال تعديل الإشعار (Edit Notification) -->
+  <div id="adminEditNotifModal" class="admin-modal-overlay" role="dialog" aria-modal="true">
+    <div class="admin-modal-box max-w-md">
+      <div class="admin-modal-header">
+        <h3 class="admin-modal-title">تعديل الإشعار</h3>
+        <button type="button" class="admin-modal-close-btn" data-close-modal="#adminEditNotifModal">
+          <svg class="icon ic-20"><use href="#i-x" /></svg>
+        </button>
+      </div>
+      <form id="adminEditNotifForm">
+        <input type="hidden" id="editNotifId" value="" />
+        <div class="admin-modal-body space-y-3">
+          <div class="admin-form-group">
+            <label class="admin-form-label">عنوان الإشعار</label>
+            <input type="text" id="editNotifTitle" class="admin-form-input" required />
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div class="admin-form-group">
+              <label class="admin-form-label">الجهة المستهدفة</label>
+              <select id="editNotifTarget" class="admin-form-select">
+                <option value="الجميع">كافة مستخدمي المنصة</option>
+                <option value="المستفيدين">المستفيدين فقط</option>
+                <option value="المختصين">الأخصائيين النفسيين</option>
+              </select>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">نوع الإشعار</label>
+              <select id="editNotifType" class="admin-form-select">
+                <option value="إداري">إشعار إداري عام</option>
+                <option value="تذكير">تذكير بالمواعيد</option>
+                <option value="تحديث">تحديث النظام</option>
+              </select>
+            </div>
+          </div>
+          <div class="admin-form-group">
+            <label class="admin-form-label">نص ومحتوى الإشعار</label>
+            <textarea id="editNotifContent" rows="3" class="admin-form-textarea" required></textarea>
+          </div>
+        </div>
+        <div class="admin-modal-footer">
+          <button type="button" class="btn-outline" data-close-modal="#adminEditNotifModal">إلغاء</button>
+          <button type="submit" class="btn-primary">تحديث الإشعار</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 12. مودال التأكيد العام لعمليات الحذف (Confirm Delete Modal) -->
+  <div id="adminConfirmActionModal" class="admin-modal-overlay" role="dialog" aria-modal="true">
+    <div class="admin-modal-box max-w-sm text-center">
+      <div class="w-14 h-14 rounded-full bg-rose-50 text-rose-600 mx-auto mb-3 flex items-center justify-center">
+        <svg class="icon ic-24"><use href="#i-trash" /></svg>
+      </div>
+      <h3 class="text-base font-bold text-ink mb-1.5" id="adminConfirmActionTitle">تأكيد عملية الحذف</h3>
+      <p class="text-xs text-muted mb-5 leading-relaxed" id="adminConfirmActionMessage">
+        هل أنت متأكد من رغبتك في إتمام هذا الإجراء؟ لا يمكن التراجع بعد الحذف.
+      </p>
+      <div class="flex items-center justify-center gap-2.5">
+        <button type="button" class="btn-outline text-xs py-2 px-4" data-close-modal="#adminConfirmActionModal">إلغاء</button>
+        <button type="button" class="btn-danger text-xs py-2 px-4" id="adminConfirmActionSubmitBtn">
+          <span>نعم، تأكيد الحذف</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- توست التنبيهات السريع -->
   <div id="adminToast" class="admin-toast" role="alert">
     <svg class="icon ic-20 text-emerald-400">

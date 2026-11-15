@@ -12,19 +12,22 @@
 
 
   :root {
-            --bg-main: #edf3fa;
+            /* لوحة الألوان المعتمدة حصرياً لمنصة ملاذ */
+            --bg-main: #F0F6FC;
             --bg-card: #ffffff;
-            --bg-subtle: #f4f8fd;
-            --bg-pill: #e8f1fb;
+            --bg-subtle: #F0F6FC;
+            --bg-pill: #E5EEFF;
             
-            --primary-dark: #1b4d89;
-            --primary-darker: #133968;
-            --primary-medium: #2b6cb0;
-            --primary-light: #d7e6f9;
+            --primary-dark: #1A4474;        /* أزرق داكن */
+            --primary-darker: #0F2743;      /* كحلي داكن */
+            --primary-medium: #1965B3;      /* أزرق أساسي */
+            --primary-light: #E5EEFF;
+            --primary-accent: #41BCE6;      /* أزرق سماوي */
+            --primary-aqua: #6DE7F7;        /* سماوي فاتح */
             
-            --text-main: #132c4e;
-            --text-secondary: #4a6585;
-            --text-muted: #7890ad;
+            --text-main: #0F2743;           /* كحلي داكن */
+            --text-secondary: #5B90C4;      /* أزرق متوسط */
+            --text-muted: #75A2B9;          /* أزرق رمادي */
             
             --success: #16a34a;
             --success-bg: #dcfce7;
@@ -1588,6 +1591,29 @@ body {
 
 .doc-support-phone:hover {
   text-decoration: underline;
+}
+
+/* خيار تسجيل الخروج في أسفل الشريط الجانبي */
+.doc-sidebar-logout-card {
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.doc-sidebar-logout-card:hover {
+  background: rgba(239, 68, 68, 0.14) !important;
+  border-color: rgba(239, 68, 68, 0.4) !important;
+  transform: translateY(-1px);
+}
+
+.doc-sidebar-logout-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: start;
 }
 
 /* =====================================================================

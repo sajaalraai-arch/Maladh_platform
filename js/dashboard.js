@@ -1229,29 +1229,121 @@
   // ---------- نافذة حجز الاستشارة (Booking Flow Modal) ----------
   const bookingModal = $('#bookingModal');
 
+  async function updateBookingSlots(specialist, dateStr) {
+    const slotsContainer = $('#bookingSlotsContainer');
+    const badge = $('#bookingSlotsCountBadge');
+    if (!slotsContainer) return;
+
+    slotsContainer.innerHTML = '<div class="col-span-full py-4 text-center text-xs text-muted">جارِ فحص الأوقات المتاحة...</div>';
+
+    // الأوقات الافتراضية لليوم
+    const defaultSlots = specialist.slots && specialist.slots.length
+      ? specialist.slots
+      : ['09:00 ص', '10:00 ص', '11:30 ص', '04:00 م', '05:00 م', '06:30 م', '07:30 م', '08:30 م'];
+
+    // جلب الأوقات المحجوزة مسبقاً من Supabase والمحلي
+    let bookedTimes = [];
+    if (window.MaladhDB && window.MaladhDB.appointments) {
+      try {
+        bookedTimes = await window.MaladhDB.appointments.getBookedSlots(specialist.id, dateStr);
+      } catch (e) {
+        console.warn('Could not fetch booked slots:', e);
+      }
+    }
+
+    // فحص المواعيد المحجوزة في الحالة المحلية أيضاً
+    const localBooked = state.appointments
+      .filter(a => (a.specialistId === specialist.id || a.specialistName === specialist.name) && a.rawDate === dateStr && a.status !== 'cancelled')
+      .map(a => a.time);
+    bookedTimes = [...new Set([...bookedTimes, ...localBooked])];
+
+    const availableSlots = defaultSlots.filter(s => !bookedTimes.includes(s));
+
+    if (badge) {
+      badge.textContent = `${availableSlots.length} أوقات متاحة`;
+    }
+
+    if (!defaultSlots.length || availableSlots.length === 0) {
+      slotsContainer.innerHTML = `
+        <div class="col-span-full p-4 rounded-xl bg-amber-50 dark:bg-amber-950/20 text-center border border-amber-200 dark:border-amber-800">
+          <p class="text-xs font-bold text-amber-800 dark:text-amber-300">جميع أوقات هذا اليوم محجوزة بالكامل أو غير متاحة.</p>
+          <p class="text-[11px] text-muted mt-0.5">يرجى اختيار تاريخ آخر لمتابعة الحجز.</p>
+        </div>
+      `;
+      return;
+    }
+
+    slotsContainer.innerHTML = defaultSlots.map((slot, i) => {
+      const isBooked = bookedTimes.includes(slot);
+      if (isBooked) {
+        return `
+          <div class="px-2.5 py-2 rounded-xl text-center text-xs font-semibold border border-line bg-slate-100 dark:bg-slate-800/40 text-slate-400 dark:text-slate-500 line-through cursor-not-allowed select-none flex items-center justify-center gap-1" title="هذا الموعد محجوز مسبقاً">
+            <svg class="icon" style="width:12px;height:12px"><use href="#i-lock"/></svg>
+            <span>${slot}</span>
+          </div>
+        `;
+      }
+      return `
+        <label class="cursor-pointer">
+          <input type="radio" name="bookingSlot" value="${slot}" class="sr-only peer" ${availableSlots.indexOf(slot) === 0 ? 'checked' : ''} />
+          <div class="px-2.5 py-2 rounded-xl text-center font-bold text-xs border border-line peer-checked:border-primary peer-checked:bg-blue-50 dark:peer-checked:bg-slate-800 peer-checked:text-primary transition">
+            ${slot}
+          </div>
+        </label>
+      `;
+    }).join('');
+  }
+
   function openBookingModal(specialistId) {
-    const s = SPECIALISTS_LIST.find(x => x.id === specialistId) || SPECIALISTS_LIST[0];
+    if (!bookingModal) return;
+
+    // تعبئة قائمة المختصين المتاحين
+    const specSelect = $('#bookingSpecialistSelect');
+    if (specSelect) {
+      specSelect.innerHTML = SPECIALISTS_LIST.map(s => `
+        <option value="${s.id}">${s.name} — ${s.specialtyName || s.title} (★ ${s.rating || '4.9'})</option>
+      `).join('');
+
+      if (specialistId) {
+        specSelect.value = specialistId;
+      }
+    }
+
+    let s = SPECIALISTS_LIST.find(x => x.id === (specialistId || (specSelect ? specSelect.value : null))) || SPECIALISTS_LIST[0];
     state.bookingSpecialist = s;
 
-    $('#bookingSpecName').textContent = s.name;
-    $('#bookingSpecTitle').textContent = s.title;
-    $('#bookingSpecPhoto').src = s.photo;
-    
-    // المواعيد المتاحة
-    const slotsContainer = $('#bookingSlotsContainer');
-    slotsContainer.innerHTML = s.slots.map((slot, i) => `
-      <label class="cursor-pointer">
-        <input type="radio" name="bookingSlot" value="${slot}" class="sr-only peer" ${i === 0 ? 'checked' : ''} />
-        <div class="px-3 py-2 rounded-xl text-center font-bold text-sm border border-line peer-checked:border-primary peer-checked:bg-blue-50 dark:peer-checked:bg-slate-800 peer-checked:text-primary transition">
-          ${slot}
-        </div>
-      </label>
-    `).join('');
+    const updateSpecCard = (spec) => {
+      state.bookingSpecialist = spec;
+      if ($('#bookingSpecName')) $('#bookingSpecName').textContent = spec.name;
+      if ($('#bookingSpecTitle')) $('#bookingSpecTitle').textContent = spec.specialtyName || spec.title;
+      if ($('#bookingSpecPhoto')) $('#bookingSpecPhoto').src = spec.photo;
+    };
+    updateSpecCard(s);
 
-    // التاريخ التلقائي (غداً)
-    const d = new Date();
-    d.setDate(d.getDate() + 2);
-    $('#bookingDatePicker').value = d.toISOString().split('T')[0];
+    // ضبط التاريخ المناسب
+    const datePicker = $('#bookingDatePicker');
+    const today = new Date();
+    const minDateStr = today.toISOString().split('T')[0];
+    if (datePicker) {
+      datePicker.min = minDateStr;
+      today.setDate(today.getDate() + 1);
+      datePicker.value = today.toISOString().split('T')[0];
+    }
+
+    updateBookingSlots(s, datePicker ? datePicker.value : minDateStr);
+
+    // الاستماع لتغيير الطبيب أو التاريخ
+    specSelect?.addEventListener('change', (e) => {
+      const selected = SPECIALISTS_LIST.find(x => x.id === e.target.value) || SPECIALISTS_LIST[0];
+      updateSpecCard(selected);
+      updateBookingSlots(selected, datePicker ? datePicker.value : minDateStr);
+    });
+
+    datePicker?.addEventListener('change', (e) => {
+      if (state.bookingSpecialist) {
+        updateBookingSlots(state.bookingSpecialist, e.target.value);
+      }
+    });
 
     bookingModal.classList.add('is-open');
   }
@@ -1265,7 +1357,7 @@
     if (bookBtn) {
       e.preventDefault();
       const specId = bookBtn.dataset.openBooking;
-      window.location.href = `booking.html?specialist=${encodeURIComponent(specId)}`;
+      openBookingModal(specId);
     }
   });
 
@@ -1273,70 +1365,105 @@
   $('#cancelBookingBtn')?.addEventListener('click', closeBookingModal);
 
   // تأكيد حجز الموعد
-  $('#confirmBookingForm')?.addEventListener('submit', (e) => {
+  $('#confirmBookingForm')?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const s = state.bookingSpecialist;
-    const selectedDate = $('#bookingDatePicker').value;
-    const selectedSlot = $('input[name="bookingSlot"]:checked')?.value || '05:00 م';
-    const sessionType = $('input[name="sessionType"]:checked')?.value || 'جلسة فيديو مرئية مشفرة';
-    const notes = $('#bookingNotes').value.trim();
-
-    const { day, formattedDate } = getArabicDayAndDate(selectedDate);
-    const newAppointment = {
-      id: `apt-${Date.now()}`,
-      day: day,
-      date: formattedDate,
-      rawDate: selectedDate,
-      time: selectedSlot,
-      type: sessionType,
-      status: 'confirmed',
-      statusText: 'موعد مؤكد',
-      specialistId: s.id,
-      specialistName: s.name,
-      specialistRole: s.title,
-      specialistPhoto: s.photo,
-      sessionTitle: sessionType || 'جلسة استشارية نفسية',
-      notes: notes || 'استشارة استرشادية سرية'
-    };
-
-    state.appointments.unshift(newAppointment);
-    setStorage(KEYS.APPOINTMENTS, state.appointments);
-
-    // ربط الحجز مع Supabase
-    if (window.MaladhDB && window.MaladhDB.appointments) {
-      window.MaladhDB.appointments.create({
-        beneficiary_id: state.user.id || 'b1',
-        specialist_id: s.id,
-        appointment_date: selectedDate,
-        appointment_time: selectedSlot,
-        session_title: sessionType || 'جلسة استشارية نفسية',
-        type: 'عن بُعد',
-        notes: notes || ''
-      }).catch(e => console.warn('[Supabase Appointment Sync]:', e.message));
+    if (!s) {
+      showToast('يرجى اختيار أخصائي نفسي للمتابعة.');
+      return;
     }
 
-    // إضافة إشعار
-    state.notifications.unshift({
-      id: `notif-${Date.now()}`,
-      title: 'تم تأكيد حجز جلستك',
-      desc: `تم تأكيد موعدك مع ${s.name} في ${formattedDate} الساعة ${selectedSlot}.`,
-      time: 'الآن',
-      read: false,
-      type: 'calendar'
-    });
-    setStorage(KEYS.NOTIFS, state.notifications);
-    updateNotifBadge();
+    const selectedDate = $('#bookingDatePicker')?.value;
+    if (!selectedDate) {
+      showToast('يرجى اختيار تاريخ الجلسة.');
+      return;
+    }
 
-    closeBookingModal();
-    showToast(`تم تأكيد موعدك بنجاح مع ${s.name} في ${formattedDate} ✨`);
-    
-    // إعادة رسم قائمة المواعيد
-    renderAppointments();
+    const selectedSlot = $('input[name="bookingSlot"]:checked')?.value;
+    if (!selectedSlot) {
+      showToast('يرجى اختيار وقت متاح من الأوقات الشاغرة.');
+      return;
+    }
 
-    // الانتقال إلى مواعيدي
-    setTimeout(() => {
-      switchView('appointments');
-    }, 600);
+    const sessionType = $('input[name="sessionType"]:checked')?.value || 'جلسة فيديو مرئية مشفرة';
+    const notes = ($('#bookingNotes')?.value || '').trim();
+
+    const submitBtn = $('#confirmBookingBtn');
+    const origText = submitBtn ? submitBtn.innerHTML : '';
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = 'جارٍ تأكيد الحجز...';
+    }
+
+    const { day, formattedDate } = getArabicDayAndDate(selectedDate);
+    let apptCode = `APT-${Math.floor(1000 + Math.random() * 9000)}`;
+
+    try {
+      // ربط وحفظ الحجز في قاعدة بيانات Supabase
+      if (window.MaladhDB && window.MaladhDB.appointments) {
+        const u = state.user;
+        const res = await window.MaladhDB.appointments.create({
+          beneficiary_id: (u && u.id) || 'bd9557fa-cd22-40a5-b515-56220445ca25',
+          specialist_id: s.id,
+          appointment_date: selectedDate,
+          appointment_time: selectedSlot,
+          session_title: sessionType,
+          type: sessionType.includes('حضور') ? 'حضورية' : 'عن بُعد',
+          status: 'upcoming',
+          notes: notes
+        });
+        if (res && res.appointment_code) {
+          apptCode = res.appointment_code;
+        }
+      }
+
+      const newAppointment = {
+        id: apptCode,
+        day: day,
+        date: formattedDate,
+        rawDate: selectedDate,
+        time: selectedSlot,
+        type: sessionType,
+        status: 'upcoming',
+        statusText: 'قيد الانتظار',
+        specialistId: s.id,
+        specialistName: s.name,
+        specialistRole: s.title,
+        specialistPhoto: s.photo,
+        sessionTitle: sessionType,
+        notes: notes || 'استشارة استرشادية سرية'
+      };
+
+      state.appointments.unshift(newAppointment);
+      setStorage(KEYS.APPOINTMENTS, state.appointments);
+
+      // إضافة إشعار
+      state.notifications.unshift({
+        id: `notif-${Date.now()}`,
+        title: 'تم تسجيل طلب حجز الجلسة بنجاح',
+        desc: `تم حجز موعدك رقم ${apptCode} مع ${s.name} في ${formattedDate} الساعة ${selectedSlot}.`,
+        time: 'الآن',
+        read: false,
+        type: 'calendar'
+      });
+      setStorage(KEYS.NOTIFS, state.notifications);
+      updateNotifBadge();
+
+      closeBookingModal();
+      showToast(`تم تأكيد حجز موعدك بنجاح (${apptCode}) مع ${s.name} في ${formattedDate} ✨`);
+
+      // تحديث قائمة المواعيد تلقائياً
+      renderAppointments();
+
+    } catch (err) {
+      console.error('Booking save error:', err);
+      showToast('حدث خطأ أثناء حفظ الحجز، يرجى المحاولة مرة أخرى.');
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = origText;
+      }
+    }
   });
 
   // ---------- دالة استخراج اليوم والتاريخ العربي للمواعيد ----------
@@ -2503,10 +2630,15 @@
     if (e.target.closest('[data-dash-logout]')) {
       e.preventDefault();
       if (confirm('هل ترغب حقاً في تسجيل الخروج من مساحتك في ملاذ؟')) {
+        localStorage.removeItem('maladh:current_role');
+        localStorage.removeItem('maladh:user_data');
+        if (window.MaladhDB && window.MaladhDB.auth) {
+          window.MaladhDB.auth.signOut().catch(() => {});
+        }
         showToast('إلى اللقاء، ننتظر عودتك دائماً بكل حب');
         setTimeout(() => {
           window.location.href = 'index.html';
-        }, 800);
+        }, 500);
       }
     }
   });
