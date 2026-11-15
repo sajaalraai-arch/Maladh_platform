@@ -419,51 +419,7 @@
       }
     },
 
-    // -------------------------------------------------------------------
-    // 3. إدارة الخدمات (Services)
-    // -------------------------------------------------------------------
-    services: {
-      async getAll() {
-        if (isRealCredentials && client) {
-          const { data, error } = await client
-            .from('services')
-            .select('*')
-            .order('created_at', { ascending: true });
-
-          if (error) {
-            console.warn('[MaladhDB] Services query error:', error.message);
-            return getLocal('maladh:admin_services_v1', []);
-          }
-          return data || [];
-        } else {
-          return getLocal('maladh:admin_services_v1', []);
-        }
-      },
-
-      async create(serviceData) {
-        if (isRealCredentials && client) {
-          const { data, error } = await client.from('services').insert([serviceData]).select().single();
-          if (error) throw error;
-          return data;
-        }
-      },
-
-      async update(id, updates) {
-        if (isRealCredentials && client) {
-          const { data, error } = await client.from('services').update(updates).eq('id', id).select().single();
-          if (error) throw error;
-          return data;
-        }
-      },
-
-      async delete(id) {
-        if (isRealCredentials && client) {
-          const { error } = await client.from('services').delete().eq('id', id);
-          if (error) throw error;
-          return true;
-        }
-      }
-    },
+   
 
     // -------------------------------------------------------------------
     // 4. المواعيد والحجوزات (Appointments)

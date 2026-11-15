@@ -103,44 +103,10 @@
       phone: '055 444 3322',
       notes: 'جلسة تقييم ومتابعة لمسار التعافي في اليوم الـ 42، المستفيد يحرز تقدماً ممتازاً في إدارة المحفزات اليومية.'
     },
-    {
-      id: 'apt-today-3',
-      beneficiary: 'سارة القحطاني',
-      time: '04:00 مساءً',
-      rawTime: '16:00',
-      isoDate: '2026-11-06',
-      date: 'اليوم - 6 نوفمبر 2026',
-      consultType: 'جلسة علاجية',
-      sessionType: 'جلسة أولية',
-      method: 'عن بُعد - اتصال فيديو مشفر عبر المنصة',
-      btnColor: 'blue',
-      status: 'confirmed',
-      statusText: 'مؤكد',
-      isToday: true,
-      isUpcoming: false,
-      phone: '056 777 8899',
-      notes: 'جلسة علاجية متخصصة في العلاج المعرفي السلوكي وبناء خطة مواجهة الأفكار السلبية والضغوط.'
-    },
+    
 
     // --- 2. المواعيد القادمة (8 مواعيد) ---
-    {
-      id: 'apt-up-1',
-      beneficiary: 'نورة أحمد',
-      time: '10:00 صباحاً',
-      rawTime: '10:00',
-      isoDate: '2026-11-07',
-      date: 'السبت - 7 نوفمبر 2026',
-      consultType: 'جلسة دعم وإرشاد',
-      sessionType: 'جلسة متابعة',
-      method: 'عن بُعد - اتصال فيديو مشفر عبر المنصة',
-      btnColor: 'blue',
-      status: 'confirmed',
-      statusText: 'مؤكد',
-      isToday: false,
-      isUpcoming: true,
-      phone: '054 222 3344',
-      notes: 'جلسة إرشادية حول مهارات التعامل مع القلق الاجتماعي واستعادة التوازن النفسي.'
-    },
+    
     {
       id: 'apt-up-2',
       beneficiary: 'خالد عبدالله',
@@ -159,60 +125,7 @@
       phone: '053 555 6677',
       notes: 'طلب حجز جديد للتقييم الأولي لمسار التعافي وتحديد الأهداف العلاجية.'
     },
-    {
-      id: 'apt-up-3',
-      beneficiary: 'ريم محمد',
-      time: '11:00 صباحاً',
-      rawTime: '11:00',
-      isoDate: '2026-11-08',
-      date: 'الأحد - 8 نوفمبر 2026',
-      consultType: 'استشارة نفسية فردية',
-      sessionType: 'جلسة فردية',
-      method: 'عن بُعد - اتصال فيديو مشفر عبر المنصة',
-      btnColor: 'blue',
-      status: 'pending',
-      statusText: 'قيد الانتظار',
-      isToday: false,
-      isUpcoming: true,
-      phone: '055 888 9911',
-      notes: 'المستفيدة بانتظار تأكيد الموعد النهائي للجلسة الاستشارية الفردية.'
-    },
-    {
-      id: 'apt-up-4',
-      beneficiary: 'فيصل الدوسري',
-      time: '05:00 مساءً',
-      rawTime: '17:00',
-      isoDate: '2026-11-09',
-      date: 'الإثنين - 9 نوفمبر 2026',
-      consultType: 'جلسة متابعة نفسية',
-      sessionType: 'جلسة متابعة',
-      method: 'عن بُعد - اتصال فيديو مشفر عبر المنصة',
-      btnColor: 'blue',
-      status: 'confirmed',
-      statusText: 'مؤكد',
-      isToday: false,
-      isUpcoming: true,
-      phone: '050 333 4455',
-      notes: 'متابعة مؤشرات التعافي وقياس مستوى الالتزام بالخطة السلوكية اليومية.'
-    },
-    {
-      id: 'apt-up-5',
-      beneficiary: 'هند الغامدي',
-      time: '09:30 صباحاً',
-      rawTime: '09:30',
-      isoDate: '2026-11-10',
-      date: 'الثلاثاء - 10 نوفمبر 2026',
-      consultType: 'جلسة علاجية',
-      sessionType: 'جلسة أولية',
-      method: 'عن بُعد - اتصال فيديو مشفر عبر المنصة',
-      btnColor: 'green',
-      status: 'new',
-      statusText: 'جديد',
-      isToday: false,
-      isUpcoming: true,
-      phone: '056 444 7788',
-      notes: 'طلب جديد لجلسة علاجية لإدارة نوبات الهلع وضيق التنفس المفاجئ.'
-    },
+   
     {
       id: 'apt-up-6',
       beneficiary: 'عمر الحربي',
@@ -231,62 +144,8 @@
       phone: '052 777 6655',
       notes: 'استشارة فردية حول تعزيز المرونة النفسية والتعامل مع ضغوط العمل.'
     },
-    {
-      id: 'apt-up-7',
-      beneficiary: 'ليلى الشهري',
-      time: '01:00 مساءً',
-      rawTime: '13:00',
-      isoDate: '2026-11-14',
-      date: 'السبت - 14 نوفمبر 2026',
-      consultType: 'استشارة أولية',
-      sessionType: 'جلسة أولية',
-      method: 'عن بُعد - اتصال فيديو مشفر عبر المنصة',
-      btnColor: 'blue',
-      status: 'new',
-      statusText: 'جديد',
-      isToday: false,
-      isUpcoming: true,
-      phone: '055 333 1122',
-      notes: 'استشارة استكشافية أولية لتحديد المسار العلاجي المناسب.'
-    },
-    {
-      id: 'apt-up-8',
-      beneficiary: 'عبد الرحمن الشمري',
-      time: '06:00 مساءً',
-      rawTime: '18:00',
-      isoDate: '2026-11-15',
-      date: 'الأحد - 15 نوفمبر 2026',
-      consultType: 'جلسة دعم وإرشاد',
-      sessionType: 'جلسة متابعة',
-      method: 'عن بُعد - اتصال فيديو مشفر عبر المنصة',
-      btnColor: 'blue',
-      status: 'pending',
-      statusText: 'قيد الانتظار',
-      isToday: false,
-      isUpcoming: true,
-      phone: '055 123 4567',
-      notes: 'جلسة دعم دورية لمتابعة الإنجازات المحققة في رحلة التعافي.'
-    },
-
-    // --- 3. المواعيد الملغاة (2 مواعيد) ---
-    {
-      id: 'apt-can-1',
-      beneficiary: 'طارق الزهراني',
-      time: '12:00 ظهراً',
-      rawTime: '12:00',
-      isoDate: '2026-11-03',
-      date: 'الثلاثاء - 3 نوفمبر 2026',
-      consultType: 'استشارة نفسية فردية',
-      sessionType: 'جلسة فردية',
-      method: 'عن بُعد - اتصال فيديو مشفر عبر المنصة',
-      btnColor: 'blue',
-      status: 'cancelled',
-      statusText: 'ملغي',
-      isToday: false,
-      isUpcoming: false,
-      phone: '050 777 1122',
-      notes: 'تم إلغاء الموعد بناءً على طلب المستفيد لظروف سفر مفاجئة.'
-    },
+    
+// --- 3. المواعيد الملغاة (2 مواعيد) ---
     {
       id: 'apt-can-2',
       beneficiary: 'منيرة السبيعي',
@@ -332,6 +191,7 @@
       ],
       notes: 'اكتملت الجلسة بنجاح، المستفيد أبدى تحسناً ملحوظاً في السيطرة على القلق وتطبيق تمارين الاسترخاء.'
     },
+    
     {
       id: 'apt-comp-2',
       beneficiary: 'رنا العبدلي',
@@ -407,8 +267,7 @@
   const INITIAL_NOTIFICATIONS = [
     { id: 'notif-1', title: 'طلب حجز جديد', desc: 'قامت أمل السلمي بحجز جلسة استشارية فردية للساعة 09:00 صباحاً.', time: 'منذ 15 دقيقة', unread: true },
     { id: 'notif-2', title: 'تذكير بموعد وشيك', desc: 'جلستك القادمة مع محمد العتيبي تبدأ خلال 30 دقيقة.', time: 'منذ ساعة', unread: true },
-    { id: 'notif-3', title: 'تم استكمال تقرير جلسة', desc: 'تم حفظ تقرير الجلسة السريرية للمستفيد عبد الرحمن الشمري بنجاح.', time: 'منذ ساعتين', unread: false },
-    { id: 'notif-4', title: 'تقييم جديد 5 نجوم', desc: 'حصلت على تقييم 5 نجوم من المستفيدة سارة القحطاني.', time: 'أمس', unread: false }
+    { id: 'notif-4', title: 'تقييم جديد 5 نجوم', desc: 'حصلت على تقييم 5 نجوم من المستفيدة سارة القحطاني.', time: 'أمس', unread: false },
   ];
 
   // البيانات الافتراضية لجدول توفر الأخصائية (Doctor Availability Schedule Mock Data)
@@ -557,22 +416,7 @@
         { id: 2, type: 'beneficiary', text: 'وصلتني استمارة التقييم دكتورة، سأكملها الليلة.', time: '6:30 م', date: 'السبت' }
       ]
     },
-    {
-      id: 'abdulrahman',
-      name: 'عبد الرحمن الشمري',
-      role: 'مستفيد • جلسات دعم وإرشاد',
-      isOnline: false,
-      unread: 0,
-      lastMsg: 'جزاك الله خيراً دكتورة، أراكم في الجلسة القادمة.',
-      lastTime: 'الأحد 5:30 م',
-      nextSession: 'جلسة الأحد 6:00 م',
-      avatar: null,
-      monogram: 'ع',
-      messages: [
-        { id: 1, type: 'doctor', text: 'أحسنت عبد الرحمن في الجلسة الأخيرة. تقدم ملموس في ضبط التفكير الإيجابي.', time: '5:00 م', date: 'الأحد' },
-        { id: 2, type: 'beneficiary', text: 'جزاك الله خيراً دكتورة، أراكم في الجلسة القادمة.', time: '5:30 م', date: 'الأحد' }
-      ]
-    },
+
     {
       id: 'moneera',
       name: 'منيرة السبيعي',
@@ -1221,91 +1065,7 @@
     renderTodayAppointments();
     showToast(`تم حذف موعد ${name} بنجاح`);
   }
-
-  // و. فتح نافذة إضافة موعد جديد
-  window.openNewAppointmentModal = function (suggestedDate) {
-    const dateInput = $('#newApptDate');
-    if (dateInput) {
-      dateInput.value = suggestedDate || state.calendar.selectedDate || '2026-11-07';
-      dateInput.min = '2026-11-06';
-    }
-    openModal('#doctorNewApptModal');
-  };
-
-  // ز. حفظ موعد جديد
-  function handleNewAppointmentSubmit(e) {
-    e.preventDefault();
-    const name = $('#newApptPatient')?.value.trim();
-    const isoDate = $('#newApptDate')?.value;
-    const time = $('#newApptTime')?.value;
-    const consultType = $('#newApptConsultType')?.value;
-    const sessionType = $('#newApptSessionType')?.value;
-    const notes = $('#newApptNotes')?.value.trim();
-
-    if (!name || !isoDate) {
-      showToast('يرجى ملء جميع الحقول المطلوبة');
-      return;
-    }
-
-    const parts = isoDate.split('-');
-    const mIdx = parseInt(parts[1], 10) - 1;
-    const dateText = `${parseInt(parts[2], 10)} ${ARABIC_MONTHS[mIdx] || ''} ${parts[0]}`;
-
-    const newAppt = {
-      id: 'apt-' + Date.now(),
-      beneficiary: name,
-      time: time,
-      rawTime: time,
-      isoDate: isoDate,
-      date: isoDate === '2026-11-06' ? 'اليوم - 6 نوفمبر 2026' : dateText,
-      consultType: consultType,
-      sessionType: sessionType,
-      method: 'عن بُعد - اتصال فيديو مشفر عبر المنصة',
-      btnColor: 'blue',
-      status: 'new',
-      statusText: 'جديد',
-      isToday: isoDate === '2026-11-06',
-      isUpcoming: isoDate > '2026-11-06',
-      phone: '05' + Math.floor(10000000 + Math.random() * 90000000),
-      notes: notes || 'تمت إضافة الموعد من لوحة تحكم الأخصائي.'
-    };
-
-    state.appointments.unshift(newAppt);
-    setStorage(KEYS.APPOINTMENTS, state.appointments);
-
-    closeModal('#doctorNewApptModal');
-    $('#newApptForm')?.reset();
-
-    renderAppointmentsManager();
-    renderUpcomingAppointments(state.calendar.selectedDate);
-    renderCalendar();
-    showToast(`تمت إضافة موعد جديد للمستفيد ${name} بنجاح ✨`);
-  }
-
-  // ---------- تفاصيل الموعد العامة (للصفحة الرئيسية) ----------
-  function openAppointmentDetailModal(apptId) {
-    const a = state.appointments.find(x => x.id === apptId);
-    if (!a) return;
-
-    $('#detailBeneficiaryName').textContent = a.beneficiary;
-    $('#detailApptDate').textContent = a.date;
-    $('#detailApptTime').textContent = a.time;
-    $('#detailConsultType').textContent = a.consultType;
-    $('#detailSessionType').textContent = a.sessionType;
-    $('#detailApptStatus').textContent = a.statusText || 'مؤكد';
-    $('#detailSessionMethod').textContent = a.method || 'عن بُعد - اتصال فيديو مشفر عبر المنصة';
-    $('#detailApptNotes').textContent = a.notes || 'لا توجد ملاحظات إضافية مسجلة لهذا الموعد.';
-
-    const modalStartBtn = $('#modalStartSessionBtn');
-    if (modalStartBtn) {
-      modalStartBtn.onclick = () => {
-        closeModal('#doctorApptDetailModal');
-        openLiveSessionModal(a.id);
-      };
-    }
-
-    openModal('#doctorApptDetailModal');
-  }
+  
 
   // ---------- التبديل بين مشاهد اللوحة الجانبية ----------
   function switchView(viewName) {
@@ -1545,8 +1305,7 @@
   const BENEFICIARIES_DIRECTORY = [
     { name: 'أمل السلمي', age: 24, sessions: 3, lastVisit: 'اليوم', status: 'نشط', note: 'خطة علاجية لإدارة نوبات القلق وضغوط الاختبارات.' },
     { name: 'محمد العتيبي', age: 31, sessions: 8, lastVisit: 'اليوم', status: 'ملتزم بمرحلة التعافي', note: 'وصل لليوم 42 من التعافي ويوصى بالاستمرار في كتابة اليوميات.' },
-    { name: 'سارة القحطاني', age: 28, sessions: 1, lastVisit: 'اليوم', status: 'جلسة أولية', note: 'تم إجراء التقييم السريري المبدئي وبدء جلسات الدعم النفسي.' },
-    { name: 'عبد الرحمن الشمري', age: 29, sessions: 12, lastVisit: 'أمس', status: 'متعافٍ ومتقدم', note: 'مستفيد متميز في مسار التعافي ويستعد لإنهاء البرنامج.' },
+  
     { name: 'فهد المطيري', age: 35, sessions: 6, lastVisit: 'منذ 3 أيام', status: 'نشط', note: 'متابعة دورية لإدارة الضغوط المهنية والتوازن الأسري.' }
   ];
 
@@ -3455,10 +3214,7 @@
       }
     });
 
-    // زر الإعدادات
-    $('#docSettingsBtn')?.addEventListener('click', () => {
-      openModal('#doctorSettingsModal');
-    });
+   
 
     // أزرار قائمة الموبايل
     $('#docMobileToggleBtn')?.addEventListener('click', () => {

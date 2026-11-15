@@ -74,7 +74,7 @@
     { id: 'b1', name: 'أمل السلمي', email: 'amal.s@example.com', phone: '0551122334', registeredDate: '2026-09-12', sessionsCount: 8, status: 'active' },
     { id: 'b2', name: 'محمد العتيبي', email: 'm.otaibi@example.com', phone: '0562233445', registeredDate: '2026-09-28', sessionsCount: 14, status: 'active' },
     { id: 'b3', name: 'سارة القحطاني', email: 'sara.q@example.com', phone: '0543344556', registeredDate: '2026-10-05', sessionsCount: 5, status: 'active' },
-    { id: 'b4', name: 'عبد الرحمن الشمري', email: 'a.shammary@example.com', phone: '0504455667', registeredDate: '2026-10-14', sessionsCount: 9, status: 'active' },
+
     { id: 'b5', name: 'منيرة السبيعي', email: 'moneera.s@example.com', phone: '0535566778', registeredDate: '2026-10-22', sessionsCount: 3, status: 'active' },
     { id: 'b6', name: 'خالد بن فهد', email: 'khaled.f@example.com', phone: '0556677889', registeredDate: '2026-10-30', sessionsCount: 1, status: 'disabled' },
     { id: 'b7', name: 'نوف الدوسري', email: 'nouf.d@example.com', phone: '0547788990', registeredDate: '2026-11-02', sessionsCount: 6, status: 'active' },
@@ -94,7 +94,6 @@
     { id: 'APT-1042', beneficiary: 'أمل السلمي', specialist: 'د. سارة العتيبي', date: '2026-11-14', time: '16:00', type: 'جلسة مرئية مشفرة', status: 'upcoming' },
     { id: 'APT-1043', beneficiary: 'محمد العتيبي', specialist: 'د. خالد الشمري', date: '2026-11-14', time: '17:30', type: 'متابعة مسار التعافي', status: 'upcoming' },
     { id: 'APT-1044', beneficiary: 'سارة القحطاني', specialist: 'د. نورة القحطاني', date: '2026-11-14', time: '19:00', type: 'استشارة أسرية', status: 'upcoming' },
-    { id: 'APT-1040', beneficiary: 'عبد الرحمن الشمري', specialist: 'د. سارة العتيبي', date: '2026-11-14', time: '10:00', type: 'جلسة حضورية', status: 'completed' },
     { id: 'APT-1039', beneficiary: 'تركي الحربي', specialist: 'د. عبد الله الدوسري', date: '2026-11-13', time: '18:00', type: 'جلسة مرئية مشفرة', status: 'completed' },
     { id: 'APT-1038', beneficiary: 'خالد بن فهد', specialist: 'د. خالد الشمري', date: '2026-11-12', time: '15:00', type: 'تقييم مبدئي', status: 'cancelled' }
   ];
@@ -102,17 +101,11 @@
   const DEFAULT_SERVICES = [
     { id: 'srv1', title: 'الاستشارات النفسية الفردية', desc: 'جلسات علاجية متخصصة لعلاج الاكتئاب، اضطرابات القلق، الصدمات والضغوط النفسية مع مختصين مرخصين.', icon: 'i-heart', specialistsCount: 18, sessionsCount: 680, active: true },
     { id: 'srv2', title: 'مسار دعم التعافي من الإدمان', desc: 'برنامج علاجي وتأهيلي شامل للمتعافين من الإدمان وإدارة محفزات الانتكاسة مع خطة متابعة يومية.', icon: 'i-sprout', specialistsCount: 12, sessionsCount: 502, active: true },
-    { id: 'srv3', title: 'الإرشاد الأسري والعلاقات', desc: 'استشارات متخصصة للتعامل مع الخلافات الأسرية والزوجية وبناء بيئة داعمة ومستقرة للأبناء.', icon: 'i-users', specialistsCount: 9, sessionsCount: 292, active: true },
-    { id: 'srv4', title: 'جلسات الدعم النفسي الجمعي', desc: 'مجموعات دعم نفسية مقننة تحت إشراف أخصائي معتمد لمشاركة التجارب الإيجابية وبناء المرونة.', icon: 'i-coffee', specialistsCount: 6, sessionsCount: 146, active: true },
-    { id: 'srv5', title: 'التدخل النفسي الطارئ', desc: 'قناة تدخل سريع ومباشر للتعامل مع الأزمات النفسية الحادة ونوبات الهلع على مدار الساعة.', icon: 'i-shield', specialistsCount: 8, sessionsCount: 94, active: true },
-    { id: 'srv6', title: 'التقييم والمقاييس النفسية', desc: 'إجراء المقاييس والاختبارات الإكلينيكية المعتمدة لتشخيص دقيق وتحديد الخطة العلاجية الملائمة.', icon: 'i-file-text', specialistsCount: 14, sessionsCount: 210, active: true }
-  ];
+    { id: 'srv3', title: 'الإرشاد الأسري والعلاقات', desc: 'استشارات متخصصة للتعامل مع الخلافات الأسرية والزوجية وبناء بيئة داعمة ومستقرة للأبناء.', icon: 'i-users', specialistsCount: 9, sessionsCount: 292, active: true },  ];
 
   const DEFAULT_CONSULTATIONS = [
     { id: 'REQ-501', beneficiary: 'فيصل المطيري', service: 'علاج الإدمان ودعم التعافي', date: '2026-11-14 11:20', priority: 'عاجل', specialist: 'د. خالد الشمري', status: 'assigned' },
-    { id: 'REQ-502', beneficiary: 'عهود العبد الله', service: 'الاستشارات النفسية الفردية', date: '2026-11-14 10:15', priority: 'عادي', specialist: 'غير محال', status: 'new' },
-    { id: 'REQ-503', beneficiary: 'منصور القاسم', service: 'التدخل النفسي الطارئ', date: '2026-11-14 09:40', priority: 'عاجل جداً', specialist: 'غير محال', status: 'new' },
-    { id: 'REQ-504', beneficiary: 'ريما العسيري', service: 'الإرشاد الأسري والعلاقات', date: '2026-11-13 21:00', priority: 'عادي', specialist: 'د. نورة القحطاني', status: 'completed' },
+    { id: 'REQ-502', beneficiary: 'عهود العبد الله', service: 'الاستشارات النفسية الفردية', date: '2026-11-14 10:15', priority: 'عادي', specialist: 'غير محال', status: 'new' },    { id: 'REQ-504', beneficiary: 'ريما العسيري', service: 'الإرشاد الأسري والعلاقات', date: '2026-11-13 21:00', priority: 'عادي', specialist: 'د. نورة القحطاني', status: 'completed' },
     { id: 'REQ-505', beneficiary: 'فهد البقمي', service: 'الاستشارات النفسية الفردية', date: '2026-11-13 18:30', priority: 'عادي', specialist: 'د. سارة العتيبي', status: 'assigned' }
   ];
 
@@ -197,7 +190,6 @@
     beneficiaries: { heading: 'إدارة حسابات المستفيدين', sub: 'متابعة سجلات المستفيدين، وتفعيل الحسابات وتفاصيل الجلسات' },
     specialists: { heading: 'إدارة المختصين النفسيين', sub: 'مراجعة ملفات التوثيق، واعتماد التراخيص وإدارة التوفر' },
     appointments: { heading: 'إدارة المواعيد والجلسات', sub: 'جدول المواعيد النشطة والمكتملة وإدارة الحجوزات اليومية' },
-    services: { heading: 'إدارة الخدمات النفسية والتعافي', sub: 'إضافة وتعديل الخدمات الأساسية المعروضة للمستفيدين' },
     support: { heading: 'إدارة الدعم الخاص والمباشر', sub: 'خدمة عملاء ودعم فني مباشر للمستفيدين لحل أي صعوبات' },
     notifications: { heading: 'إدارة التنبيهات والإشعارات', sub: 'بث رسائل وإعلانات وتنبيهات فورية لكافة مستخدمي المنصة' },
     reports: { heading: 'التقارير والإحصائيات التحليلية', sub: 'مؤشرات الأداء السريري ومعدلات الرضا والنمو الشهري' },
@@ -613,76 +605,6 @@
       });
     });
   }
-
-  // =====================================================================
-  // 5. واجهة إدارة الخدمات (Services)
-  // =====================================================================
-
-  function renderServicesCards() {
-    const container = $('#servicesCardsContainer');
-    if (!container) return;
-
-    container.innerHTML = state.services.map(srv => `
-      <div class="admin-service-card" data-service-id="${srv.id}">
-        <div class="admin-service-card-top">
-          <div class="admin-service-icon">
-            <svg class="icon ic-24"><use href="#${srv.icon || 'i-heart'}" /></svg>
-          </div>
-          <span class="${srv.active ? 'badge-success' : 'badge-danger'} text-xs px-2.5 py-0.5 rounded-full">
-            ${srv.active ? 'مفعلة وتظهر للمستفيدين' : 'متوقفة مؤقتاً'}
-          </span>
-        </div>
-
-        <h3 class="admin-service-title">${srv.title}</h3>
-        <p class="admin-service-desc">${srv.desc}</p>
-
-        
-
-        <div class="admin-service-actions">
-          <div class="flex items-center gap-2">
-            <span class="text-xs font-bold ${srv.active ? 'text-emerald-700' : 'text-muted'}">
-              ${srv.active ? 'تشغيل' : 'إيقاف'}
-            </span>
-            <label class="admin-switch">
-              <input type="checkbox" class="service-toggle" data-id="${srv.id}" ${srv.active ? 'checked' : ''} />
-              <span class="admin-slider"></span>
-            </label>
-          </div>
-          <button type="button" class="btn-outline text-xs py-1 px-3 edit-service-btn" data-id="${srv.id}">
-            <svg class="icon ic-14"><use href="#i-edit" /></svg>
-            <span>تعديل</span>
-          </button>
-        </div>
-      </div>
-    `).join('');
-
-    $$('.service-toggle', container).forEach(chk => {
-      chk.addEventListener('change', (e) => {
-        const srv = state.services.find(x => x.id === e.target.dataset.id);
-        if (srv) {
-          srv.active = e.target.checked;
-          setStorage(KEYS.SERVICES, state.services);
-          renderServicesCards();
-          showToast(`تم ${srv.active ? 'تفعيل وإظهار' : 'إيقاف حجب'} خدمة: ${srv.title}`);
-        }
-      });
-    });
-
-    $$('.edit-service-btn', container).forEach(btn => {
-      btn.addEventListener('click', () => {
-        const srv = state.services.find(x => x.id === btn.dataset.id);
-        if (!srv) return;
-        $('#adminServiceModalTitle') && ($('#adminServiceModalTitle').textContent = 'تعديل الخدمة');
-        $('#serviceEditId').value = srv.id;
-        $('#serviceNameInput').value = srv.title;
-        $('#serviceDescInput').value = srv.desc;
-        $('#serviceIconSelect').value = srv.icon || 'i-heart';
-        $('#serviceStatusSelect').value = srv.active ? 'active' : 'paused';
-        openModal('#adminServiceModal');
-      });
-    });
-  }
-
 
   // =====================================================================
   // 7. واجهة إدارة الدعم الخاص (Private Support Chat)
@@ -1172,129 +1094,129 @@
       }
     });
 
-  // ---------- مزامنة بيانات لوحة المدير مع Supabase ----------
-  async function syncAdminWithSupabase() {
-    if (!window.MaladhDB) return;
-    try {
-      // 1. مزامنة الخدمات المعتمدة
-      if (window.MaladhDB.services) {
-        const liveServices = await window.MaladhDB.services.getAll();
-        if (liveServices && liveServices.length > 0) {
-          state.services = liveServices.map(s => ({
-            id: s.id,
-            title: s.title,
-            desc: s.description,
-            icon: s.icon || 'i-heart',
-            specialistsCount: s.specialists_count || 1,
-            sessionsCount: s.sessions_count || 0,
-            active: s.is_active !== false
-          }));
-          setStorage(KEYS.SERVICES, state.services);
-          if (state.currentView === 'services') renderServicesCards();
-        }
-      }
-
-      // 2. مزامنة الأخصائيين
-      if (window.MaladhDB.specialists) {
-        const liveSpecs = await window.MaladhDB.specialists.getAll();
-        if (liveSpecs && liveSpecs.length > 0) {
-          state.specialists = liveSpecs.map(s => ({
-            id: s.id,
-            name: (s.profiles && s.profiles.full_name) || s.name || 'أخصائي',
-            specialty: s.specialty || 'استشارات نفسية',
-            license: s.license_number || s.license || 'PSY-00000',
-            email: (s.profiles && s.profiles.email) || s.email || 'doctor@maladh.com',
-            phone: (s.profiles && s.profiles.phone) || s.phone || '05XXXXXXXX',
-            verified: s.is_verified === true,
-            available: s.is_available === true,
-            rating: Number(s.rating) || 4.9,
-            sessions: s.total_sessions || 0
-          }));
-          setStorage(KEYS.SPECIALISTS, state.specialists);
-          if (state.currentView === 'specialists') renderSpecialistsTable();
-          if (state.currentView === 'dashboard') renderDashboardView();
-        }
-      }
-
-      // 3. مزامنة المواعيد
-      if (window.MaladhDB.appointments) {
-        const liveAppts = await window.MaladhDB.appointments.getAll({ role: 'admin' });
-        if (liveAppts && liveAppts.length > 0) {
-          state.appointments = liveAppts.map(a => ({
-            id: a.appointment_code || a.id,
-            beneficiary: (a.beneficiary && a.beneficiary.full_name) || a.beneficiary || 'مستفيد',
-            specialist: (a.specialist && a.specialist.profile && a.specialist.profile.full_name) || a.specialist || 'أخصائي',
-            date: a.appointment_date,
-            time: a.appointment_time,
-            type: a.type || 'عن بُعد',
-            status: a.status
-          }));
-          setStorage(KEYS.APPOINTMENTS, state.appointments);
-          if (state.currentView === 'appointments') renderAppointmentsTable();
-          if (state.currentView === 'dashboard') renderDashboardView();
-        }
-      }
-
-      // 4. مزامنة المستفيدين من Supabase
-      if (window.MaladhDB.auth && window.MaladhDB.auth.getAllProfiles) {
-        const liveProfiles = await window.MaladhDB.auth.getAllProfiles({ role: 'beneficiary' });
-        if (liveProfiles && liveProfiles.length > 0) {
-          state.beneficiaries = liveProfiles.map(p => ({
-            id: p.id,
-            name: p.full_name || 'مستفيد',
-            email: p.email,
-            phone: p.phone || '05XXXXXXXX',
-            registeredDate: (p.created_at || '').split('T')[0] || '2026-11-15',
-            sessionsCount: 3,
-            status: p.is_active ? 'active' : 'disabled'
-          }));
-          setStorage(KEYS.BENEFICIARIES, state.beneficiaries);
-          if (state.currentView === 'beneficiaries') renderBeneficiariesTable();
-          if (state.currentView === 'dashboard') renderDashboardView();
-        }
-      }
-
-      // 5. مزامنة تذاكر الدعم الخاص من Supabase
-      if (window.MaladhDB.support) {
-        const liveTickets = await window.MaladhDB.support.getTickets();
-        if (liveTickets && liveTickets.length > 0) {
-          state.supportTickets = liveTickets.map(t => {
-            const msgs = (t.messages || []).map(m => ({
-              sender: m.sender_role || 'user',
-              text: m.message_text,
-              time: m.created_at ? new Date(m.created_at).toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' }) : 'الآن'
+    // ---------- مزامنة بيانات لوحة المدير مع Supabase ----------
+    async function syncAdminWithSupabase() {
+      if (!window.MaladhDB) return;
+      try {
+        // 1. مزامنة الخدمات المعتمدة
+        if (window.MaladhDB.services) {
+          const liveServices = await window.MaladhDB.services.getAll();
+          if (liveServices && liveServices.length > 0) {
+            state.services = liveServices.map(s => ({
+              id: s.id,
+              title: s.title,
+              desc: s.description,
+              icon: s.icon || 'i-heart',
+              specialistsCount: s.specialists_count || 1,
+              sessionsCount: s.sessions_count || 0,
+              active: s.is_active !== false
             }));
-            const lastMsg = msgs[msgs.length - 1];
-            return {
-              id: t.id,
-              beneficiary: 'عبد الرحمن محمد',
-              subject: t.subject,
-              lastMsg: lastMsg ? lastMsg.text : 'استفسار جديد',
-              lastTime: lastMsg ? lastMsg.time : 'الآن',
-              unread: t.status === 'open',
-              status: t.status,
-              messages: msgs
-            };
-          });
-          setStorage(KEYS.SUPPORT, state.supportTickets);
-          if (state.currentView === 'support') renderSupportChat();
+            setStorage(KEYS.SERVICES, state.services);
+            if (state.currentView === 'services') renderServicesCards();
+          }
         }
+
+        // 2. مزامنة الأخصائيين
+        if (window.MaladhDB.specialists) {
+          const liveSpecs = await window.MaladhDB.specialists.getAll();
+          if (liveSpecs && liveSpecs.length > 0) {
+            state.specialists = liveSpecs.map(s => ({
+              id: s.id,
+              name: (s.profiles && s.profiles.full_name) || s.name || 'أخصائي',
+              specialty: s.specialty || 'استشارات نفسية',
+              license: s.license_number || s.license || 'PSY-00000',
+              email: (s.profiles && s.profiles.email) || s.email || 'doctor@maladh.com',
+              phone: (s.profiles && s.profiles.phone) || s.phone || '05XXXXXXXX',
+              verified: s.is_verified === true,
+              available: s.is_available === true,
+              rating: Number(s.rating) || 4.9,
+              sessions: s.total_sessions || 0
+            }));
+            setStorage(KEYS.SPECIALISTS, state.specialists);
+            if (state.currentView === 'specialists') renderSpecialistsTable();
+            if (state.currentView === 'dashboard') renderDashboardView();
+          }
+        }
+
+        // 3. مزامنة المواعيد
+        if (window.MaladhDB.appointments) {
+          const liveAppts = await window.MaladhDB.appointments.getAll({ role: 'admin' });
+          if (liveAppts && liveAppts.length > 0) {
+            state.appointments = liveAppts.map(a => ({
+              id: a.appointment_code || a.id,
+              beneficiary: (a.beneficiary && a.beneficiary.full_name) || a.beneficiary || 'مستفيد',
+              specialist: (a.specialist && a.specialist.profile && a.specialist.profile.full_name) || a.specialist || 'أخصائي',
+              date: a.appointment_date,
+              time: a.appointment_time,
+              type: a.type || 'عن بُعد',
+              status: a.status
+            }));
+            setStorage(KEYS.APPOINTMENTS, state.appointments);
+            if (state.currentView === 'appointments') renderAppointmentsTable();
+            if (state.currentView === 'dashboard') renderDashboardView();
+          }
+        }
+
+        // 4. مزامنة المستفيدين من Supabase
+        if (window.MaladhDB.auth && window.MaladhDB.auth.getAllProfiles) {
+          const liveProfiles = await window.MaladhDB.auth.getAllProfiles({ role: 'beneficiary' });
+          if (liveProfiles && liveProfiles.length > 0) {
+            state.beneficiaries = liveProfiles.map(p => ({
+              id: p.id,
+              name: p.full_name || 'مستفيد',
+              email: p.email,
+              phone: p.phone || '05XXXXXXXX',
+              registeredDate: (p.created_at || '').split('T')[0] || '2026-11-15',
+              sessionsCount: 3,
+              status: p.is_active ? 'active' : 'disabled'
+            }));
+            setStorage(KEYS.BENEFICIARIES, state.beneficiaries);
+            if (state.currentView === 'beneficiaries') renderBeneficiariesTable();
+            if (state.currentView === 'dashboard') renderDashboardView();
+          }
+        }
+
+        // 5. مزامنة تذاكر الدعم الخاص من Supabase
+        if (window.MaladhDB.support) {
+          const liveTickets = await window.MaladhDB.support.getTickets();
+          if (liveTickets && liveTickets.length > 0) {
+            state.supportTickets = liveTickets.map(t => {
+              const msgs = (t.messages || []).map(m => ({
+                sender: m.sender_role || 'user',
+                text: m.message_text,
+                time: m.created_at ? new Date(m.created_at).toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' }) : 'الآن'
+              }));
+              const lastMsg = msgs[msgs.length - 1];
+              return {
+                id: t.id,
+                beneficiary: 'عبد الرحمن محمد',
+                subject: t.subject,
+                lastMsg: lastMsg ? lastMsg.text : 'استفسار جديد',
+                lastTime: lastMsg ? lastMsg.time : 'الآن',
+                unread: t.status === 'open',
+                status: t.status,
+                messages: msgs
+              };
+            });
+            setStorage(KEYS.SUPPORT, state.supportTickets);
+            if (state.currentView === 'support') renderSupportChat();
+          }
+        }
+      } catch (e) {
+        console.warn('[Admin Dashboard] Supabase sync notice:', e.message);
       }
-    } catch (e) {
-      console.warn('[Admin Dashboard] Supabase sync notice:', e.message);
     }
-  }
 
-  // 17. التعامل مع الهاش (Hash) المبدئي
-  const hash = window.location.hash.replace('#', '');
-  if (hash && VIEW_TITLES[hash]) {
-    switchView(hash);
-  } else {
-    switchView('dashboard');
-  }
+    // 17. التعامل مع الهاش (Hash) المبدئي
+    const hash = window.location.hash.replace('#', '');
+    if (hash && VIEW_TITLES[hash]) {
+      switchView(hash);
+    } else {
+      switchView('dashboard');
+    }
 
-  // تشغيل المزامنة مع Supabase
-  syncAdminWithSupabase();
+    // تشغيل المزامنة مع Supabase
+    syncAdminWithSupabase();
   }
 
   // تشغيل عند تحميل الصفحة
