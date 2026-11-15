@@ -83,8 +83,8 @@
         </ul>
         ${s.remote ? `<p class="spec-remote">${ico('video', 'ic-22')} ${t('sp.remoteTag')}</p>` : ''}
         <div class="spec-actions">
-          <a href="#" data-book="${s.service}" class="btn btn-solid btn-sm">${ico('calendar', 'ic-20')} ${t('sp.book')}</a>
-          <a href="#" data-profile="${s.id}" class="btn btn-outline btn-sm">${ico('user', 'ic-20')} ${t('sp.profile')}</a>
+          <a href="booking.html?specialist=${encodeURIComponent(s.id)}&service=${encodeURIComponent(s.service)}" data-book="${s.service}" data-spec="${s.id}" class="btn btn-solid btn-sm">${ico('calendar', 'ic-20')} ${t('sp.book')}</a>
+          <a href="booking.html?specialist=${encodeURIComponent(s.id)}" class="btn btn-outline btn-sm">${ico('user', 'ic-20')} ${t('sp.profile')}</a>
         </div>
       </div>
     </article>`;

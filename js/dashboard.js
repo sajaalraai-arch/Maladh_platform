@@ -66,13 +66,13 @@
   }
 
   function getUserDisplayName(fullName) {
-    if (!fullName) return 'عبد الرحمن';
+    if (!fullName) return 'المستفيد';
     const trimmed = fullName.trim();
     const parts = trimmed.split(/\s+/);
     if (parts.length >= 2 && (parts[0] === 'عبد' || parts[0] === 'أبو' || parts[0] === 'ابن')) {
       return `${parts[0]} ${parts[1]}`;
     }
-    return parts[0] || 'عبد الرحمن';
+    return parts[0] || fullName;
   }
 
   function getCurrentArabicTime() {
@@ -112,16 +112,16 @@
   }
 
   // ---------- البيانات الأولية للمستفيد (Mock Data) ----------
-  const initialUser = getStorage(KEYS.USER, {
-    username: 'عبد الرحمن الشمري',
-    email: 'abdulrahman@example.com',
-    phone: '+966 55 123 4567',
-    age: 29,
+  const initialUser = getStorage(KEYS.USER, null) || {
+    username: 'مستفيد',
+    email: '',
+    phone: '',
+    age: '',
     recoveryStart: '2024-09-15',
     dailySavings: 100,
-    emergencyContact: 'أخي فهد - 0500000000',
+    emergencyContact: '',
     incognito: true
-  });
+  };
 
   const INITIAL_APPOINTMENTS = [
     {
@@ -611,9 +611,11 @@
   // ---------- بيانات المستخدم والترحيب ----------
   function renderUserData() {
     const u = state.user;
-    if ($('#userNameHeading')) $('#userNameHeading').textContent = u.username;
-    if ($('#dashUserBadge')) $('#dashUserBadge').textContent = u.username;
-    if ($('#headerAvatarText')) $('#headerAvatarText').textContent = (u.username || 'ع').charAt(0);
+    const displayName = getUserDisplayName(u.username);
+    if ($('#userNameHeading')) $('#userNameHeading').textContent = displayName;
+    if ($('#dashUserBadge')) $('#dashUserBadge').textContent = displayName;
+    if ($('#moodGreetingHeading')) $('#moodGreetingHeading').textContent = `كيف تشعر اليوم يا ${displayName}؟`;
+    if ($('#headerAvatarText')) $('#headerAvatarText').textContent = (u.username || 'م').charAt(0);
 
     // بطاقة الملف الشخصي
     if ($('#profileDisplayName')) $('#profileDisplayName').textContent = u.username;
@@ -1238,11 +1240,10 @@
             متاح للحجز اليوم
           </div>
           <div class="flex gap-2">
-            <button class="btn btn-solid btn-sm" data-open-booking="${s.id}">
+            <a href="booking.html?specialist=${encodeURIComponent(s.id)}" class="btn btn-solid btn-sm" data-open-booking="${s.id}">
               <svg class="icon ic-18"><use href="#i-calendar"/></svg>
               <span>حجز جلسة</span>
-            </button>
-            
+            </a>
           </div>
         </div>
       </div>
@@ -1296,7 +1297,8 @@
     const bookBtn = e.target.closest('[data-open-booking]');
     if (bookBtn) {
       e.preventDefault();
-      openBookingModal(bookBtn.dataset.openBooking);
+      const specId = bookBtn.dataset.openBooking;
+      window.location.href = `booking.html?specialist=${encodeURIComponent(specId)}`;
     }
   });
 
@@ -1980,8 +1982,8 @@
     const container = $('#chatMessagesContainer');
     if (!container) return;
 
-    const currentUserName = state.user.username || 'عبد الرحمن الشمري';
-    const userFirstInitial = currentUserName.trim().charAt(0) || 'ع';
+    const currentUserName = state.user.username || 'المستفيد';
+    const userFirstInitial = (currentUserName || 'م').trim().charAt(0) || 'م';
     const userDisplayName = getUserDisplayName(currentUserName);
 
     let html = `
@@ -2348,7 +2350,7 @@
   function saveProfileData(isAuto = false) {
     if (!$('#profileUsername')) return;
 
-    state.user.username = $('#profileUsername').value.trim() || 'عبد الرحمن الشمري';
+    state.user.username = $('#profileUsername').value.trim() || state.user.username;
     state.user.email = $('#profileEmail').value.trim();
     state.user.phone = $('#profilePhone').value.trim();
     state.user.age = $('#profileAge').value.trim();
@@ -2359,6 +2361,21 @@
     renderUserData();
     updateRecoveryStats();
     renderChat(state.activeChatId);
+
+    // تحديث مباشر في قاعدة بيانات Supabase
+    if (window.MaladhDB && window.MaladhDB.auth && state.user.id) {
+      window.MaladhDB.auth.updateProfile(state.user.id, {
+        full_name: state.user.username,
+        phone: state.user.phone,
+        age: parseInt(state.user.age, 10) || null,
+        emergency_contact: state.user.emergencyContact
+      }).catch(err => console.warn('[Supabase Profile Update Error]:', err));
+    }
+    if (window.MaladhDB && window.MaladhDB.recovery && state.user.id && state.user.recoveryStart) {
+      window.MaladhDB.recovery.save(state.user.id, {
+        start_date: state.user.recoveryStart
+      }).catch(err => console.warn(err));
+    }
 
     const hint = $('#profileSaveStatusHint');
     if (hint) {
@@ -2572,6 +2589,8 @@
           state.user.username = profile.full_name || state.user.username;
           state.user.email = profile.email || state.user.email;
           state.user.phone = profile.phone || state.user.phone;
+          state.user.age = profile.age || state.user.age;
+          state.user.emergencyContact = profile.emergency_contact || state.user.emergencyContact;
           setStorage(KEYS.USER, state.user);
           renderUserData();
         }

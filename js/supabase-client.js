@@ -199,7 +199,10 @@
             email: data.user.email,
             username: name,
             role: role,
-            phone: (profile && profile.phone) || null,
+            phone: (profile && profile.phone) || '',
+            age: (profile && profile.age) || (data.user.user_metadata && data.user.user_metadata.age) || '',
+            emergencyContact: (profile && profile.emergency_contact) || '',
+            recoveryStart: (profile && profile.recovery_start_date) || '',
             avatar: (profile && profile.avatar_url) || (role === 'specialist' ? 'assets/specialist-sara.jpg' : 'assets/user-avatar.svg')
           };
 
@@ -507,13 +510,61 @@
         }
       },
 
+      async getBookedSlots(specialistId, date) {
+        if (!specialistId || !date) return [];
+        const KNOWN_SPEC_MAP = {
+          'sara': '11cea870-41e3-49e4-903c-6a2588520967',
+          'ahmed': 'ffc95dd7-bc11-4e95-a92c-826c9a1a15ec',
+          'khaled': 'ffc95dd7-bc11-4e95-a92c-826c9a1a15ec',
+          'noura': 'fc8dcf8f-7c4d-4560-871a-62660a894a86',
+          'dossari': '68e03204-42f7-47b5-ba71-1cd6ec05eb52',
+          'subaie': '22bb2516-a40e-47a2-86d1-bb396efc82f9'
+        };
+        const resolvedId = KNOWN_SPEC_MAP[specialistId] || specialistId;
+        if (isRealCredentials && client) {
+          try {
+            const { data } = await client
+              .from('appointments')
+              .select('appointment_time, status')
+              .eq('specialist_id', resolvedId)
+              .eq('appointment_date', date)
+              .neq('status', 'cancelled');
+            return (data || []).map(a => a.appointment_time);
+          } catch (e) {
+            console.warn('getBookedSlots failed:', e);
+            return [];
+          }
+        }
+        return [];
+      },
+
       async create(apptData) {
         if (isRealCredentials && client) {
           const code = 'APT-' + Math.floor(1000 + Math.random() * 9000);
+          const KNOWN_SPEC_MAP = {
+            'sara': '11cea870-41e3-49e4-903c-6a2588520967',
+            'ahmed': 'ffc95dd7-bc11-4e95-a92c-826c9a1a15ec',
+            'khaled': 'ffc95dd7-bc11-4e95-a92c-826c9a1a15ec',
+            'noura': 'fc8dcf8f-7c4d-4560-871a-62660a894a86',
+            'dossari': '68e03204-42f7-47b5-ba71-1cd6ec05eb52',
+            'subaie': '22bb2516-a40e-47a2-86d1-bb396efc82f9'
+          };
+          let resolvedSpecId = apptData.specialist_id || apptData.specialistId || KNOWN_USERS.specialist.id;
+          if (KNOWN_SPEC_MAP[resolvedSpecId]) resolvedSpecId = KNOWN_SPEC_MAP[resolvedSpecId];
+          const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+          if (!uuidRegex.test(resolvedSpecId)) {
+            resolvedSpecId = '11cea870-41e3-49e4-903c-6a2588520967';
+          }
+
+          let resolvedBenId = apptData.beneficiary_id || apptData.beneficiaryId || KNOWN_USERS.beneficiary.id;
+          if (!uuidRegex.test(resolvedBenId)) {
+            resolvedBenId = 'bd9557fa-cd22-40a5-b515-56220445ca25';
+          }
+
           const payload = {
             appointment_code: code,
-            beneficiary_id: apptData.beneficiary_id || apptData.beneficiaryId || KNOWN_USERS.beneficiary.id,
-            specialist_id: apptData.specialist_id || apptData.specialistId || KNOWN_USERS.specialist.id,
+            beneficiary_id: resolvedBenId,
+            specialist_id: resolvedSpecId,
             service_id: apptData.service_id || apptData.serviceId || null,
             appointment_date: apptData.appointment_date || apptData.date,
             appointment_time: apptData.appointment_time || apptData.time,
@@ -592,17 +643,26 @@
     // -------------------------------------------------------------------
     schedule: {
       async get(specialistId) {
-        if (isRealCredentials && client && specialistId) {
+        const KNOWN_SPEC_MAP = {
+          'sara': '11cea870-41e3-49e4-903c-6a2588520967',
+          'ahmed': 'ffc95dd7-bc11-4e95-a92c-826c9a1a15ec',
+          'khaled': 'ffc95dd7-bc11-4e95-a92c-826c9a1a15ec',
+          'noura': 'fc8dcf8f-7c4d-4560-871a-62660a894a86',
+          'dossari': '68e03204-42f7-47b5-ba71-1cd6ec05eb52',
+          'subaie': '22bb2516-a40e-47a2-86d1-bb396efc82f9'
+        };
+        const resolvedId = KNOWN_SPEC_MAP[specialistId] || specialistId;
+        if (isRealCredentials && client && resolvedId) {
           const { data: schedule } = await client
             .from('specialist_schedules')
             .select('*')
-            .eq('specialist_id', specialistId)
+            .eq('specialist_id', resolvedId)
             .maybeSingle();
 
           const { data: vacations } = await client
             .from('specialist_vacations')
             .select('*')
-            .eq('specialist_id', specialistId);
+            .eq('specialist_id', resolvedId);
 
           return {
             days: (schedule && schedule.days) || [],
@@ -865,12 +925,11 @@
     }
   };
 
-  // ربط المستخدم التجريبي الافتراضي في LocalStorage لضمان تحميل البيانات الحية فورياً
-  // في حال فتح لوحات التحكم مباشرة دون المرور بشاشة تسجيل الدخول
+  // ربط المستخدم التجريبي الافتراضي في LocalStorage فقط إذا لم يكن هناك أي مستخدم مسجل مسبقاً
   try {
     const currentRole = localStorage.getItem('maladh:current_role') || 'beneficiary';
     const currentUser = getLocal('maladh:user', null);
-    if (!currentUser || !currentUser.id || currentUser.id === 'usr_local') {
+    if (!currentUser || (!currentUser.username && !currentUser.email)) {
       const defaultUser = KNOWN_USERS[currentRole] || KNOWN_USERS.beneficiary;
       setLocal('maladh:user', defaultUser);
       if (currentRole === 'specialist') setLocal('maladh:doctor_user', KNOWN_USERS.specialist);

@@ -71,16 +71,30 @@ document.addEventListener('click', (e) => {
   const open = e.target.closest('[data-open-auth]');
   if (open) { e.preventDefault(); openAuth(open.dataset.openAuth); return; }
   const book = e.target.closest('[data-book]');
-  if (book) { e.preventDefault(); requestBooking(book.dataset.book); }
+  if (book) {
+    e.preventDefault();
+    const spec = book.dataset.spec || (book.closest('.spec-card') && book.closest('.spec-card').querySelector('[data-profile]')?.dataset.profile);
+    requestBooking(book.dataset.book, spec);
+  }
 });
 $('#loginBtn').addEventListener('click', () => { getUser() ? togglePanel('user') : openAuth('login'); });
 $('#logoutBtn').addEventListener('click', () => { setUser(null); renderAuthState(); closePanels(); showToast(t('toast.bye')); });
 $('#forgotLink').addEventListener('click', (e) => { e.preventDefault(); showToast(t('toast.forgot')); });
 
-// الحجز يتطلب حسابًا: نفتح نافذة الدخول مع تنبيه، أو نعرض رسالة مؤقتة إن كان مسجلًا
-function requestBooking(kind) {
-  if (getUser()) showToast(t('toast.book'));   // TODO: وجّه المستخدم إلى صفحة الحجز: booking-<kind>.html
-  else openAuth('login', true);
+// الحجز: توجيه المستخدم مباشرة إلى واجهة حجز الجلسة الجديدة
+function requestBooking(kind, specId) {
+  let url = 'booking.html';
+  const params = [];
+  if (specId) params.push(`specialist=${encodeURIComponent(specId)}`);
+  if (kind) params.push(`service=${encodeURIComponent(kind)}`);
+  if (params.length) url += '?' + params.join('&');
+
+  if (getUser()) {
+    window.location.href = url;
+  } else {
+    localStorage.setItem('maladh:pending_booking_url', url);
+    openAuth('login', true);
+  }
 }
 
 // ---------- التحقق من الحقول ----------
@@ -183,12 +197,16 @@ async function submitForm(form) {
         });
 
         user = {
+          id: (res && res.user && res.user.id) || ('usr_' + Date.now()),
           username: username,
           email: email,
           age: age,
+          phone: '',
+          emergencyContact: '',
           role: 'beneficiary'
         };
         localStorage.setItem('maladh:current_role', 'beneficiary');
+        localStorage.setItem('maladh:user', JSON.stringify(user));
       } else {
         const res = await window.MaladhDB.auth.signIn({
           email: id,
@@ -196,15 +214,15 @@ async function submitForm(form) {
         });
 
         let role = (res.profile && res.profile.role) || (isAdmin ? 'admin' : (isDoctor ? 'specialist' : 'beneficiary'));
-        let name = (res.profile && res.profile.full_name) || (id.includes('@') ? id.split('@')[0] : id);
+        let name = (res.profile && res.profile.full_name) || (res.user && res.user.user_metadata && res.user.user_metadata.full_name) || (id.includes('@') ? id.split('@')[0] : id);
 
         if (isAdmin) {
           role = 'admin';
-          name = 'أ. عبد الله الشمري';
+          name = (res.profile && res.profile.full_name) || 'أ. عبد الله الشمري';
           user = {
             id: (res && res.user && res.user.id) || '773d12c3-39b6-400a-ab85-2d1c99e1c97b',
             username: name,
-            email: id.includes('@') ? id : 'admin@maladh.com',
+            email: (res.user && res.user.email) || (id.includes('@') ? id : 'admin@maladh.com'),
             role: 'admin',
             title: 'مدير النظام'
           };
@@ -215,22 +233,27 @@ async function submitForm(form) {
           user = {
             id: (res && res.user && res.user.id) || '11cea870-41e3-49e4-903c-6a2588520967',
             username: name,
-            email: id.includes('@') ? id : 'doctor@maladh.com',
+            email: (res.user && res.user.email) || (id.includes('@') ? id : 'doctor@maladh.com'),
             role: 'specialist',
-            title: 'أخصائية في علم النفس العلاجي',
-            license: 'PSY-88492',
+            title: (res.profile && res.profile.specialist_profiles && res.profile.specialist_profiles.title) || 'أخصائية في علم النفس العلاجي',
+            license: (res.profile && res.profile.specialist_profiles && res.profile.specialist_profiles.license_number) || 'PSY-88492',
             avatar: 'assets/specialist-sara.jpg'
           };
           localStorage.setItem('maladh:doctor_user', JSON.stringify(user));
         } else {
+          // مستفيد: نعتمد الاسم والمعلومات المدخلة بالكامل
           user = {
             id: (res && res.user && res.user.id) || 'bd9557fa-cd22-40a5-b515-56220445ca25',
             username: name,
-            email: id.includes('@') ? id : 'user@maladh.com',
+            email: (res.user && res.user.email) || (id.includes('@') ? id : ''),
+            phone: (res.profile && res.profile.phone) || '',
+            age: (res.profile && res.profile.age) || (res.user && res.user.user_metadata && res.user.user_metadata.age) || '',
+            emergencyContact: (res.profile && res.profile.emergency_contact) || '',
             role: role
           };
         }
         localStorage.setItem('maladh:current_role', role);
+        localStorage.setItem('maladh:user', JSON.stringify(user));
       }
     } else {
       // احتياطي في حال عدم تحميل العميل
@@ -251,10 +274,14 @@ async function submitForm(form) {
     showToast(t(isRegister ? 'toast.created' : 'toast.welcome', { name: user.username }));
 
     const targetRole = localStorage.getItem('maladh:current_role');
+    const pendingBooking = localStorage.getItem('maladh:pending_booking_url');
     setTimeout(() => {
       if (targetRole === 'admin') window.location.href = 'admin-dashboard.html';
       else if (targetRole === 'specialist') window.location.href = 'doctor-dashboard.html';
-      else window.location.href = 'dashboard.html';
+      else if (pendingBooking) {
+        localStorage.removeItem('maladh:pending_booking_url');
+        window.location.href = pendingBooking;
+      } else window.location.href = 'dashboard.html';
     }, 700);
 
   } catch (err) {
