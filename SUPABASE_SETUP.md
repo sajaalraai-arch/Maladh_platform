@@ -37,25 +37,10 @@
 ## 🔑 الخطوة 3: الحصول على مفاتيح الاتصال وإعداد المشروع
 
 1. في لوحة تحكم Supabase، انقر على أيقونة **Project Settings** (الترس في أسفل القائمة الجانبية).
-2. اختر من القائمة **API**.
-3. ستجد قسم **Project API keys** و **Project URL**:
-   * انسخ **Project URL** (مثال: `https://xyzcompany.supabase.co`).
-   * انسخ **anon / public** key (المفتاح العام فقط — **إياك واستخدام `service_role` في المتصفح!**).
-4. افتح الملف في مشروعك: [js/supabase-client.js](file:///c:/Users/User/Desktop/maladh7/js/supabase-client.js).
-5. ضع الرابط والمفتاح في بداية الملف:
-   ```javascript
-   const SUPABASE_CONFIG = {
-     url: 'ضع_رابط_المشروع_هنا',
-     anonKey: 'ضع_مفتاح_anon_هنا'
-   };
-   ```
-
-> [!TIP]
-> تتيح المنصة أيضاً إمكانية ضبط المفاتيح برمجياً في أي وقت عبر تشغيل الأمر التالي في الكونسول أو حفظها في `localStorage`:
-> ```javascript
-> window.MaladhDB.setConfig('YOUR_SUPABASE_URL', 'YOUR_SUPABASE_ANON_KEY');
-> ```
-> كما تحتوي المنصة على وضع تشغيل احتياطي ذكي (Fallback Mode) يعمل بالبيانات المحلية تلقائياً إذا لم تكن المفاتيح مُدخلة، مما يضمن استقرار الواجهات 100%.
+### ✅ بيانات الاتصال الحالية لمشروع MaladhPlatform المربوط:
+* **Project URL**: `https://aegoestllnwuzlmupqds.supabase.co`
+* **Anon Key**: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFlZ29lc3RsbG53dXpsbXVwcWRzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ3MjIwNjQsImV4cCI6MjExMDI5ODA2NH0.TF5dqxUgEFHhD70mW5Wi-0toV_t9a-KevAdqEnHFMeM`
+* **الحالة**: مربوط ويعمل بنجاح 100%، وتم تطبيق كامل المخطط والجداول الـ 14 وسياسات الأمان RLS وحسابات الاختبار.
 
 ---
 

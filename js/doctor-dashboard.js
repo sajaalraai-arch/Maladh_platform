@@ -1402,6 +1402,11 @@
 
       setStorage(KEYS.APPOINTMENTS, state.appointments);
 
+      // مزامنة اكتمال الجلسة مع Supabase
+      if (window.MaladhDB && window.MaladhDB.appointments && a.id) {
+        window.MaladhDB.appointments.updateStatus(a.id, 'completed', a.clinicalReport).catch(e => console.warn(e));
+      }
+
       state.stats.completedSessions = (state.stats.completedSessions || 46) + 1;
       state.stats.completionRate = Math.min(100, Math.round((state.stats.completedSessions / state.stats.totalSessionsTarget) * 100));
       if (state.stats.newRequests > 0) state.stats.newRequests--;
@@ -2005,8 +2010,12 @@
     showToast('تم حفظ وتحديث بيانات الملف الشخصي بنجاح ✨');
 
     // مزامنة الملف الشخصي مع Supabase
+    const docId = (state.doctor.id && state.doctor.id !== 'sp1' && state.doctor.id !== 'usr_local')
+      ? state.doctor.id
+      : '11cea870-41e3-49e4-903c-6a2588520967';
+
     if (window.MaladhDB && window.MaladhDB.auth) {
-      window.MaladhDB.auth.updateProfile(state.doctor.id || 'sp1', {
+      window.MaladhDB.auth.updateProfile(docId, {
         full_name: state.doctor.username,
         phone: state.doctor.phone
       }).catch(e => console.warn('[Supabase Specialist Profile Sync]:', e.message));
@@ -2972,8 +2981,12 @@
     closeModal('#scheduleConfirmSaveModal');
 
     // مزامنة جدول التوفر مع Supabase
+    const docId = (state.doctor.id && state.doctor.id !== 'sp1' && state.doctor.id !== 'usr_local')
+      ? state.doctor.id
+      : '11cea870-41e3-49e4-903c-6a2588520967';
+
     if (window.MaladhDB && window.MaladhDB.schedule) {
-      window.MaladhDB.schedule.save(state.doctor.id || 'sp1', {
+      window.MaladhDB.schedule.save(docId, {
         days: state.schedule.days,
         settings: state.schedule.settings
       }).catch(e => console.warn('[Supabase Schedule Sync]:', e.message));
@@ -3159,7 +3172,9 @@
     if (!window.MaladhDB) return;
     try {
       const docUser = getStorage(KEYS.DOCTOR_USER, null);
-      const specialistId = (docUser && docUser.id) || 'sp1';
+      const specialistId = (docUser && docUser.id && docUser.id !== 'sp1' && docUser.id !== 'usr_local')
+        ? docUser.id
+        : '11cea870-41e3-49e4-903c-6a2588520967';
 
       // 1. مزامنة الملف الشخصي والترخيص
       if (window.MaladhDB.auth) {
@@ -3190,6 +3205,11 @@
             notes: a.notes || ''
           }));
           setStorage(KEYS.APPOINTMENTS, state.appointments);
+
+      // مزامنة اكتمال الجلسة مع Supabase
+      if (window.MaladhDB && window.MaladhDB.appointments && a.id) {
+        window.MaladhDB.appointments.updateStatus(a.id, 'completed', a.clinicalReport).catch(e => console.warn(e));
+      }
           renderStats();
           renderTodayAppointments();
         }

@@ -202,6 +202,7 @@ async function submitForm(form) {
           role = 'admin';
           name = 'أ. عبد الله الشمري';
           user = {
+            id: (res && res.user && res.user.id) || '773d12c3-39b6-400a-ab85-2d1c99e1c97b',
             username: name,
             email: id.includes('@') ? id : 'admin@maladh.com',
             role: 'admin',
@@ -212,8 +213,9 @@ async function submitForm(form) {
           role = 'specialist';
           if (!name || name.toLowerCase() === 'doctor') name = 'د. سارة العتيبي';
           user = {
+            id: (res && res.user && res.user.id) || '11cea870-41e3-49e4-903c-6a2588520967',
             username: name,
-            email: id.includes('@') ? id : 'sara.otaibi@maladh.com',
+            email: id.includes('@') ? id : 'doctor@maladh.com',
             role: 'specialist',
             title: 'أخصائية في علم النفس العلاجي',
             license: 'PSY-88492',
@@ -222,8 +224,9 @@ async function submitForm(form) {
           localStorage.setItem('maladh:doctor_user', JSON.stringify(user));
         } else {
           user = {
+            id: (res && res.user && res.user.id) || 'bd9557fa-cd22-40a5-b515-56220445ca25',
             username: name,
-            email: id.includes('@') ? id : '',
+            email: id.includes('@') ? id : 'user@maladh.com',
             role: role
           };
         }

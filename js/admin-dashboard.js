@@ -460,6 +460,10 @@
     setStorage(KEYS.BENEFICIARIES, state.beneficiaries);
     renderBeneficiariesTable();
     showToast(`تم ${b.status === 'active' ? 'تفعيل' : 'تعطيل'} حساب المستفيد: ${b.name}`);
+
+    if (window.MaladhDB && window.MaladhDB.auth && b.id) {
+      window.MaladhDB.auth.updateProfile(b.id, { is_active: b.status === 'active' }).catch(err => console.warn(err));
+    }
   }
 
   // =====================================================================
@@ -531,6 +535,9 @@
           setStorage(KEYS.SPECIALISTS, state.specialists);
           renderSpecialistsTable();
           showToast(`تم اعتماد وتوثيق رخصة المختص: ${s.name}`);
+          if (window.MaladhDB && window.MaladhDB.specialists && s.id) {
+            window.MaladhDB.specialists.verifySpecialist(s.id, true).catch(err => console.warn(err));
+          }
         }
       });
     });
@@ -543,6 +550,9 @@
           setStorage(KEYS.SPECIALISTS, state.specialists);
           renderSpecialistsTable();
           showToast(`تم تعديل حالة توفر المختص: ${s.name}`);
+          if (window.MaladhDB && window.MaladhDB.specialists && s.id) {
+            window.MaladhDB.specialists.setAvailability(s.id, s.available).catch(err => console.warn(err));
+          }
         }
       });
     });
@@ -990,6 +1000,9 @@
           srv.icon = icon;
           srv.active = active;
           showToast(`تم تعديل خدمة: ${title} بنجاح`);
+          if (window.MaladhDB && window.MaladhDB.services) {
+            window.MaladhDB.services.update(id, { title, description: desc, icon, is_active: active }).catch(err => console.warn(err));
+          }
         }
       } else {
         // إضافة جديدة
@@ -1003,6 +1016,9 @@
           active
         });
         showToast(`تمت إضافة خدمة: ${title} بنجاح`);
+        if (window.MaladhDB && window.MaladhDB.services) {
+          window.MaladhDB.services.create({ title, description: desc, icon, is_active: active }).catch(err => console.warn(err));
+        }
       }
 
       setStorage(KEYS.SERVICES, state.services);
@@ -1047,6 +1063,10 @@
         setStorage(KEYS.SUPPORT, state.supportTickets);
         input.value = '';
         renderSupportChat();
+
+        if (window.MaladhDB && window.MaladhDB.support && ticket.id) {
+          window.MaladhDB.support.sendMessage(ticket.id, state.admin.id || '773d12c3-39b6-400a-ab85-2d1c99e1c97b', 'admin', text).catch(err => console.warn(err));
+        }
       }
     });
 
@@ -1057,6 +1077,10 @@
         setStorage(KEYS.SUPPORT, state.supportTickets);
         renderSupportChat();
         showToast(`تم إغلاق وحل تذكرة المستفيد: ${ticket.beneficiary}`);
+
+        if (window.MaladhDB && window.MaladhDB.support && ticket.id) {
+          window.MaladhDB.support.updateTicketStatus(ticket.id, 'resolved').catch(err => console.warn(err));
+        }
       }
     });
 
@@ -1208,6 +1232,52 @@
           setStorage(KEYS.APPOINTMENTS, state.appointments);
           if (state.currentView === 'appointments') renderAppointmentsTable();
           if (state.currentView === 'dashboard') renderDashboardView();
+        }
+      }
+
+      // 4. مزامنة المستفيدين من Supabase
+      if (window.MaladhDB.auth && window.MaladhDB.auth.getAllProfiles) {
+        const liveProfiles = await window.MaladhDB.auth.getAllProfiles({ role: 'beneficiary' });
+        if (liveProfiles && liveProfiles.length > 0) {
+          state.beneficiaries = liveProfiles.map(p => ({
+            id: p.id,
+            name: p.full_name || 'مستفيد',
+            email: p.email,
+            phone: p.phone || '05XXXXXXXX',
+            registeredDate: (p.created_at || '').split('T')[0] || '2026-11-15',
+            sessionsCount: 3,
+            status: p.is_active ? 'active' : 'disabled'
+          }));
+          setStorage(KEYS.BENEFICIARIES, state.beneficiaries);
+          if (state.currentView === 'beneficiaries') renderBeneficiariesTable();
+          if (state.currentView === 'dashboard') renderDashboardView();
+        }
+      }
+
+      // 5. مزامنة تذاكر الدعم الخاص من Supabase
+      if (window.MaladhDB.support) {
+        const liveTickets = await window.MaladhDB.support.getTickets();
+        if (liveTickets && liveTickets.length > 0) {
+          state.supportTickets = liveTickets.map(t => {
+            const msgs = (t.messages || []).map(m => ({
+              sender: m.sender_role || 'user',
+              text: m.message_text,
+              time: m.created_at ? new Date(m.created_at).toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' }) : 'الآن'
+            }));
+            const lastMsg = msgs[msgs.length - 1];
+            return {
+              id: t.id,
+              beneficiary: 'عبد الرحمن محمد',
+              subject: t.subject,
+              lastMsg: lastMsg ? lastMsg.text : 'استفسار جديد',
+              lastTime: lastMsg ? lastMsg.time : 'الآن',
+              unread: t.status === 'open',
+              status: t.status,
+              messages: msgs
+            };
+          });
+          setStorage(KEYS.SUPPORT, state.supportTickets);
+          if (state.currentView === 'support') renderSupportChat();
         }
       }
     } catch (e) {

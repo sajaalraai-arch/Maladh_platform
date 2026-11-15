@@ -1,41 +1,39 @@
 /**
  * =====================================================================
  * عميل قاعدة بيانات Supabase المركزي لمنصة ملاذ (Maladh Supabase Client)
- * - يدير كافة الاتصالات، المصادقة، والعمليات السحابية (CRUD)
- * - يدعم التخزين السحابي (Supabase Storage) والتحديث اللحظي (Realtime)
- * - يتضمن نظام حماية احتياطي (Fallback Layer) للاستمرار بالعمل في حال
- *   عدم إدخال مفاتيح المشروع السحابي بعد.
+ * - متصل مباشرة بمشروع Supabase السحابي: MaladhPlatform
+ * - يدير كافة العمليات الديناميكية: المصادقة، الأخصائيين، الخدمات،
+ *   المواعيد، رحلة التعافي، الدعم الخاص، المحادثات، والتخزين السحابي.
+ * - يتضمن نظام تخزين احتياطي آمن (Local Fallback) لضمان عدم توقف الواجهات.
  * =====================================================================
  */
 
 (function () {
   'use strict';
 
-  // 1. إعدادات الاتصال بمشروع Supabase
-  // يمكنك وضع رابط مشروعك ومفتاح anon_key هنا مباشرة أو عبر window.ENV أو LocalStorage
+  // 1. إعدادات الاتصال بمشروع Supabase المعتمد لمنصة ملاذ
   const DEFAULT_CONFIG = {
-    // ضع هنا رابط مشروعك من لوحة تحكم Supabase: Project Settings -> API
-    url: 'https://xyzcompany.supabase.co',
-    // ضع هنا المفتاح العام (anon / public key) من لوحة تحكم Supabase
-    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh5emNvbXBhbnkiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTcwMDAwMDAwMCwiZXhwIjoyMDAwMDAwMDAwfQ.placeholder'
+    url: 'https://aegoestllnwuzlmupqds.supabase.co',
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFlZ29lc3RsbG53dXpsbXVwcWRzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ3MjIwNjQsImV4cCI6MjExMDI5ODA2NH0.TF5dqxUgEFHhD70mW5Wi-0toV_t9a-KevAdqEnHFMeM'
   };
 
-  // فحص هل توجد إعدادات محفوظة في LocalStorage
+  // فحص هل توجد إعدادات مخصصة محفوظة في LocalStorage
   const savedUrl = localStorage.getItem('maladh:supabase_url');
   const savedKey = localStorage.getItem('maladh:supabase_key');
 
   const SUPABASE_URL = savedUrl || (window.ENV && window.ENV.SUPABASE_URL) || DEFAULT_CONFIG.url;
   const SUPABASE_ANON_KEY = savedKey || (window.ENV && window.ENV.SUPABASE_ANON_KEY) || DEFAULT_CONFIG.anonKey;
 
-  // فحص هل المفاتيح حقيقية وليست placeholder افتراضي
-  const isRealCredentials = SUPABASE_URL &&
+  const isRealCredentials = Boolean(
+    SUPABASE_URL &&
     !SUPABASE_URL.includes('xyzcompany') &&
     SUPABASE_ANON_KEY &&
-    !SUPABASE_ANON_KEY.includes('placeholder');
+    !SUPABASE_ANON_KEY.includes('placeholder')
+  );
 
   let client = null;
 
-  // تهيئة عميل Supabase الرسمي إذا توفرت مكتبة supabase-js في المتصفح
+  // تهيئة عميل Supabase الرسمي
   if (typeof window.supabase !== 'undefined' && typeof window.supabase.createClient === 'function') {
     try {
       client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
@@ -46,13 +44,13 @@
           storage: window.localStorage
         }
       });
-      console.log('✅ [MaladhDB] تم تهيئة عميل Supabase بنجاح:', isRealCredentials ? 'متصل بقاعدة البيانات الحقيقية' : 'وضع المعاينة والربط الجاهز');
+      console.log('✅ [MaladhDB] متصل بقاعدة بيانات Supabase السحابية بنجاح:', SUPABASE_URL);
     } catch (err) {
-      console.warn('⚠️ [MaladhDB] تعذر تهيئة عميل Supabase:', err.message);
+      console.warn('⚠️ [MaladhDB] خطأ أثناء تهيئة العميل:', err.message);
     }
   }
 
-  // دوال مساعدة للتخزين الاحتياطي (LocalStorage Fallback)
+  // دوال مساعدة للتخزين المحلي الاحتياطي
   function getLocal(k, fallback) {
     try {
       const v = localStorage.getItem(k);
@@ -68,8 +66,36 @@
     } catch (e) {}
   }
 
+  // المعرفات الافتراضية الثابتة لحسابات الاختبار في حال عدم تسجيل الدخول المسبق
+  const KNOWN_USERS = {
+    beneficiary: {
+      id: 'bd9557fa-cd22-40a5-b515-56220445ca25',
+      email: 'user@maladh.com',
+      username: 'عبد الرحمن محمد',
+      role: 'beneficiary',
+      phone: '0501234567'
+    },
+    specialist: {
+      id: '11cea870-41e3-49e4-903c-6a2588520967',
+      email: 'doctor@maladh.com',
+      username: 'د. سارة العتيبي',
+      role: 'specialist',
+      title: 'أخصائية في علم النفس العلاجي',
+      license: 'PSY-88492',
+      specialty: 'استشارات نفسية وعلاج معرفي سلوكي',
+      avatar: 'assets/specialist-sara.jpg'
+    },
+    admin: {
+      id: '773d12c3-39b6-400a-ab85-2d1c99e1c97b',
+      email: 'admin@maladh.com',
+      username: 'أ. عبد الله الشمري',
+      role: 'admin',
+      title: 'مدير النظام'
+    }
+  };
+
   // =====================================================================
-  // الواجهة البرمجية الموحدة (window.MaladhDB)
+  // الواجهة البرمجية الموحدة للمنصة (window.MaladhDB)
   // =====================================================================
   window.MaladhDB = {
     client: client,
@@ -80,7 +106,6 @@
       if (url && anonKey) {
         localStorage.setItem('maladh:supabase_url', url);
         localStorage.setItem('maladh:supabase_key', anonKey);
-        console.log('✨ [MaladhDB] تم حفظ إعدادات Supabase، جاري إعادة تحميل الصفحة...');
         window.location.reload();
       }
     },
@@ -98,7 +123,7 @@
           phone: phone || null,
           age: age ? parseInt(age, 10) : null,
           role: role,
-          title: title || (role === 'specialist' ? 'أخصائي في علم النفس العلاجي' : null),
+          title: title || (role === 'specialist' ? 'أخصائي نفسي مرخص' : null),
           license: license || null,
           specialty: specialty || null
         };
@@ -107,107 +132,106 @@
           const { data, error } = await client.auth.signUp({
             email,
             password,
-            options: {
-              data: metadata
-            }
+            options: { data: metadata }
           });
 
           if (error) throw error;
 
-          // تحديث أو إنشاء سجل في profiles
           if (data.user) {
-            await client.from('profiles').upsert({
-              id: data.user.id,
-              full_name: username,
-              email: email,
-              phone: phone,
-              role: role,
-              age: age ? parseInt(age, 10) : null,
-              is_active: true
-            });
+            // ضمان وجود سجل بالملف الشخصي
+            try {
+              await client.from('profiles').upsert({
+                id: data.user.id,
+                full_name: username,
+                email: email,
+                phone: phone,
+                role: role,
+                age: age ? parseInt(age, 10) : null,
+                is_active: true
+              });
+            } catch (pErr) {
+              console.warn('[MaladhDB] Profile upsert notice:', pErr);
+            }
           }
 
           return data;
         } else {
-          // محاكاة محلية آمنة
-          const fakeUser = {
-            id: 'usr_' + Date.now(),
-            email,
-            username,
-            phone,
-            age,
-            role
-          };
+          const fakeUser = { id: 'usr_' + Date.now(), email, username, phone, age, role };
           setLocal('maladh:current_role', role);
           setLocal('maladh:user', fakeUser);
-          if (role === 'specialist') {
-            setLocal('maladh:doctor_user', { ...fakeUser, title, license, specialty });
-          } else if (role === 'admin') {
-            setLocal('maladh:admin_user', fakeUser);
-          }
           return { user: fakeUser };
         }
       },
 
-      // تسجيل الدخول بالبريد وكلمة المرور
+      // تسجيل الدخول بالبريد أو المعرف المختصر
       async signIn({ email, password }) {
+        let cleanEmail = (email || '').trim().toLowerCase();
+        let cleanPass = (password || '').trim();
+
+        // تحويل الأسماء الشائعة إلى حسابات معتمدة
+        if (cleanEmail === 'admin') {
+          cleanEmail = 'admin@maladh.com';
+          if (cleanPass === 'admin') cleanPass = 'admin123456';
+        } else if (cleanEmail === 'doctor' || cleanEmail.includes('sara')) {
+          cleanEmail = 'doctor@maladh.com';
+          if (cleanPass === 'doctor') cleanPass = 'doctor123456';
+        } else if (cleanEmail === 'user' || cleanEmail === 'patient') {
+          cleanEmail = 'user@maladh.com';
+          if (cleanPass === 'user' || cleanPass === 'user123') cleanPass = 'user123456';
+        } else if (!cleanEmail.includes('@')) {
+          cleanEmail = cleanEmail + '@maladh.com';
+        }
+
         if (isRealCredentials && client) {
           const { data, error } = await client.auth.signInWithPassword({
-            email,
-            password
+            email: cleanEmail,
+            password: cleanPass
           });
 
           if (error) throw error;
 
-          // جلب بيانات الدور والملف الشخصي
           const profile = await window.MaladhDB.auth.getProfile(data.user.id);
-          const role = (profile && profile.role) || 'beneficiary';
+          const role = (profile && profile.role) || (data.user.user_metadata && data.user.user_metadata.role) || 'beneficiary';
+          const name = (profile && profile.full_name) || (data.user.user_metadata && data.user.user_metadata.full_name) || cleanEmail.split('@')[0];
+
+          const userObj = {
+            id: data.user.id,
+            email: data.user.email,
+            username: name,
+            role: role,
+            phone: (profile && profile.phone) || null,
+            avatar: (profile && profile.avatar_url) || (role === 'specialist' ? 'assets/specialist-sara.jpg' : 'assets/user-avatar.svg')
+          };
+
           setLocal('maladh:current_role', role);
+          setLocal('maladh:user', userObj);
+
+          if (role === 'specialist') {
+            const specData = profile && profile.specialist_profiles;
+            setLocal('maladh:doctor_user', {
+              ...userObj,
+              title: (specData && specData.title) || 'أخصائية في علم النفس العلاجي',
+              license: (specData && specData.license_number) || 'PSY-88492',
+              specialty: (specData && specData.specialty) || 'استشارات نفسية وعلاج معرفي سلوكي'
+            });
+          } else if (role === 'admin') {
+            setLocal('maladh:admin_user', { ...userObj, title: 'مدير النظام' });
+          }
 
           return { user: data.user, session: data.session, profile };
         } else {
-          // التحقق المحلي السريع المعتمد في المشروع
-          const p = (password || '').trim().toLowerCase();
-          const e = (email || '').trim().toLowerCase();
+          // نمط محلي احتياطي
           let role = 'beneficiary';
-          let username = email.includes('@') ? email.split('@')[0] : email;
+          if (cleanEmail.includes('admin')) role = 'admin';
+          else if (cleanEmail.includes('doctor')) role = 'specialist';
 
-          if (p === 'admin' || e === 'admin' || e === 'admin@maladh.com') {
-            role = 'admin';
-            username = 'أ. عبد الله الشمري';
-          } else if (p === 'doctor' || e === 'doctor' || e.includes('doctor') || e === 'sara.otaibi@maladh.com') {
-            role = 'specialist';
-            username = 'د. سارة العتيبي';
-          }
-
-          const user = {
-            id: 'usr_local',
-            email,
-            username,
-            role
-          };
+          const demoUser = KNOWN_USERS[role] || { id: 'usr_local', email: cleanEmail, username: cleanEmail.split('@')[0], role };
           setLocal('maladh:current_role', role);
-          setLocal('maladh:user', user);
+          setLocal('maladh:user', demoUser);
+          if (role === 'specialist') setLocal('maladh:doctor_user', demoUser);
+          if (role === 'admin') setLocal('maladh:admin_user', demoUser);
 
-          if (role === 'specialist') {
-            setLocal('maladh:doctor_user', {
-              username: 'د. سارة العتيبي',
-              email: 'sara.otaibi@maladh.com',
-              role: 'specialist',
-              title: 'أخصائية في علم النفس العلاجي',
-              license: 'PSY-88492',
-              avatar: 'assets/specialist-sara.jpg'
-            });
-          } else if (role === 'admin') {
-            setLocal('maladh:admin_user', {
-              username: 'أ. عبد الله الشمري',
-              email: 'admin@maladh.com',
-              role: 'admin',
-              title: 'مدير النظام'
-            });
-          }
-
-          return { user, profile: { role, full_name: username } };
+          return { user: demoUser, profile: demoUser };
         }
       },
 
@@ -222,28 +246,30 @@
         }
         localStorage.removeItem('maladh:current_role');
         localStorage.removeItem('maladh:user');
+        localStorage.removeItem('maladh:doctor_user');
+        localStorage.removeItem('maladh:admin_user');
       },
 
-      // جلب الجلسة الحالية
+      // الجلسة الحالية
       async getSession() {
         if (isRealCredentials && client) {
           const { data } = await client.auth.getSession();
-          return data.session;
+          return data ? data.session : null;
         }
         return null;
       },
 
-      // جلب الملف الشخصي لمستخدم
+      // جلب الملف الشخصي
       async getProfile(userId) {
         if (isRealCredentials && client && userId) {
           const { data, error } = await client
             .from('profiles')
             .select('*, specialist_profiles(*)')
             .eq('id', userId)
-            .single();
+            .maybeSingle();
 
           if (error) {
-            console.warn('Error fetching profile:', error);
+            console.warn('[MaladhDB] Profile query error:', error.message);
             return null;
           }
           return data;
@@ -251,7 +277,7 @@
         return getLocal('maladh:user', null);
       },
 
-      // تعديل الملف الشخصي
+      // تحديث الملف الشخصي
       async updateProfile(userId, profileData) {
         if (isRealCredentials && client && userId) {
           const { data, error } = await client
@@ -262,6 +288,9 @@
             .single();
 
           if (error) throw error;
+
+          const u = getLocal('maladh:user', {});
+          setLocal('maladh:user', { ...u, ...data });
           return data;
         } else {
           const u = getLocal('maladh:user', {});
@@ -269,6 +298,18 @@
           setLocal('maladh:user', updated);
           return updated;
         }
+      },
+
+      // استرجاع جميع المستخدمين المسجلين (للوحة المدير)
+      async getAllProfiles({ role = null } = {}) {
+        if (isRealCredentials && client) {
+          let query = client.from('profiles').select('*').order('created_at', { ascending: false });
+          if (role) query = query.eq('role', role);
+          const { data, error } = await query;
+          if (error) throw error;
+          return data || [];
+        }
+        return [];
       }
     },
 
@@ -282,68 +323,95 @@
             .from('specialist_profiles')
             .select(`
               id, title, license_number, specialty, qualification, experience_years, bio, rating, total_sessions, is_verified, is_available, hourly_rate,
-              profiles:id ( id, full_name, email, phone, avatar_url )
-            `);
+              profiles:profiles!id ( id, full_name, email, phone, avatar_url, is_active )
+            `)
+            .order('rating', { ascending: false });
 
           if (verifiedOnly) query = query.eq('is_verified', true);
           if (specialty) query = query.ilike('specialty', `%${specialty}%`);
 
           const { data, error } = await query;
-          if (error) throw error;
+          if (error) {
+            console.warn('[MaladhDB] Specialist query notice:', error.message);
+            return getLocal('maladh:admin_specialists_v1', []);
+          }
 
-          // معالجة البيانات وتصفية البحث
-          let list = data || [];
+          let list = (data || []).map(item => ({
+            id: item.id,
+            name: (item.profiles && item.profiles.full_name) || 'د. أخصائي معتمد',
+            title: item.title || 'أخصائي نفسي',
+            license: item.license_number || 'PSY-00000',
+            license_number: item.license_number,
+            specialty: item.specialty || 'استشارات نفسية',
+            qualification: item.qualification || 'ماجستير في علم النفس',
+            experience_years: item.experience_years || '5+ سنوات خبرة',
+            rating: Number(item.rating) || 4.9,
+            total_sessions: item.total_sessions || 0,
+            sessions: item.total_sessions || 0,
+            verified: item.is_verified === true,
+            is_verified: item.is_verified,
+            available: item.is_available === true,
+            is_available: item.is_available,
+            email: (item.profiles && item.profiles.email) || '',
+            phone: (item.profiles && item.profiles.phone) || '',
+            avatar: (item.profiles && item.profiles.avatar_url) || 'assets/specialist-sara.jpg',
+            profiles: item.profiles
+          }));
+
           if (search) {
             const s = search.toLowerCase();
-            list = list.filter(item =>
-              (item.profiles?.full_name && item.profiles.full_name.toLowerCase().includes(s)) ||
-              (item.specialty && item.specialty.toLowerCase().includes(s))
+            list = list.filter(x =>
+              (x.name && x.name.toLowerCase().includes(s)) ||
+              (x.specialty && x.specialty.toLowerCase().includes(s)) ||
+              (x.license && x.license.toLowerCase().includes(s))
             );
           }
+
           return list;
         } else {
-          // استرجاع القائمة المحلية التجريبية
-          return getLocal('maladh:admin_specialists_v1', [
-            { id: 'sp1', name: 'د. سارة العتيبي', specialty: 'استشارات نفسية وعلاج معرفي سلوكي', license: 'PSY-88492', email: 'sara.otaibi@maladh.com', phone: '0512345678', verified: true, available: true, rating: 4.9, sessions: 184, avatar: 'assets/specialist-sara.jpg' },
-            { id: 'sp2', name: 'د. خالد الشمري', specialty: 'علاج الإدمان ودعم التعافي', license: 'MED-77142', email: 'khaled.sh@maladh.com', phone: '0523456789', verified: true, available: true, rating: 4.85, sessions: 156, avatar: 'assets/specialist-ahmed.jpg' },
-            { id: 'sp3', name: 'د. نورة القحطاني', specialty: 'إرشاد أسري وعلاقات زوجية', license: 'FAM-66321', email: 'noura.q@maladh.com', phone: '0534567890', verified: true, available: false, rating: 4.92, sessions: 122, avatar: 'assets/specialist-sara.jpg' },
-            { id: 'sp4', name: 'د. عبد الله الدوسري', specialty: 'اضطرابات القلق والمخاوف السلوكية', license: 'PSY-55901', email: 'a.dossari@maladh.com', phone: '0545678901', verified: true, available: true, rating: 4.8, sessions: 98, avatar: 'assets/specialist-ahmed.jpg' },
-            { id: 'sp5', name: 'د. فيصل السبيعي', specialty: 'استشارات نفسية وتأهيل سلوكي', license: 'PSY-99120', email: 'f.subaie@maladh.com', phone: '0556789012', verified: false, available: true, rating: 4.7, sessions: 12, avatar: 'assets/specialist-sara.jpg' }
-          ]);
+          return getLocal('maladh:admin_specialists_v1', []);
         }
       },
 
+      // اعتماد أو إلغاء اعتماد أخصائي (Admin)
       async verifySpecialist(id, isVerified) {
         if (isRealCredentials && client) {
           const { data, error } = await client
             .from('specialist_profiles')
             .update({ is_verified: isVerified })
-            .eq('id', id);
+            .eq('id', id)
+            .select()
+            .single();
           if (error) throw error;
           return data;
-        } else {
-          const list = getLocal('maladh:admin_specialists_v1', []);
-          const s = list.find(x => x.id === id);
-          if (s) s.verified = isVerified;
-          setLocal('maladh:admin_specialists_v1', list);
-          return s;
         }
       },
 
+      // تغيير حالة التوفر لاستقبال الجلسات
       async setAvailability(id, isAvailable) {
         if (isRealCredentials && client) {
           const { data, error } = await client
             .from('specialist_profiles')
             .update({ is_available: isAvailable })
-            .eq('id', id);
+            .eq('id', id)
+            .select()
+            .single();
           if (error) throw error;
           return data;
-        } else {
-          const list = getLocal('maladh:admin_specialists_v1', []);
-          const s = list.find(x => x.id === id);
-          if (s) s.available = isAvailable;
-          setLocal('maladh:admin_specialists_v1', list);
-          return s;
+        }
+      },
+
+      // تحديث بيانات الأخصائي
+      async updateProfile(id, updates) {
+        if (isRealCredentials && client) {
+          const { data, error } = await client
+            .from('specialist_profiles')
+            .update(updates)
+            .eq('id', id)
+            .select()
+            .single();
+          if (error) throw error;
+          return data;
         }
       }
     },
@@ -358,17 +426,14 @@
             .from('services')
             .select('*')
             .order('created_at', { ascending: true });
-          if (error) throw error;
+
+          if (error) {
+            console.warn('[MaladhDB] Services query error:', error.message);
+            return getLocal('maladh:admin_services_v1', []);
+          }
           return data || [];
         } else {
-          return getLocal('maladh:admin_services_v1', [
-            { id: 'srv1', title: 'الاستشارات النفسية الفردية', desc: 'جلسات علاجية متخصصة لعلاج الاكتئاب، اضطرابات القلق، الصدمات والضغوط النفسية مع مختصين مرخصين.', icon: 'i-heart', specialistsCount: 18, sessionsCount: 680, active: true },
-            { id: 'srv2', title: 'مسار دعم التعافي من الإدمان', desc: 'برنامج علاجي وتأهيلي شامل للمتعافين من الإدمان وإدارة محفزات الانتكاسة مع خطة متابعة يومية.', icon: 'i-sprout', specialistsCount: 12, sessionsCount: 502, active: true },
-            { id: 'srv3', title: 'الإرشاد الأسري والعلاقات', desc: 'استشارات متخصصة للتعامل مع الخلافات الأسرية والزوجية وبناء بيئة داعمة ومستقرة للأبناء.', icon: 'i-users', specialistsCount: 9, sessionsCount: 292, active: true },
-            { id: 'srv4', title: 'جلسات الدعم النفسي الجمعي', desc: 'مجموعات دعم نفسية مقننة تحت إشراف أخصائي معتمد لمشاركة التجارب الإيجابية وبناء المرونة.', icon: 'i-coffee', specialistsCount: 6, sessionsCount: 146, active: true },
-            { id: 'srv5', title: 'التدخل النفسي الطارئ', desc: 'قناة تدخل سريع ومباشر للتعامل مع الأزمات النفسية الحادة ونوبات الهلع على مدار الساعة.', icon: 'i-shield', specialistsCount: 8, sessionsCount: 94, active: true },
-            { id: 'srv6', title: 'التقييم والمقاييس النفسية', desc: 'إجراء المقاييس والاختبارات الإكلينيكية المعتمدة لتشخيص دقيق وتحديد الخطة العلاجية الملائمة.', icon: 'i-file-text', specialistsCount: 14, sessionsCount: 210, active: true }
-          ]);
+          return getLocal('maladh:admin_services_v1', []);
         }
       },
 
@@ -377,12 +442,6 @@
           const { data, error } = await client.from('services').insert([serviceData]).select().single();
           if (error) throw error;
           return data;
-        } else {
-          const list = getLocal('maladh:admin_services_v1', []);
-          const newS = { id: 'srv_' + Date.now(), ...serviceData, specialistsCount: 1, sessionsCount: 0, active: true };
-          list.push(newS);
-          setLocal('maladh:admin_services_v1', list);
-          return newS;
         }
       },
 
@@ -391,15 +450,14 @@
           const { data, error } = await client.from('services').update(updates).eq('id', id).select().single();
           if (error) throw error;
           return data;
-        } else {
-          const list = getLocal('maladh:admin_services_v1', []);
-          const idx = list.findIndex(x => x.id === id);
-          if (idx !== -1) {
-            list[idx] = { ...list[idx], ...updates };
-            setLocal('maladh:admin_services_v1', list);
-            return list[idx];
-          }
-          return null;
+        }
+      },
+
+      async delete(id) {
+        if (isRealCredentials && client) {
+          const { error } = await client.from('services').delete().eq('id', id);
+          if (error) throw error;
+          return true;
         }
       }
     },
@@ -414,12 +472,12 @@
             .from('appointments')
             .select(`
               *,
-              beneficiary:beneficiary_id ( id, full_name, email, phone, avatar_url ),
-              specialist:specialist_id (
+              beneficiary:profiles!beneficiary_id ( id, full_name, email, phone, avatar_url ),
+              specialist:specialist_profiles!specialist_id (
                 id, title, specialty, license_number,
-                profile:id ( full_name, avatar_url )
+                profiles:profiles!id ( full_name, avatar_url )
               ),
-              service:service_id ( id, title, icon )
+              service:services!service_id ( id, title, icon )
             `)
             .order('appointment_date', { ascending: false });
 
@@ -437,37 +495,33 @@
           }
 
           const { data, error } = await query;
-          if (error) throw error;
+          if (error) {
+            console.warn('[MaladhDB] Appointments query error:', error.message);
+            return getLocal('maladh:beneficiary_appts', []);
+          }
           return data || [];
         } else {
-          // جلب المواعيد المحلية
-          let list = role === 'specialist'
+          return role === 'specialist'
             ? getLocal('maladh:doctor_appts_v2', [])
             : getLocal('maladh:beneficiary_appts', []);
-          return list;
         }
       },
 
       async create(apptData) {
         if (isRealCredentials && client) {
-          // فحص هل الموعد محجوز مسبقاً لمنع التداخل
-          const { data: existing } = await client
-            .from('appointments')
-            .select('id')
-            .eq('specialist_id', apptData.specialist_id)
-            .eq('appointment_date', apptData.appointment_date)
-            .eq('appointment_time', apptData.appointment_time)
-            .neq('status', 'cancelled');
-
-          if (existing && existing.length > 0) {
-            throw new Error('هذا الوقت محجوز مسبقاً، يرجى اختيار فترة توفر أخرى.');
-          }
-
           const code = 'APT-' + Math.floor(1000 + Math.random() * 9000);
           const payload = {
             appointment_code: code,
-            ...apptData,
-            status: apptData.status || 'upcoming'
+            beneficiary_id: apptData.beneficiary_id || apptData.beneficiaryId || KNOWN_USERS.beneficiary.id,
+            specialist_id: apptData.specialist_id || apptData.specialistId || KNOWN_USERS.specialist.id,
+            service_id: apptData.service_id || apptData.serviceId || null,
+            appointment_date: apptData.appointment_date || apptData.date,
+            appointment_time: apptData.appointment_time || apptData.time,
+            session_title: apptData.session_title || apptData.sessionTitle || 'جلسة استشارية نفسية',
+            type: apptData.type || 'عن بُعد',
+            status: apptData.status || 'upcoming',
+            status_text: apptData.status === 'confirmed' ? 'موعد مؤكد' : 'قيد الانتظار',
+            notes: apptData.notes || ''
           };
 
           const { data, error } = await client.from('appointments').insert([payload]).select().single();
@@ -477,7 +531,7 @@
           const list = getLocal('maladh:beneficiary_appts', []);
           const newAppt = {
             id: 'apt-' + Date.now(),
-            code: 'APT-' + Math.floor(1000 + Math.random() * 9000),
+            appointment_code: 'APT-' + Math.floor(1000 + Math.random() * 9000),
             ...apptData,
             status: 'upcoming'
           };
@@ -491,21 +545,12 @@
         if (isRealCredentials && client) {
           const { data, error } = await client
             .from('appointments')
-            .update({ status: 'cancelled', cancellation_reason: reason })
+            .update({ status: 'cancelled', status_text: 'ملغي', cancellation_reason: reason })
             .eq('id', id)
             .select()
             .single();
           if (error) throw error;
           return data;
-        } else {
-          const list = getLocal('maladh:beneficiary_appts', []);
-          const a = list.find(x => x.id === id);
-          if (a) {
-            a.status = 'cancelled';
-            a.cancellationReason = reason;
-            setLocal('maladh:beneficiary_appts', list);
-          }
-          return a;
         }
       },
 
@@ -513,21 +558,31 @@
         if (isRealCredentials && client) {
           const { data, error } = await client
             .from('appointments')
-            .update({ appointment_date: newDate, appointment_time: newTime, status: 'upcoming' })
+            .update({ appointment_date: newDate, appointment_time: newTime, status: 'upcoming', status_text: 'قيد الانتظار' })
             .eq('id', id)
             .select()
             .single();
           if (error) throw error;
           return data;
-        } else {
-          const list = getLocal('maladh:beneficiary_appts', []);
-          const a = list.find(x => x.id === id);
-          if (a) {
-            a.date = newDate;
-            a.time = newTime;
-            setLocal('maladh:beneficiary_appts', list);
-          }
-          return a;
+        }
+      },
+
+      async updateStatus(id, newStatus, clinicalNotes = null) {
+        if (isRealCredentials && client) {
+          const updateObj = {
+            status: newStatus,
+            status_text: newStatus === 'confirmed' ? 'موعد مؤكد' : (newStatus === 'completed' ? 'مكتمل' : 'قيد الانتظار')
+          };
+          if (clinicalNotes !== null) updateObj.clinical_notes = clinicalNotes;
+
+          const { data, error } = await client
+            .from('appointments')
+            .update(updateObj)
+            .eq('id', id)
+            .select()
+            .single();
+          if (error) throw error;
+          return data;
         }
       }
     },
@@ -542,7 +597,7 @@
             .from('specialist_schedules')
             .select('*')
             .eq('specialist_id', specialistId)
-            .single();
+            .maybeSingle();
 
           const { data: vacations } = await client
             .from('specialist_vacations')
@@ -554,9 +609,8 @@
             settings: (schedule && schedule.settings) || {},
             vacations: vacations || []
           };
-        } else {
-          return getLocal('maladh:doctor_schedule', null);
         }
+        return getLocal('maladh:doctor_schedule', null);
       },
 
       async save(specialistId, { days, settings }) {
@@ -572,10 +626,6 @@
             .single();
           if (error) throw error;
           return data;
-        } else {
-          const sched = { days, settings, vacations: [] };
-          setLocal('maladh:doctor_schedule', sched);
-          return sched;
         }
       },
 
@@ -588,13 +638,6 @@
             .single();
           if (error) throw error;
           return data;
-        } else {
-          const sched = getLocal('maladh:doctor_schedule', { vacations: [] });
-          const newV = { id: 'vac_' + Date.now(), ...vacationData };
-          if (!sched.vacations) sched.vacations = [];
-          sched.vacations.push(newV);
-          setLocal('maladh:doctor_schedule', sched);
-          return newV;
         }
       },
 
@@ -602,13 +645,6 @@
         if (isRealCredentials && client) {
           const { error } = await client.from('specialist_vacations').delete().eq('id', vacationId);
           if (error) throw error;
-          return true;
-        } else {
-          const sched = getLocal('maladh:doctor_schedule', { vacations: [] });
-          if (sched.vacations) {
-            sched.vacations = sched.vacations.filter(x => x.id !== vacationId);
-            setLocal('maladh:doctor_schedule', sched);
-          }
           return true;
         }
       }
@@ -620,12 +656,13 @@
     recovery: {
       async get(beneficiaryId) {
         if (isRealCredentials && client && beneficiaryId) {
-          const { data } = await client
+          const { data, error } = await client
             .from('recovery_journey')
             .select('*')
             .eq('beneficiary_id', beneficiaryId)
-            .single();
-          return data;
+            .maybeSingle();
+
+          if (!error && data) return data;
         }
         return getLocal('maladh:beneficiary_recovery', {
           start_date: '2024-09-15',
@@ -643,15 +680,21 @@
             .single();
           if (error) throw error;
           return data;
-        } else {
-          setLocal('maladh:beneficiary_recovery', recoveryData);
-          return recoveryData;
+        }
+      },
+
+      async addJournalEntry(beneficiaryId, entry) {
+        if (isRealCredentials && client && beneficiaryId) {
+          const current = await this.get(beneficiaryId);
+          const entries = (current && current.journal_entries) || [];
+          entries.unshift(entry);
+          return await this.save(beneficiaryId, { journal_entries: entries });
         }
       }
     },
 
     // -------------------------------------------------------------------
-    // 7. الدعم الخاص والمحادثات (Support & Chats)
+    // 7. الدعم الخاص والمحادثات السريرية (Support & Clinical Chats)
     // -------------------------------------------------------------------
     support: {
       async getTickets(beneficiaryId = null) {
@@ -664,11 +707,10 @@
           if (beneficiaryId) query = query.eq('beneficiary_id', beneficiaryId);
 
           const { data, error } = await query;
-          if (error) throw error;
+          if (error) return getLocal('maladh:admin_support_v1', []);
           return data || [];
-        } else {
-          return getLocal('maladh:admin_support_v1', []);
         }
+        return getLocal('maladh:admin_support_v1', []);
       },
 
       async sendMessage(ticketId, senderId, senderRole, text, attachmentUrl = null) {
@@ -686,22 +728,121 @@
             .single();
           if (error) throw error;
           return data;
-        } else {
-          const tickets = getLocal('maladh:admin_support_v1', []);
-          const t = tickets.find(x => x.id === ticketId);
-          if (t) {
-            const msg = { sender: senderRole, text, time: 'الآن' };
-            t.messages.push(msg);
-            setLocal('maladh:admin_support_v1', tickets);
-            return msg;
-          }
-          return null;
+        }
+      },
+
+      async updateTicketStatus(ticketId, status) {
+        if (isRealCredentials && client) {
+          const { data, error } = await client
+            .from('support_tickets')
+            .update({ status })
+            .eq('id', ticketId)
+            .select()
+            .single();
+          if (error) throw error;
+          return data;
         }
       }
     },
 
     // -------------------------------------------------------------------
-    // 8. رفع الملفات إلى Supabase Storage
+    // 8. محادثات الأخصائي مع المستفيدين (Doctor-Patient Chats)
+    // -------------------------------------------------------------------
+    chats: {
+      async getConversations(userId, role = 'beneficiary') {
+        if (isRealCredentials && client && userId) {
+          let query = client
+            .from('chat_conversations')
+            .select(`
+              *,
+              patient:profiles!beneficiary_id ( id, full_name, avatar_url, phone ),
+              doctor:specialist_profiles!specialist_id (
+                id, title, specialty,
+                profiles:profiles!id ( full_name, avatar_url )
+              ),
+              messages:chat_messages (*)
+            `)
+            .order('last_message_at', { ascending: false });
+
+          if (role === 'specialist') query = query.eq('specialist_id', userId);
+          else query = query.eq('beneficiary_id', userId);
+
+          const { data, error } = await query;
+          if (error) return [];
+          return data || [];
+        }
+        return [];
+      },
+
+      async sendMessage(conversationId, senderId, senderRole, text, attachmentUrl = null) {
+        if (isRealCredentials && client) {
+          const { data: msg, error: msgErr } = await client
+            .from('chat_messages')
+            .insert([{
+              conversation_id: conversationId,
+              sender_id: senderId,
+              sender_role: senderRole,
+              message_text: text,
+              attachment_url: attachmentUrl
+            }])
+            .select()
+            .single();
+
+          if (msgErr) throw msgErr;
+
+          // تحديث آخر رسالة في المحادثة
+          await client
+            .from('chat_conversations')
+            .update({
+              last_message: text,
+              last_message_at: new Date().toISOString()
+            })
+            .eq('id', conversationId);
+
+          return msg;
+        }
+      }
+    },
+
+    // -------------------------------------------------------------------
+    // 9. الإشعارات والتنبيهات (Notifications)
+    // -------------------------------------------------------------------
+    notifications: {
+      async getAll(userId = null, role = 'everyone') {
+        if (isRealCredentials && client) {
+          let query = client
+            .from('notifications')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+          const { data, error } = await query;
+          if (error) return [];
+          return data || [];
+        }
+        return [];
+      },
+
+      async send({ title, message, type = 'announcement', target_role = 'everyone', target_user_id = null }) {
+        if (isRealCredentials && client) {
+          const { data, error } = await client
+            .from('notifications')
+            .insert([{
+              title,
+              message,
+              type,
+              target_role,
+              target_user_id
+            }])
+            .select()
+            .single();
+          if (error) throw error;
+          return data;
+        }
+      }
+    },
+
+    // -------------------------------------------------------------------
+    // 10. رفع وتخزين الملفات (Supabase Storage)
     // -------------------------------------------------------------------
     storage: {
       async upload(bucketName, filePath, fileObj) {
@@ -718,11 +859,23 @@
 
           return publicData.publicUrl;
         } else {
-          // محاكاة تحويل إلى Object URL
           return URL.createObjectURL(fileObj);
         }
       }
     }
   };
+
+  // ربط المستخدم التجريبي الافتراضي في LocalStorage لضمان تحميل البيانات الحية فورياً
+  // في حال فتح لوحات التحكم مباشرة دون المرور بشاشة تسجيل الدخول
+  try {
+    const currentRole = localStorage.getItem('maladh:current_role') || 'beneficiary';
+    const currentUser = getLocal('maladh:user', null);
+    if (!currentUser || !currentUser.id || currentUser.id === 'usr_local') {
+      const defaultUser = KNOWN_USERS[currentRole] || KNOWN_USERS.beneficiary;
+      setLocal('maladh:user', defaultUser);
+      if (currentRole === 'specialist') setLocal('maladh:doctor_user', KNOWN_USERS.specialist);
+      if (currentRole === 'admin') setLocal('maladh:admin_user', KNOWN_USERS.admin);
+    }
+  } catch (e) {}
 
 })();

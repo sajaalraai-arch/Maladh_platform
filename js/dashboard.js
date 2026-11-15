@@ -1333,11 +1333,6 @@
     state.appointments.unshift(newAppointment);
     setStorage(KEYS.APPOINTMENTS, state.appointments);
 
-    // مزامنة إعادة الجدولة مع Supabase
-    if (window.MaladhDB && window.MaladhDB.appointments && activeRescheduleAppt.id) {
-      window.MaladhDB.appointments.reschedule(activeRescheduleAppt.id, selectedRescheduleDate, selectedRescheduleSlot).catch(e => console.warn(e));
-    }
-
     // ربط الحجز مع Supabase
     if (window.MaladhDB && window.MaladhDB.appointments) {
       window.MaladhDB.appointments.create({
@@ -1698,7 +1693,7 @@
     setStorage(KEYS.APPOINTMENTS, state.appointments);
 
     // مزامنة إعادة الجدولة مع Supabase
-    if (window.MaladhDB && window.MaladhDB.appointments && activeRescheduleAppt.id) {
+    if (window.MaladhDB && window.MaladhDB.appointments && activeRescheduleAppt && activeRescheduleAppt.id) {
       window.MaladhDB.appointments.reschedule(activeRescheduleAppt.id, selectedRescheduleDate, selectedRescheduleSlot).catch(e => console.warn(e));
     }
     renderAppointments();
@@ -1737,9 +1732,9 @@
     activeCancelAppt.statusText = 'ملغي';
     setStorage(KEYS.APPOINTMENTS, state.appointments);
 
-    // مزامنة إعادة الجدولة مع Supabase
-    if (window.MaladhDB && window.MaladhDB.appointments && activeRescheduleAppt.id) {
-      window.MaladhDB.appointments.reschedule(activeRescheduleAppt.id, selectedRescheduleDate, selectedRescheduleSlot).catch(e => console.warn(e));
+    // مزامنة إلغاء الموعد مع Supabase
+    if (window.MaladhDB && window.MaladhDB.appointments && activeCancelAppt.id) {
+      window.MaladhDB.appointments.cancel(activeCancelAppt.id, 'تم الإلغاء من قبل المستفيد').catch(e => console.warn(e));
     }
     renderAppointments();
     closeCancelConfirmModal();
