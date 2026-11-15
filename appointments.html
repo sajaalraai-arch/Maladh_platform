@@ -166,7 +166,7 @@
         <!-- عناوين التنقل الرئيسية للمستفيد -->
         <ul class="hidden items-center gap-6 lg:gap-8 text-[15px] lg:text-[16px] font-medium lg:flex">
           <li><a href="dashboard.html" class="nav-link" data-nav="home">الرئيسية</a></li>
-          <li><a href="dashboard.html#consultations" class="nav-link" data-nav="consultations">الاستشارات النفسية</a></li>
+          <li><a href="dashboard.html#consultations" class="nav-link" data-nav="consultations">الاستشارات</a></li>
           <li><a href="dashboard.html#recovery" class="nav-link" data-nav="recovery">رحلة التعافي</a></li>
           <li><a href="appointments.html" class="nav-link is-active" data-nav="appointments">مواعيدي</a></li>
           <li><a href="support.html" class="nav-link" data-nav="support">الدعم الخاص</a></li>
@@ -218,7 +218,7 @@
       <div id="mobileMenu" class="drop panel mx-auto mt-3 max-w-[1400px] rounded-2xl p-3 lg:hidden">
         <ul class="flex flex-col text-base font-medium">
           <li><a href="dashboard.html" class="mobile-link" data-nav="home">الرئيسية</a></li>
-          <li><a href="dashboard.html#consultations" class="mobile-link" data-nav="consultations">الاستشارات النفسية</a></li>
+          <li><a href="dashboard.html#consultations" class="mobile-link" data-nav="consultations">الاستشارات</a></li>
           <li><a href="dashboard.html#recovery" class="mobile-link" data-nav="recovery">رحلة التعافي</a></li>
           <li><a href="appointments.html" class="mobile-link is-active" data-nav="appointments">مواعيدي</a></li>
           <li><a href="support.html" class="mobile-link" data-nav="support">الدعم الخاص</a></li>
@@ -327,9 +327,7 @@
         <section id="view-appointments" class="dash-view is-active">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
             <div>
-              <h2 class="text-2xl font-extrabold text-ink">مواعيدي واستشاراتي</h2>
-              <p class="text-sm t-body mt-1">إدارة استشاراتك القادمة والسابقة، ورابط الدخول إلى الجلسة، وخيارات إعادة الجدولة.</p>
-            </div>
+              <h2 class="text-2xl font-extrabold text-ink">مواعيدي واستشاراتي</h2>            </div>
             <a href="booking.html" class="btn btn-solid btn-sm">
               <svg class="icon ic-18">
                 <use href="#i-calendar" />
@@ -378,7 +376,7 @@
             <h3 class="footer-h">واجهات المستفيد</h3>
             <ul class="footer-list text-sm">
               <li><a href="dashboard.html" data-nav="home">الرئيسية</a></li>
-              <li><a href="dashboard.html#consultations" data-nav="consultations">الاستشارات النفسية</a></li>
+              <li><a href="dashboard.html#consultations" data-nav="consultations">الاستشارات </a></li>
               <li><a href="dashboard.html#recovery" data-nav="recovery">رحلة التعافي</a></li>
               <li><a href="appointments.html" data-nav="appointments">مواعيدي</a></li>
               <li><a href="support.html" data-nav="support">الدعم الخاص</a></li>
@@ -541,7 +539,7 @@
       </div>
 
       <!-- ملخص الموعد الحالي -->
-      <div class="p-3.5 rounded-2xl bg-[#F4F7FD] dark:bg-slate-800/60 border border-[#DCE9FC] dark:border-slate-700 mb-5">
+      <div class="p-3.5 rounded-2xl bg-[#F4F7FD]  border-[#DCE9FC] dark:border-slate-700 mb-5">
         <div class="flex items-center gap-3">
           <img id="rescheduleSpecPhoto" src="assets/specialist-sara.jpg" alt="" class="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm" />
           <div class="flex-1 min-w-0">
@@ -553,9 +551,9 @@
             <span id="rescheduleCurrentTimeLabel">05:00 مساءً</span>
           </span>
         </div>
-        <div class="mt-2.5 pt-2 border-t border-[#DCE9FC]/60 dark:border-slate-700/60 text-xs text-[#71849E] flex items-center gap-1.5">
+        <div class="mt-2.5 pt-2 border-t border-[#DCE9FC]/60 text-xs text-[#71849E] flex items-center gap-1.5">
           <svg class="icon ic-18 text-[#4D83C5]"><use href="#i-calendar"/></svg>
-          <span>الموعد الحالي: <strong id="rescheduleCurrentDateLabel" class="text-[#183B63] dark:text-slate-200">السبت، 8 نوفمبر 2025</strong></span>
+          <span>الموعد الحالي: <strong id="rescheduleCurrentDateLabel" class="text-[#183B63] ">السبت، 8 نوفمبر 2025</strong></span>
         </div>
       </div>
 
@@ -610,9 +608,7 @@
         سيتم إلغاء جلستك الاستشارية مع <strong id="cancelApptSpecName" class="text-ink">د. سارة العتيبي</strong> المقررة في <strong id="cancelApptDate" class="text-primary">8 نوفمبر 2025</strong>. سيتم نقل الموعد إلى قائمة المواعيد السابقة كملغي.
       </p>
 
-      <div class="p-3 bg-amber-50 dark:bg-amber-950/30 rounded-xl border border-amber-200 dark:border-amber-800 text-xs text-amber-800 dark:text-amber-300 text-start mb-6">
-        <span class="font-bold">ملاحظة:</span> يمكنك حجز جلسة استشارية جديدة أو إعادة طلب الموعد في أي وقت تشاء.
-      </div>
+      
 
       <div class="flex items-center justify-center gap-3">
         <button type="button" id="dismissCancelModalBtn" class="btn btn-outline btn-sm">
@@ -656,14 +652,7 @@
         </div>
       </div>
 
-      <div class="space-y-3 mb-6">
-        <div class="p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 text-xs">
-          <h5 class="font-bold text-emerald-800 dark:text-emerald-300 mb-1 flex items-center gap-1.5">
-            <svg class="icon ic-18"><use href="#i-check-circle"/></svg>
-            <span>ملخص وتوصيات الأخصائي</span>
-          </h5>
-          <p id="pastDetailSummary" class="text-emerald-900 dark:text-emerald-200 leading-relaxed"></p>
-        </div>
+      
 
         <div class="p-3.5 rounded-xl bg-bg-soft border border-line text-xs">
           <h5 class="font-bold text-ink mb-1">موضوع الجلسة وملاحظات المتابعة:</h5>
@@ -671,13 +660,7 @@
         </div>
       </div>
 
-      <div class="flex items-center justify-end gap-3 pt-3 border-t border-line">
-        <button type="button" id="dismissPastDetailBtn" class="btn btn-outline btn-sm">إغلاق</button>
-        <button type="button" id="pastDetailRebookBtn" class="btn btn-solid btn-sm">
-          <svg class="icon ic-18"><use href="#i-calendar"/></svg>
-          <span>حجز موعد مشابه</span>
-        </button>
-      </div>
+    
     </div>
   </div>
 
