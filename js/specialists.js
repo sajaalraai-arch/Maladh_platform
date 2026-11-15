@@ -1,7 +1,6 @@
-/* ===== قسم المختصين: البيانات، التصفية، البطاقات، الترقيم ===== */
+/* ===== قسم المختصين: البيانات الديناميكية من Supabase، التصفية، البطاقات، الترقيم ===== */
 (function () {
-  // لإضافة مختص جديد: أضف كائنًا هنا وسيظهر تلقائيًا (وتُنشأ صفحة ترقيم جديدة عند الحاجة).
-  const SPECIALISTS = [
+  let dynamicSpecialists = [
     {
       id: 'sara', specialty: 'therapy', service: 'counseling', remote: true, photo: 'assets/specialist-sara.jpg',
       ar: { name: 'د. سارة العريفي', title: 'أخصائية في علم النفس العلاجي', qualification: 'ماجستير في علم النفس', experience: 'أكثر من 8 سنوات' },
@@ -19,20 +18,52 @@
   const q = $('#searchSpec'), specialtySel = $('#specialty'), serviceSel = $('#serviceType'), remoteSwitch = $('#remoteSwitch');
   let page = 1;
 
+  // جلب الأخصائيين من Supabase
+  async function fetchSpecialistsFromDB() {
+    if (window.MaladhDB && window.MaladhDB.specialists) {
+      try {
+        const data = await window.MaladhDB.specialists.getAll({ verifiedOnly: true });
+        if (data && data.length > 0) {
+          dynamicSpecialists = data.map(item => {
+            const name = (item.profiles && item.profiles.full_name) || item.name || 'أخصائي معتمد';
+            const title = item.title || 'أخصائي نفسي مرخص';
+            const qual = item.qualification || 'ماجستير في علم النفس';
+            const exp = item.experience_years || '5+ سنوات خبرة';
+            const avatar = (item.profiles && item.profiles.avatar_url) || item.avatar || 'assets/specialist-sara.jpg';
+            const isRecovery = (item.specialty && item.specialty.includes('إدمان')) || item.specialty === 'recovery';
+
+            return {
+              id: item.id,
+              specialty: isRecovery ? 'recovery' : 'therapy',
+              service: isRecovery ? 'recovery' : 'counseling',
+              remote: true,
+              photo: avatar,
+              ar: { name, title, qualification: qual, experience: exp },
+              en: { name, title, qualification: qual, experience: exp }
+            };
+          });
+          render();
+        }
+      } catch (e) {
+        console.warn('Could not fetch specialists from Supabase, using local data:', e);
+      }
+    }
+  }
+
   const ico = (id, cls = '') => `<svg class="icon ${cls}" aria-hidden="true"><use href="#i-${id}"/></svg>`;
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
   // توحيد النص العربي للبحث (إزالة التشكيل وتوحيد الألف والتاء المربوطة)
-  const norm = (s) => s.toLowerCase().replace(/[\u064B-\u0652\u0640]/g, '').replace(/[أإآ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي').trim();
+  const norm = (s) => (s || '').toLowerCase().replace(/[\u064B-\u0652\u0640]/g, '').replace(/[أإآ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي').trim();
 
   function getFiltered() {
-    const text = norm(q.value);
-    const remoteOnly = remoteSwitch.getAttribute('aria-checked') === 'true';
-    return SPECIALISTS.filter((s) => {
+    const text = norm(q?.value);
+    const remoteOnly = remoteSwitch?.getAttribute('aria-checked') === 'true';
+    return dynamicSpecialists.filter((s) => {
       const hay = norm(Object.values(s.ar).join(' ') + ' ' + Object.values(s.en).join(' '));
       return (!text || hay.includes(text)) &&
-        (!specialtySel.value || s.specialty === specialtySel.value) &&
-        (!serviceSel.value || s.service === serviceSel.value) &&
+        (!specialtySel?.value || s.specialty === specialtySel.value) &&
+        (!serviceSel?.value || s.service === serviceSel.value) &&
         (!remoteOnly || s.remote);
     });
   }
@@ -101,4 +132,5 @@
   window.addEventListener('langchange', render);
 
   render();
+  fetchSpecialistsFromDB();
 })();

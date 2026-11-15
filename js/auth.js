@@ -151,73 +151,118 @@ document.addEventListener('click', (e) => {
   eye.setAttribute('aria-label', t(show ? 'pw.hide' : 'pw.show'));
 });
 
-// ---------- الإرسال (تسجيل الدخول / إنشاء الحساب) ----------
-function submitForm(form) {
+// ---------- الإرسال (تسجيل الدخول / إنشاء الحساب عبر Supabase) ----------
+async function submitForm(form) {
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const originalBtnText = submitBtn ? submitBtn.innerHTML : '';
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="inline-block animate-spin mr-2">⏳</span> جاري المعالجة...';
+  }
+
   let user;
   const isRegister = form.dataset.form === 'register';
   const pass = (form.elements.password ? form.elements.password.value : '').trim();
-  const id = (form.elements.identifier ? form.elements.identifier.value : '').trim();
+  const id = (form.elements.identifier ? form.elements.identifier.value : (form.elements.email ? form.elements.email.value : '')).trim();
   const isAdmin = !isRegister && (pass.toLowerCase() === 'admin' || id.toLowerCase() === 'admin');
   const isDoctor = !isRegister && !isAdmin && (pass.toLowerCase() === 'doctor' || id.toLowerCase() === 'doctor');
 
-  if (isRegister) {
-    user = {
-      username: form.elements.username.value.trim(),
-      email: form.elements.email.value.trim(),
-      age: +form.elements.age.value,
-      role: 'beneficiary'
-    };
-    localStorage.setItem('maladh:current_role', 'beneficiary');
-  } else {
-    let name = id.includes('@') ? id.split('@')[0] : id;
+  try {
+    if (window.MaladhDB && window.MaladhDB.auth) {
+      if (isRegister) {
+        const username = form.elements.username.value.trim();
+        const email = form.elements.email.value.trim();
+        const age = +form.elements.age.value;
 
-    if (isAdmin) {
-      user = {
-        username: 'أ. عبد الله الشمري',
-        email: id.includes('@') ? id : 'admin@maladh.com',
-        role: 'admin',
-        title: 'مدير النظام',
-        avatar: 'assets/specialist-sara.jpg'
-      };
-      localStorage.setItem('maladh:admin_user', JSON.stringify(user));
-      localStorage.setItem('maladh:current_role', 'admin');
-    } else if (isDoctor) {
-      if (!name || name.toLowerCase() === 'doctor') {
-        name = 'د. سارة العتيبي';
-      } else if (!name.startsWith('د.') && !name.startsWith('دكتور')) {
-        name = 'د. ' + name;
+        const res = await window.MaladhDB.auth.signUp({
+          email,
+          password: pass,
+          username,
+          age,
+          role: 'beneficiary'
+        });
+
+        user = {
+          username: username,
+          email: email,
+          age: age,
+          role: 'beneficiary'
+        };
+        localStorage.setItem('maladh:current_role', 'beneficiary');
+      } else {
+        const res = await window.MaladhDB.auth.signIn({
+          email: id,
+          password: pass
+        });
+
+        let role = (res.profile && res.profile.role) || (isAdmin ? 'admin' : (isDoctor ? 'specialist' : 'beneficiary'));
+        let name = (res.profile && res.profile.full_name) || (id.includes('@') ? id.split('@')[0] : id);
+
+        if (isAdmin) {
+          role = 'admin';
+          name = 'أ. عبد الله الشمري';
+          user = {
+            username: name,
+            email: id.includes('@') ? id : 'admin@maladh.com',
+            role: 'admin',
+            title: 'مدير النظام'
+          };
+          localStorage.setItem('maladh:admin_user', JSON.stringify(user));
+        } else if (isDoctor) {
+          role = 'specialist';
+          if (!name || name.toLowerCase() === 'doctor') name = 'د. سارة العتيبي';
+          user = {
+            username: name,
+            email: id.includes('@') ? id : 'sara.otaibi@maladh.com',
+            role: 'specialist',
+            title: 'أخصائية في علم النفس العلاجي',
+            license: 'PSY-88492',
+            avatar: 'assets/specialist-sara.jpg'
+          };
+          localStorage.setItem('maladh:doctor_user', JSON.stringify(user));
+        } else {
+          user = {
+            username: name,
+            email: id.includes('@') ? id : '',
+            role: role
+          };
+        }
+        localStorage.setItem('maladh:current_role', role);
       }
-      user = {
-        username: name,
-        email: id.includes('@') ? id : 'sara.otaibi@maladh.com',
-        role: 'specialist',
-        title: 'أخصائية في علم النفس العلاجي',
-        license: 'PSY-88492',
-        avatar: 'assets/specialist-sara.jpg'
-      };
-      localStorage.setItem('maladh:doctor_user', JSON.stringify(user));
-      localStorage.setItem('maladh:current_role', 'specialist');
     } else {
+      // احتياطي في حال عدم تحميل العميل
       user = {
-        username: name,
-        email: id.includes('@') ? id : '',
-        role: 'beneficiary'
+        username: id.includes('@') ? id.split('@')[0] : id,
+        email: id,
+        role: isAdmin ? 'admin' : (isDoctor ? 'specialist' : 'beneficiary')
       };
-      localStorage.setItem('maladh:current_role', 'beneficiary');
+      localStorage.setItem('maladh:current_role', user.role);
+    }
+
+    setUser(user);
+    renderAuthState();
+    closeAuth();
+    form.reset();
+    $('#strength').dataset.score = 0;
+    $('#r-strength').textContent = '';
+    showToast(t(isRegister ? 'toast.created' : 'toast.welcome', { name: user.username }));
+
+    const targetRole = localStorage.getItem('maladh:current_role');
+    setTimeout(() => {
+      if (targetRole === 'admin') window.location.href = 'admin-dashboard.html';
+      else if (targetRole === 'specialist') window.location.href = 'doctor-dashboard.html';
+      else window.location.href = 'dashboard.html';
+    }, 700);
+
+  } catch (err) {
+    console.error('Auth error:', err);
+    showToast(err.message || 'حدث خطأ أثناء المصادقة، يرجى المحاولة مرة أخرى.');
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalBtnText;
     }
   }
-
-  setUser(user);
-  renderAuthState();
-  closeAuth();
-  form.reset();
-  $('#strength').dataset.score = 0;
-  $('#r-strength').textContent = '';
-  showToast(t(isRegister ? 'toast.created' : 'toast.welcome', { name: user.username }));
-  
-  setTimeout(() => {
-    window.location.href = isAdmin ? 'admin-dashboard.html' : (isDoctor ? 'doctor-dashboard.html' : 'dashboard.html');
-  }, 900);
 }
 
 window.addEventListener('langchange', () => {

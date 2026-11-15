@@ -1333,6 +1333,24 @@
     state.appointments.unshift(newAppointment);
     setStorage(KEYS.APPOINTMENTS, state.appointments);
 
+    // مزامنة إعادة الجدولة مع Supabase
+    if (window.MaladhDB && window.MaladhDB.appointments && activeRescheduleAppt.id) {
+      window.MaladhDB.appointments.reschedule(activeRescheduleAppt.id, selectedRescheduleDate, selectedRescheduleSlot).catch(e => console.warn(e));
+    }
+
+    // ربط الحجز مع Supabase
+    if (window.MaladhDB && window.MaladhDB.appointments) {
+      window.MaladhDB.appointments.create({
+        beneficiary_id: state.user.id || 'b1',
+        specialist_id: s.id,
+        appointment_date: selectedDate,
+        appointment_time: selectedSlot,
+        session_title: sessionType || 'جلسة استشارية نفسية',
+        type: 'عن بُعد',
+        notes: notes || ''
+      }).catch(e => console.warn('[Supabase Appointment Sync]:', e.message));
+    }
+
     // إضافة إشعار
     state.notifications.unshift({
       id: `notif-${Date.now()}`,
@@ -1678,6 +1696,11 @@
     }
 
     setStorage(KEYS.APPOINTMENTS, state.appointments);
+
+    // مزامنة إعادة الجدولة مع Supabase
+    if (window.MaladhDB && window.MaladhDB.appointments && activeRescheduleAppt.id) {
+      window.MaladhDB.appointments.reschedule(activeRescheduleAppt.id, selectedRescheduleDate, selectedRescheduleSlot).catch(e => console.warn(e));
+    }
     renderAppointments();
     closeRescheduleModal();
     showToast('تمت إعادة جدولة موعدك بنجاح');
@@ -1713,6 +1736,11 @@
     activeCancelAppt.status = 'cancelled';
     activeCancelAppt.statusText = 'ملغي';
     setStorage(KEYS.APPOINTMENTS, state.appointments);
+
+    // مزامنة إعادة الجدولة مع Supabase
+    if (window.MaladhDB && window.MaladhDB.appointments && activeRescheduleAppt.id) {
+      window.MaladhDB.appointments.reschedule(activeRescheduleAppt.id, selectedRescheduleDate, selectedRescheduleSlot).catch(e => console.warn(e));
+    }
     renderAppointments();
     closeCancelConfirmModal();
     showToast('تم إلغاء الموعد بنجاح');
@@ -2537,6 +2565,85 @@
     }
   });
 
+  // ---------- مزامنة بيانات المستفيد ديناميكياً مع Supabase ----------
+  async function syncWithSupabase() {
+    if (!window.MaladhDB) return;
+    try {
+      const u = getStorage(KEYS.USER, null);
+      if (u && u.id && window.MaladhDB.auth) {
+        // 1. مزامنة الملف الشخصي
+        const profile = await window.MaladhDB.auth.getProfile(u.id);
+        if (profile) {
+          state.user.username = profile.full_name || state.user.username;
+          state.user.email = profile.email || state.user.email;
+          state.user.phone = profile.phone || state.user.phone;
+          setStorage(KEYS.USER, state.user);
+          renderUserData();
+        }
+
+        // 2. مزامنة رحلة التعافي
+        if (window.MaladhDB.recovery) {
+          const rec = await window.MaladhDB.recovery.get(u.id);
+          if (rec) {
+            state.recovery.startDate = rec.start_date || state.recovery.startDate;
+            state.recovery.dailySpending = Number(rec.daily_savings) || state.recovery.dailySpending;
+            state.recovery.targetDays = rec.target_days || state.recovery.targetDays;
+            setStorage(KEYS.RECOVERY, state.recovery);
+            updateRecoveryStats();
+          }
+        }
+
+        // 3. مزامنة المواعيد
+        if (window.MaladhDB.appointments) {
+          const appts = await window.MaladhDB.appointments.getAll({ role: 'beneficiary', userId: u.id });
+          if (appts && appts.length > 0) {
+            state.appointments = appts.map(a => ({
+              id: a.id,
+              day: 'اليوم',
+              date: a.appointment_date,
+              rawDate: a.appointment_date,
+              time: a.appointment_time,
+              status: a.status,
+              statusText: a.status === 'confirmed' ? 'موعد مؤكد' : (a.status === 'completed' ? 'مكتمل' : (a.status === 'cancelled' ? 'ملغي' : 'قيد الانتظار')),
+              specialistId: a.specialist_id,
+              specialistName: (a.specialist && a.specialist.profile && a.specialist.profile.full_name) || 'الأخصائي النفسي',
+              specialistRole: (a.specialist && a.specialist.specialty) || 'استشارات نفسية',
+              specialistPhoto: (a.specialist && a.specialist.profile && a.specialist.profile.avatar_url) || 'assets/specialist-sara.jpg',
+              sessionTitle: a.session_title || 'جلسة استشارية نفسية',
+              type: a.type || 'عن بُعد',
+              notes: a.notes || ''
+            }));
+            setStorage(KEYS.APPOINTMENTS, state.appointments);
+            renderAppointments();
+          }
+        }
+      }
+
+      // 4. جلب قائمة الأخصائيين المعتمدين ديناميكياً
+      if (window.MaladhDB.specialists) {
+        const liveSpecialists = await window.MaladhDB.specialists.getAll({ verifiedOnly: true });
+        if (liveSpecialists && liveSpecialists.length > 0) {
+          SPECIALISTS_LIST.length = 0;
+          liveSpecialists.forEach(item => {
+            SPECIALISTS_LIST.push({
+              id: item.id,
+              name: (item.profiles && item.profiles.full_name) || item.name || 'د. سارة العتيبي',
+              title: item.title || item.specialty || 'أخصائية نفسية',
+              qualifications: item.qualification || 'ماجستير في علم النفس',
+              experience: item.experience_years || '8+ سنوات خبرة',
+              rating: Number(item.rating) || 4.9,
+              photo: (item.profiles && item.profiles.avatar_url) || item.avatar || 'assets/specialist-sara.jpg',
+              specialty: (item.specialty && item.specialty.includes('إدمان')) ? 'recovery' : 'therapy'
+            });
+          });
+          renderSpecialists();
+        }
+      }
+    } catch (err) {
+      console.warn('[Beneficiary Portal] Supabase sync notice:', err.message);
+    }
+  }
+
   // ---------- بدء تشغيل الواجهة (Initialization) ----------
   function init() {
     renderUserData();
@@ -2549,6 +2656,9 @@
     updateNotifBadge();
     syncSettingsUI();
     startHeroQuoteTimer();
+
+    // تشغيل مزامنة Supabase في الخلفية
+    syncWithSupabase();
 
     // فحص الصفحة والعنوان الحالي
     const currentPage = getCurrentPageName();

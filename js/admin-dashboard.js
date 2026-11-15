@@ -1148,13 +1148,83 @@
       }
     });
 
-    // 17. التعامل مع الهاش (Hash) المبدئي
-    const hash = window.location.hash.replace('#', '');
-    if (hash && VIEW_TITLES[hash]) {
-      switchView(hash);
-    } else {
-      switchView('dashboard');
+  // ---------- مزامنة بيانات لوحة المدير مع Supabase ----------
+  async function syncAdminWithSupabase() {
+    if (!window.MaladhDB) return;
+    try {
+      // 1. مزامنة الخدمات المعتمدة
+      if (window.MaladhDB.services) {
+        const liveServices = await window.MaladhDB.services.getAll();
+        if (liveServices && liveServices.length > 0) {
+          state.services = liveServices.map(s => ({
+            id: s.id,
+            title: s.title,
+            desc: s.description,
+            icon: s.icon || 'i-heart',
+            specialistsCount: s.specialists_count || 1,
+            sessionsCount: s.sessions_count || 0,
+            active: s.is_active !== false
+          }));
+          setStorage(KEYS.SERVICES, state.services);
+          if (state.currentView === 'services') renderServicesCards();
+        }
+      }
+
+      // 2. مزامنة الأخصائيين
+      if (window.MaladhDB.specialists) {
+        const liveSpecs = await window.MaladhDB.specialists.getAll();
+        if (liveSpecs && liveSpecs.length > 0) {
+          state.specialists = liveSpecs.map(s => ({
+            id: s.id,
+            name: (s.profiles && s.profiles.full_name) || s.name || 'أخصائي',
+            specialty: s.specialty || 'استشارات نفسية',
+            license: s.license_number || s.license || 'PSY-00000',
+            email: (s.profiles && s.profiles.email) || s.email || 'doctor@maladh.com',
+            phone: (s.profiles && s.profiles.phone) || s.phone || '05XXXXXXXX',
+            verified: s.is_verified === true,
+            available: s.is_available === true,
+            rating: Number(s.rating) || 4.9,
+            sessions: s.total_sessions || 0
+          }));
+          setStorage(KEYS.SPECIALISTS, state.specialists);
+          if (state.currentView === 'specialists') renderSpecialistsTable();
+          if (state.currentView === 'dashboard') renderDashboardView();
+        }
+      }
+
+      // 3. مزامنة المواعيد
+      if (window.MaladhDB.appointments) {
+        const liveAppts = await window.MaladhDB.appointments.getAll({ role: 'admin' });
+        if (liveAppts && liveAppts.length > 0) {
+          state.appointments = liveAppts.map(a => ({
+            id: a.appointment_code || a.id,
+            beneficiary: (a.beneficiary && a.beneficiary.full_name) || a.beneficiary || 'مستفيد',
+            specialist: (a.specialist && a.specialist.profile && a.specialist.profile.full_name) || a.specialist || 'أخصائي',
+            date: a.appointment_date,
+            time: a.appointment_time,
+            type: a.type || 'عن بُعد',
+            status: a.status
+          }));
+          setStorage(KEYS.APPOINTMENTS, state.appointments);
+          if (state.currentView === 'appointments') renderAppointmentsTable();
+          if (state.currentView === 'dashboard') renderDashboardView();
+        }
+      }
+    } catch (e) {
+      console.warn('[Admin Dashboard] Supabase sync notice:', e.message);
     }
+  }
+
+  // 17. التعامل مع الهاش (Hash) المبدئي
+  const hash = window.location.hash.replace('#', '');
+  if (hash && VIEW_TITLES[hash]) {
+    switchView(hash);
+  } else {
+    switchView('dashboard');
+  }
+
+  // تشغيل المزامنة مع Supabase
+  syncAdminWithSupabase();
   }
 
   // تشغيل عند تحميل الصفحة

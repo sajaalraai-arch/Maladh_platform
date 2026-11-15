@@ -2003,6 +2003,14 @@
     setStorage(KEYS.DOCTOR_USER, state.doctor);
     syncDoctorProfileUI();
     showToast('تم حفظ وتحديث بيانات الملف الشخصي بنجاح ✨');
+
+    // مزامنة الملف الشخصي مع Supabase
+    if (window.MaladhDB && window.MaladhDB.auth) {
+      window.MaladhDB.auth.updateProfile(state.doctor.id || 'sp1', {
+        full_name: state.doctor.username,
+        phone: state.doctor.phone
+      }).catch(e => console.warn('[Supabase Specialist Profile Sync]:', e.message));
+    }
   }
 
   // ---------- تسجيل الخروج ----------
@@ -2963,6 +2971,14 @@
     setStorage(KEYS.SCHEDULE, state.schedule);
     closeModal('#scheduleConfirmSaveModal');
 
+    // مزامنة جدول التوفر مع Supabase
+    if (window.MaladhDB && window.MaladhDB.schedule) {
+      window.MaladhDB.schedule.save(state.doctor.id || 'sp1', {
+        days: state.schedule.days,
+        settings: state.schedule.settings
+      }).catch(e => console.warn('[Supabase Schedule Sync]:', e.message));
+    }
+
     renderScheduleStats();
     renderQuickPreview(state.schedule.selectedDate);
     updateScheduleSettingsSummary();
@@ -3138,12 +3154,71 @@
     });
   }
 
+  // ---------- مزامنة بيانات الأخصائي الحية مع Supabase ----------
+  async function syncDoctorWithSupabase() {
+    if (!window.MaladhDB) return;
+    try {
+      const docUser = getStorage(KEYS.DOCTOR_USER, null);
+      const specialistId = (docUser && docUser.id) || 'sp1';
+
+      // 1. مزامنة الملف الشخصي والترخيص
+      if (window.MaladhDB.auth) {
+        const profile = await window.MaladhDB.auth.getProfile(specialistId);
+        if (profile) {
+          state.doctor.username = profile.full_name || state.doctor.username;
+          state.doctor.email = profile.email || state.doctor.email;
+          state.doctor.phone = profile.phone || state.doctor.phone;
+          setStorage(KEYS.DOCTOR_USER, state.doctor);
+          syncDoctorProfileUI();
+        }
+      }
+
+      // 2. مزامنة المواعيد وجدول اليوم
+      if (window.MaladhDB.appointments) {
+        const appts = await window.MaladhDB.appointments.getAll({ role: 'specialist', userId: specialistId });
+        if (appts && appts.length > 0) {
+          state.appointments = appts.map(a => ({
+            id: a.id,
+            patientName: (a.beneficiary && a.beneficiary.full_name) || a.patientName || 'مستفيد',
+            patientPhone: (a.beneficiary && a.beneficiary.phone) || a.patientPhone || '05XXXXXXXX',
+            date: a.appointment_date,
+            isoDate: a.appointment_date,
+            time: a.appointment_time,
+            rawTime: a.appointment_time,
+            type: a.type || 'عن بُعد',
+            status: a.status,
+            notes: a.notes || ''
+          }));
+          setStorage(KEYS.APPOINTMENTS, state.appointments);
+          renderStats();
+          renderTodayAppointments();
+        }
+      }
+
+      // 3. مزامنة جدول التوفر
+      if (window.MaladhDB.schedule) {
+        const sched = await window.MaladhDB.schedule.get(specialistId);
+        if (sched && sched.days && sched.days.length > 0) {
+          state.schedule.days = sched.days;
+          if (sched.settings) state.schedule.settings = sched.settings;
+          if (sched.vacations) state.schedule.vacations = sched.vacations;
+          setStorage(KEYS.SCHEDULE, state.schedule);
+          renderScheduleStats();
+          renderScheduleDaysList();
+        }
+      }
+    } catch (err) {
+      console.warn('[Specialist Portal] Supabase sync notice:', err.message);
+    }
+  }
+
   // ---------- تهيئة وإعداد الأحداث العامة ----------
   function init() {
     syncDoctorProfileUI();
     renderStats();
     renderTodayAppointments();
     updateNotifBadge();
+    syncDoctorWithSupabase();
 
     // روابط التنقل في الشريط الجانبي
     $$('[data-doc-nav]').forEach(link => {
