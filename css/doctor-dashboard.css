@@ -18,14 +18,14 @@
             --bg-subtle: #F0F6FC;
             --bg-pill: #E5EEFF;
             
-            --primary-dark: #1A4474;        /* أزرق داكن */
-            --primary-darker: #0F2743;      /* كحلي داكن */
+            --primary-dark: #1965b3;        /* أزرق داكن */
+            --primary-darker: #1965b3;      /* كحلي داكن */
             --primary-medium: #1965B3;      /* أزرق أساسي */
             --primary-light: #E5EEFF;
             --primary-accent: #41BCE6;      /* أزرق سماوي */
             --primary-aqua: #6DE7F7;        /* سماوي فاتح */
             
-            --text-main: #0F2743;           /* كحلي داكن */
+            --text-main: #1965b3;           /* كحلي داكن */
             --text-secondary: #5B90C4;      /* أزرق متوسط */
             --text-muted: #75A2B9;          /* أزرق رمادي */
             
@@ -1321,15 +1321,15 @@
         }
   
 :root {
-  --doc-navy: #24558F;
-  --doc-navy-dark: #1B406D;
+  --doc-navy: #1965b3;
+  --doc-navy-dark: #41bce6;
   --doc-blue: #3278C7;
   --doc-blue-hover: #2664A8;
   --doc-blue-light: #E5EEFF;
   --doc-blue-subtle: #F3F6FD;
   --doc-bg: #F3F6FD;
   --doc-white: #FFFFFF;
-  --doc-ink: #173C6A;
+  --doc-ink: #1965b3;
   --doc-muted: #71849B;
   --doc-line: #E1EAF7;
   --doc-line-soft: #EDF3FC;

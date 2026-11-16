@@ -8,12 +8,12 @@
 
 :root {
   /* لوحة الألوان المعتمدة حصرياً لمنصة ملاذ */
-  --admin-navy: #1A4474;        /* أزرق داكن */
-  --admin-navy-dark: #0F2743;   /* كحلي داكن */
-  --admin-navy-deep: #0F2743;   /* كحلي داكن */
-  --admin-blue: #1965B3;        /* أزرق أساسي */
-  --admin-blue-accent: #41BCE6; /* أزرق سماوي */
-  --admin-blue-hover: #1A4474;  /* أزرق داكن */
+  --admin-navy: #1965B3;        
+  --admin-navy-dark: #41BCE6;   
+  --admin-navy-deep: #5B90c4;   
+  --admin-blue: #1965B3;        
+  --admin-blue-accent: #41BCE6; 
+  --admin-blue-hover: #1A4474; 
   --admin-blue-light: #E5EEFF;
   --admin-blue-subtle: #F0F6FC;
   --admin-bg: #F0F6FC;

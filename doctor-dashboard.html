@@ -276,7 +276,7 @@
         
       </nav>
 
-      <!-- خيار تسجيل الخروج في أسفل الشريط الجانبي (بدلاً من الدعم الفني) -->
+      <!-- خيار تسجيل الخروج في أسفل الشريط الجانبي) -->
       <div class="doc-support-card doc-sidebar-logout-card" id="docSidebarLogoutWrap">
         <button type="button" class="doc-sidebar-logout-btn" id="doctorSidebarLogoutBtn" title="تسجيل الخروج من الحساب" style="width:100%; display:flex; align-items:center; gap:0.85rem; background:transparent; border:none; color:inherit; text-align:start; cursor:pointer;">
           <div class="doc-support-icon doc-logout-icon" style="background:rgba(239,68,68,0.15); color:#EF4444; width:38px; height:38px; border-radius:0.75rem; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
@@ -285,9 +285,7 @@
             </svg>
           </div>
           <div class="doc-support-info">
-            <span class="doc-support-title" style="color:#EF4444; font-weight:700;">تسجيل الخروج</span>
-            <span class="doc-support-phone" style="font-size:0.75rem; opacity:0.8; color:rgba(255,255,255,0.7);">إنهاء الجلسة بأمان</span>
-          </div>
+            <span class="doc-support-title" style="color:#EF4444; font-weight:700;">تسجيل الخروج</span>          </div>
         </button>
       </div>
 
@@ -749,34 +747,8 @@
 
         <!-- 1. ترويسة عنوان الصفحة -->
         <div class="doc-view-title-row">
-          <div class="flex items-center gap-3">
-            <div class="doc-title-icon-badge">
-              <svg class="icon ic-24 text-primary">
-                <use href="#i-calendar-clock" />
-              </svg>
-            </div>
-            <div>
-              <h1 class="doc-page-heading">جدول التوفر</h1>
-              <p class="text-xs text-muted mt-0.5">نظّمي أوقات عملك وحددي الفترات المتاحة لاستقبال حجوزات المستفيدين.
-              </p>
-            </div>
-          </div>
-          <div class="flex items-center gap-2">
-            <button type="button" class="doc-table-btn doc-btn-outline-blue" id="scheduleHeaderPreviewBtn"
-              title="معاينة الجدول كما يظهر للمستفيدين">
-              <svg class="icon ic-18">
-                <use href="#i-eye" />
-              </svg>
-              <span>معاينة الجدول</span>
-            </button>
-            <button type="button" class="doc-table-btn doc-btn-start-blue" id="scheduleHeaderSaveBtn"
-              title="حفظ جدول التوفر">
-              <svg class="icon ic-18">
-                <use href="#i-check" />
-              </svg>
-              <span>حفظ التغييرات</span>
-            </button>
-          </div>
+          
+          
         </div>
 
         <!-- 2. بطاقات الإحصائيات الأربع (Horizontal Substats Grid) -->
@@ -798,8 +770,7 @@
                   <span id="statScheduleWorkDays">5</span>
                   <span class="text-xs font-semibold text-muted">أيام</span>
                 </div>
-                <div class="doc-substat-label">أيام العمل</div>
-                <p class="text-[11px] text-muted mt-0.5">عدد أيام العمل الأسبوعية المتاحة</p>
+                
               </div>
             </div>
 
@@ -811,16 +782,14 @@
                     <use href="#i-clock" />
                   </svg>
                 </div>
-                <span class="text-xs font-bold text-primary">إجمالي</span>
+                <span class="text-xs font-bold text-primary">ساعات العمل</span>
               </div>
               <div>
                 <div class="doc-substat-number">
                   <span id="statScheduleTotalHours">36</span>
                   <span class="text-xs font-semibold text-muted">ساعة</span>
                 </div>
-                <div class="doc-substat-label">ساعات العمل</div>
-                <p class="text-[11px] text-muted mt-0.5">إجمالي ساعات العمل الأسبوعية</p>
-              </div>
+             </div>
             </div>
 
             <!-- الكرت الثالث: الفترات المتاحة -->
@@ -838,8 +807,6 @@
                   <span id="statScheduleSlots">48</span>
                   <span class="text-xs font-semibold text-emerald-700">فترة</span>
                 </div>
-                <div class="doc-substat-label">الفترات المتاحة</div>
-                <p class="text-[11px] text-muted mt-0.5">عدد الفترات القابلة للحجز أسبوعياً</p>
               </div>
             </div>
 
@@ -858,8 +825,6 @@
                   <span id="statScheduleOffDays">2</span>
                   <span class="text-xs font-semibold text-amber-700">أيام</span>
                 </div>
-                <div class="doc-substat-label">أيام الإجازة</div>
-                <p class="text-[11px] text-muted mt-0.5">عدد الأيام غير المتاحة أسبوعياً</p>
               </div>
             </div>
 

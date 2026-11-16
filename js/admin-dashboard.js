@@ -474,7 +474,6 @@
             <div class="flex-1">
               <div class="flex items-center justify-between">
                 <h4 class="font-extrabold text-sm text-ink">${s.name}</h4>
-                <span class="text-amber-500 font-bold flex items-center gap-1">★ ${s.rating || 4.9}</span>
               </div>
               <p class="text-primary font-semibold mt-0.5">${s.specialty}</p>
               <p class="text-slate-500 text-[11px] mt-0.5">رقم رخصة المزاولة: <span class="font-mono text-ink">${s.license}</span></p>

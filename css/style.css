@@ -4,21 +4,21 @@
    ===================================================================== */
 :root {
   /* ألوان الهوية المعتمدة */
-  --navy: #0F2743; --primary: #1965B3; --aqua: #6DE7F7; --sky: #41BCE6; --calm: #75A2B9; --navy-dark: #1A4474; --blue-medium: #5B90C4; --mist: #F0F6FC;
+  --navy: #1965b3; --primary: #1965B3; --aqua: #66d9e9; --sky: #41BCE6; --calm: #75A2B9; --navy-dark: #1965b3; --blue-medium: #5B90C4; --mist: #F0F6FC;
 
   /* الوضع الفاتح */
   --bg: #FFFFFF; --bg-soft: #F0F6FC; --surface: #FFFFFF; --glass: rgba(255,255,255,.88);
   --ink: #0F2743; --ink-body: rgba(15,39,67,.82); --ink-lead: #1965B3; --muted: #75A2B9;
   --accent: #1965B3; --line: rgba(117,162,185,.4); --line-soft: rgba(65,188,230,.32);
   --shadow: 0 16px 40px rgba(15,39,67,.09); --shadow-lg: 0 20px 50px rgba(15,39,67,.14);
-  --btn-bg: #0F2743; --btn-fg: #FFFFFF; --btn-hover: #1965B3;
+  --btn-bg: #1965b3; --btn-fg: #FFFFFF; --btn-hover: #1965B3;
   --outline: #1965B3; --chip-bg: rgba(109,231,247,.28); --chip-fg: #1965B3;
   --nav-bg: linear-gradient(90deg, rgba(255,255,255,.94), rgba(240,246,252,.94));
   --hero-bg: radial-gradient(900px 420px at 15% 85%, rgba(109,231,247,.18), transparent 70%), linear-gradient(180deg, #FFFFFF 0%, #F0F6FC 100%);
   --deco: rgba(65,188,230,.22); --error: #C93C3C;
 }
 html[data-theme="dark"] {
-  --bg: #081A2F; --bg-soft: #0C2038; --surface: #112D4B; --glass: rgba(17,45,75,.88);
+  --bg: #1965b3; --bg-soft: #1965b3; --surface: #1965b3; --glass:#1965b3;
   --ink: #F0F6FC; --ink-body: rgba(240,246,252,.82); --ink-lead: #A9D8EE; --muted: #8FB3C7;
   --accent: #41BCE6; --line: rgba(117,162,185,.32); --line-soft: rgba(65,188,230,.3);
   --shadow: 0 16px 40px rgba(0,0,0,.35); --shadow-lg: 0 20px 50px rgba(0,0,0,.45);
@@ -378,13 +378,13 @@ html[dir="rtl"] .step-num {
 /* ---------- دعوة للإجراء ---------- */
 .cta-wrap { margin-bottom: -7rem; margin-top: -1rem; }
 .cta-card { text-align: center; padding: 3.25rem 1.5rem; border-radius: 2.25rem; color: #fff;
-  background: radial-gradient(600px 240px at 85% 0%, rgba(109,231,247,.35), transparent 70%), linear-gradient(135deg, #0F2743 0%, #1965B3 100%);
+  background: radial-gradient(600px 240px at 85% 0%, rgba(109,231,247,.35), transparent 70%), linear-gradient(135deg, #5b90c4 0%, #1965B3 100%);
   border: 1px solid rgba(109,231,247,.25); box-shadow: 0 24px 60px rgba(15,39,67,.35); }
 .cta-card h2 { font-size: clamp(1.6rem, 3.4vw, 2.5rem); font-weight: 800; line-height: 1.4; }
 .cta-card p { margin-top: .75rem; font-size: 1.15rem; color: rgba(240,246,252,.9); }
 
 /* ---------- الفوتر (بألوان الشعار: أزرق داكن ← أزرق ← سماوي) ---------- */
-.site-footer { position: relative; color: var(--mist); background: linear-gradient(165deg, #0F2743 0%, #12396a 60%, #1965B3 140%); }
+.site-footer { position: relative; color: var(--mist); background: linear-gradient(165deg, #1965b3 0%, #1965b3 60%, #1965B3 140%); }
 .site-footer::before { content: ""; position: absolute; top: 0; inset-inline: 0; height: 4px; background: linear-gradient(90deg, #1965B3, #41BCE6, #6DE7F7); }
 .footer-logo { height: 48px; width: auto; filter: brightness(0) invert(1); transition: opacity .2s; }
 .footer-logo:hover { opacity: .9; }
